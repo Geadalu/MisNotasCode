@@ -2,11 +2,13 @@ package com.firstpackage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 public class DBConnection {
 
-    public Connection connect() {
+    private static Connection connection;
+
+    private static void connect() {
         Connection connection = null;
         try {
             // Conectamos con la base de datos
@@ -19,24 +21,19 @@ public class DBConnection {
             System.out.println("¡Uy! Disculpa, ha pasado esto: " + sqle);
         }
 
-        return connection;
+        DBConnection.connection = connection;
 
     }
 
-    public boolean insertDB(String tabla, ArrayList<String> columnas, ArrayList<String> valores){
-
-
-        return true;
+    public static Connection getConnection(){
+        if (connection == null) {
+            DBConnection.connect();
+        }
+        return DBConnection.connection;
     }
 
-    public boolean deleteDB(String tabla, ArrayList<String> columnas, ArrayList<String> valores){
-
-        return true;
+    public static boolean closeConnection() throws SQLException {
+        DBConnection.connection.close();
+        return connection.isClosed();
     }
-
-    public boolean updateDB(String tabla, ArrayList<String> columnas, ArrayList<String> valores){
-
-        return true;
-    }
-
 }

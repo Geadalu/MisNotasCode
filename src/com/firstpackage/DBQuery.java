@@ -10,7 +10,11 @@ import java.util.HashMap;
 public class DBQuery {
 
     //query a full sql command
-    public static ArrayList<HashMap<String,Object>> SQLtoArray(Connection con, String sql) {
+    public static ArrayList<HashMap<String,Object>> SQLtoArray(String sql) {
+
+        //Recojo la conexión
+        Connection con = DBConnection.getConnection();
+
         try {
 
             //create statement
