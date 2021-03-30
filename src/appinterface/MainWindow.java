@@ -5,10 +5,20 @@
  */
 package appinterface;
 
+import auxiliar.AuxiliarMethods;
+import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import noname.DBConnection;
 
 /**
@@ -25,10 +35,10 @@ public class MainWindow extends javax.swing.JFrame {
         
         //exclusion de los rdbtn cursos
         ButtonGroup cursosGrupo = new ButtonGroup();
-        cursosGrupo.add(rdbtn1);
-        cursosGrupo.add(rdbtn2);
-        cursosGrupo.add(rdbtn3);
-        cursosGrupo.add(rdbtn4);
+        cursosGrupo.add(rdbtnc1);
+        cursosGrupo.add(rdbtnc2);
+        cursosGrupo.add(rdbtnc3);
+        cursosGrupo.add(rdbtnc4);
         
         //mostrar rdbtn cursos
        Connection connection = DBConnection.getConnection();
@@ -77,10 +87,11 @@ public class MainWindow extends javax.swing.JFrame {
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         btnNuevaTarea = new javax.swing.JButton();
-        rdbtn1 = new javax.swing.JRadioButton();
-        rdbtn2 = new javax.swing.JRadioButton();
-        rdbtn3 = new javax.swing.JRadioButton();
-        rdbtn4 = new javax.swing.JRadioButton();
+        rdbtnam3 = new javax.swing.JRadioButton();
+        rdbtnc2 = new javax.swing.JRadioButton();
+        rdbtnc3 = new javax.swing.JRadioButton();
+        rdbtnc4 = new javax.swing.JRadioButton();
+        rdbtnc1 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -196,16 +207,13 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 26;
         gridBagConstraints.gridy = 20;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.gridheight = 3;
         jPanel2.add(jTextArea1, gridBagConstraints);
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Apellidos", "Nombre", "1º Trimestre", "2º Trimestre", "3º Trimestre", "Nota media", "Nota final"
@@ -264,7 +272,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 26;
         gridBagConstraints.gridy = 26;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 9;
         jPanel2.add(jTextArea2, gridBagConstraints);
 
         btnCargarTabla.setText("Cargar tabla");
@@ -320,53 +328,66 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 7;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
 
-        rdbtn1.setText("1º");
-        rdbtn1.setName("rdbtn1"); // NOI18N
-        rdbtn1.addActionListener(new java.awt.event.ActionListener() {
+        rdbtnam3.setText("Matemáticas 3º");
+        rdbtnam3.setName("rdbtnam3"); // NOI18N
+        rdbtnam3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtn1ActionPerformed(evt);
+                rdbtnam3ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 10;
-        jPanel2.add(rdbtn1, gridBagConstraints);
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 5;
+        jPanel2.add(rdbtnam3, gridBagConstraints);
 
-        rdbtn2.setText("2º");
-        rdbtn2.setName("rdbtn2"); // NOI18N
-        rdbtn2.addActionListener(new java.awt.event.ActionListener() {
+        rdbtnc2.setText("2º");
+        rdbtnc2.setName("rdbtnc2"); // NOI18N
+        rdbtnc2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtn2ActionPerformed(evt);
+                rdbtnc2ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 10;
-        jPanel2.add(rdbtn2, gridBagConstraints);
+        jPanel2.add(rdbtnc2, gridBagConstraints);
 
-        rdbtn3.setText("3º");
-        rdbtn3.setName("rdbtn3"); // NOI18N
-        rdbtn3.addActionListener(new java.awt.event.ActionListener() {
+        rdbtnc3.setText("3º");
+        rdbtnc3.setName("rdbtnc3"); // NOI18N
+        rdbtnc3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtn3ActionPerformed(evt);
+                rdbtnc3ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 10;
-        jPanel2.add(rdbtn3, gridBagConstraints);
+        jPanel2.add(rdbtnc3, gridBagConstraints);
 
-        rdbtn4.setText("4º");
-        rdbtn4.setName("rdbtn4"); // NOI18N
-        rdbtn4.addActionListener(new java.awt.event.ActionListener() {
+        rdbtnc4.setText("4º");
+        rdbtnc4.setName("rdbtnc4"); // NOI18N
+        rdbtnc4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtn4ActionPerformed(evt);
+                rdbtnc4ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 10;
-        jPanel2.add(rdbtn4, gridBagConstraints);
+        jPanel2.add(rdbtnc4, gridBagConstraints);
+
+        rdbtnc1.setText("1º");
+        rdbtnc1.setName("rdbtnc1"); // NOI18N
+        rdbtnc1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbtnc1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 10;
+        jPanel2.add(rdbtnc1, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -550,13 +571,6 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
-    private void btnCargarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTablaActionPerformed
-        //Boton cargar tabla
-         Connection connection = DBConnection.getConnection();
-         String alumnos = "SELECT * FROM alumno";
-        
-    }//GEN-LAST:event_btnCargarTablaActionPerformed
-
     private void btnCalificar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificar2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCalificar2ActionPerformed
@@ -565,23 +579,146 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
-    private void rdbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtn1ActionPerformed
-        if (rdbtn1.isSelected()){
+    private void rdbtnam3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnam3ActionPerformed
+        if (rdbtnam3.isSelected()){
             cargarTabla(1);
         }
-    }//GEN-LAST:event_rdbtn1ActionPerformed
+    }//GEN-LAST:event_rdbtnam3ActionPerformed
 
-    private void rdbtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtn2ActionPerformed
+    private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdbtn2ActionPerformed
+    }//GEN-LAST:event_rdbtnc2ActionPerformed
 
-    private void rdbtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtn3ActionPerformed
+    private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdbtn3ActionPerformed
+    }//GEN-LAST:event_rdbtnc3ActionPerformed
 
-    private void rdbtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtn4ActionPerformed
+    private void rdbtnc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdbtn4ActionPerformed
+    }//GEN-LAST:event_rdbtnc4ActionPerformed
+
+    private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbtnc1ActionPerformed
+
+    private void btnCargarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTablaActionPerformed
+        //Borramos la tabla para dejarla limpia
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
+        model.setRowCount(0);
+
+        //Ver qué curso está seleccionado
+        int curso = 0;        //Borramos la tabla para dejarla limpia
+
+        if (rdbtnc1.isSelected()){
+            curso = 1;
+        } else if (rdbtnc2.isSelected()){
+            curso = 2;
+        } else if (rdbtnc3.isSelected()){
+            curso = 3;
+        } else if (rdbtnc4.isSelected()){
+            curso = 4;
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
+        }
+
+        //Ver qué asignatura está seleccionada
+        String asignatura = "";
+        if (rdbtnam3.isSelected()){
+            asignatura = "13"; //Matemáticas (1) de 3º (3)
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
+        }
+
+        //Recogemos datos de la DB
+        if (curso != 0 && asignatura != ""){
+            Connection connection = DBConnection.getConnection();
+            int notaTrim1 = -1;
+            int notaTrim2 = -1;
+            int notaTrim3 = -1;
+            String alumnos = "SELECT * FROM alumno WHERE idCurso = "+curso;
+
+            Object [] row = new Object [7]; //matriz para el addRow del modelo de la tabla
+
+            try {
+                Statement st = connection.createStatement();
+                Statement st2 = connection.createStatement();
+                ResultSet resultAlumnos = st.executeQuery(alumnos);
+                ResultSet resultNotas;
+                ResultSet resultNotas2;
+                ResultSet resultNotas3;
+                ResultSet resultNotas4;
+
+                //Nombre y apellido
+                while (resultAlumnos.next()){
+                    int idAlumno = resultAlumnos.getInt("idAlumno");
+                    String nombre = resultAlumnos.getString("nombre");
+                    String apellidos = resultAlumnos.getString("apellidos");
+                    System.out.println("Alumno "+idAlumno+": "+nombre+" "+apellidos);
+
+                    row[0] = nombre;
+                    row[1] = apellidos;
+
+                    String notas1 = "SELECT nota FROM nota n, prueba p, alumno a WHERE a.idAlumno = "+idAlumno+" AND a.idAlumno = n.idAlumno AND n.idPrueba = p.idPrueba AND p.trimestre = 1";
+                    resultNotas = st2.executeQuery(notas1);
+                    double miNota = 0;
+                    int contador = 0;
+                    while(resultNotas.next()){
+                        miNota += resultNotas.getDouble("nota");
+                        contador++;
+                    }
+                    if (contador == 0){
+                        row[2] = 0;
+                    } else {
+                        row[2] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
+                    }
+
+                    String notas2 = "SELECT nota FROM nota n, prueba p, alumno a WHERE a.idAlumno = "+idAlumno+" AND a.idAlumno = n.idAlumno AND n.idPrueba = p.idPrueba AND p.trimestre = 2";
+                    resultNotas2 = st2.executeQuery(notas2);
+                    miNota = 0;
+                    contador = 0;
+                    while(resultNotas2.next()){
+                        miNota += resultNotas2.getDouble("nota");
+                        contador++;
+                    }
+                    if (contador == 0){
+                        row[3] = 0;
+                    } else {
+                        row[3] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
+                    }
+
+                    String notas3 = "SELECT nota FROM nota n, prueba p, alumno a WHERE a.idAlumno = "+idAlumno+" AND a.idAlumno = n.idAlumno AND n.idPrueba = p.idPrueba AND p.trimestre = 3";
+                    resultNotas3 = st2.executeQuery(notas3);
+
+                    miNota = 0;
+                    contador = 0;
+                    while(resultNotas3.next()){
+                        miNota += resultNotas3.getDouble("nota");
+                        contador++;
+                    }
+                    if (contador == 0){
+                        row[4] = 0;
+                    } else {
+                        row[4] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
+                    }
+                    row[5] = (Double.parseDouble(row[2].toString()) + Double.parseDouble(row[3].toString()) + Double.parseDouble(row[4].toString())) / 3 ;
+
+                    model.addRow(row);
+                }
+                st.close();
+
+            } catch (Exception e){
+                System.out.println("¡Uy! Mira esto:"+e.toString());
+            }
+
+            try {
+                connection.close();
+            } catch (Exception e) {
+                System.out.println("Excepción cerrando: "+e.toString());
+            }
+
+        }
+
+    }//GEN-LAST:event_btnCargarTablaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -630,10 +767,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel nombreAsignatura;
-    private javax.swing.JRadioButton rdbtn1;
-    private javax.swing.JRadioButton rdbtn2;
-    private javax.swing.JRadioButton rdbtn3;
-    private javax.swing.JRadioButton rdbtn4;
+    private javax.swing.JRadioButton rdbtnam3;
+    private javax.swing.JRadioButton rdbtnc1;
+    private javax.swing.JRadioButton rdbtnc2;
+    private javax.swing.JRadioButton rdbtnc3;
+    private javax.swing.JRadioButton rdbtnc4;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 
