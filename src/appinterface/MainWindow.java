@@ -106,6 +106,7 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnc4 = new javax.swing.JRadioButton();
         rdbtnc1 = new javax.swing.JRadioButton();
         btnGuardarTabla = new javax.swing.JButton();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -215,15 +216,18 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(nombreAsignatura, gridBagConstraints);
 
         jTextArea1.setEditable(false);
+        jTextArea1.setBackground(getBackground());
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Haga clic en un alumno\npara desglosar sus notas");
-        jTextArea1.setPreferredSize(new java.awt.Dimension(150, 84));
+        jTextArea1.setText("Haga clic en un alumno\npara desglosar sus notas.\n");
+        jTextArea1.setMaximumSize(new java.awt.Dimension(143, 52));
+        jTextArea1.setPreferredSize(new java.awt.Dimension(143, 52));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 26;
         gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 9;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         jPanel2.add(jTextArea1, gridBagConstraints);
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -282,12 +286,13 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(filler6, gridBagConstraints);
 
         jTextArea2.setEditable(false);
+        jTextArea2.setBackground(getBackground());
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jTextArea2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de todos los alumnos \nen ese trimestre.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.gridwidth = 9;
         jPanel2.add(jTextArea2, gridBagConstraints);
 
@@ -410,6 +415,10 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 36;
         jPanel2.add(btnGuardarTabla, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 26;
+        gridBagConstraints.gridy = 26;
+        jPanel2.add(filler9, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -738,6 +747,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel hora;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

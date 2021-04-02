@@ -57,7 +57,7 @@ public class Alumno {
             this.fechaNacimiento = resultAlumnos.getString("fechaNacimiento");
         }
         this.cargarNotas(idAlumno);
-        this.cargarNotaFinal(idAlumno);
+        this.cargarNotasFinales(idAlumno);
     }
     
     public void cargarNotas(int idAlumno) throws SQLException{
@@ -71,7 +71,7 @@ public class Alumno {
         }
     }
     
-    public void cargarNotaFinal(int idAlumno) throws SQLException{
+    public void cargarNotasFinales(int idAlumno) throws SQLException{
         String sqlNotaFinal = "SELECT * FROM notafinal WHERE idAlumno = "+idAlumno;
         
         Statement st = DBConnection.getConnection().createStatement();
