@@ -6,49 +6,77 @@
 package appinterface;
 
 import auxiliar.AuxiliarMethods;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import noname.DBConnection;
+import objects.Alumno;
 
 /**
  *
  * @author lucia
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
-        
+        getDateTime();
+                
         //exclusion de los rdbtn cursos
         ButtonGroup cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnc1);
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
-        
-        //mostrar rdbtn cursos
-       Connection connection = DBConnection.getConnection();
+ 
+        //TODO: mostrar rdbtn cursos
+       
+        Connection connection = DBConnection.getConnection();
        
         
-        //cargar y mostrar rdbtn asignaturas
-        
-    
+        //TODO: cargar y mostrar rdbtn asignaturas
+
         
     }
+    
+    public void resizeColumnWidth(JTable table) {
+    final TableColumnModel columnModel = table.getColumnModel();
+    for (int column = 0; column < table.getColumnCount(); column++) {
+        int width = 15; // Min width
+        for (int row = 0; row < table.getRowCount(); row++) {
+            TableCellRenderer renderer = table.getCellRenderer(row, column);
+            Component comp = table.prepareRenderer(renderer, row, column);
+            width = Math.max(comp.getPreferredSize().width +1 , width);
+        }
+        if(width > 300)
+            width=300;
+        columnModel.getColumn(column).setPreferredWidth(width);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -192,7 +220,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(jLabel12, gridBagConstraints);
 
-        nombreAsignatura.setText("@Asignatura");
+        nombreAsignatura.setText(" ");
         nombreAsignatura.setName("nombreAsignatura"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 26;
@@ -216,15 +244,22 @@ public class MainWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Apellidos", "Nombre", "1º Trimestre", "2º Trimestre", "3º Trimestre", "Nota media", "Nota final"
+                "Apellidos", "Nombre", "1º Trimestre", "2º Trimestre", "3º Trimestre", "Nota media", "Nota final", "idAlumno"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -234,6 +269,9 @@ public class MainWindow extends javax.swing.JFrame {
         tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
         tabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -580,9 +618,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
     private void rdbtnam3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnam3ActionPerformed
-        if (rdbtnam3.isSelected()){
-            cargarTabla(1);
-        }
+        nombreAsignatura.setText(rdbtnam3.getText());
     }//GEN-LAST:event_rdbtnam3ActionPerformed
 
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
@@ -654,7 +690,6 @@ public class MainWindow extends javax.swing.JFrame {
                     String nombre = resultAlumnos.getString("nombre");
                     String apellidos = resultAlumnos.getString("apellidos");
                     System.out.println("Alumno "+idAlumno+": "+nombre+" "+apellidos);
-
                     row[0] = nombre;
                     row[1] = apellidos;
 
@@ -701,25 +736,42 @@ public class MainWindow extends javax.swing.JFrame {
                         row[4] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
                     }
                     row[5] = (Double.parseDouble(row[2].toString()) + Double.parseDouble(row[3].toString()) + Double.parseDouble(row[4].toString())) / 3 ;
-
+                   
                     model.addRow(row);
                 }
                 st.close();
 
             } catch (Exception e){
-                System.out.println("¡Uy! Mira esto:"+e.toString());
+                System.out.println("CargarTabla dice: ¡Uy! Mira esto:"+e.toString());
             }
 
             try {
                 connection.close();
             } catch (Exception e) {
-                System.out.println("Excepción cerrando: "+e.toString());
+                System.out.println("CargarTabla dice: Excepción cerrando: "+e.toString());
             }
 
         }
 
+        resizeColumnWidth(tabla); //recalculamos el tamaño de las columnas a su contenido
+
     }//GEN-LAST:event_btnCargarTablaActionPerformed
 
+    public void getDateTime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+        Date date = new Date();
+        fecha.setText(formatter.format(date));
+        
+        //hora que se actualiza sola
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String t = new SimpleDateFormat("HH:mm").format(new Date());
+                hora.setText(t);
+            }
+        }, 0, 1000);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalificar2;
@@ -775,7 +827,4 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarTabla(int curso){
-        
-    }
 }
