@@ -32,51 +32,36 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import noname.DBConnection;
 import objects.Alumno;
+import objects.ControladorAlumnos;
 
 /**
  *
  * @author lucia
  */
 public class MainWindow extends javax.swing.JFrame {
-    ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
+
+    ControladorAlumnos contAlumnos;
+
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
         getDateTime();
-                
+
         //exclusion de los rdbtn cursos
         ButtonGroup cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnc1);
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
- 
-        //TODO: mostrar rdbtn cursos
-       
-        Connection connection = DBConnection.getConnection();
-       
-        
-        //TODO: cargar y mostrar rdbtn asignaturas
 
-        
+        //TODO: mostrar rdbtn cursos
+        Connection connection = DBConnection.getConnection();
+        this.contAlumnos = new ControladorAlumnos();
+
+        //TODO: cargar y mostrar rdbtn asignaturas
     }
-    
-    public void resizeColumnWidth(JTable table) {
-    final TableColumnModel columnModel = table.getColumnModel();
-    for (int column = 0; column < table.getColumnCount(); column++) {
-        int width = 15; // Min width
-        for (int row = 0; row < table.getRowCount(); row++) {
-            TableCellRenderer renderer = table.getCellRenderer(row, column);
-            Component comp = table.prepareRenderer(renderer, row, column);
-            width = Math.max(comp.getPreferredSize().width +1 , width);
-        }
-        if(width > 300)
-            width=300;
-        columnModel.getColumn(column).setPreferredWidth(width);
-    }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,6 +105,7 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnc3 = new javax.swing.JRadioButton();
         rdbtnc4 = new javax.swing.JRadioButton();
         rdbtnc1 = new javax.swing.JRadioButton();
+        btnGuardarTabla = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -142,12 +128,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("mainWindow");
+        setBounds(new java.awt.Rectangle(450, 50, 0, 0));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel2.setName("panelPrincipal"); // NOI18N
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] {0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0};
-        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
+        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
         jPanel2.setLayout(jPanel2Layout);
 
         jLabel3.setText("Bienvenido/a, @User");
@@ -244,40 +231,31 @@ public class MainWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Apellidos", "Nombre", "1º Trimestre", "2º Trimestre", "3º Trimestre", "Nota media", "Nota final", "idAlumno"
+                "Apellidos", "Nombre", "1º Trimestre", "2º Trimestre", "3º Trimestre", "Nota media", "Nota final"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, false
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
         tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tabla.setColumnSelectionAllowed(true);
-        tabla.setMinimumSize(new java.awt.Dimension(300, 80));
+        tabla.setMinimumSize(new java.awt.Dimension(500, 80));
         tabla.setName("tabla"); // NOI18N
         tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
         tabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (tabla.getColumnModel().getColumnCount() > 0) {
-            tabla.getColumnModel().getColumn(7).setResizable(false);
-        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 23;
         gridBagConstraints.gridheight = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jScrollPane1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -339,7 +317,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(btnCalificar2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 36;
+        gridBagConstraints.gridy = 38;
         gridBagConstraints.gridwidth = 33;
         jPanel2.add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -426,6 +404,12 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 10;
         jPanel2.add(rdbtnc1, gridBagConstraints);
+
+        btnGuardarTabla.setText("Guardar tabla");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 36;
+        jPanel2.add(btnGuardarTabla, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -615,6 +599,10 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
         // TODO add your handling code here:
+        NuevaTareaWindow ntw = new NuevaTareaWindow();
+        ntw.pack();
+        ntw.setVisible(true);
+
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
     private void rdbtnam3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnam3ActionPerformed
@@ -645,13 +633,13 @@ public class MainWindow extends javax.swing.JFrame {
         //Ver qué curso está seleccionado
         int curso = 0;        //Borramos la tabla para dejarla limpia
 
-        if (rdbtnc1.isSelected()){
+        if (rdbtnc1.isSelected()) {
             curso = 1;
-        } else if (rdbtnc2.isSelected()){
+        } else if (rdbtnc2.isSelected()) {
             curso = 2;
-        } else if (rdbtnc3.isSelected()){
+        } else if (rdbtnc3.isSelected()) {
             curso = 3;
-        } else if (rdbtnc4.isSelected()){
+        } else if (rdbtnc4.isSelected()) {
             curso = 4;
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
@@ -659,96 +647,43 @@ public class MainWindow extends javax.swing.JFrame {
 
         //Ver qué asignatura está seleccionada
         String asignatura = "";
-        if (rdbtnam3.isSelected()){
+        if (rdbtnam3.isSelected()) {
             asignatura = "13"; //Matemáticas (1) de 3º (3)
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
         }
 
         //Recogemos datos de la DB
-        if (curso != 0 && asignatura != ""){
-            Connection connection = DBConnection.getConnection();
-            int notaTrim1 = -1;
-            int notaTrim2 = -1;
-            int notaTrim3 = -1;
-            String alumnos = "SELECT * FROM alumno WHERE idCurso = "+curso;
+        if (curso != 0 && asignatura != "") {
 
-            Object [] row = new Object [7]; //matriz para el addRow del modelo de la tabla
+            Object[] row = new Object[7]; //matriz para el addRow del modelo de la tabla
 
             try {
-                Statement st = connection.createStatement();
-                Statement st2 = connection.createStatement();
-                ResultSet resultAlumnos = st.executeQuery(alumnos);
-                ResultSet resultNotas;
-                ResultSet resultNotas2;
-                ResultSet resultNotas3;
-                ResultSet resultNotas4;
-
-                //Nombre y apellido
-                while (resultAlumnos.next()){
-                    int idAlumno = resultAlumnos.getInt("idAlumno");
-                    String nombre = resultAlumnos.getString("nombre");
-                    String apellidos = resultAlumnos.getString("apellidos");
-                    System.out.println("Alumno "+idAlumno+": "+nombre+" "+apellidos);
-                    row[0] = nombre;
-                    row[1] = apellidos;
-
-                    String notas1 = "SELECT nota FROM nota n, prueba p, alumno a WHERE a.idAlumno = "+idAlumno+" AND a.idAlumno = n.idAlumno AND n.idPrueba = p.idPrueba AND p.trimestre = 1";
-                    resultNotas = st2.executeQuery(notas1);
-                    double miNota = 0;
-                    int contador = 0;
-                    while(resultNotas.next()){
-                        miNota += resultNotas.getDouble("nota");
-                        contador++;
-                    }
-                    if (contador == 0){
-                        row[2] = 0;
-                    } else {
-                        row[2] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
-                    }
-
-                    String notas2 = "SELECT nota FROM nota n, prueba p, alumno a WHERE a.idAlumno = "+idAlumno+" AND a.idAlumno = n.idAlumno AND n.idPrueba = p.idPrueba AND p.trimestre = 2";
-                    resultNotas2 = st2.executeQuery(notas2);
-                    miNota = 0;
-                    contador = 0;
-                    while(resultNotas2.next()){
-                        miNota += resultNotas2.getDouble("nota");
-                        contador++;
-                    }
-                    if (contador == 0){
-                        row[3] = 0;
-                    } else {
-                        row[3] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
-                    }
-
-                    String notas3 = "SELECT nota FROM nota n, prueba p, alumno a WHERE a.idAlumno = "+idAlumno+" AND a.idAlumno = n.idAlumno AND n.idPrueba = p.idPrueba AND p.trimestre = 3";
-                    resultNotas3 = st2.executeQuery(notas3);
-
-                    miNota = 0;
-                    contador = 0;
-                    while(resultNotas3.next()){
-                        miNota += resultNotas3.getDouble("nota");
-                        contador++;
-                    }
-                    if (contador == 0){
-                        row[4] = 0;
-                    } else {
-                        row[4] = miNota/contador; //TODO la nota del trimestre, en realidad, no es esta
-                    }
-                    row[5] = (Double.parseDouble(row[2].toString()) + Double.parseDouble(row[3].toString()) + Double.parseDouble(row[4].toString())) / 3 ;
-                   
-                    model.addRow(row);
-                }
-                st.close();
-
-            } catch (Exception e){
-                System.out.println("CargarTabla dice: ¡Uy! Mira esto:"+e.toString());
+                this.contAlumnos.cargarAlumnosCurso(curso);
+            } catch (Exception e) {
+                System.out.println("CargarTabla dice: ¡Uy! Mira esto:" + e.toString());
             }
 
-            try {
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("CargarTabla dice: Excepción cerrando: "+e.toString());
+            for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
+                row[0] = alumno.getNombre();
+                row[1] = alumno.getApellidos();
+                ArrayList<Double> notasFinales = alumno.getNotaFinal().get(Integer.parseInt(String.valueOf(asignatura.charAt(0))));
+
+                if (notasFinales == null || notasFinales.size() < 4) {
+                    row[2] = -1;
+                    row[3] = -1;
+                    row[4] = -1;
+                    row[5] = -1;
+                    row[6] = -1;
+                } else {
+                    row[2] = notasFinales.get(0);
+                    row[3] = notasFinales.get(1);
+                    row[4] = notasFinales.get(2);
+                    row[5] = (notasFinales.get(0) + notasFinales.get(1) + notasFinales.get(2)) / 3;
+                    row[6] = notasFinales.get(3);
+                }
+
+                model.addRow(row);
             }
 
         }
@@ -757,11 +692,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCargarTablaActionPerformed
 
-    public void getDateTime(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+    public void getDateTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         fecha.setText(formatter.format(date));
-        
+
         //hora que se actualiza sola
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -773,9 +708,26 @@ public class MainWindow extends javax.swing.JFrame {
         }, 0, 1000);
     }
 
+    public void resizeColumnWidth(JTable table) {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 300) {
+                width = 300;
+            }
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalificar2;
     private javax.swing.JButton btnCargarTabla;
+    private javax.swing.JButton btnGuardarTabla;
     private javax.swing.JButton btnNuevaTarea;
     private javax.swing.JLabel fecha;
     private javax.swing.Box.Filler filler1;
