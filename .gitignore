@@ -1,4 +1,4 @@
-/NoName/target/
-/NoName/nbproject/private/
-/NoName/build/
-/dist/
+target/
+nbproject/private/
+build/
+dist/
