@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,13 +21,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -33,6 +38,10 @@ import javax.swing.table.TableColumnModel;
 import noname.DBConnection;
 import objects.Alumno;
 import objects.ControladorAlumnos;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -55,9 +64,12 @@ public class MainWindow extends javax.swing.JFrame {
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
+        
+        //exclusion de los rdbtn asignaturas
+        ButtonGroup asignaturasGrupo = new ButtonGroup();
+        asignaturasGrupo.add(rdbtnam3);
 
         //TODO: mostrar rdbtn cursos
-        Connection connection = DBConnection.getConnection();
         this.contAlumnos = new ControladorAlumnos();
 
         //TODO: cargar y mostrar rdbtn asignaturas
@@ -95,7 +107,7 @@ public class MainWindow extends javax.swing.JFrame {
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         jTextArea2 = new javax.swing.JTextArea();
         btnCargarTabla = new javax.swing.JButton();
-        btnCalificar2 = new javax.swing.JButton();
+        btnCalificar = new javax.swing.JButton();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -308,18 +320,18 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 34;
         jPanel2.add(btnCargarTabla, gridBagConstraints);
 
-        btnCalificar2.setText("Calificar tareas o pruebas");
-        btnCalificar2.setName("btnCalificar"); // NOI18N
-        btnCalificar2.addActionListener(new java.awt.event.ActionListener() {
+        btnCalificar.setText("Calificar tareas o pruebas");
+        btnCalificar.setName("btnCalificar"); // NOI18N
+        btnCalificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalificar2ActionPerformed(evt);
+                btnCalificarActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 20;
         gridBagConstraints.gridy = 34;
         gridBagConstraints.gridwidth = 5;
-        jPanel2.add(btnCalificar2, gridBagConstraints);
+        jPanel2.add(btnCalificar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 38;
@@ -580,6 +592,47 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
+        
+        try {
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            int returnValue = jfc.showOpenDialog(null);
+            
+            File file = null;
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                file = jfc.getSelectedFile();
+            }
+            
+            FileInputStream fis = new FileInputStream(file);   //obtaining bytes from the file  
+            //creating Workbook instance that refers to .xlsx file  
+            XSSFWorkbook wb = new XSSFWorkbook(fis);
+            XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
+            Iterator<Row> itr = sheet.iterator();    //iterating over excel file  
+            while (itr.hasNext()) {
+                Object[] alumno = new Object[4];
+                int i = 0;
+                Row row = itr.next();
+                Iterator<Cell> cellIterator = row.cellIterator();   //iterating over each column  
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    alumno[i] = cell.toString();
+                    i++;
+                }
+                Alumno a = new Alumno();
+                a.setApellidos(alumno[0].toString());
+                a.setNombre(alumno[1].toString());
+                a.setDni(alumno[2].toString());
+                a.setFechaNacimiento(alumno[3].toString());
+                a.setIdCurso(getCurso());
+
+                contAlumnos.añadirAlumnoACurso(a, getCurso());
+                a.commitAlumno(a, getCurso());
+            }
+        } catch (Exception e) {
+            System.out.println("Ha pasado esto en el método Excel: " + e.toString());
+            //TODO --> si el excel no se ha podido cargar bien, mostrar esto con un mensaje de cómo se debe cargar el excel
+            //JOptionPane.showMessageDialog(new JFrame(), "Eggs are not supposed to be green.");
+        }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -602,15 +655,23 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
-    private void btnCalificar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificar2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCalificar2ActionPerformed
+    private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
+        int pasarAsignatura = 0;
+        if (!((pasarAsignatura = getAsignatura()) == 0)) {
+            CalificarTareasWindow ctw = new CalificarTareasWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
+            ctw.pack();
+            ctw.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCalificarActionPerformed
 
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
-        // TODO add your handling code here:
-        NuevaTareaWindow ntw = new NuevaTareaWindow();
-        ntw.pack();
-        ntw.setVisible(true);
+        int pasarAsignatura = 0;
+        if (!((pasarAsignatura = getAsignatura()) == 0)) {
+            NuevaTareaWindow ntw = new NuevaTareaWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
+            ntw.pack();
+            ntw.setVisible(true);
+            ntw.setMinimumSize(ntw.getSize());
+        }
 
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
@@ -639,31 +700,11 @@ public class MainWindow extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
         model.setRowCount(0);
 
-        //Ver qué curso está seleccionado
-        int curso = 0;        //Borramos la tabla para dejarla limpia
-
-        if (rdbtnc1.isSelected()) {
-            curso = 1;
-        } else if (rdbtnc2.isSelected()) {
-            curso = 2;
-        } else if (rdbtnc3.isSelected()) {
-            curso = 3;
-        } else if (rdbtnc4.isSelected()) {
-            curso = 4;
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
-        }
-
-        //Ver qué asignatura está seleccionada
-        String asignatura = "";
-        if (rdbtnam3.isSelected()) {
-            asignatura = "13"; //Matemáticas (1) de 3º (3)
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
-        }
+        int curso = getCurso();
+        int asignatura = getAsignatura();
 
         //Recogemos datos de la DB
-        if (curso != 0 && asignatura != "") {
+        if (curso != 0 && asignatura != 0) {
 
             Object[] row = new Object[7]; //matriz para el addRow del modelo de la tabla
 
@@ -676,7 +717,7 @@ public class MainWindow extends javax.swing.JFrame {
             for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
                 row[0] = alumno.getNombre();
                 row[1] = alumno.getApellidos();
-                ArrayList<Double> notasFinales = alumno.getNotaFinal().get(Integer.parseInt(String.valueOf(asignatura.charAt(0))));
+                ArrayList<Double> notasFinales = alumno.getNotaFinal().get(asignatura);
 
                 if (notasFinales == null || notasFinales.size() < 4) {
                     row[2] = -1;
@@ -694,12 +735,34 @@ public class MainWindow extends javax.swing.JFrame {
 
                 model.addRow(row);
             }
-
         }
-
         resizeColumnWidth(tabla); //recalculamos el tamaño de las columnas a su contenido
-
     }//GEN-LAST:event_btnCargarTablaActionPerformed
+
+    public int getCurso() {
+        //Ver qué curso está seleccionado
+        if (rdbtnc1.isSelected()) {
+            return 1;
+        } else if (rdbtnc2.isSelected()) {
+            return 2;
+        } else if (rdbtnc3.isSelected()) {
+            return 3;
+        } else if (rdbtnc4.isSelected()) {
+            return 4;
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
+        }
+        return 0;
+    }
+
+    public int getAsignatura() {
+        if (rdbtnam3.isSelected()) {
+            return 1; //Matemáticas (1) de 3º (3)
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
+        }
+        return 0;
+    }
 
     public void getDateTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -734,7 +797,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCalificar2;
+    private javax.swing.JButton btnCalificar;
     private javax.swing.JButton btnCargarTabla;
     private javax.swing.JButton btnGuardarTabla;
     private javax.swing.JButton btnNuevaTarea;

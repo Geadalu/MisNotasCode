@@ -1,21 +1,40 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Lucia Calzado Piedrabuena
+ * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
+ * Universidad de Castilla-La Mancha
  */
 package appinterface;
+
+import javax.swing.ImageIcon;
+import objects.ControladorAlumnos;
 
 /**
  *
  * @author lucia
  */
 public class CalificarTareasWindow extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form CalificarTareasWindow
      */
-    public CalificarTareasWindow() {
+    
+    ControladorAlumnos contAlumnos;
+    int asignatura;
+    int curso;
+    
+    public CalificarTareasWindow(){
+    
+    }
+    
+    public CalificarTareasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
+        this.contAlumnos = contAlumnos;
+        this.asignatura = asignatura;
+        this.curso = curso;
         initComponents();
+        
+        txtAsignatura.setText(strAsignatura);
+        lblImagen1.setIcon(new ImageIcon("assets/notepad.png"));
+        lblImagen2.setIcon(new ImageIcon("assets/tick.png"));
     }
 
     /**
@@ -34,7 +53,6 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
         comboTrimestre = new javax.swing.JComboBox<>();
         jScrollPane = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        lblSubrayado = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
@@ -121,16 +139,6 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 10;
         gridBagConstraints.gridheight = 2;
         getContentPane().add(jScrollPane, gridBagConstraints);
-
-        lblSubrayado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblSubrayado.setText("_____________________________________________");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 10;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblSubrayado, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -211,14 +219,10 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 9;
         gridBagConstraints.gridheight = 2;
         getContentPane().add(filler10, gridBagConstraints);
-
-        lblImagen1.setText("imagen1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 1;
         getContentPane().add(lblImagen1, gridBagConstraints);
-
-        lblImagen2.setText("imagen2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 1;
@@ -290,7 +294,6 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblAsignatura;
     private javax.swing.JLabel lblImagen1;
     private javax.swing.JLabel lblImagen2;
-    private javax.swing.JLabel lblSubrayado;
     private javax.swing.JLabel lblTarea;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tabla;

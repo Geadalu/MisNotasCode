@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Lucia Calzado Piedrabuena
+ * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
+ * Universidad de Castilla-La Mancha
  */
 package objects;
 
@@ -86,6 +86,20 @@ public class Alumno {
             
             this.notaFinal.put(resultNotaFinal.getInt("idAsignatura"), array);
         }
+    }
+    
+    public void commitAlumno(Alumno alumno, int curso){
+        String alumnos = "INSERT INTO alumno (nombre, apellidos, dni, idCurso, fechaNacimiento) VALUES ('"+alumno.getNombre()+"', '"
+                +alumno.getApellidos()+"', '"
+                +alumno.getDni()+"', '"
+                +curso+"', '"
+                +alumno.getFechaNacimiento()+"')";
+            try {
+            Statement st = DBConnection.getConnection().createStatement();
+            st.executeUpdate(alumnos);
+            } catch (Exception e){
+                System.out.println("commitAlumno dice: "+e.toString());
+            }
     }
     
     public int getIdAlumno() {

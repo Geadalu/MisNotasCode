@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Lucia Calzado Piedrabuena
+ * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
+ * Universidad de Castilla-La Mancha
  */
 package auxiliar;
 

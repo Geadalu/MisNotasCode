@@ -1,11 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Lucia Calzado Piedrabuena
+ * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
+ * Universidad de Castilla-La Mancha
  */
 package appinterface;
 
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import objects.Alumno;
+import objects.ControladorAlumnos;
 
 /**
  *
@@ -16,17 +21,36 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
     /**
      * Creates new form NuevaTareaWindow
      */
+    ControladorAlumnos contAlumnos;
+    int asignatura;
+    int curso;
+
     public NuevaTareaWindow() {
+        //TODO borrar
+    }
+
+    public NuevaTareaWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
+        this.contAlumnos = contAlumnos;
+        this.asignatura = asignatura;
+        this.curso = curso;
         initComponents();
+
+        //ocultamos la tabla
         panelTabla.setVisible(false);
-        System.out.println(this.getContentPane().getSize());
-        
+
         //Añadir los radio buttons a un grupo
         ButtonGroup cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnSeleccionar);
         cursosGrupo.add(rdbtnTodos);
-        
-        
+
+        if (contAlumnos.getAlumnosCurso().isEmpty()) {
+            System.out.println("Constructor de NuevaTareaWindow dice: Por algún motivo, el controlador de alumnos está vacío.");
+        }
+
+        txtAsignatura.setText(strAsignatura); 
+        lblImagen1.setIcon(new ImageIcon("assets/plus.png"));
+        lblImagen2.setIcon(new ImageIcon("assets/sheet.png"));
+
     }
 
     /**
@@ -51,7 +75,6 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         rdbtnSeleccionar = new javax.swing.JRadioButton();
         lblSubrayado = new javax.swing.JLabel();
         txtPeso = new javax.swing.JTextField();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
@@ -64,14 +87,14 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         panelTabla = new javax.swing.JPanel();
-        tabla = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
+        lblTrimestre = new javax.swing.JLabel();
         comboTrimestre = new javax.swing.JComboBox<>();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
-        lblTitulo2 = new javax.swing.JLabel();
         lblImagen2 = new javax.swing.JLabel();
         lblImagen1 = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -96,9 +119,8 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
 
         btnGuardar.setText("Guardar");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 16;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnGuardar, gridBagConstraints);
 
         lblAsignatura.setText("Asignatura:");
@@ -123,9 +145,15 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         getContentPane().add(lblPeso, gridBagConstraints);
 
         chbxTrabajoAdic.setText("Trabajo adicional");
+        chbxTrabajoAdic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbxTrabajoAdicActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
         getContentPane().add(chbxTrabajoAdic, gridBagConstraints);
 
         txtAsignatura.setEnabled(false);
@@ -174,7 +202,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblSubrayado, gridBagConstraints);
@@ -187,10 +215,6 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(txtPeso, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 1;
-        getContentPane().add(filler2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 17;
@@ -198,7 +222,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridwidth = 9;
         getContentPane().add(filler5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -207,7 +231,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridwidth = 11;
         getContentPane().add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -217,7 +241,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridwidth = 11;
         getContentPane().add(filler8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -227,7 +251,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 17;
-        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.gridwidth = 10;
         getContentPane().add(filler10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -237,31 +261,47 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridwidth = 9;
         getContentPane().add(filler12, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler13, gridBagConstraints);
 
         panelTabla.setMinimumSize(new java.awt.Dimension(300, 200));
         panelTabla.setLayout(new javax.swing.BoxLayout(panelTabla, javax.swing.BoxLayout.LINE_AXIS));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Apellidos", "Nombre", "Seleccionar"
             }
-        ));
-        tabla.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
 
-        panelTabla.add(tabla);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(1).setResizable(false);
+            tabla.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        panelTabla.add(jScrollPane);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -269,12 +309,12 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 8;
         getContentPane().add(panelTabla, gridBagConstraints);
 
-        jLabel1.setText("Trimestre:");
+        lblTrimestre.setText("Trimestre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        getContentPane().add(jLabel1, gridBagConstraints);
+        getContentPane().add(lblTrimestre, gridBagConstraints);
 
         comboTrimestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º", "2º", "3º" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,33 +325,31 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler3, gridBagConstraints);
 
-        lblTitulo2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblTitulo2.setText("_____________________________________________________");
+        lblImagen2.setIconTextGap(0);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 8;
-        gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblTitulo2, gridBagConstraints);
-
-        lblImagen2.setText("imagen");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 1;
         getContentPane().add(lblImagen2, gridBagConstraints);
 
-        lblImagen1.setText("imagen");
+        lblImagen1.setToolTipText("");
+        lblImagen1.setIconTextGap(0);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblImagen1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 14;
+        getContentPane().add(filler2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
         getContentPane().add(filler14, gridBagConstraints);
 
         pack();
@@ -319,19 +357,43 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void rdbtnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnSeleccionarActionPerformed
-        // TODO add your handling code here:
+        this.setSize(675, 575);
+
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
+        if (model.getRowCount() == 0) {
+            model.setRowCount(0);
+
+            //Rellenar tabla
+            Object[] row = new Object[3];
+
+            //TODO esto solo se rellena si se le da al botón cargar tabla
+            for (Alumno alumno : contAlumnos.getAlumnosCurso().get(curso)) {
+                row[0] = alumno.getNombre();
+                row[1] = alumno.getApellidos();
+                model.addRow(row);
+            }
+        }
         panelTabla.setVisible(true);
-        this.setSize(550, 500);
+
     }//GEN-LAST:event_rdbtnSeleccionarActionPerformed
 
     private void rdbtnTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnTodosActionPerformed
-        // TODO add your handling code here:
         panelTabla.setVisible(false);
-        this.setSize(500, 320);
+        this.setSize(this.getMinimumSize());
     }//GEN-LAST:event_rdbtnTodosActionPerformed
+
+    private void chbxTrabajoAdicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxTrabajoAdicActionPerformed
+        if (chbxTrabajoAdic.isSelected()) {
+            txtPeso.setEnabled(false);
+        } else {
+            txtPeso.setEnabled(true);
+        }
+
+    }//GEN-LAST:event_chbxTrabajoAdicActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,7 +425,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NuevaTareaWindow().setVisible(true);
+                new NuevaTareaWindow().setVisible(true); //TODO borrar
             }
         });
     }
@@ -387,19 +449,18 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel lblAsignatura;
     private javax.swing.JLabel lblImagen1;
     private javax.swing.JLabel lblImagen2;
     private javax.swing.JLabel lblPeso;
     private javax.swing.JLabel lblSubrayado;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel lblTitulo2;
+    private javax.swing.JLabel lblTrimestre;
     private javax.swing.JPanel panelTabla;
     private javax.swing.JRadioButton rdbtnSeleccionar;
     private javax.swing.JRadioButton rdbtnTodos;
-    private javax.swing.JScrollPane tabla;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField txtAsignatura;
     private javax.swing.JTextField txtPeso;
     private javax.swing.JTextField txtTitulo;

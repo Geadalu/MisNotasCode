@@ -1,0 +1,9 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Lucia Calzado Piedrabuena
+${licensePrefix}Trabajo de Fin de Grado - Grado en Ingeniería Informática
+${licensePrefix}Universidad de Castilla-La Mancha
+<#if licenseLast??>
+${licenseLast}
+</#if>

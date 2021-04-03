@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Lucia Calzado Piedrabuena
+ * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
+ * Universidad de Castilla-La Mancha
  */
 package objects;
 
@@ -41,8 +41,13 @@ public class ControladorAlumnos {
                 this.alumnosCurso.get(curso).add(a);
             }
         }
-
     }
+    
+    public void añadirAlumnoACurso(Alumno alumno, int curso){
+        this.alumnosCurso.get(curso).add(alumno);
+    }
+    
+    
 
     public HashMap<Integer, ArrayList<Alumno>> getAlumnosCurso() {
         return alumnosCurso;
