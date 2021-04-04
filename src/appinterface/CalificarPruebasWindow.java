@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
@@ -26,6 +27,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     int asignatura;
     int curso;
     int idPrueba;
+    HashMap<String, Integer> pruebaConID = new HashMap<String, Integer>(); //para almacenar las pruebas con sus IDs
    
     
     public CalificarPruebasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
@@ -130,7 +132,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -142,6 +144,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         jScrollPane.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(0).setResizable(false);
+            tabla.getColumnModel().getColumn(1).setResizable(false);
+            tabla.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -261,12 +268,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
                 row[0] = alumno.getApellidos();
                 row[1] = alumno.getNombre();
-                buscarIDPrueba(comboTrimestre.getSelectedItem().toString());
-                row[2] = alumno.getNotas().get(idPrueba);
+                row[2] = alumno.getNotas().get(pruebaConID.get(comboTrimestre.getSelectedItem().toString()));
                 model.addRow(row);
-            }
-            
-            
+            }  
         }
     }//GEN-LAST:event_comboTrimestreActionPerformed
 
@@ -281,20 +285,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         comboTrimestre.addItem("Seleccionar...");
         for (i=0; i<contPruebas.getPruebasAsignatura().get(asignatura).size(); i++){
            comboTrimestre.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba());
+           pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba());
         }
     }
-    
-    public void buscarIDPrueba(String nombrePrueba){
-        int i;
-        for (i=0; i<contPruebas.getPruebasAsignatura().get(asignatura).size(); i++){
-            if (contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba().equals(nombrePrueba)){
-                idPrueba = contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba();
-            }
-        }
-    }
-       
-
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;

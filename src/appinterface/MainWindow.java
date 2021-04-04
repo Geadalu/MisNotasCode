@@ -50,6 +50,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class MainWindow extends javax.swing.JFrame {
 
     ControladorAlumnos contAlumnos;
+    ButtonGroup cursosGrupo;
+    ButtonGroup asignaturasGrupo;
 
     /**
      * Creates new form MainWindow
@@ -59,14 +61,14 @@ public class MainWindow extends javax.swing.JFrame {
         getDateTime();
 
         //exclusion de los rdbtn cursos
-        ButtonGroup cursosGrupo = new ButtonGroup();
+        cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnc1);
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
         
         //exclusion de los rdbtn asignaturas
-        ButtonGroup asignaturasGrupo = new ButtonGroup();
+        asignaturasGrupo = new ButtonGroup();
         asignaturasGrupo.add(rdbtnam3);
 
         //TODO: mostrar rdbtn cursos
@@ -106,7 +108,6 @@ public class MainWindow extends javax.swing.JFrame {
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         jTextArea2 = new javax.swing.JTextArea();
-        btnCargarTabla = new javax.swing.JButton();
         btnCalificar = new javax.swing.JButton();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
@@ -253,9 +254,16 @@ public class MainWindow extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, true, true, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -307,18 +315,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 28;
         gridBagConstraints.gridwidth = 9;
         jPanel2.add(jTextArea2, gridBagConstraints);
-
-        btnCargarTabla.setText("Cargar tabla");
-        btnCargarTabla.setName("btnCargarTabla"); // NOI18N
-        btnCargarTabla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCargarTablaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 34;
-        jPanel2.add(btnCargarTabla, gridBagConstraints);
 
         btnCalificar.setText("Calificar tareas o pruebas");
         btnCalificar.setName("btnCalificar"); // NOI18N
@@ -386,6 +382,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 10;
         jPanel2.add(rdbtnc2, gridBagConstraints);
 
+        rdbtnc3.setSelected(true);
         rdbtnc3.setText("3º");
         rdbtnc3.setName("rdbtnc3"); // NOI18N
         rdbtnc3.addActionListener(new java.awt.event.ActionListener() {
@@ -430,7 +427,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 36;
+        gridBagConstraints.gridy = 34;
         jPanel2.add(btnGuardarTabla, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 26;
@@ -658,6 +655,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
@@ -682,31 +680,93 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void rdbtnam3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnam3ActionPerformed
         nombreAsignatura.setText(rdbtnam3.getText());
+        rellenarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtnam3ActionPerformed
 
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
         // TODO add your handling code here:
+        asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc2ActionPerformed
 
     private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
         // TODO add your handling code here:
+         asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc3ActionPerformed
 
     private void rdbtnc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc4ActionPerformed
         // TODO add your handling code here:
+         asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc4ActionPerformed
 
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
         // TODO add your handling code here:
+         asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
-    private void btnCargarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTablaActionPerformed
-        //Borramos la tabla para dejarla limpia
+    private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarTablaActionPerformed
+
+    public int getCurso() {
+        //Ver qué curso está seleccionado
+        if (rdbtnc1.isSelected()) {
+            return 1;
+        } else if (rdbtnc2.isSelected()) {
+            return 2;
+        } else if (rdbtnc3.isSelected()) {
+            return 3;
+        } else if (rdbtnc4.isSelected()) {
+            return 4;
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
+        }
+        return 0;
+    }
+
+    public int getAsignatura() {
+        if (rdbtnam3.isSelected()) {
+            return 1;
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
+        }
+        return 0;
+    }
+
+    public void getDateTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        fecha.setText(formatter.format(date));
+
+        //hora que se actualiza sola
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String t = new SimpleDateFormat("HH:mm").format(new Date());
+                hora.setText(t);
+            }
+        }, 0, 1000);
+    }
+
+    public void ajustarColumnasTabla(JTable tabla) {
+        final TableColumnModel columnModel = tabla.getColumnModel();
+        for (int column = 0; column < tabla.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < tabla.getRowCount(); row++) {
+                TableCellRenderer renderer = tabla.getCellRenderer(row, column);
+                Component comp = tabla.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 300) {
+                width = 300;
+            }
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
+    
+    public void rellenarTabla(int curso, int asignatura){
         DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
         model.setRowCount(0);
-
-        int curso = getCurso();
-        int asignatura = getAsignatura();
 
         //Recogemos datos de la DB
         if (curso != 0 && asignatura != 0) {
@@ -741,73 +801,11 @@ public class MainWindow extends javax.swing.JFrame {
                 model.addRow(row);
             }
         }
-        resizeColumnWidth(tabla); //recalculamos el tamaño de las columnas a su contenido
-    }//GEN-LAST:event_btnCargarTablaActionPerformed
-
-    private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGuardarTablaActionPerformed
-
-    public int getCurso() {
-        //Ver qué curso está seleccionado
-        if (rdbtnc1.isSelected()) {
-            return 1;
-        } else if (rdbtnc2.isSelected()) {
-            return 2;
-        } else if (rdbtnc3.isSelected()) {
-            return 3;
-        } else if (rdbtnc4.isSelected()) {
-            return 4;
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
-        }
-        return 0;
-    }
-
-    public int getAsignatura() {
-        if (rdbtnam3.isSelected()) {
-            return 1; //Matemáticas (1) de 3º (3)
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
-        }
-        return 0;
-    }
-
-    public void getDateTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        fecha.setText(formatter.format(date));
-
-        //hora que se actualiza sola
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                String t = new SimpleDateFormat("HH:mm").format(new Date());
-                hora.setText(t);
-            }
-        }, 0, 1000);
-    }
-
-    public void resizeColumnWidth(JTable table) {
-        final TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width + 1, width);
-            }
-            if (width > 300) {
-                width = 300;
-            }
-            columnModel.getColumn(column).setPreferredWidth(width);
-        }
+        ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalificar;
-    private javax.swing.JButton btnCargarTabla;
     private javax.swing.JButton btnGuardarTabla;
     private javax.swing.JButton btnNuevaTarea;
     private javax.swing.JLabel fecha;
