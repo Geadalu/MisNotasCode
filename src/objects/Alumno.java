@@ -89,14 +89,16 @@ public class Alumno {
     }
     
     public void commitAlumno(Alumno alumno, int curso){
-        String alumnos = "INSERT INTO alumno (nombre, apellidos, dni, idCurso, fechaNacimiento) VALUES ('"+alumno.getNombre()+"', '"
+        String sqlAlumno = "INSERT INTO alumno (nombre, apellidos, dni, idCurso, fechaNacimiento) VALUES ('"
+                +alumno.getNombre()+"', '"
                 +alumno.getApellidos()+"', '"
                 +alumno.getDni()+"', '"
                 +curso+"', '"
-                +alumno.getFechaNacimiento()+"')";
+                +alumno.getFechaNacimiento()+"'"
+                + ")";
             try {
             Statement st = DBConnection.getConnection().createStatement();
-            st.executeUpdate(alumnos);
+            st.executeUpdate(sqlAlumno );
             } catch (Exception e){
                 System.out.println("commitAlumno dice: "+e.toString());
             }

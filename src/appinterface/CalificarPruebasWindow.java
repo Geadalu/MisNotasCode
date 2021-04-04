@@ -6,31 +6,35 @@
 package appinterface;
 
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import objects.Alumno;
 import objects.ControladorAlumnos;
+import objects.ControladorPrueba;
 
 /**
  *
  * @author lucia
  */
-public class CalificarTareasWindow extends javax.swing.JFrame {
+public class CalificarPruebasWindow extends javax.swing.JFrame {
     
     /**
      * Creates new form CalificarTareasWindow
      */
     
     ControladorAlumnos contAlumnos;
+    ControladorPrueba contPruebas;
     int asignatura;
     int curso;
+    int idPrueba;
+   
     
-    public CalificarTareasWindow(){
-    
-    }
-    
-    public CalificarTareasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
         this.curso = curso;
+        this.contPruebas = new ControladorPrueba();
         initComponents();
+        cargarPruebas();
         
         txtAsignatura.setText(strAsignatura);
         lblImagen1.setIcon(new ImageIcon("assets/notepad.png"));
@@ -72,6 +76,7 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calificar tareas");
+        setBounds(new java.awt.Rectangle(600, 200, 0, 0));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -100,6 +105,11 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblTarea, gridBagConstraints);
 
+        comboTrimestre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTrimestreActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 6;
@@ -238,42 +248,52 @@ public class CalificarTareasWindow extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void comboTrimestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTrimestreActionPerformed
+        // TODO add your handling code here:
+         if (!comboTrimestre.getSelectedItem().toString().equals("Seleccionar...")){
+            DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
+            model.setRowCount(0);
+            //Cargar tabla
+            Object [] row = new Object[3];
+            for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
+                row[0] = alumno.getApellidos();
+                row[1] = alumno.getNombre();
+                buscarIDPrueba(comboTrimestre.getSelectedItem().toString());
+                row[2] = alumno.getNotas().get(idPrueba);
+                model.addRow(row);
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CalificarTareasWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CalificarTareasWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CalificarTareasWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CalificarTareasWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            
+            
         }
-        //</editor-fold>
+    }//GEN-LAST:event_comboTrimestreActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CalificarTareasWindow().setVisible(true);
-            }
-        });
+    public void cargarPruebas(){
+        int i;
+        
+        try {
+            contPruebas.cargarPruebasAsignatura(asignatura);
+        } catch (Exception e){
+            System.out.println("cargarPruebas en CPWindow dice: "+e.toString());
+        }
+        comboTrimestre.addItem("Seleccionar...");
+        for (i=0; i<contPruebas.getPruebasAsignatura().get(asignatura).size(); i++){
+           comboTrimestre.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba());
+        }
     }
+    
+    public void buscarIDPrueba(String nombrePrueba){
+        int i;
+        for (i=0; i<contPruebas.getPruebasAsignatura().get(asignatura).size(); i++){
+            if (contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba().equals(nombrePrueba)){
+                idPrueba = contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba();
+            }
+        }
+    }
+       
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

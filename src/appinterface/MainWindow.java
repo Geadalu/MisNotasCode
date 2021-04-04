@@ -423,6 +423,11 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(rdbtnc1, gridBagConstraints);
 
         btnGuardarTabla.setText("Guardar tabla");
+        btnGuardarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarTablaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 36;
@@ -658,7 +663,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            CalificarTareasWindow ctw = new CalificarTareasWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
+            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
             ctw.pack();
             ctw.setVisible(true);
         }
@@ -738,6 +743,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
         resizeColumnWidth(tabla); //recalculamos el tamaño de las columnas a su contenido
     }//GEN-LAST:event_btnCargarTablaActionPerformed
+
+    private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarTablaActionPerformed
 
     public int getCurso() {
         //Ver qué curso está seleccionado
