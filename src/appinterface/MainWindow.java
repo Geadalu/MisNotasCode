@@ -37,7 +37,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import noname.DBConnection;
 import objects.Alumno;
-import objects.ControladorAlumnos;
+import objects.ControladorAlumno;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -49,7 +49,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    ControladorAlumnos contAlumnos;
+    ControladorAlumno contAlumnos;
     ButtonGroup cursosGrupo;
     ButtonGroup asignaturasGrupo;
 
@@ -72,7 +72,7 @@ public class MainWindow extends javax.swing.JFrame {
         asignaturasGrupo.add(rdbtnam3);
 
         //TODO: mostrar rdbtn cursos
-        this.contAlumnos = new ControladorAlumnos();
+        this.contAlumnos = new ControladorAlumno();
 
         //TODO: cargar y mostrar rdbtn asignaturas
     }
@@ -271,6 +271,11 @@ public class MainWindow extends javax.swing.JFrame {
         tabla.setMinimumSize(new java.awt.Dimension(500, 80));
         tabla.setName("tabla"); // NOI18N
         tabla.getTableHeader().setReorderingAllowed(false);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
         tabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -707,6 +712,20 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarTablaActionPerformed
 
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        if (tabla.getSelectedColumn() == 0) {
+            for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(getCurso())) {
+                if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0))) {
+                    InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, getAsignatura());
+                    iaw.pack();
+                    iaw.setVisible(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
     public int getCurso() {
         //Ver qué curso está seleccionado
         if (rdbtnc1.isSelected()) {
@@ -780,16 +799,16 @@ public class MainWindow extends javax.swing.JFrame {
             }
 
             for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
-                row[0] = alumno.getNombre();
-                row[1] = alumno.getApellidos();
+                row[0] = alumno.getApellidos();
+                row[1] = alumno.getNombre();
                 ArrayList<Double> notasFinales = alumno.getNotaFinal().get(asignatura);
 
                 if (notasFinales == null || notasFinales.size() < 4) {
-                    row[2] = -1;
-                    row[3] = -1;
-                    row[4] = -1;
-                    row[5] = -1;
-                    row[6] = -1;
+                    row[2] = null;
+                    row[3] = null;
+                    row[4] = null;
+                    row[5] = null;
+                    row[6] = null;
                 } else {
                     row[2] = notasFinales.get(0);
                     row[3] = notasFinales.get(1);

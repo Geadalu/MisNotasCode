@@ -16,11 +16,11 @@ import noname.DBConnection;
  *
  * @author lucia
  */
-public class ControladorAlumnos {
+public class ControladorAlumno {
 
     private HashMap<Integer, ArrayList<Alumno>> alumnosCurso;
 
-    public ControladorAlumnos() {
+    public ControladorAlumno() {
         this.alumnosCurso = new HashMap<>();
         this.alumnosCurso.put(1, new ArrayList<>());
         this.alumnosCurso.put(2, new ArrayList<>());
@@ -30,7 +30,7 @@ public class ControladorAlumnos {
 
     public void cargarAlumnosCurso(int curso) throws SQLException {
         if (this.alumnosCurso.get(curso).isEmpty()) {
-            String alumnos = "SELECT idAlumno FROM alumno WHERE idCurso = " + curso;
+            String alumnos = "SELECT idAlumno, apellidos FROM alumno WHERE idCurso = " + curso + " ORDER BY apellidos ASC";
             Statement st = DBConnection.getConnection().createStatement();
             ResultSet resultAlumnos = st.executeQuery(alumnos);
 
@@ -47,10 +47,10 @@ public class ControladorAlumnos {
         this.alumnosCurso.get(curso).add(alumno);
     }
     
-    
-
     public HashMap<Integer, ArrayList<Alumno>> getAlumnosCurso() {
         return alumnosCurso;
     }
+    
+    
 
 }

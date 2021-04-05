@@ -9,7 +9,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
-import objects.ControladorAlumnos;
+import objects.ControladorAlumno;
 import objects.ControladorPrueba;
 
 /**
@@ -22,7 +22,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
      * Creates new form CalificarTareasWindow
      */
     
-    ControladorAlumnos contAlumnos;
+    ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
     int asignatura;
     int curso;
@@ -30,7 +30,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     HashMap<String, Integer> pruebaConID = new HashMap<String, Integer>(); //para almacenar las pruebas con sus IDs
    
     
-    public CalificarPruebasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumno contAlumnos) {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
         this.curso = curso;

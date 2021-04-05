@@ -10,7 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
-import objects.ControladorAlumnos;
+import objects.ControladorAlumno;
 
 /**
  *
@@ -21,7 +21,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
     /**
      * Creates new form NuevaTareaWindow
      */
-    ControladorAlumnos contAlumnos;
+    ControladorAlumno contAlumnos;
     int asignatura;
     int curso;
 
@@ -29,7 +29,7 @@ public class NuevaTareaWindow extends javax.swing.JFrame {
         //TODO borrar
     }
 
-    public NuevaTareaWindow(String strAsignatura, int asignatura, int curso, ControladorAlumnos contAlumnos) {
+    public NuevaTareaWindow(String strAsignatura, int asignatura, int curso, ControladorAlumno contAlumnos) {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
         this.curso = curso;
