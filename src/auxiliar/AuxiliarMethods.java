@@ -56,7 +56,7 @@ public class AuxiliarMethods {
     public static void ajustarColumnasTabla(JTable tabla) {
         final TableColumnModel columnModel = tabla.getColumnModel();
         for (int column = 0; column < tabla.getColumnCount(); column++) {
-            int width = 15; // Min width
+            int width = 25; // Min width
             for (int row = 0; row < tabla.getRowCount(); row++) {
                 TableCellRenderer renderer = tabla.getCellRenderer(row, column);
                 Component comp = tabla.prepareRenderer(renderer, row, column);

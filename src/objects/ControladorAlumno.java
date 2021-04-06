@@ -51,6 +51,15 @@ public class ControladorAlumno {
         return alumnosCurso;
     }
     
+    public boolean apellidoRepetido(Alumno alumno1, int curso){
+        for (Alumno alumno2 : this.alumnosCurso.get(curso)){
+            if (alumno1.getApellidos().equals(alumno2.getApellidos())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
 
 }

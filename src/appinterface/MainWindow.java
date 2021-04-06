@@ -66,7 +66,7 @@ public class MainWindow extends javax.swing.JFrame {
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
-        
+
         //exclusion de los rdbtn asignaturas
         asignaturasGrupo = new ButtonGroup();
         asignaturasGrupo.add(rdbtnam3);
@@ -599,17 +599,17 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        
+
         try {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showOpenDialog(null);
-            
+
             File file = null;
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 file = jfc.getSelectedFile();
             }
-            
+
             FileInputStream fis = new FileInputStream(file);   //obtaining bytes from the file  
             //creating Workbook instance that refers to .xlsx file  
             XSSFWorkbook wb = new XSSFWorkbook(fis);
@@ -695,17 +695,17 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
         // TODO add your handling code here:
-         asignaturasGrupo.clearSelection();
+        asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc3ActionPerformed
 
     private void rdbtnc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc4ActionPerformed
         // TODO add your handling code here:
-         asignaturasGrupo.clearSelection();
+        asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc4ActionPerformed
 
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
         // TODO add your handling code here:
-         asignaturasGrupo.clearSelection();
+        asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
     private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
@@ -719,7 +719,7 @@ public class MainWindow extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tabla.getModel();
             if (tabla.getSelectedColumn() == 0) {
                 for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(getCurso())) {
-                    if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0))) {
+                    if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0)) && alumno.getNombre().equals(model.getValueAt(tabla.getSelectedRow(), 1))) {
                         InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, getCurso(), contAlumnos);
                         iaw.pack();
                         iaw.setVisible(true);
@@ -770,9 +770,7 @@ public class MainWindow extends javax.swing.JFrame {
         }, 0, 1000);
     }
 
-    
-    
-    public void cargarTabla(int curso, int asignatura){
+    public void cargarTabla(int curso, int asignatura) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
         model.setRowCount(0);
 
@@ -809,6 +807,7 @@ public class MainWindow extends javax.swing.JFrame {
                 model.addRow(row);
             }
         }
+
         AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
     }
 

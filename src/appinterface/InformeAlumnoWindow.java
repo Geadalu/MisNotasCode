@@ -108,7 +108,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             if(model.getValueAt(i, 1) != null){
                 media += Double.parseDouble(model.getValueAt(i, 1).toString());
                 contadorMedia++;
-                
             }
         }
         return formatter.format(media/contadorMedia);
@@ -167,6 +166,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 25), new java.awt.Dimension(25, 25), new java.awt.Dimension(25, 25));
         filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        btnSiguiente = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumno");
@@ -517,6 +518,18 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 14;
         getContentPane().add(filler17, gridBagConstraints);
 
+        btnSiguiente.setText(">");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 9;
+        getContentPane().add(btnSiguiente, gridBagConstraints);
+
+        btnAnterior.setText("<");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        getContentPane().add(btnAnterior, gridBagConstraints);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -526,8 +539,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler12;
