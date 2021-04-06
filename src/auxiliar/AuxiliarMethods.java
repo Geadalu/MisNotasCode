@@ -5,10 +5,14 @@
  */
 package auxiliar;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -46,6 +50,22 @@ public class AuxiliarMethods {
         System.out.println("Printeando lista...");
         for (i=0; i<list.size(); i++){
             System.out.print(i+" ");
+        }
+    }
+    
+    public static void ajustarColumnasTabla(JTable tabla) {
+        final TableColumnModel columnModel = tabla.getColumnModel();
+        for (int column = 0; column < tabla.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < tabla.getRowCount(); row++) {
+                TableCellRenderer renderer = tabla.getCellRenderer(row, column);
+                Component comp = tabla.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 300) {
+                width = 300;
+            }
+            columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
     

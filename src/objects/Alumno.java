@@ -34,7 +34,7 @@ public class Alumno {
         this.dni = dni;
         this.idCurso = idCurso;
         this.fechaNacimiento = fechaNacimiento;
-        this.notas = new HashMap<>();
+        this.notas = new HashMap<>(); //idPrueba, nota
         this.notaFinal = new HashMap<>();
     }
 

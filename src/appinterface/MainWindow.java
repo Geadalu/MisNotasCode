@@ -685,7 +685,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void rdbtnam3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnam3ActionPerformed
         nombreAsignatura.setText(rdbtnam3.getText());
-        rellenarTabla(getCurso(), getAsignatura());
+        cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtnam3ActionPerformed
 
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
@@ -714,13 +714,16 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        if (tabla.getSelectedColumn() == 0) {
-            for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(getCurso())) {
-                if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0))) {
-                    InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, getAsignatura());
-                    iaw.pack();
-                    iaw.setVisible(true);
+        int pasarAsignatura = 0;
+        if (!((pasarAsignatura = getAsignatura()) == 0)) {
+            DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+            if (tabla.getSelectedColumn() == 0) {
+                for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(getCurso())) {
+                    if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0))) {
+                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, getCurso(), contAlumnos);
+                        iaw.pack();
+                        iaw.setVisible(true);
+                    }
                 }
             }
         }
@@ -767,23 +770,9 @@ public class MainWindow extends javax.swing.JFrame {
         }, 0, 1000);
     }
 
-    public void ajustarColumnasTabla(JTable tabla) {
-        final TableColumnModel columnModel = tabla.getColumnModel();
-        for (int column = 0; column < tabla.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < tabla.getRowCount(); row++) {
-                TableCellRenderer renderer = tabla.getCellRenderer(row, column);
-                Component comp = tabla.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width + 1, width);
-            }
-            if (width > 300) {
-                width = 300;
-            }
-            columnModel.getColumn(column).setPreferredWidth(width);
-        }
-    }
     
-    public void rellenarTabla(int curso, int asignatura){
+    
+    public void cargarTabla(int curso, int asignatura){
         DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
         model.setRowCount(0);
 
@@ -820,7 +809,7 @@ public class MainWindow extends javax.swing.JFrame {
                 model.addRow(row);
             }
         }
-        ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
+        AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
