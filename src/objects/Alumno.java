@@ -26,6 +26,9 @@ public class Alumno {
     private String fechaNacimiento;
     private HashMap<Integer, Double> notas;
     private HashMap<Integer, ArrayList<Double>> notaFinal;
+    private int posicion; //posicion en la array de contAlumnos
+
+    
 
     public Alumno(int idAlumno, String nombre, String apellidos, String dni, int idCurso, String fechaNacimiento) {
         this.idAlumno = idAlumno;
@@ -107,65 +110,73 @@ public class Alumno {
     public int getIdAlumno() {
         return idAlumno;
     }
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
+     public String getApellidos() {
+        return apellidos;
+    }
+    
+    public String getDni() {
+        return dni;
+    }
+    
+    public int getIdCurso() {
+        return idCurso;
+    }
+    
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+    
+    public HashMap<Integer, Double> getNotas() {
+        return notas;
+    }
+    
+      public HashMap<Integer, ArrayList<Double>> getNotaFinal() {
+        return notaFinal;
+    }
+    
+    public int getPosicion() {
+        return posicion;
+    }
 
     public void setIdAlumno(int idAlumno) {
         this.idAlumno = idAlumno;
-    }
-
-    public String getNombre() {
-        return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
-
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
-    }
-
-    public String getDni() {
-        return dni;
     }
 
     public void setDni(String dni) {
         this.dni = dni;
     }
 
-    public int getIdCurso() {
-        return idCurso;
-    }
-
     public void setIdCurso(int idCurso) {
         this.idCurso = idCurso;
-    }
-
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
     }
 
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
-    public HashMap<Integer, Double> getNotas() {
-        return notas;
-    }
 
     public void setNotas(HashMap<Integer, Double> notas) {
         this.notas = notas;
     }
-
-    public HashMap<Integer, ArrayList<Double>> getNotaFinal() {
-        return notaFinal;
-    }
-
-    public void setNotaFinal(HashMap<Integer, ArrayList<Double>> notaFinal) {
+    
+     public void setNotaFinal(HashMap<Integer, ArrayList<Double>> notaFinal) {
         this.notaFinal = notaFinal;
     }
-
+    
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+    
 }

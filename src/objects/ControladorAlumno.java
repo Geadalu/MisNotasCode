@@ -29,6 +29,7 @@ public class ControladorAlumno {
     }
 
     public void cargarAlumnosCurso(int curso) throws SQLException {
+        int posicion = 0;
         if (this.alumnosCurso.get(curso).isEmpty()) {
             String alumnos = "SELECT idAlumno, apellidos FROM alumno WHERE idCurso = " + curso + " ORDER BY apellidos ASC";
             Statement st = DBConnection.getConnection().createStatement();
@@ -38,7 +39,9 @@ public class ControladorAlumno {
                 int idAlumno = resultAlumnos.getInt("idAlumno");
                 Alumno a = new Alumno();
                 a.cargarAlumno(idAlumno);
+                a.setPosicion(posicion);
                 this.alumnosCurso.get(curso).add(a);
+                posicion++;
             }
         }
     }

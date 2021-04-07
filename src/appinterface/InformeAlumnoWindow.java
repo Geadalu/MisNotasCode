@@ -25,6 +25,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     int asignatura;
     ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
+    Alumno alumno;
+    int index = 0; //indice para navegar entre los alumnos
 
     /**
      * Creates new form InformeAlumnoWindow
@@ -34,6 +36,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
+        this.alumno = alumno;
         
         try {
             this.contPruebas.cargarPruebasAsignatura(asignatura);
@@ -519,12 +522,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(filler17, gridBagConstraints);
 
         btnSiguiente.setText(">");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 16;
         gridBagConstraints.gridy = 9;
         getContentPane().add(btnSiguiente, gridBagConstraints);
 
         btnAnterior.setText("<");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
@@ -537,6 +550,24 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        if (alumno.getPosicion() != contAlumnos.getAlumnosCurso().get(curso).size()-1){
+            //guardar campos
+            cargarCampos(contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()+1));
+            this.alumno = contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()+1);
+        }
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+        if (alumno.getPosicion() != 0){
+            //guardar campos
+            cargarCampos(contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()-1));
+            this.alumno = contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()-1);
+        }
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
