@@ -18,7 +18,7 @@ import noname.DBConnection;
  */
 public class ControladorAlumno {
 
-    private HashMap<Integer, ArrayList<Alumno>> alumnosCurso;
+    private HashMap<Integer, ArrayList<Alumno>> alumnosCurso; //curso, alumnos
 
     public ControladorAlumno() {
         this.alumnosCurso = new HashMap<>();
@@ -63,6 +63,20 @@ public class ControladorAlumno {
         return false;
     }
     
+    public void updateNotasFinales(int curso, int i, int asignatura) throws SQLException {
+        Alumno alumno = this.getAlumnosCurso().get(curso).get(i);
+        String sqlNotas = "UPDATE notafinal SET "
+                + "idAsignatura = " + asignatura + ", "
+                + "notaTrimestre1 = " + alumno.getNotaFinal().get(asignatura).get(1) + ", "
+                + "notaTrimestre2 = " + alumno.getNotaFinal().get(asignatura).get(2) + ", "
+                + "notaTrimestre3 = " + alumno.getNotaFinal().get(asignatura).get(3) + ", "
+                + "notaFinal = " + alumno.getNotaFinal().get(asignatura).get(4)
+                + "WHERE idAlumno = " + alumno.getIdAlumno();
+
+        Statement st = DBConnection.getConnection().createStatement();
+        st.executeUpdate(sqlNotas);
+    }
     
+
 
 }

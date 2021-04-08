@@ -25,7 +25,7 @@ public class Alumno {
     private int idCurso;
     private String fechaNacimiento;
     private HashMap<Integer, Double> notas;
-    private HashMap<Integer, ArrayList<Double>> notaFinal;
+    private HashMap<Integer, ArrayList<Double>> notaFinal; //asignatura && notas de los trimestres 1, 2, 3 y final
     private int posicion; //posicion en la array de contAlumnos
 
     
@@ -38,7 +38,7 @@ public class Alumno {
         this.idCurso = idCurso;
         this.fechaNacimiento = fechaNacimiento;
         this.notas = new HashMap<>(); //idPrueba, nota
-        this.notaFinal = new HashMap<>();
+        this.notaFinal = new HashMap<>(); //trimestre, nota final
     }
 
     public Alumno() {
@@ -91,20 +91,31 @@ public class Alumno {
         }
     }
     
-    public void commitAlumno(Alumno alumno, int curso){
+    public void commitNuevoAlumno() throws SQLException {
         String sqlAlumno = "INSERT INTO alumno (nombre, apellidos, dni, idCurso, fechaNacimiento) VALUES ('"
-                +alumno.getNombre()+"', '"
-                +alumno.getApellidos()+"', '"
-                +alumno.getDni()+"', '"
-                +curso+"', '"
-                +alumno.getFechaNacimiento()+"'"
+                + this.nombre + "', '"
+                + this.apellidos + "', '"
+                + this.dni + "', '"
+                + this.idCurso + "', '"
+                + this.fechaNacimiento + "'"
                 + ")";
-            try {
-            Statement st = DBConnection.getConnection().createStatement();
-            st.executeUpdate(sqlAlumno );
-            } catch (Exception e){
-                System.out.println("commitAlumno dice: "+e.toString());
-            }
+
+        Statement st = DBConnection.getConnection().createStatement();
+        st.executeUpdate(sqlAlumno);
+
+    }
+    
+    public void updateNotas(Alumno alumno, int asignatura) throws SQLException {
+        String sqlNotas = "UPDATE notafinal SET "
+                + "idAsignatura = " + asignatura + ", "
+                + "notaTrimestre1 = " + alumno.getNotaFinal().get(1) + ", "
+                + "notaTrimestre2 = " + alumno.getNotaFinal().get(2) + ", "
+                + "notaTrimestre3 = " + alumno.getNotaFinal().get(3) + ", "
+                + "notaFinal = " + alumno.getNotaFinal().get(4)
+                + "WHERE idAlumno = " + alumno.getIdAlumno()+"'";
+
+        Statement st = DBConnection.getConnection().createStatement();
+        st.executeUpdate(sqlNotas);
     }
     
     public int getIdAlumno() {

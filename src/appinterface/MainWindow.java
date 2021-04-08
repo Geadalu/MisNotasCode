@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -633,7 +634,7 @@ public class MainWindow extends javax.swing.JFrame {
                 a.setIdCurso(getCurso());
 
                 contAlumnos.añadirAlumnoACurso(a, getCurso());
-                a.commitAlumno(a, getCurso());
+                a.commitNuevoAlumno();
             }
         } catch (Exception e) {
             System.out.println("Ha pasado esto en el método Excel: " + e.toString());
@@ -709,13 +710,34 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
     private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
-        // TODO add your handling code here:
+        int i, j;
+        
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        HashMap<Integer, ArrayList<Double>> notaFinal = null;
+        for (i=0; i<tabla.getRowCount(); i++){ //itera sobre los alumnos
+            notaFinal = new HashMap<>();
+            ArrayList<Double> arrayNotas = new ArrayList<>();
+            for (j=2; j<tabla.getColumnCount(); j++){ //itera sobre las notas
+                if (model.getValueAt(i,j)==null){
+                    arrayNotas.add(0.0);
+                } else {
+                    arrayNotas.add(Double.parseDouble((model.getValueAt(i,j)).toString()));
+                }
+            }
+            notaFinal.put(getAsignatura(), arrayNotas);
+            contAlumnos.getAlumnosCurso().get(getCurso()).get(i).setNotaFinal(notaFinal);
+            try {
+                contAlumnos.updateNotasFinales(getCurso(), i, getAsignatura());
+            } catch (SQLException e){
+                System.out.println("MainWindow.GuardarTabla dice: "+e.toString());
+            }
+        }
         
     }//GEN-LAST:event_btnGuardarTablaActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        // TODO add your handling code here:
         int pasarAsignatura = 0;
+        
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
             DefaultTableModel model = (DefaultTableModel) tabla.getModel();
             if (tabla.getSelectedColumn() == 0) {
