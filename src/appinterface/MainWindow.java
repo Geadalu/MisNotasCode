@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -60,6 +62,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         getDateTime();
+        tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
         //exclusion de los rdbtn cursos
         cursosGrupo = new ButtonGroup();
@@ -637,7 +640,7 @@ public class MainWindow extends javax.swing.JFrame {
                 a.commitNuevoAlumno();
             }
         } catch (Exception e) {
-            System.out.println("Ha pasado esto en el método Excel: " + e.toString());
+            AuxiliarMethods.showWarning(e.toString());
             //TODO --> si el excel no se ha podido cargar bien, mostrar esto con un mensaje de cómo se debe cargar el excel
             //JOptionPane.showMessageDialog(new JFrame(), "Eggs are not supposed to be green.");
         }
@@ -711,33 +714,37 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
         int i, j;
-        
+
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        
         HashMap<Integer, ArrayList<Double>> notaFinal = null;
-        for (i=0; i<tabla.getRowCount(); i++){ //itera sobre los alumnos
+
+        for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
             notaFinal = new HashMap<>();
             ArrayList<Double> arrayNotas = new ArrayList<>();
-            for (j=2; j<tabla.getColumnCount(); j++){ //itera sobre las notas
-                if (model.getValueAt(i,j)==null){
-                    arrayNotas.add(0.0);
-                } else {
-                    arrayNotas.add(Double.parseDouble((model.getValueAt(i,j)).toString()));
+            for (j = 2; j < tabla.getColumnCount(); j++) { //itera sobre las notas
+                if (j != 5) { //ignorar la columna nota media
+                    if (model.getValueAt(i, j) == null) {
+                        arrayNotas.add(0.0);
+                    } else {
+                        arrayNotas.add(Double.parseDouble((model.getValueAt(i, j)).toString()));
+                    }
                 }
             }
             notaFinal.put(getAsignatura(), arrayNotas);
-            contAlumnos.getAlumnosCurso().get(getCurso()).get(i).setNotaFinal(notaFinal);
+            contAlumnos.getAlumnosCurso().get(getCurso()).get(i).setNotasFinales(notaFinal);
             try {
                 contAlumnos.updateNotasFinales(getCurso(), i, getAsignatura());
-            } catch (SQLException e){
-                System.out.println("MainWindow.GuardarTabla dice: "+e.toString());
+            } catch (SQLException e) {
+                AuxiliarMethods.showWarning(e.toString());
             }
         }
-        
+        calcularNotasMedias();
     }//GEN-LAST:event_btnGuardarTablaActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         int pasarAsignatura = 0;
-        
+
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
             DefaultTableModel model = (DefaultTableModel) tabla.getModel();
             if (tabla.getSelectedColumn() == 0) {
@@ -805,13 +812,13 @@ public class MainWindow extends javax.swing.JFrame {
             try {
                 this.contAlumnos.cargarAlumnosCurso(curso);
             } catch (Exception e) {
-                System.out.println("CargarTabla dice: ¡Uy! Mira esto:" + e.toString());
+                AuxiliarMethods.showWarning(e.toString());
             }
 
             for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
                 row[0] = alumno.getApellidos();
                 row[1] = alumno.getNombre();
-                ArrayList<Double> notasFinales = alumno.getNotaFinal().get(asignatura);
+                ArrayList<Double> notasFinales = alumno.getNotasFinales().get(asignatura);
 
                 if (notasFinales == null || notasFinales.size() < 4) {
                     row[2] = null;
@@ -820,18 +827,41 @@ public class MainWindow extends javax.swing.JFrame {
                     row[5] = null;
                     row[6] = null;
                 } else {
-                    row[2] = notasFinales.get(0);
-                    row[3] = notasFinales.get(1);
-                    row[4] = notasFinales.get(2);
-                    row[5] = (notasFinales.get(0) + notasFinales.get(1) + notasFinales.get(2)) / 3;
-                    row[6] = notasFinales.get(3);
+                    if (notasFinales.get(0) == 0.0) {
+                        row[2] = null;
+                    } else {
+                        row[2] = notasFinales.get(0);
+                    }
+                    row[2] = ((notasFinales.get(0) != 0.0) ? notasFinales.get(0) : null);
+                    row[3] = ((notasFinales.get(1) != 0.0) ? notasFinales.get(1) : null);
+                    row[4] = ((notasFinales.get(2) != 0.0) ? notasFinales.get(2) : null);
+                    row[6] = ((notasFinales.get(3) != 0.0) ? notasFinales.get(3) : null);
                 }
 
                 model.addRow(row);
             }
         }
-
+        calcularNotasMedias();
         AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
+    }
+    
+    public void calcularNotasMedias(){
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        int i;
+        double media = 0;
+        
+        for (i=0; i<tabla.getRowCount(); i++){
+            try {
+            media = (Double.parseDouble(tabla.getValueAt(i, 2).toString()) + 
+                    Double.parseDouble(tabla.getValueAt(i, 3).toString()) + 
+                    Double.parseDouble(tabla.getValueAt(i, 4).toString()))/3.0;
+                    tabla.setValueAt(media, i, 5);
+            } catch (NullPointerException e){
+                tabla.setValueAt(null, i, 5);
+            }
+           
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

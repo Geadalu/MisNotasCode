@@ -54,23 +54,14 @@ public class ControladorAlumno {
         return alumnosCurso;
     }
     
-    public boolean apellidoRepetido(Alumno alumno1, int curso){
-        for (Alumno alumno2 : this.alumnosCurso.get(curso)){
-            if (alumno1.getApellidos().equals(alumno2.getApellidos())){
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public void updateNotasFinales(int curso, int i, int asignatura) throws SQLException {
         Alumno alumno = this.getAlumnosCurso().get(curso).get(i);
         String sqlNotas = "UPDATE notafinal SET "
                 + "idAsignatura = " + asignatura + ", "
-                + "notaTrimestre1 = " + alumno.getNotaFinal().get(asignatura).get(1) + ", "
-                + "notaTrimestre2 = " + alumno.getNotaFinal().get(asignatura).get(2) + ", "
-                + "notaTrimestre3 = " + alumno.getNotaFinal().get(asignatura).get(3) + ", "
-                + "notaFinal = " + alumno.getNotaFinal().get(asignatura).get(4)
+                + "notaTrimestre1 = " + alumno.getNotasFinales().get(asignatura).get(0) + ", "
+                + "notaTrimestre2 = " + alumno.getNotasFinales().get(asignatura).get(1) + ", "
+                + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
+                + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3)
                 + "WHERE idAlumno = " + alumno.getIdAlumno();
 
         Statement st = DBConnection.getConnection().createStatement();

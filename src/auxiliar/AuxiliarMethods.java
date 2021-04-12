@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -67,6 +68,10 @@ public class AuxiliarMethods {
             }
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+    }
+    
+    public static void showWarning(String warning){
+        JOptionPane.showMessageDialog(null, warning);
     }
     
 }

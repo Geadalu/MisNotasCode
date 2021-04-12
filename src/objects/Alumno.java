@@ -25,7 +25,7 @@ public class Alumno {
     private int idCurso;
     private String fechaNacimiento;
     private HashMap<Integer, Double> notas;
-    private HashMap<Integer, ArrayList<Double>> notaFinal; //asignatura && notas de los trimestres 1, 2, 3 y final
+    private HashMap<Integer, ArrayList<Double>> notasFinales; //asignatura && notas de los trimestres 1, 2, 3 y final
     private int posicion; //posicion en la array de contAlumnos
 
     
@@ -38,12 +38,12 @@ public class Alumno {
         this.idCurso = idCurso;
         this.fechaNacimiento = fechaNacimiento;
         this.notas = new HashMap<>(); //idPrueba, nota
-        this.notaFinal = new HashMap<>(); //trimestre, nota final
+        this.notasFinales = new HashMap<>(); //asignatura && notas de los trimestres 1, 2, 3 y final
     }
 
     public Alumno() {
         this.notas = new HashMap<>();
-        this.notaFinal = new HashMap<>();
+        this.notasFinales = new HashMap<>();
     }
 
     public void cargarAlumno(int idAlumno) throws SQLException {
@@ -59,6 +59,7 @@ public class Alumno {
             this.idCurso = resultAlumnos.getInt("idCurso");
             this.fechaNacimiento = resultAlumnos.getString("fechaNacimiento");
         }
+        this.idAlumno = idAlumno;
         this.cargarNotas(idAlumno);
         this.cargarNotasFinales(idAlumno);
     }
@@ -87,7 +88,7 @@ public class Alumno {
             array.add(resultNotaFinal.getDouble("notaTrimestre3"));
             array.add(resultNotaFinal.getDouble("notaFinal"));
             
-            this.notaFinal.put(resultNotaFinal.getInt("idAsignatura"), array);
+            this.notasFinales.put(resultNotaFinal.getInt("idAsignatura"), array);
         }
     }
     
@@ -108,10 +109,10 @@ public class Alumno {
     public void updateNotas(Alumno alumno, int asignatura) throws SQLException {
         String sqlNotas = "UPDATE notafinal SET "
                 + "idAsignatura = " + asignatura + ", "
-                + "notaTrimestre1 = " + alumno.getNotaFinal().get(1) + ", "
-                + "notaTrimestre2 = " + alumno.getNotaFinal().get(2) + ", "
-                + "notaTrimestre3 = " + alumno.getNotaFinal().get(3) + ", "
-                + "notaFinal = " + alumno.getNotaFinal().get(4)
+                + "notaTrimestre1 = " + alumno.getNotasFinales().get(1) + ", "
+                + "notaTrimestre2 = " + alumno.getNotasFinales().get(2) + ", "
+                + "notaTrimestre3 = " + alumno.getNotasFinales().get(3) + ", "
+                + "notaFinal = " + alumno.getNotasFinales().get(4)
                 + "WHERE idAlumno = " + alumno.getIdAlumno()+"'";
 
         Statement st = DBConnection.getConnection().createStatement();
@@ -146,8 +147,8 @@ public class Alumno {
         return notas;
     }
     
-      public HashMap<Integer, ArrayList<Double>> getNotaFinal() {
-        return notaFinal;
+      public HashMap<Integer, ArrayList<Double>> getNotasFinales() {
+        return notasFinales;
     }
     
     public int getPosicion() {
@@ -182,8 +183,8 @@ public class Alumno {
         this.notas = notas;
     }
     
-     public void setNotaFinal(HashMap<Integer, ArrayList<Double>> notaFinal) {
-        this.notaFinal = notaFinal;
+     public void setNotasFinales(HashMap<Integer, ArrayList<Double>> notaFinal) {
+        this.notasFinales = notaFinal;
     }
     
     public void setPosicion(int posicion) {

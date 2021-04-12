@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import auxiliar.AuxiliarMethods;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -280,7 +281,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         try {
             contPruebas.cargarPruebasAsignatura(asignatura);
         } catch (Exception e){
-            System.out.println("cargarPruebas en CPWindow dice: "+e.toString());
+            AuxiliarMethods.showWarning(e.toString());
         }
         comboTrimestre.addItem("Seleccionar...");
         for (i=0; i<contPruebas.getPruebasAsignatura().get(asignatura).size(); i++){

@@ -41,7 +41,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         try {
             this.contPruebas.cargarPruebasAsignatura(asignatura);
         } catch (Exception e) {
-            System.out.println("CargarTabla dice: ¡Uy! Mira esto:" + e.toString());
+            AuxiliarMethods.showWarning(e.toString());
         }
       
         initComponents();
@@ -69,10 +69,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblMedia2N.setText(calcularMedia(tabla2));
         lblMedia3N.setText(calcularMedia(tabla3));
         
-        if (!alumno.getNotaFinal().isEmpty()){ //si tiene puestas las notas finales
-            final1.setText(alumno.getNotaFinal().get(asignatura).get(1).toString());
-            final2.setText(alumno.getNotaFinal().get(asignatura).get(2).toString());
-            final3.setText(alumno.getNotaFinal().get(asignatura).get(3).toString());
+        if (!alumno.getNotasFinales().isEmpty()){ //si tiene puestas las notas finales
+            final1.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
+            final2.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
+            final3.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
             double mediaAsig = Double.parseDouble(final1.getText())
                 +Double.parseDouble(final2.getText())
                 +Double.parseDouble(final3.getText())/3.0;
