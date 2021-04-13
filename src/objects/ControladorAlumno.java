@@ -56,6 +56,7 @@ public class ControladorAlumno {
     
     public void updateNotasFinales(int curso, int i, int asignatura) throws SQLException {
         Alumno alumno = this.getAlumnosCurso().get(curso).get(i);
+        Statement st = DBConnection.getConnection().createStatement();
         String sqlNotas = "UPDATE notafinal SET "
                 + "idAsignatura = " + asignatura + ", "
                 + "notaTrimestre1 = " + alumno.getNotasFinales().get(asignatura).get(0) + ", "
@@ -64,8 +65,17 @@ public class ControladorAlumno {
                 + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3)
                 + "WHERE idAlumno = " + alumno.getIdAlumno();
 
-        Statement st = DBConnection.getConnection().createStatement();
-        st.executeUpdate(sqlNotas);
+        if(st.executeUpdate(sqlNotas) == 0){
+            //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
+            String sqlNotasInsert = "INSERT INTO notafinal (idAlumno, idAsignatura, notaTrimestre1, notaTrimestre2, notaTrimestre3, notaFinal) VALUES ("
+                + alumno.getIdAlumno() +", "
+                + asignatura + ", "
+                + alumno.getNotasFinales().get(asignatura).get(0) + ", "
+                + alumno.getNotasFinales().get(asignatura).get(1) + ", "
+                + alumno.getNotasFinales().get(asignatura).get(2) + ", "
+                + alumno.getNotasFinales().get(asignatura).get(3) +")";
+            st.executeUpdate(sqlNotasInsert);
+        }
     }
     
 

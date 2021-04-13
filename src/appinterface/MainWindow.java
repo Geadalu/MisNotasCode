@@ -19,6 +19,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -716,7 +718,7 @@ public class MainWindow extends javax.swing.JFrame {
         int i, j;
 
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        
+
         HashMap<Integer, ArrayList<Double>> notaFinal = null;
 
         for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
@@ -832,8 +834,8 @@ public class MainWindow extends javax.swing.JFrame {
                     } else {
                         row[2] = notasFinales.get(0);
                     }
-                    row[2] = ((notasFinales.get(0) != 0.0) ? notasFinales.get(0) : null);
-                    row[3] = ((notasFinales.get(1) != 0.0) ? notasFinales.get(1) : null);
+                    row[2] = ((notasFinales.get(0) != 0.0) ? notasFinales.get(0) : null); //condicion ? cosa_true : cosa_false
+                    row[3] = ((notasFinales.get(1) != 0.0) ? notasFinales.get(1) : null); //si la primera nota final es 0.0 metes en row[2] la nota final, si no, null
                     row[4] = ((notasFinales.get(2) != 0.0) ? notasFinales.get(2) : null);
                     row[6] = ((notasFinales.get(3) != 0.0) ? notasFinales.get(3) : null);
                 }
@@ -844,24 +846,24 @@ public class MainWindow extends javax.swing.JFrame {
         calcularNotasMedias();
         AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
     }
-    
-    public void calcularNotasMedias(){
-        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        int i;
-        double media = 0;
-        
-        for (i=0; i<tabla.getRowCount(); i++){
-            try {
-            media = (Double.parseDouble(tabla.getValueAt(i, 2).toString()) + 
-                    Double.parseDouble(tabla.getValueAt(i, 3).toString()) + 
-                    Double.parseDouble(tabla.getValueAt(i, 4).toString()))/3.0;
-                    tabla.setValueAt(media, i, 5);
-            } catch (NullPointerException e){
-                tabla.setValueAt(null, i, 5);
-            }
-           
-        }
 
+    public void calcularNotasMedias() {
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        int i, j;
+        int cont = 0;
+        double media = 0;
+        ArrayList<Double> arrayNotas = new ArrayList<>();
+        NumberFormat formatter = new DecimalFormat("#0.00");
+
+        for (i = 0; i < tabla.getRowCount(); i++) {
+            for (j = 2; j < 5; j++) {
+                media += ((tabla.getValueAt(i, j) != null) ? Double.parseDouble(tabla.getValueAt(i, j).toString()) : 0.0);
+                if (media/3 != 0){
+                    tabla.setValueAt(media/3, i, 5);
+                }
+            }
+            media = 0;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
