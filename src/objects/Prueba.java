@@ -22,10 +22,9 @@ public class Prueba {
     String nombrePrueba;
     String fechaPrueba;
     int trimestre;
-    double peso;
+    int peso;
 
-    public Prueba(int idPrueba, int idAsignatura, String nombrePrueba, String fechaPrueba, int trimestre, double peso) {
-        this.idPrueba = idPrueba;
+    public Prueba(int idAsignatura, String nombrePrueba, String fechaPrueba, int trimestre, int peso) {
         this.idAsignatura = idAsignatura;
         this.nombrePrueba = nombrePrueba;
         this.fechaPrueba = fechaPrueba;
@@ -49,18 +48,18 @@ public class Prueba {
             this.nombrePrueba = resultPruebas.getString("nombrePrueba");
             this.fechaPrueba = resultPruebas.getString("fechaPrueba");
             this.trimestre = resultPruebas.getInt("trimestre");
-            this.peso = resultPruebas.getDouble("peso");
+            this.peso = resultPruebas.getInt("peso");
 
         }
     }
 
-    public void commitPrueba(Prueba prueba) {
+    public void commitNuevaPrueba() {
         String sqlPrueba = "INSERT INTO prueba (idAsignatura, nombrePrueba, fechaPrueba, trimestre, peso) VALUES ('" 
-                + prueba.getIdAsignatura() + "', '"
-                + prueba.getNombrePrueba() + "', '"
-                + prueba.getFechaPrueba() + "', '"
-                + prueba.getTrimestre() + "', '"
-                + prueba.getPeso() + "'"
+                + this.getIdAsignatura() + "', '"
+                + this.getNombrePrueba() + "', '"
+                + this.getFechaPrueba() + "', '"
+                + this.getTrimestre() + "', '"
+                + this.getPeso() + "'"
                 + ")";
         try {
             Statement st = DBConnection.getConnection().createStatement();
@@ -90,7 +89,7 @@ public class Prueba {
         return trimestre;
     }
 
-    public double getPeso() {
+    public int getPeso() {
         return peso;
     }
     
@@ -110,7 +109,7 @@ public class Prueba {
         this.trimestre = trimestre;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(int peso) {
         this.peso = peso;
     }
 

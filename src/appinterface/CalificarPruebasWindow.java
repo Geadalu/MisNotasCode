@@ -6,6 +6,8 @@
 package appinterface;
 
 import auxiliar.AuxiliarMethods;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -206,6 +208,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 11;
@@ -274,6 +281,25 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }  
         }
     }//GEN-LAST:event_comboTrimestreActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        int i;
+        //ESTO NO GUARDA LAS NOTAS, HAY QUE DEBUGGEAR
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+
+        for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
+            HashMap<Integer, Double> notas = contAlumnos.getAlumnosCurso().get(curso).get(i).getNotas();
+            double nota = 0.0;   
+            if (model.getValueAt(i, 2) == null) {
+                nota = 0.0;
+            } else {
+                notas.put(idPrueba, nota);
+            }
+            contAlumnos.getAlumnosCurso().get(curso).get(i).setNotas(notas);
+        }  
+        this.dispose();
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void cargarPruebas(){
         int i;

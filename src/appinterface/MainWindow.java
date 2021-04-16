@@ -681,7 +681,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            NuevaTareaWindow ntw = new NuevaTareaWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
+            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
             ntw.pack();
             ntw.setVisible(true);
             ntw.setMinimumSize(ntw.getSize());
