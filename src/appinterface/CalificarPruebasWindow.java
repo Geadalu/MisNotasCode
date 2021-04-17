@@ -39,6 +39,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         this.curso = curso;
         this.contPruebas = new ControladorPrueba();
         initComponents();
+        tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
         cargarPruebas();
         
         txtAsignatura.setText(strAsignatura);
@@ -279,24 +280,36 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 row[2] = alumno.getNotas().get(pruebaConID.get(comboTrimestre.getSelectedItem().toString()));
                 model.addRow(row);
             }  
+            idPrueba = pruebaConID.get(comboTrimestre.getSelectedItem().toString());
         }
     }//GEN-LAST:event_comboTrimestreActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         int i;
-        //ESTO NO GUARDA LAS NOTAS, HAY QUE DEBUGGEAR
+        boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
+        //no funciona, hay que debugear
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-
+        
         for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
             HashMap<Integer, Double> notas = contAlumnos.getAlumnosCurso().get(curso).get(i).getNotas();
-            double nota = 0.0;   
             if (model.getValueAt(i, 2) == null) {
-                nota = 0.0;
+                notas.put(idPrueba, null);
+            } else if (notas.get(idPrueba) == null){
+                notas.put(idPrueba, Double.parseDouble(model.getValueAt(i,2).toString()));
+                update = false;
             } else {
-                notas.put(idPrueba, nota);
+                notas.replace(idPrueba, Double.parseDouble(model.getValueAt(i,2).toString()));
+                update = true;
             }
             contAlumnos.getAlumnosCurso().get(curso).get(i).setNotas(notas);
+            
+            try {
+                contAlumnos.updateNotas(asignatura, idPrueba, i, curso, update);
+            } catch (SQLException e){
+                //AuxiliarMethods.showWarning(e.toString());
+                System.out.println(e.toString());
+            }
         }  
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed

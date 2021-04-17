@@ -106,18 +106,6 @@ public class Alumno {
 
     }
     
-    public void updateNotas(Alumno alumno, int asignatura) throws SQLException {
-        String sqlNotas = "UPDATE notafinal SET "
-                + "idAsignatura = " + asignatura + ", "
-                + "notaTrimestre1 = " + alumno.getNotasFinales().get(1) + ", "
-                + "notaTrimestre2 = " + alumno.getNotasFinales().get(2) + ", "
-                + "notaTrimestre3 = " + alumno.getNotasFinales().get(3) + ", "
-                + "notaFinal = " + alumno.getNotasFinales().get(4)
-                + "WHERE idAlumno = " + alumno.getIdAlumno()+"'";
-
-        Statement st = DBConnection.getConnection().createStatement();
-        st.executeUpdate(sqlNotas);
-    }
     
     public int getIdAlumno() {
         return idAlumno;

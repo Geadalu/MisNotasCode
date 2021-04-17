@@ -63,7 +63,7 @@ public class ControladorAlumno {
                 + "notaTrimestre2 = " + alumno.getNotasFinales().get(asignatura).get(1) + ", "
                 + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
                 + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3)
-                + "WHERE idAlumno = " + alumno.getIdAlumno();
+                + " WHERE idAlumno = " + alumno.getIdAlumno();
 
         if(st.executeUpdate(sqlNotas) == 0){
             //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
@@ -75,6 +75,27 @@ public class ControladorAlumno {
                 + alumno.getNotasFinales().get(asignatura).get(2) + ", "
                 + alumno.getNotasFinales().get(asignatura).get(3) +")";
             st.executeUpdate(sqlNotasInsert);
+        }
+    }
+    
+    public void updateNotas(int asignatura, int idPrueba, int i, int curso, boolean update) throws SQLException {
+        Alumno alumno = this.getAlumnosCurso().get(curso).get(i);
+        Statement st = DBConnection.getConnection().createStatement();
+        if (alumno.getNotas().get(idPrueba) != null){
+            if (update){
+            String sqlNotas = "UPDATE nota SET "
+                    + "idPrueba = " + idPrueba + ", "
+                    + "nota = " + alumno.getNotas().get(idPrueba)
+                    + " WHERE idAlumno = " + alumno.getIdAlumno();
+            } else { 
+                //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
+                String sqlNotasInsert = "INSERT INTO nota (idAlumno, idPrueba, nota) VALUES ("
+                    + alumno.getIdAlumno() +", "
+                    + idPrueba + ", "
+                    + alumno.getNotas().get(idPrueba) +")";
+               
+                st.executeUpdate(sqlNotasInsert);
+            }
         }
     }
     
