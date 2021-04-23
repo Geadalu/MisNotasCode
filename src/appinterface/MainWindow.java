@@ -66,19 +66,27 @@ public class MainWindow extends javax.swing.JFrame {
         getDateTime();
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
+        
         //exclusion de los rdbtn cursos
         cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnc1);
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
-
-        //exclusion de los rdbtn asignaturas
+        
         asignaturasGrupo = new ButtonGroup();
-        asignaturasGrupo.add(rdbtnam3);
+        asignaturasGrupo.add(rdbtnmat3A);
+        asignaturasGrupo.add(rdbtnmat3C);
+
+        //rdbtnmat3A.setVisible(false);
+        //rdbtnmat3C.setVisible(false);
 
         //TODO: mostrar rdbtn cursos
-        this.contAlumnos = new ControladorAlumno();
+        try {
+            this.contAlumnos = new ControladorAlumno();
+        } catch (SQLException e){
+            AuxiliarMethods.showWarning(e.toString());
+        }
 
         //TODO: cargar y mostrar rdbtn asignaturas
     }
@@ -119,13 +127,14 @@ public class MainWindow extends javax.swing.JFrame {
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         btnNuevaTarea = new javax.swing.JButton();
-        rdbtnam3 = new javax.swing.JRadioButton();
+        rdbtnmat3C = new javax.swing.JRadioButton();
         rdbtnc2 = new javax.swing.JRadioButton();
         rdbtnc3 = new javax.swing.JRadioButton();
         rdbtnc4 = new javax.swing.JRadioButton();
         rdbtnc1 = new javax.swing.JRadioButton();
         btnGuardarTabla = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        rdbtnmat3A = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -368,20 +377,21 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 7;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
 
-        rdbtnam3.setText("Matemáticas 3º");
-        rdbtnam3.setName("rdbtnam3"); // NOI18N
-        rdbtnam3.addActionListener(new java.awt.event.ActionListener() {
+        rdbtnmat3C.setText("Matemáticas 3ºC");
+        rdbtnmat3C.setName("rdbtnmat3C"); // NOI18N
+        rdbtnmat3C.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtnam3ActionPerformed(evt);
+                rdbtnmat3CActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 5;
-        jPanel2.add(rdbtnam3, gridBagConstraints);
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(rdbtnmat3C, gridBagConstraints);
 
-        rdbtnc2.setText("2º");
+        rdbtnc2.setText("2ºA");
         rdbtnc2.setName("rdbtnc2"); // NOI18N
         rdbtnc2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,8 +403,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 10;
         jPanel2.add(rdbtnc2, gridBagConstraints);
 
-        rdbtnc3.setSelected(true);
-        rdbtnc3.setText("3º");
+        rdbtnc3.setText("3ºA");
         rdbtnc3.setName("rdbtnc3"); // NOI18N
         rdbtnc3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -406,7 +415,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 10;
         jPanel2.add(rdbtnc3, gridBagConstraints);
 
-        rdbtnc4.setText("4º");
+        rdbtnc4.setText("3ºC");
         rdbtnc4.setName("rdbtnc4"); // NOI18N
         rdbtnc4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -418,7 +427,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 10;
         jPanel2.add(rdbtnc4, gridBagConstraints);
 
-        rdbtnc1.setText("1º");
+        rdbtnc1.setText("1ºA");
         rdbtnc1.setName("rdbtnc1"); // NOI18N
         rdbtnc1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -444,6 +453,20 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 26;
         gridBagConstraints.gridy = 26;
         jPanel2.add(filler9, gridBagConstraints);
+
+        rdbtnmat3A.setText("Matemáticas 3ºA");
+        rdbtnmat3A.setName("rdbtnam3"); // NOI18N
+        rdbtnmat3A.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbtnmat3AActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(rdbtnmat3A, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -636,9 +659,8 @@ public class MainWindow extends javax.swing.JFrame {
                 a.setNombre(alumno[1].toString());
                 a.setDni(alumno[2].toString());
                 a.setFechaNacimiento(alumno[3].toString());
-                a.setIdCurso(getCurso());
 
-                contAlumnos.añadirAlumnoACurso(a, getCurso());
+                contAlumnos.añadirAlumnoAAsignatura(a, getAsignatura());
                 a.commitNuevoAlumno();
             }
         } catch (Exception e) {
@@ -672,7 +694,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
+            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos);
             ctw.pack();
             ctw.setVisible(true);
         }
@@ -681,7 +703,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, getCurso(), contAlumnos);
+            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos);
             ntw.pack();
             ntw.setVisible(true);
             ntw.setMinimumSize(ntw.getSize());
@@ -689,29 +711,28 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
-    private void rdbtnam3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnam3ActionPerformed
-        nombreAsignatura.setText(rdbtnam3.getText());
-        cargarTabla(getCurso(), getAsignatura());
-    }//GEN-LAST:event_rdbtnam3ActionPerformed
-
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
-        // TODO add your handling code here:
+        //Curso 2ºA
         asignaturasGrupo.clearSelection();
     }//GEN-LAST:event_rdbtnc2ActionPerformed
 
     private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
-        // TODO add your handling code here:
+        //Curso 3ºA
         asignaturasGrupo.clearSelection();
+        rdbtnmat3A.setVisible(true);
+        rdbtnmat3C.setVisible(false);
+        
     }//GEN-LAST:event_rdbtnc3ActionPerformed
 
     private void rdbtnc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc4ActionPerformed
-        // TODO add your handling code here:
+        //Curso 3ºC
         asignaturasGrupo.clearSelection();
+        rdbtnmat3C.setVisible(true);
+        rdbtnmat3A.setVisible(false);
     }//GEN-LAST:event_rdbtnc4ActionPerformed
 
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
-        // TODO add your handling code here:
-        asignaturasGrupo.clearSelection();
+        //Curso 1ºA 
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
     private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
@@ -734,9 +755,9 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
             notaFinal.put(getAsignatura(), arrayNotas);
-            contAlumnos.getAlumnosCurso().get(getCurso()).get(i).setNotasFinales(notaFinal);
+            contAlumnos.getAlumnosAsignatura().get(getAsignatura()).get(i).setNotasFinales(notaFinal);
             try {
-                contAlumnos.updateNotasFinales(getCurso(), i, getAsignatura());
+                contAlumnos.updateNotasFinales(i, getAsignatura());
             } catch (SQLException e) {
                 AuxiliarMethods.showWarning(e.toString());
             }
@@ -750,9 +771,9 @@ public class MainWindow extends javax.swing.JFrame {
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
             DefaultTableModel model = (DefaultTableModel) tabla.getModel();
             if (tabla.getSelectedColumn() == 0) {
-                for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(getCurso())) {
+                for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
                     if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0)) && alumno.getNombre().equals(model.getValueAt(tabla.getSelectedRow(), 1))) {
-                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, getCurso(), contAlumnos);
+                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos);
                         iaw.pack();
                         iaw.setVisible(true);
                     }
@@ -760,6 +781,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tablaMouseClicked
+
+    private void rdbtnmat3AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnmat3AActionPerformed
+        // TODO add your handling code here:
+        nombreAsignatura.setText(rdbtnmat3A.getText());
+        cargarTabla(getCurso(), getAsignatura());
+    }//GEN-LAST:event_rdbtnmat3AActionPerformed
+
+    private void rdbtnmat3CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnmat3CActionPerformed
+        nombreAsignatura.setText(rdbtnmat3C.getText());
+        cargarTabla(getCurso(), getAsignatura());
+    }//GEN-LAST:event_rdbtnmat3CActionPerformed
 
     public int getCurso() {
         //Ver qué curso está seleccionado
@@ -778,8 +810,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public int getAsignatura() {
-        if (rdbtnam3.isSelected()) {
-            return 1;
+        if (rdbtnmat3A.isSelected() || rdbtnmat3C.isSelected()) {
+            return 13; //Matemáticas de 3º
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
         }
@@ -812,12 +844,13 @@ public class MainWindow extends javax.swing.JFrame {
             Object[] row = new Object[7]; //matriz para el addRow del modelo de la tabla
 
             try {
-                this.contAlumnos.cargarAlumnosCurso(curso);
-            } catch (Exception e) {
-                AuxiliarMethods.showWarning(e.toString());
+                this.contAlumnos.cargarAlumnosAsignatura(asignatura);
+            } catch (SQLException e) {
+                //AuxiliarMethods.showWarning(e.toString());
+                System.out.println(e.toString());
             }
 
-            for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
+            for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
                 row[0] = alumno.getApellidos();
                 row[1] = alumno.getNombre();
                 ArrayList<Double> notasFinales = alumno.getNotasFinales().get(asignatura);
@@ -913,11 +946,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel nombreAsignatura;
-    private javax.swing.JRadioButton rdbtnam3;
     private javax.swing.JRadioButton rdbtnc1;
     private javax.swing.JRadioButton rdbtnc2;
     private javax.swing.JRadioButton rdbtnc3;
     private javax.swing.JRadioButton rdbtnc4;
+    private javax.swing.JRadioButton rdbtnmat3A;
+    private javax.swing.JRadioButton rdbtnmat3C;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 

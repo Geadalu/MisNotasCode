@@ -18,20 +18,31 @@ import noname.DBConnection;
  */
 public class ControladorAlumno {
 
-    private HashMap<Integer, ArrayList<Alumno>> alumnosCurso; //curso, alumnos
+    private HashMap<Integer, ArrayList<Alumno>> alumnosAsignatura; //asignatura, alumnos
 
-    public ControladorAlumno() {
-        this.alumnosCurso = new HashMap<>();
-        this.alumnosCurso.put(1, new ArrayList<>());
-        this.alumnosCurso.put(2, new ArrayList<>());
-        this.alumnosCurso.put(3, new ArrayList<>());
-        this.alumnosCurso.put(4, new ArrayList<>());
+    public ControladorAlumno() throws SQLException{
+        this.alumnosAsignatura = new HashMap<>();
+        inicializarAlumnosAsignatura();
+    }
+    
+    /**
+     * Método que pobla el hashmap alumnosAsignatura
+     */
+    private void inicializarAlumnosAsignatura() throws SQLException{
+        String asignaturas = "SELECT idAsignatura FROM asignatura";
+        Statement st = DBConnection.getConnection().createStatement();
+        ResultSet resultAsignaturas;
+        resultAsignaturas = st.executeQuery(asignaturas);
+        
+        while (resultAsignaturas.next()) {
+            alumnosAsignatura.put(resultAsignaturas.getInt("idAsignatura"), new ArrayList<>());
+        }
     }
 
-    public void cargarAlumnosCurso(int curso) throws SQLException {
+    public void cargarAlumnosAsignatura(int asignatura) throws SQLException {
         int posicion = 0;
-        if (this.alumnosCurso.get(curso).isEmpty()) {
-            String alumnos = "SELECT idAlumno, apellidos FROM alumno WHERE idCurso = " + curso + " ORDER BY apellidos ASC";
+        if (this.alumnosAsignatura.get(asignatura).isEmpty()) {
+            String alumnos = "SELECT t1.idAlumno FROM alumno t1, alumnosporasignatura t2 WHERE t1.idAlumno = t2.idAlumno AND t2.idAsignatura = "+asignatura;
             Statement st = DBConnection.getConnection().createStatement();
             ResultSet resultAlumnos = st.executeQuery(alumnos);
 
@@ -40,22 +51,22 @@ public class ControladorAlumno {
                 Alumno a = new Alumno();
                 a.cargarAlumno(idAlumno);
                 a.setPosicion(posicion);
-                this.alumnosCurso.get(curso).add(a);
+                this.alumnosAsignatura.get(asignatura).add(a);
                 posicion++;
             }
         }
     }
     
-    public void añadirAlumnoACurso(Alumno alumno, int curso){
-        this.alumnosCurso.get(curso).add(alumno);
+    public void añadirAlumnoAAsignatura(Alumno alumno, int asignatura){
+        this.alumnosAsignatura.get(asignatura).add(alumno);
     }
     
-    public HashMap<Integer, ArrayList<Alumno>> getAlumnosCurso() {
-        return alumnosCurso;
+    public HashMap<Integer, ArrayList<Alumno>> getAlumnosAsignatura() {
+        return alumnosAsignatura;
     }
     
-    public void updateNotasFinales(int curso, int i, int asignatura) throws SQLException {
-        Alumno alumno = this.getAlumnosCurso().get(curso).get(i);
+    public void updateNotasFinales(int i, int asignatura) throws SQLException {
+        Alumno alumno = this.getAlumnosAsignatura().get(asignatura).get(i);
         Statement st = DBConnection.getConnection().createStatement();
         String sqlNotas = "UPDATE notafinal SET "
                 + "idAsignatura = " + asignatura + ", "
@@ -78,8 +89,8 @@ public class ControladorAlumno {
         }
     }
     
-    public void updateNotas(int asignatura, int idPrueba, int i, int curso, boolean update) throws SQLException {
-        Alumno alumno = this.getAlumnosCurso().get(curso).get(i);
+    public void updateNotas(int asignatura, int idPrueba, int i, boolean update) throws SQLException {
+        Alumno alumno = this.getAlumnosAsignatura().get(asignatura).get(i);
         Statement st = DBConnection.getConnection().createStatement();
         if (alumno.getNotas().get(idPrueba) != null){
             if (update){

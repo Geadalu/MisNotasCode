@@ -31,14 +31,12 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
     int asignatura;
-    int curso;
     boolean presionado;
 
 
-    public NuevaPruebaWindow(String strAsignatura, int asignatura, int curso, ControladorAlumno contAlumnos) {
+    public NuevaPruebaWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos) {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
-        this.curso = curso;
         contPruebas = new ControladorPrueba();
         presionado = false;
         initComponents();
@@ -59,7 +57,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         cursosGrupo.add(rdbtnSeleccionar);
         cursosGrupo.add(rdbtnTodos);
 
-        if (contAlumnos.getAlumnosCurso().isEmpty()) {
+        if (contAlumnos.getAlumnosAsignatura().isEmpty()) {
             System.out.println("Constructor de NuevaTareaWindow dice: Por algún motivo, el controlador de alumnos está vacío.");
         }
 
@@ -412,7 +410,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             Object[] row = new Object[3];
 
             //TODO esto solo se rellena si se le da al botón cargar tabla
-            for (Alumno alumno : contAlumnos.getAlumnosCurso().get(curso)) {
+            for (Alumno alumno : contAlumnos.getAlumnosAsignatura().get(asignatura)) {
                 row[0] = alumno.getNombre();
                 row[1] = alumno.getApellidos();
                 model.addRow(row);

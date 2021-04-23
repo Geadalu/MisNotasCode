@@ -21,7 +21,6 @@ import objects.ControladorPrueba;
  * @author lucia
  */
 public class InformeAlumnoWindow extends javax.swing.JFrame {
-    int curso;
     int asignatura;
     ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
@@ -31,8 +30,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     /**
      * Creates new form InformeAlumnoWindow
      */
-    public InformeAlumnoWindow(Alumno alumno, int asignatura, int curso, ControladorAlumno contAlumnos) {
-        this.curso = curso;
+    public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos) {
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
@@ -553,10 +551,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
-        if (alumno.getPosicion() != contAlumnos.getAlumnosCurso().get(curso).size()-1){
+        if (alumno.getPosicion() != contAlumnos.getAlumnosAsignatura().get(asignatura).size()-1){
             //guardar campos
-            cargarCampos(contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()+1));
-            this.alumno = contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()+1);
+            cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()+1));
+            this.alumno = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()+1);
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -564,8 +562,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (alumno.getPosicion() != 0){
             //guardar campos
-            cargarCampos(contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()-1));
-            this.alumno = contAlumnos.getAlumnosCurso().get(curso).get(alumno.getPosicion()-1);
+            cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()-1));
+            this.alumno = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()-1);
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 

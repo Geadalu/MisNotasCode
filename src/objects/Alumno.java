@@ -22,7 +22,6 @@ public class Alumno {
     private String nombre;
     private String apellidos;
     private String dni;
-    private int idCurso;
     private String fechaNacimiento;
     private HashMap<Integer, Double> notas;
     private HashMap<Integer, ArrayList<Double>> notasFinales; //asignatura && notas de los trimestres 1, 2, 3 y final
@@ -30,12 +29,11 @@ public class Alumno {
 
     
 
-    public Alumno(int idAlumno, String nombre, String apellidos, String dni, int idCurso, String fechaNacimiento) {
+    public Alumno(int idAlumno, String nombre, String apellidos, String dni, String fechaNacimiento) {
         this.idAlumno = idAlumno;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.dni = dni;
-        this.idCurso = idCurso;
         this.fechaNacimiento = fechaNacimiento;
         this.notas = new HashMap<>(); //idPrueba, nota
         this.notasFinales = new HashMap<>(); //asignatura && notas de los trimestres 1, 2, 3 y final
@@ -56,7 +54,6 @@ public class Alumno {
             this.nombre = resultAlumnos.getString("nombre");
             this.apellidos = resultAlumnos.getString("apellidos");
             this.dni = resultAlumnos.getString("dni");
-            this.idCurso = resultAlumnos.getInt("idCurso");
             this.fechaNacimiento = resultAlumnos.getString("fechaNacimiento");
         }
         this.idAlumno = idAlumno;
@@ -97,13 +94,11 @@ public class Alumno {
                 + this.nombre + "', '"
                 + this.apellidos + "', '"
                 + this.dni + "', '"
-                + this.idCurso + "', '"
                 + this.fechaNacimiento + "'"
                 + ")";
 
         Statement st = DBConnection.getConnection().createStatement();
         st.executeUpdate(sqlAlumno);
-
     }
     
     
@@ -122,11 +117,7 @@ public class Alumno {
     public String getDni() {
         return dni;
     }
-    
-    public int getIdCurso() {
-        return idCurso;
-    }
-    
+
     public String getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -157,10 +148,6 @@ public class Alumno {
 
     public void setDni(String dni) {
         this.dni = dni;
-    }
-
-    public void setIdCurso(int idCurso) {
-        this.idCurso = idCurso;
     }
 
     public void setFechaNacimiento(String fechaNacimiento) {

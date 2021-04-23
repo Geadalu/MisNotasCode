@@ -28,15 +28,13 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
     int asignatura;
-    int curso;
     int idPrueba;
     HashMap<String, Integer> pruebaConID = new HashMap<String, Integer>(); //para almacenar las pruebas con sus IDs
    
     
-    public CalificarPruebasWindow(String strAsignatura, int asignatura, int curso, ControladorAlumno contAlumnos) {
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos) {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
-        this.curso = curso;
         this.contPruebas = new ControladorPrueba();
         initComponents();
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
@@ -274,7 +272,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             model.setRowCount(0);
             //Cargar tabla
             Object [] row = new Object[3];
-            for (Alumno alumno : this.contAlumnos.getAlumnosCurso().get(curso)) {
+            for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
                 row[0] = alumno.getApellidos();
                 row[1] = alumno.getNombre();
                 row[2] = alumno.getNotas().get(pruebaConID.get(comboTrimestre.getSelectedItem().toString()));
@@ -292,7 +290,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         
         for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
-            HashMap<Integer, Double> notas = contAlumnos.getAlumnosCurso().get(curso).get(i).getNotas();
+            HashMap<Integer, Double> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
             if (model.getValueAt(i, 2) == null) {
                 notas.put(idPrueba, null);
             } else if (notas.get(idPrueba) == null){
@@ -302,10 +300,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 notas.replace(idPrueba, Double.parseDouble(model.getValueAt(i,2).toString()));
                 update = true;
             }
-            contAlumnos.getAlumnosCurso().get(curso).get(i).setNotas(notas);
+            contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
             
             try {
-                contAlumnos.updateNotas(asignatura, idPrueba, i, curso, update);
+                contAlumnos.updateNotas(asignatura, idPrueba, i, update);
             } catch (SQLException e){
                 //AuxiliarMethods.showWarning(e.toString());
                 System.out.println(e.toString());

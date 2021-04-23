@@ -18,14 +18,14 @@ import noname.DBConnection;
  */
 public class ControladorPrueba {
     
-     private HashMap<Integer, ArrayList<Prueba>> pruebasAsignatura;
+     private HashMap<Integer, ArrayList<Prueba>> pruebasAsignatura; //idAsignatura, lista de pruebas
      
      public ControladorPrueba() {
         this.pruebasAsignatura = new HashMap<>();
-        this.pruebasAsignatura.put(1, new ArrayList<>()); //pruebas de matemáticas
-        this.pruebasAsignatura.put(2, new ArrayList<>());
-        this.pruebasAsignatura.put(3, new ArrayList<>());
-        this.pruebasAsignatura.put(4, new ArrayList<>());
+        this.pruebasAsignatura.put(11, new ArrayList<>()); //pruebas de matemáticas 3ºA
+        this.pruebasAsignatura.put(12, new ArrayList<>()); //pruebas de matemáticas 3ºB
+        this.pruebasAsignatura.put(13, new ArrayList<>()); //pruebas de matemáticas 3ºC
+        this.pruebasAsignatura.put(33, new ArrayList<>()); //pruebas de lengua
         //TODO cómo controlar el número de asignaturas?
     }
      
@@ -47,8 +47,6 @@ public class ControladorPrueba {
     public void añadirPruebaAAsignatura(Prueba prueba, int asignatura){
         this.pruebasAsignatura.get(asignatura).add(prueba);
     }
-    
-    
 
     public HashMap<Integer, ArrayList<Prueba>> getPruebasAsignatura() {
         return pruebasAsignatura;
