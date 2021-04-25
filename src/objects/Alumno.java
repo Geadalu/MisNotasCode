@@ -89,8 +89,13 @@ public class Alumno {
         }
     }
     
-    public void commitNuevoAlumno() throws SQLException {
-        String sqlAlumno = "INSERT INTO alumno (nombre, apellidos, dni, idCurso, fechaNacimiento) VALUES ('"
+    /**
+     * Commit a la base de datos de un alumno nuevo a la tabla alumno
+     * @return el idAlumno del nuevo alumno
+     * @throws SQLException 
+     */
+    public int commitNuevoAlumno() throws SQLException {
+        String sqlAlumno = "INSERT INTO alumno (nombre, apellidos, dni, fechaNacimiento) VALUES ('"
                 + this.nombre + "', '"
                 + this.apellidos + "', '"
                 + this.dni + "', '"
@@ -99,8 +104,19 @@ public class Alumno {
 
         Statement st = DBConnection.getConnection().createStatement();
         st.executeUpdate(sqlAlumno);
+        
+        sqlAlumno = "SELECT idAlumno FROM alumno WHERE dni = '"+this.dni+"'";
+        st = DBConnection.getConnection().createStatement();
+        ResultSet resultidAlumno = st.executeQuery(sqlAlumno);
+        
+        if (resultidAlumno.next()){
+            return resultidAlumno.getInt("idAlumno");
+        } else {
+            return 0;
+        }
+       
     }
-    
+      
     
     public int getIdAlumno() {
         return idAlumno;

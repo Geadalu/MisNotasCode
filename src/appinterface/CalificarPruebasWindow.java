@@ -78,7 +78,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         lblImagen2 = new javax.swing.JLabel();
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(35, 0), new java.awt.Dimension(35, 0), new java.awt.Dimension(35, 32767));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
         setBounds(new java.awt.Rectangle(600, 200, 0, 0));
         setResizable(false);

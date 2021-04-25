@@ -6,6 +6,7 @@
 package appinterface;
 
 import auxiliar.AuxiliarMethods;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Creates new form InformeAlumnoWindow
+     * @param alumno
+     * @param asignatura
+     * @param contAlumnos 
      */
     public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos) {
         this.asignatura = asignatura;
@@ -38,7 +42,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         
         try {
             this.contPruebas.cargarPruebasAsignatura(asignatura);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
         }
       
@@ -47,7 +51,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
          
     }
     
-    public void cargarCampos(Alumno alumno){
+    private void cargarCampos(Alumno alumno){
         lblApellidos.setText(alumno.getApellidos());
         lblNombre.setText(alumno.getNombre());
         lblDNI.setText(alumno.getDni());

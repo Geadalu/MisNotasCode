@@ -22,10 +22,10 @@ public class ControladorPrueba {
      
      public ControladorPrueba() {
         this.pruebasAsignatura = new HashMap<>();
-        this.pruebasAsignatura.put(11, new ArrayList<>()); //pruebas de matemáticas 3ºA
-        this.pruebasAsignatura.put(12, new ArrayList<>()); //pruebas de matemáticas 3ºB
-        this.pruebasAsignatura.put(13, new ArrayList<>()); //pruebas de matemáticas 3ºC
-        this.pruebasAsignatura.put(33, new ArrayList<>()); //pruebas de lengua
+        this.pruebasAsignatura.put(131, new ArrayList<>()); //pruebas de matemáticas 3ºA
+        this.pruebasAsignatura.put(132, new ArrayList<>()); //pruebas de matemáticas 3ºB
+        this.pruebasAsignatura.put(133, new ArrayList<>()); //pruebas de matemáticas 3ºC
+        this.pruebasAsignatura.put(331, new ArrayList<>()); //pruebas de lengua 3ºA
         //TODO cómo controlar el número de asignaturas?
     }
      

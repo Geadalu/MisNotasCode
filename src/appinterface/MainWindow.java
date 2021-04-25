@@ -6,43 +6,32 @@
 package appinterface;
 
 import auxiliar.AuxiliarMethods;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import noname.DBConnection;
 import objects.Alumno;
 import objects.ControladorAlumno;
+import objects.ControladorCurso;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -55,6 +44,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class MainWindow extends javax.swing.JFrame {
 
     ControladorAlumno contAlumnos;
+    ControladorCurso contCursos;
     ButtonGroup cursosGrupo;
     ButtonGroup asignaturasGrupo;
 
@@ -64,24 +54,39 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         getDateTime();
+        ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
+        
+        try {
+            contCursos = new ControladorCurso();
+        } catch (SQLException e){
+            AuxiliarMethods.showWarning(e.toString());
+        }
 
         
-        //exclusion de los rdbtn cursos
+        //exclusión de los rdbtn cursos
         cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnc1);
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
         cursosGrupo.add(rdbtnc4);
         
+        //exclusión de los rdbtn asignaturas
         asignaturasGrupo = new ButtonGroup();
         asignaturasGrupo.add(rdbtnmat3A);
+        asignaturasGrupo.add(rdbtnlen3A);
         asignaturasGrupo.add(rdbtnmat3C);
+        asignaturasGrupo.add(rdbtnrel4A);
+        asignaturasGrupo.add(rdbtncon1A);
+        
+        rdbtnmat3A.setEnabled(false);
+        rdbtnlen3A.setEnabled(false);
+        rdbtnmat3C.setEnabled(false);
 
-        //rdbtnmat3A.setVisible(false);
+        rdbtncon1A.setVisible(false);
         //rdbtnmat3C.setVisible(false);
 
-        //TODO: mostrar rdbtn cursos
+        //TODO: mostrar rdbtn cursos --> necesario LOGIN
         try {
             this.contAlumnos = new ControladorAlumno();
         } catch (SQLException e){
@@ -108,8 +113,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        ventormentaPicture = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         nombreAsignatura = new javax.swing.JLabel();
@@ -135,6 +139,15 @@ public class MainWindow extends javax.swing.JFrame {
         btnGuardarTabla = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         rdbtnmat3A = new javax.swing.JRadioButton();
+        rdbtnlen3A = new javax.swing.JRadioButton();
+        rdbtnrel4A = new javax.swing.JRadioButton();
+        jButton1 = new javax.swing.JButton();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        jLabel10 = new javax.swing.JLabel();
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        rdbtncon1A = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -156,74 +169,75 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("mainWindow");
+        setTitle("Ventana principal");
         setBounds(new java.awt.Rectangle(450, 50, 0, 0));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel2.setName("panelPrincipal"); // NOI18N
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
-        jPanel2Layout.columnWidths = new int[] {0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0};
-        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
+        jPanel2Layout.columnWidths = new int[] {0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0};
+        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
         jPanel2.setLayout(jPanel2Layout);
 
         jLabel3.setText("Bienvenido/a, @User");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(jLabel3, gridBagConstraints);
 
         fecha.setText("@Fecha");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(fecha, gridBagConstraints);
 
         hora.setText("@Hora");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(hora, gridBagConstraints);
 
         jLabel6.setText("Tiene tareas por calificar en:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 22;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel6, gridBagConstraints);
 
         jLabel7.setText("@TareasCalificar");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 22;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel7, gridBagConstraints);
 
-        jLabel8.setText("Estas son las asignaturas que más frecuenta:");
+        jLabel8.setText("Maestr@: Lucía Calzado");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel8, gridBagConstraints);
 
-        jLabel9.setText("@FreqAsignatura1");
+        ventormentaPicture.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 4;
-        jPanel2.add(jLabel9, gridBagConstraints);
-
-        jLabel10.setText("@FreqAsignatura2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 28;
-        gridBagConstraints.gridy = 4;
-        jPanel2.add(jLabel10, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        jPanel2.add(ventormentaPicture, gridBagConstraints);
 
         jLabel11.setText("Cursos:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(jLabel11, gridBagConstraints);
@@ -231,16 +245,20 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel12.setText("Asignaturas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(jLabel12, gridBagConstraints);
 
-        nombreAsignatura.setText(" ");
+        nombreAsignatura.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         nombreAsignatura.setName("nombreAsignatura"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 15;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         jPanel2.add(nombreAsignatura, gridBagConstraints);
 
         jTextArea1.setEditable(false);
@@ -251,9 +269,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTextArea1.setMaximumSize(new java.awt.Dimension(143, 52));
         jTextArea1.setPreferredSize(new java.awt.Dimension(143, 52));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridwidth = 11;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         jPanel2.add(jTextArea1, gridBagConstraints);
@@ -270,7 +288,7 @@ public class MainWindow extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, true, true
+                false, false, true, true, true, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -296,33 +314,33 @@ public class MainWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.gridwidth = 23;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 25;
         gridBagConstraints.gridheight = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jScrollPane1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 14;
         jPanel2.add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 18;
+        gridBagConstraints.gridy = 8;
         jPanel2.add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 29;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 33;
         jPanel2.add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridheight = 5;
         jPanel2.add(filler5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 35;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 39;
         jPanel2.add(filler6, gridBagConstraints);
 
         jTextArea2.setEditable(false);
@@ -331,9 +349,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jTextArea2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de todos los alumnos \nen ese trimestre.");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 28;
-        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridwidth = 11;
         jPanel2.add(jTextArea2, gridBagConstraints);
 
         btnCalificar.setText("Calificar tareas o pruebas");
@@ -344,23 +362,23 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridx = 22;
+        gridBagConstraints.gridy = 40;
         gridBagConstraints.gridwidth = 5;
         jPanel2.add(btnCalificar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 38;
-        gridBagConstraints.gridwidth = 33;
+        gridBagConstraints.gridy = 44;
+        gridBagConstraints.gridwidth = 37;
         jPanel2.add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 32;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 35;
+        gridBagConstraints.gridx = 44;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 39;
         jPanel2.add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 11;
         jPanel2.add(filler8, gridBagConstraints);
 
@@ -372,8 +390,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 40;
         gridBagConstraints.gridwidth = 7;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
 
@@ -385,13 +403,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnmat3C, gridBagConstraints);
 
-        rdbtnc2.setText("2ºA");
+        rdbtnc2.setText("4ºA");
         rdbtnc2.setName("rdbtnc2"); // NOI18N
         rdbtnc2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -399,8 +417,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridx = 14;
+        gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc2, gridBagConstraints);
 
         rdbtnc3.setText("3ºA");
@@ -412,7 +430,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc3, gridBagConstraints);
 
         rdbtnc4.setText("3ºC");
@@ -424,7 +442,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc4, gridBagConstraints);
 
         rdbtnc1.setText("1ºA");
@@ -435,8 +453,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc1, gridBagConstraints);
 
         btnGuardarTabla.setText("Guardar tabla");
@@ -447,11 +465,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridy = 40;
         jPanel2.add(btnGuardarTabla, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridy = 32;
         jPanel2.add(filler9, gridBagConstraints);
 
         rdbtnmat3A.setText("Matemáticas 3ºA");
@@ -462,11 +480,89 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnmat3A, gridBagConstraints);
+
+        rdbtnlen3A.setText("Lengua Castellana 3ºA");
+        rdbtnlen3A.setName("rdbtnmat3C"); // NOI18N
+        rdbtnlen3A.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbtnlen3AActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 14;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(rdbtnlen3A, gridBagConstraints);
+
+        rdbtnrel4A.setText("Religiones 4ºA");
+        rdbtnrel4A.setName("rdbtnmat3C"); // NOI18N
+        rdbtnrel4A.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbtnrel4AActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(rdbtnrel4A, gridBagConstraints);
+
+        jButton1.setText("Editar usuario");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridheight = 3;
+        jPanel2.add(jButton1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 28;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridheight = 25;
+        jPanel2.add(filler10, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 33;
+        jPanel2.add(filler11, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 35;
+        jPanel2.add(filler12, gridBagConstraints);
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
+        jLabel10.setText("C.P. Ventormenta");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 21;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(jLabel10, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 45;
+        jPanel2.add(filler13, gridBagConstraints);
+
+        rdbtncon1A.setText("Conocimiento del Medio 1ºA");
+        rdbtncon1A.setName("rdbtnmat3C"); // NOI18N
+        rdbtncon1A.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbtncon1AActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(rdbtncon1A, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -611,7 +707,26 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        //Añadir curso     
+        boolean sale = false;
+        Pattern p = Pattern.compile("\\dº\\p{Upper}");
+        Matcher m;
+        while (!sale) {
+            String curso = JOptionPane.showInputDialog("Escribe el número del curso y su letra (ej. 3ºA):");
+            try {
+                m = p.matcher(curso);
+                sale = m.matches();
+                if (!sale){
+                    AuxiliarMethods.showWarning("El curso está mal escrito.\nEjemplo: 3ºA.");
+                } else {
+                    contCursos.commitNuevoCurso(curso);
+                    sale = true;
+                }
+            } catch (NullPointerException e){
+                sale = true;
+            }
+            
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -627,47 +742,62 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
+        int idAsignatura = getAsignatura();
+        if (getCurso() != 0 && idAsignatura != 0){
+            try {
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
-        try {
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                int returnValue = jfc.showOpenDialog(null);
 
-            int returnValue = jfc.showOpenDialog(null);
-
-            File file = null;
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                file = jfc.getSelectedFile();
-            }
-
-            FileInputStream fis = new FileInputStream(file);   //obtaining bytes from the file  
-            //creating Workbook instance that refers to .xlsx file  
-            XSSFWorkbook wb = new XSSFWorkbook(fis);
-            XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-            Iterator<Row> itr = sheet.iterator();    //iterating over excel file  
-            while (itr.hasNext()) {
-                Object[] alumno = new Object[4];
-                int i = 0;
-                Row row = itr.next();
-                Iterator<Cell> cellIterator = row.cellIterator();   //iterating over each column  
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    alumno[i] = cell.toString();
-                    i++;
+                File file = null;
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    file = jfc.getSelectedFile();
                 }
-                Alumno a = new Alumno();
-                a.setApellidos(alumno[0].toString());
-                a.setNombre(alumno[1].toString());
-                a.setDni(alumno[2].toString());
-                a.setFechaNacimiento(alumno[3].toString());
 
-                contAlumnos.añadirAlumnoAAsignatura(a, getAsignatura());
-                a.commitNuevoAlumno();
+                FileInputStream fis = new FileInputStream(file);   //obtaining bytes from the file  
+                //creating Workbook instance that refers to .xlsx file  
+                XSSFWorkbook wb = new XSSFWorkbook(fis);
+                XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
+                Iterator<Row> itr = sheet.iterator();    //iterating over excel file  
+                while (itr.hasNext()) {
+                    Object[] alumno = new Object[4];
+                    int i = 0;
+                    Row row = itr.next();
+                    Iterator<Cell> cellIterator = row.cellIterator();   //iterating over each column  
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        alumno[i] = cell.toString();
+                        i++;
+                    }
+                    Alumno a = new Alumno();
+                    a.setApellidos(alumno[0].toString());
+                    a.setNombre(alumno[1].toString());
+                    a.setDni(alumno[2].toString());
+                    a.setFechaNacimiento(alumno[3].toString());
+                    a.setIdAlumno(a.commitNuevoAlumno());
+
+                    if (contAlumnos.esOptativa(getAsignatura())){
+                        contAlumnos.añadirAlumnoAAsignatura(a, idAsignatura);
+                        contAlumnos.commitAlumnoAsignatura(a, idAsignatura);
+                    } else {
+                        //se tiene que añadir el alumno a todas las asignaturas del curso actual
+                        contAlumnos.añadirAlumnoACurso(a, idAsignatura);
+                        contAlumnos.commitAlumnoCurso(a, idAsignatura); //commit el alumno a todas las asignaturas de un curso
+                    }
+                    
+                    
+                }
+            } catch (SQLIntegrityConstraintViolationException e1) {
+                AuxiliarMethods.showWarning("Error.\nDNI del alumno duplicado. Revise el Excel.");
+                //TODO --> si el excel no se ha podido cargar bien, mostrar esto con un mensaje de cómo se debe cargar el excel
+                //JOptionPane.showMessageDialog(new JFrame(), "Eggs are not supposed to be green.");
+            }  catch (FileNotFoundException e2){
+                AuxiliarMethods.showWarning("Error.\nNo se encuentra el archivo especificado.");
+            }  catch (Exception e3){
+                AuxiliarMethods.showWarning(e3.toString());
             }
-        } catch (Exception e) {
-            AuxiliarMethods.showWarning(e.toString());
-            //TODO --> si el excel no se ha podido cargar bien, mostrar esto con un mensaje de cómo se debe cargar el excel
-            //JOptionPane.showMessageDialog(new JFrame(), "Eggs are not supposed to be green.");
         }
+        cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -712,27 +842,53 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
-        //Curso 2ºA
+        //Curso 4ºA
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        model.setRowCount(0);
         asignaturasGrupo.clearSelection();
+        rdbtnmat3A.setVisible(false);
+        rdbtnlen3A.setVisible(false);
+        rdbtnmat3C.setVisible(false);
+        rdbtncon1A.setVisible(false);
+        rdbtnrel4A.setVisible(true);
     }//GEN-LAST:event_rdbtnc2ActionPerformed
 
     private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
         //Curso 3ºA
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        model.setRowCount(0);
         asignaturasGrupo.clearSelection();
         rdbtnmat3A.setVisible(true);
+        rdbtnlen3A.setVisible(true);
+        rdbtnlen3A.setEnabled(true);
+        rdbtnmat3A.setEnabled(true);
+        rdbtncon1A.setVisible(false);        
         rdbtnmat3C.setVisible(false);
         
     }//GEN-LAST:event_rdbtnc3ActionPerformed
 
     private void rdbtnc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc4ActionPerformed
         //Curso 3ºC
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        model.setRowCount(0);
         asignaturasGrupo.clearSelection();
         rdbtnmat3C.setVisible(true);
+        rdbtnmat3C.setEnabled(true);
         rdbtnmat3A.setVisible(false);
+        rdbtnlen3A.setVisible(false);
+        rdbtncon1A.setVisible(false);
     }//GEN-LAST:event_rdbtnc4ActionPerformed
 
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
         //Curso 1ºA 
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        model.setRowCount(0);
+        asignaturasGrupo.clearSelection();
+        rdbtnrel4A.setVisible(false);
+        rdbtnmat3A.setVisible(false);
+        rdbtnlen3A.setVisible(false);
+        rdbtnmat3C.setVisible(false);
+        rdbtncon1A.setVisible(true);
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
     private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
@@ -782,36 +938,78 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaMouseClicked
 
+    /**
+     * Seleccionar botón Matemáticas 3ºA
+     * @param evt 
+     */
     private void rdbtnmat3AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnmat3AActionPerformed
-        // TODO add your handling code here:
         nombreAsignatura.setText(rdbtnmat3A.getText());
         cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtnmat3AActionPerformed
 
+    /**
+     * Seleccionar botón Matemáticas 3ºC
+     * @param evt 
+     */
     private void rdbtnmat3CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnmat3CActionPerformed
         nombreAsignatura.setText(rdbtnmat3C.getText());
         cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtnmat3CActionPerformed
 
+    /**
+     * Seleccionar botón Lengua 3ºA
+     * @param evt 
+     */
+    private void rdbtnlen3AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnlen3AActionPerformed
+        nombreAsignatura.setText(rdbtnlen3A.getText());
+        cargarTabla(getCurso(), getAsignatura());
+    }//GEN-LAST:event_rdbtnlen3AActionPerformed
+
+    private void rdbtnrel4AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnrel4AActionPerformed
+        nombreAsignatura.setText(rdbtnrel4A.getText());
+        cargarTabla(getCurso(), getAsignatura());
+    }//GEN-LAST:event_rdbtnrel4AActionPerformed
+
+    private void rdbtncon1AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtncon1AActionPerformed
+        nombreAsignatura.setText(rdbtncon1A.getText());
+        cargarTabla(getCurso(), getAsignatura());
+    }//GEN-LAST:event_rdbtncon1AActionPerformed
+
+    /**
+     * Devuelve un curso, pero lo uso principalmente para comprobar si se ha seleccionado curso
+     * @return el curso seleccionado, o 0 si no hay ninguno
+     */
     public int getCurso() {
-        //Ver qué curso está seleccionado
+        
         if (rdbtnc1.isSelected()) {
             return 1;
         } else if (rdbtnc2.isSelected()) {
-            return 2;
+            return 4;
         } else if (rdbtnc3.isSelected()) {
             return 3;
         } else if (rdbtnc4.isSelected()) {
-            return 4;
+            return 3;
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
         }
         return 0;
     }
 
+    /**
+     * Devuelve la asignatura seleccionada
+     * @return el código de la asignatura o 0 si no hay ninguna seleccionada
+     */
     public int getAsignatura() {
-        if (rdbtnmat3A.isSelected() || rdbtnmat3C.isSelected()) {
-            return 13; //Matemáticas de 3º
+        if (rdbtnmat3A.isSelected()) {
+            return 131; //Matemáticas de 3ºA
+        } else if (rdbtnmat3C.isSelected()){
+            return 133; //Matemáticas de 3ºC
+        } else if (rdbtnlen3A.isSelected()){
+            return 331; //Lengua de 3ºA
+        } else if (rdbtnrel4A.isSelected()){
+            return 441; //Religiones de 4ºA
+        } else if (rdbtncon1A.isSelected()){
+            return 211; //Conocimiento del Medio 1ºA
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Selecciona una asignatura primero.");
         }
@@ -905,6 +1103,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnNuevaTarea;
     private javax.swing.JLabel fecha;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler12;
+    private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -914,6 +1116,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel hora;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -921,7 +1124,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -950,9 +1152,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdbtnc2;
     private javax.swing.JRadioButton rdbtnc3;
     private javax.swing.JRadioButton rdbtnc4;
+    private javax.swing.JRadioButton rdbtncon1A;
+    private javax.swing.JRadioButton rdbtnlen3A;
     private javax.swing.JRadioButton rdbtnmat3A;
     private javax.swing.JRadioButton rdbtnmat3C;
+    private javax.swing.JRadioButton rdbtnrel4A;
     private javax.swing.JTable tabla;
+    private javax.swing.JLabel ventormentaPicture;
     // End of variables declaration//GEN-END:variables
 
 }
