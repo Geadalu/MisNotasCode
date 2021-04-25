@@ -44,7 +44,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class MainWindow extends javax.swing.JFrame {
 
     ControladorAlumno contAlumnos;
-    ControladorCurso contCursos;
     ButtonGroup cursosGrupo;
     ButtonGroup asignaturasGrupo;
 
@@ -56,13 +55,6 @@ public class MainWindow extends javax.swing.JFrame {
         getDateTime();
         ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
-        
-        try {
-            contCursos = new ControladorCurso();
-        } catch (SQLException e){
-            AuxiliarMethods.showWarning(e.toString());
-        }
-
         
         //exclusión de los rdbtn cursos
         cursosGrupo = new ButtonGroup();
@@ -708,25 +700,10 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         //Añadir curso     
-        boolean sale = false;
-        Pattern p = Pattern.compile("\\dº\\p{Upper}");
-        Matcher m;
-        while (!sale) {
-            String curso = JOptionPane.showInputDialog("Escribe el número del curso y su letra (ej. 3ºA):");
-            try {
-                m = p.matcher(curso);
-                sale = m.matches();
-                if (!sale){
-                    AuxiliarMethods.showWarning("El curso está mal escrito.\nEjemplo: 3ºA.");
-                } else {
-                    contCursos.commitNuevoCurso(curso);
-                    sale = true;
-                }
-            } catch (NullPointerException e){
-                sale = true;
-            }
-            
-        }
+        NuevoCursoWindow ncw = new NuevoCursoWindow();
+        ncw.pack();
+        ncw.setVisible(true);
+        ncw.setMinimumSize(ncw.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

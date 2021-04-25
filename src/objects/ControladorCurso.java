@@ -6,9 +6,11 @@
 package objects;
 
 import auxiliar.AuxiliarMethods;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import noname.DBConnection;
 
@@ -18,10 +20,17 @@ import noname.DBConnection;
  */
 public class ControladorCurso {
     
-    private HashMap<String, Integer> correspLetras;
+    private final HashMap<String, Integer> correspLetras;
+    private final HashMap<Integer, String> cursos;
+
     
-    public ControladorCurso() throws SQLException{
+    public ControladorCurso(){
+        this.cursos = new HashMap<>();
         this.correspLetras = new HashMap<>();
+        rellenarLetras();
+    }
+    
+    private void rellenarLetras(){
         correspLetras.put("A", 1);
         correspLetras.put("B", 2);
         correspLetras.put("C", 3);
@@ -33,6 +42,22 @@ public class ControladorCurso {
         correspLetras.put("I", 9);
     }
     
+    public void cargarCursos() throws SQLException {
+        if (this.cursos.isEmpty()) {
+            String sqlCursos = "SELECT * FROM curso";
+            try {
+                Statement st = DBConnection.getConnection().createStatement();
+                ResultSet resultCursos = st.executeQuery(sqlCursos);
+
+                while (resultCursos.next()) {
+                    cursos.put(resultCursos.getInt("idCurso"), resultCursos.getString("nombreCurso"));
+                }
+            } catch (SQLException e) {
+                AuxiliarMethods.showWarning(e.toString());
+            }
+        }
+    }
+
     public void commitNuevoCurso(String nombreCurso){
         String letraCurso = String.valueOf(nombreCurso.charAt(2));
         String numCurso = String.valueOf(nombreCurso.charAt(0));
@@ -49,6 +74,10 @@ public class ControladorCurso {
         } catch (SQLException e){
             AuxiliarMethods.showWarning("Letra no válida. Consulte con un administrador.\nLetras válidas: A->I");
         }
+    }
+    
+    public HashMap<Integer, String> getCursos() {
+        return cursos;
     }
     
 }
