@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/Alumno.java</file>
+            <file>file:/C:/Users/lucia/Desktop/NoName/src/appsmallinterfaces/EditarCompetenciasWindow.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/Prueba.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/appinterface/MainWindow.java</file>
-            <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/ControladorCurso.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/ControladorAlumno.java</file>
+            <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/Competencia.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/appinterface/NuevaPruebaWindow.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/appinterface/CalificarPruebasWindow.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/appinterface/InformeAlumnoWindow.java</file>
+            <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/ControladorCompetencia.java</file>
             <file>file:/C:/Users/lucia/Desktop/NoName/src/objects/ControladorPrueba.java</file>
         </group>
     </open-files>

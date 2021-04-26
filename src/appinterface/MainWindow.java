@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.NuevoCursoWindow;
 import auxiliar.AuxiliarMethods;
 import java.io.File;
 import java.io.FileInputStream;

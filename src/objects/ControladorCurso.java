@@ -45,15 +45,11 @@ public class ControladorCurso {
     public void cargarCursos() throws SQLException {
         if (this.cursos.isEmpty()) {
             String sqlCursos = "SELECT * FROM curso";
-            try {
-                Statement st = DBConnection.getConnection().createStatement();
-                ResultSet resultCursos = st.executeQuery(sqlCursos);
+            Statement st = DBConnection.getConnection().createStatement();
+            ResultSet resultCursos = st.executeQuery(sqlCursos);
 
-                while (resultCursos.next()) {
-                    cursos.put(resultCursos.getInt("idCurso"), resultCursos.getString("nombreCurso"));
-                }
-            } catch (SQLException e) {
-                AuxiliarMethods.showWarning(e.toString());
+            while (resultCursos.next()) {
+                cursos.put(resultCursos.getInt("idCurso"), resultCursos.getString("nombreCurso"));
             }
         }
     }
