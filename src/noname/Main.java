@@ -14,7 +14,7 @@ public class Main {
 
     public static void main (String [] args){
 
-//        MainWindow mw = new MainWindow(1, 0);
+//        MainWindow mw = new MainWindow(1, 20);
 //        mw.pack();
 //        mw.setVisible(true);
 //        mw.setMinimumSize(mw.getSize());

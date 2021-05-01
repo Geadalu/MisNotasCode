@@ -246,18 +246,23 @@ public class LoginWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        boolean entrar = false;
         try {
             contMaestro.comprobarCredenciales(Integer.parseInt(txtUsuario.getText()), new String(txtContraseña.getPassword()));
+            entrar = true;
         } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
         } catch (NumberFormatException e) {
             AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+            
         }
         
-        MainWindow mw = new MainWindow(1, tamañoLetra);
-        mw.pack();
-        mw.setVisible(true);
-        mw.setMinimumSize(mw.getSize());
+        if (entrar){
+            MainWindow mw = new MainWindow(1, tamañoLetra);
+            mw.pack();
+            mw.setVisible(true);
+            mw.setMinimumSize(mw.getSize());
+        }
 
     }//GEN-LAST:event_btnIniciarActionPerformed
 
@@ -296,21 +301,21 @@ public class LoginWindow extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         tamañoLetra = Integer.valueOf(comboTamaño.getSelectedItem().toString());
         
-        lblContraseña.setFont(new Font(lblContraseña.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblUsuario.setFont(new Font(lblUsuario.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lbltamañoLetra.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblIdentificacion.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.PLAIN, tamañoLetra+lblIdentificacion.getFont().getSize()));
+        lblContraseña.setFont(new Font(lblContraseña.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblUsuario.setFont(new Font(lblUsuario.getFont().getName(), Font.BOLD, tamañoLetra));
+        lbltamañoLetra.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblIdentificacion.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra+lblIdentificacion.getFont().getSize()));
         
-        comboTamaño.setFont(new Font(comboTamaño.getFont().getName(), Font.PLAIN, tamañoLetra));
+        comboTamaño.setFont(new Font(comboTamaño.getFont().getName(), Font.BOLD, tamañoLetra));
         
-        txtContraseña.setFont(new Font(txtContraseña.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtUsuario.setFont(new Font(txtUsuario.getFont().getName(), Font.PLAIN, tamañoLetra));
+        txtContraseña.setFont(new Font(txtContraseña.getFont().getName(), Font.BOLD, tamañoLetra));
+        txtUsuario.setFont(new Font(txtUsuario.getFont().getName(), Font.BOLD, tamañoLetra));
         
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnIniciar.setFont(new Font(btnIniciar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnOpciones.setFont(new Font(btnOpciones.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnIniciar.setFont(new Font(btnIniciar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnOpciones.setFont(new Font(btnOpciones.getFont().getName(), Font.BOLD, tamañoLetra));
         
-        chbxMostrar.setFont(new Font(chbxMostrar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        chbxMostrar.setFont(new Font(chbxMostrar.getFont().getName(), Font.BOLD, tamañoLetra));
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 

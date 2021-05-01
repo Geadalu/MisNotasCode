@@ -35,6 +35,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      * @param alumno
      * @param asignatura
      * @param contAlumnos 
+     * @param tamañoLetra
      */
     public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos, int tamañoLetra) {
         this.asignatura = asignatura;
@@ -49,11 +50,13 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             AuxiliarMethods.showWarning(e.toString());
         }
         
+        initComponents();
+        
         if (tamañoLetra != 0) {
             cambiarTamañoLetra();
         }
       
-        initComponents();
+        
         cargarCampos(alumno);
          
     }
@@ -578,7 +581,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
-    public void cambiarTamañoLetra(){
+    private void cambiarTamañoLetra(){
         lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, tamañoLetra));
         lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, tamañoLetra));
         lblFinal1.setFont(new Font(lblFinal1.getFont().getName(), Font.BOLD, tamañoLetra));

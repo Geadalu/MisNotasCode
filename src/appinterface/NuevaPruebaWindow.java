@@ -497,6 +497,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_chbxTrabajoAdicActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (!txtPeso.getText().equals("") || chbxTrabajoAdic.isSelected()){
         int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
         int trimestre = Integer.parseInt(String.valueOf(comboTrimestre.getSelectedItem().toString().charAt(0)));
         //validamos que la fecha tiene el formato correcto
@@ -515,6 +516,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         } catch (ParseException pe) {
             AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
         } 
+        
+        } else {
+            AuxiliarMethods.showWarning("Si la prueba no tiene peso, seleccione Trabajo adicional.");
+        }
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtFechaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaMousePressed
