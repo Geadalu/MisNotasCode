@@ -3,7 +3,7 @@
  * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
  * Universidad de Castilla-La Mancha
  */
-package objects;
+package controladores;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import noname.DBConnection;
+import objects.Alumno;
 
 /**
  *

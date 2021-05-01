@@ -18,9 +18,10 @@ import javax.swing.ImageIcon;
 import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
-import objects.ControladorAlumno;
-import objects.ControladorCompetencia;
-import objects.ControladorPrueba;
+import controladores.ControladorAlumno;
+import controladores.ControladorCompetencia;
+import controladores.ControladorPrueba;
+import java.awt.Font;
 import objects.Prueba;
 
 /**
@@ -36,12 +37,14 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     ControladorPrueba contPruebas;
     ControladorCompetencia contCompetencias;
     int asignatura;
+    int tamañoLetra;
     boolean presionado;
 
 
-    public NuevaPruebaWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos) {
+    public NuevaPruebaWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, int tamañoLetra) {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
+        this.tamañoLetra = tamañoLetra;
         contPruebas = new ControladorPrueba();
         contCompetencias = new ControladorCompetencia();
         presionado = false;
@@ -51,6 +54,10 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             contPruebas.cargarPruebasAsignatura(asignatura);
         } catch (SQLException e){
             AuxiliarMethods.showWarning(e.toString());
+        }
+        
+        if (tamañoLetra != 0) {
+            cambiarTamañoLetra();
         }
         
         getDate();
@@ -93,7 +100,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         txtTitulo = new javax.swing.JTextField();
         rdbtnTodos = new javax.swing.JRadioButton();
         rdbtnSeleccionar = new javax.swing.JRadioButton();
-        lblSubrayado = new javax.swing.JLabel();
+        lblTituloGrande = new javax.swing.JLabel();
         txtPeso = new javax.swing.JTextField();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
@@ -231,15 +238,15 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 20;
         getContentPane().add(rdbtnSeleccionar, gridBagConstraints);
 
-        lblSubrayado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblSubrayado.setText("Crear una nueva tarea o prueba");
+        lblTituloGrande.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblTituloGrande.setText("Crear una nueva tarea o prueba");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblSubrayado, gridBagConstraints);
+        getContentPane().add(lblTituloGrande, gridBagConstraints);
 
         txtPeso.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -554,6 +561,34 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 //        
 //    }
     
+    public void cambiarTamañoLetra(){
+        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblFecha.setFont(new Font(lblFecha.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblPeso.setFont(new Font(lblPeso.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTrimestre.setFont(new Font(lblTrimestre.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTituloGrande.setFont(new Font(lblTrimestre.getFont().getName(), Font.BOLD, tamañoLetra+lblTituloGrande.getFont().getSize()));
+        
+        txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
+        txtFecha.setFont(new Font(txtFecha.getFont().getName(), Font.BOLD, tamañoLetra));
+        txtPeso.setFont(new Font(txtPeso.getFont().getName(), Font.BOLD, tamañoLetra));
+        txtTitulo.setFont(new Font(txtTitulo.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnEditCompeten.setFont(new Font(btnEditCompeten.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        rdbtnSeleccionar.setFont(new Font(rdbtnSeleccionar.getFont().getName(), Font.BOLD, tamañoLetra));
+        rdbtnTodos.setFont(new Font(rdbtnTodos.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        chbxTrabajoAdic.setFont(new Font(rdbtnSeleccionar.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
+        
+        comboTrimestre.setFont(new Font(comboTrimestre.getFont().getName(), Font.PLAIN, tamañoLetra));
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -585,8 +620,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblImagen1;
     private javax.swing.JLabel lblImagen2;
     private javax.swing.JLabel lblPeso;
-    private javax.swing.JLabel lblSubrayado;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTituloGrande;
     private javax.swing.JLabel lblTrimestre;
     private javax.swing.JList<String> listaCompetencias;
     private javax.swing.JPanel panelTabla;

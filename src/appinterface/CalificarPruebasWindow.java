@@ -12,34 +12,40 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
-import objects.ControladorAlumno;
-import objects.ControladorPrueba;
+import controladores.ControladorAlumno;
+import controladores.ControladorPrueba;
+import java.awt.Font;
 
 /**
  *
  * @author lucia
  */
 public class CalificarPruebasWindow extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form CalificarTareasWindow
      */
-    
     ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
     int asignatura;
     int idPrueba;
+    int tamañoLetra;
     HashMap<String, Integer> pruebaConID = new HashMap<String, Integer>(); //para almacenar las pruebas con sus IDs
-   
-    
-    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos) {
-        this.contAlumnos = contAlumnos;
+
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, int tamañoLetra) {
         this.asignatura = asignatura;
+        this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
+        this.tamañoLetra = tamañoLetra;
         initComponents();
+        
+        if (tamañoLetra != 0) {
+            cambiarTamañoLetra();
+        }
+        
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
         cargarPruebas();
-        
+
         txtAsignatura.setText(strAsignatura);
         lblImagen1.setIcon(new ImageIcon("assets/notepad.png"));
         lblImagen2.setIcon(new ImageIcon("assets/tick.png"));
@@ -267,17 +273,17 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
     private void comboTrimestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTrimestreActionPerformed
         // TODO add your handling code here:
-         if (!comboTrimestre.getSelectedItem().toString().equals("Seleccionar...")){
+        if (!comboTrimestre.getSelectedItem().toString().equals("Seleccionar...")) {
             DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
             model.setRowCount(0);
             //Cargar tabla
-            Object [] row = new Object[3];
+            Object[] row = new Object[3];
             for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
                 row[0] = alumno.getApellidos();
                 row[1] = alumno.getNombre();
                 row[2] = alumno.getNotas().get(pruebaConID.get(comboTrimestre.getSelectedItem().toString()));
                 model.addRow(row);
-            }  
+            }
             idPrueba = pruebaConID.get(comboTrimestre.getSelectedItem().toString());
         }
     }//GEN-LAST:event_comboTrimestreActionPerformed
@@ -288,45 +294,60 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
         //no funciona, hay que debugear
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        
+
         for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
             HashMap<Integer, Double> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
             if (model.getValueAt(i, 2) == null) {
                 notas.put(idPrueba, null);
-            } else if (notas.get(idPrueba) == null){
-                notas.put(idPrueba, Double.parseDouble(model.getValueAt(i,2).toString()));
+            } else if (notas.get(idPrueba) == null) {
+                notas.put(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()));
                 update = false;
             } else {
-                notas.replace(idPrueba, Double.parseDouble(model.getValueAt(i,2).toString()));
+                notas.replace(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()));
                 update = true;
             }
             contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
-            
+
             try {
                 contAlumnos.updateNotas(asignatura, idPrueba, i, update);
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 //AuxiliarMethods.showWarning(e.toString());
                 System.out.println(e.toString());
             }
-        }  
+        }
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    public void cargarPruebas(){
+    public void cargarPruebas() {
         int i;
-        
+
         try {
             contPruebas.cargarPruebasAsignatura(asignatura);
-        } catch (Exception e){
+        } catch (Exception e) {
             AuxiliarMethods.showWarning(e.toString());
         }
         comboTrimestre.addItem("Seleccionar...");
-        for (i=0; i<contPruebas.getPruebasAsignatura().get(asignatura).size(); i++){
-           comboTrimestre.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba());
-           pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba());
+        for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).size(); i++) {
+            comboTrimestre.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba());
+            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba());
         }
     }
-   
+    
+    public void cambiarTamañoLetra(){
+        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTarea.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, tamañoLetra+lblTitulo.getFont().getSize()));
+        
+        txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        comboTrimestre.setFont(new Font(comboTrimestre.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        tabla.setFont(new Font(tabla.getFont().getName(), Font.BOLD, tamañoLetra));
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;

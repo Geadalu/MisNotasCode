@@ -17,7 +17,7 @@ import noname.DBConnection;
  */
 public class Prueba {
 
-    int idPrueba;
+    public int idPrueba;
     int idAsignatura;
     String nombrePrueba;
     String fechaPrueba;

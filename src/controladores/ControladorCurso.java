@@ -3,7 +3,7 @@
  * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
  * Universidad de Castilla-La Mancha
  */
-package objects;
+package controladores;
 
 import auxiliar.AuxiliarMethods;
 import java.sql.ResultSet;

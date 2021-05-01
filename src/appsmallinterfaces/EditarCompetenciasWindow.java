@@ -11,8 +11,8 @@ import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import objects.Competencia;
-import objects.ControladorCompetencia;
-import objects.ControladorPrueba;
+import controladores.ControladorCompetencia;
+import controladores.ControladorPrueba;
 
 /**
  *

@@ -14,8 +14,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
-import objects.ControladorAlumno;
-import objects.ControladorPrueba;
+import controladores.ControladorAlumno;
+import controladores.ControladorPrueba;
+import java.awt.Font;
 
 /**
  *
@@ -27,6 +28,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     ControladorPrueba contPruebas;
     Alumno alumno;
     int index = 0; //indice para navegar entre los alumnos
+    int tamañoLetra;
 
     /**
      * Creates new form InformeAlumnoWindow
@@ -34,16 +36,21 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      * @param asignatura
      * @param contAlumnos 
      */
-    public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos) {
+    public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos, int tamañoLetra) {
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
         this.alumno = alumno;
+        this.tamañoLetra = tamañoLetra;
         
         try {
             this.contPruebas.cargarPruebasAsignatura(asignatura);
         } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
+        }
+        
+        if (tamañoLetra != 0) {
+            cambiarTamañoLetra();
         }
       
         initComponents();
@@ -237,42 +244,42 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         getContentPane().add(lblDNI, gridBagConstraints);
 
-        lblMedia1.setText("Media(1):");
+        lblMedia1.setText("Media:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblMedia1, gridBagConstraints);
 
-        lblFinal1.setText("Final(1):");
+        lblFinal1.setText("Final:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblFinal1, gridBagConstraints);
 
-        lblMedia2.setText("Media(2):");
+        lblMedia2.setText("Media:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblMedia2, gridBagConstraints);
 
-        lblFinal2.setText("Final(2):");
+        lblFinal2.setText("Final:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblFinal2, gridBagConstraints);
 
-        lblMedia3.setText("Media(3):");
+        lblMedia3.setText("Media:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblMedia3, gridBagConstraints);
 
-        lblFinal3.setText("Final(3):");
+        lblFinal3.setText("Final:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 11;
@@ -571,6 +578,40 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
+    public void cambiarTamañoLetra(){
+        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblFinal1.setFont(new Font(lblFinal1.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblFinal2.setFont(new Font(lblFinal2.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblFinal3.setFont(new Font(lblFinal3.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMedia1.setFont(new Font(lblMedia1.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMedia1N.setFont(new Font(lblMedia1N.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMedia2.setFont(new Font(lblMedia2.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMedia2N.setFont(new Font(lblMedia2N.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMedia3.setFont(new Font(lblMedia3.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMedia3N.setFont(new Font(lblMedia3N.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMediaAsignatura.setFont(new Font(lblMediaAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblMediaAsignaturaN.setFont(new Font(lblMediaAsignaturaN.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTrimestre1.setFont(new Font(lblTrimestre1.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTrimestre2.setFont(new Font(lblTrimestre2.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTrimestre3.setFont(new Font(lblTrimestre3.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblTitulo.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, tamañoLetra+lblTitulo.getFont().getSize()));
+        
+        btnAnterior.setFont(new Font(btnAnterior.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnSiguiente.setFont(new Font(btnSiguiente.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        tabla1.setFont(new Font(tabla1.getFont().getName(), Font.BOLD, tamañoLetra));
+        tabla2.setFont(new Font(tabla2.getFont().getName(), Font.BOLD, tamañoLetra));
+        tabla3.setFont(new Font(tabla3.getFont().getName(), Font.BOLD, tamañoLetra));
+        
+        final1.setFont(new Font(final1.getFont().getName(), Font.BOLD, tamañoLetra));
+        final2.setFont(new Font(final2.getFont().getName(), Font.BOLD, tamañoLetra));
+        final3.setFont(new Font(final3.getFont().getName(), Font.BOLD, tamañoLetra));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnCancelar;

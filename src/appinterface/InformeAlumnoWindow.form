@@ -110,7 +110,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblMedia1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Media(1):"/>
+        <Property name="text" type="java.lang.String" value="Media:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -120,7 +120,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblFinal1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Final(1):"/>
+        <Property name="text" type="java.lang.String" value="Final:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -130,7 +130,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblMedia2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Media(2):"/>
+        <Property name="text" type="java.lang.String" value="Media:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -140,7 +140,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblFinal2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Final(2):"/>
+        <Property name="text" type="java.lang.String" value="Final:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -150,7 +150,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblMedia3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Media(3):"/>
+        <Property name="text" type="java.lang.String" value="Media:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -160,7 +160,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblFinal3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Final(3):"/>
+        <Property name="text" type="java.lang.String" value="Final:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

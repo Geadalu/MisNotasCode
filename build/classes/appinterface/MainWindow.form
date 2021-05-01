@@ -29,57 +29,6 @@
             <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="jMenu5">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cursos"/>
-                <Property name="name" type="java.lang.String" value="subMenuCursos" noResource="true"/>
-              </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="A&#xf1;adir curso..."/>
-                    <Property name="name" type="java.lang.String" value="mnbtnAnadirCurso" noResource="true"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Editar curso..."/>
-                    <Property name="name" type="java.lang.String" value="mnbtnEditarCurso" noResource="true"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="jMenu6">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Asignaturas"/>
-              </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="A&#xf1;adir asignatura..."/>
-                    <Property name="name" type="java.lang.String" value="mnbtnAnadirAsignatura" noResource="true"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Modificar asignatura..."/>
-                    <Property name="name" type="java.lang.String" value="mnbtnModifAsignatura" noResource="true"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu7">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alumnos"/>
@@ -192,7 +141,7 @@
         <Property name="name" type="java.lang.String" value="panelPrincipal" noResource="true"/>
       </Properties>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lblBienvenida">
           <Properties>
             <Property name="text" type="java.lang.String" value="Bienvenido/a, @User"/>
           </Properties>
@@ -222,7 +171,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="lblTareasCalificar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tiene tareas por calificar en:"/>
           </Properties>
@@ -232,7 +181,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="lblTareasCalificar1">
           <Properties>
             <Property name="text" type="java.lang.String" value="@TareasCalificar"/>
           </Properties>
@@ -242,7 +191,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
+        <Component class="javax.swing.JLabel" name="lblMaestro">
           <Properties>
             <Property name="text" type="java.lang.String" value="Maestr@: Luc&#xed;a Calzado"/>
           </Properties>
@@ -264,7 +213,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
+        <Component class="javax.swing.JLabel" name="lblCursos">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cursos:"/>
           </Properties>
@@ -274,7 +223,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel12">
+        <Component class="javax.swing.JLabel" name="lblAsignaturas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Asignaturas:"/>
           </Properties>
@@ -297,7 +246,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextArea" name="jTextArea1">
+        <Component class="javax.swing.JTextArea" name="txtHagaClic">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -498,7 +447,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextArea" name="jTextArea2">
+        <Component class="javax.swing.JTextArea" name="txtHagaClic2">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -745,7 +694,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnEditarUsuario">
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar usuario"/>
           </Properties>
@@ -818,7 +767,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel10">
+        <Component class="javax.swing.JLabel" name="lblCentro">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="2"/>
@@ -998,11 +947,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="10_jLabel3">
-              <CodeVariable name="jLabel3" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="10_lblBienvenida">
+              <CodeVariable name="lblBienvenida" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel3"/>
+                  <ComponentRef name="lblBienvenida"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1231,11 +1180,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="27_jLabel6">
-              <CodeVariable name="jLabel6" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="27_lblTareasCalificar">
+              <CodeVariable name="lblTareasCalificar" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel6"/>
+                  <ComponentRef name="lblTareasCalificar"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1300,11 +1249,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="32_jLabel7">
-              <CodeVariable name="jLabel7" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="32_lblTareasCalificar1">
+              <CodeVariable name="lblTareasCalificar1" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel7"/>
+                  <ComponentRef name="lblTareasCalificar1"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1382,11 +1331,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="38_jLabel8">
-              <CodeVariable name="jLabel8" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="38_lblMaestro">
+              <CodeVariable name="lblMaestro" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel8"/>
+                  <ComponentRef name="lblMaestro"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1559,11 +1508,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="51_jLabel11">
-              <CodeVariable name="jLabel11" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="51_lblCursos">
+              <CodeVariable name="lblCursos" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel11"/>
+                  <ComponentRef name="lblCursos"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1654,11 +1603,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="58_jLabel12">
-              <CodeVariable name="jLabel12" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="58_lblAsignaturas">
+              <CodeVariable name="lblAsignaturas" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel12"/>
+                  <ComponentRef name="lblAsignaturas"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1844,11 +1793,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="72_jTextArea1">
-              <CodeVariable name="jTextArea1" type="8194" declaredType="javax.swing.JTextArea"/>
+            <CodeExpression id="72_txtHagaClic">
+              <CodeVariable name="txtHagaClic" type="8194" declaredType="javax.swing.JTextArea"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jTextArea1"/>
+                  <ComponentRef name="txtHagaClic"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -2327,11 +2276,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="107_jTextArea2">
-              <CodeVariable name="jTextArea2" type="8194" declaredType="javax.swing.JTextArea"/>
+            <CodeExpression id="107_txtHagaClic2">
+              <CodeVariable name="txtHagaClic2" type="8194" declaredType="javax.swing.JTextArea"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jTextArea2"/>
+                  <ComponentRef name="txtHagaClic2"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -3405,11 +3354,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="185_jButton1">
-              <CodeVariable name="jButton1" type="8194" declaredType="javax.swing.JButton"/>
+            <CodeExpression id="185_btnEditarUsuario">
+              <CodeVariable name="btnEditarUsuario" type="8194" declaredType="javax.swing.JButton"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jButton1"/>
+                  <ComponentRef name="btnEditarUsuario"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -3694,11 +3643,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="206_jLabel10">
-              <CodeVariable name="jLabel10" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="206_lblCentro">
+              <CodeVariable name="lblCentro" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="jLabel10"/>
+                  <ComponentRef name="lblCentro"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
