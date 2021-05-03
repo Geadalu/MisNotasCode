@@ -7,7 +7,6 @@ package appinterface;
 
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +29,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     int asignatura;
     int idPrueba;
     int tamañoLetra;
-    HashMap<String, Integer> pruebaConID = new HashMap<String, Integer>(); //para almacenar las pruebas con sus IDs
+    HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
 
     public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, int tamañoLetra) {
         this.asignatura = asignatura;
@@ -318,7 +317,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    public void cargarPruebas() {
+    private void cargarPruebas() {
         int i;
 
         try {
@@ -333,19 +332,19 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         }
     }
     
-    public void cambiarTamañoLetra(){
-        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTarea.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, tamañoLetra+lblTitulo.getFont().getSize()));
+    private void cambiarTamañoLetra(){
+        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTarea.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, tamañoLetra+lblTitulo.getFont().getSize()));
         
-        txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
+        txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        comboTrimestre.setFont(new Font(comboTrimestre.getFont().getName(), Font.BOLD, tamañoLetra));
+        comboTrimestre.setFont(new Font(comboTrimestre.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        tabla.setFont(new Font(tabla.getFont().getName(), Font.BOLD, tamañoLetra));
+        tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

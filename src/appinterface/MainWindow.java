@@ -1020,46 +1020,46 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public void cambiarTamañoLetra() {
-        lblAsignaturas.setFont(new Font(lblAsignaturas.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMaestro.setFont(new Font(lblMaestro.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.BOLD, tamañoLetra));
-        fecha.setFont(new Font(fecha.getFont().getName(), Font.BOLD, tamañoLetra));
-        hora.setFont(new Font(hora.getFont().getName(), Font.BOLD, tamañoLetra));
+        lblAsignaturas.setFont(new Font(lblAsignaturas.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMaestro.setFont(new Font(lblMaestro.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        fecha.setFont(new Font(fecha.getFont().getName(), Font.PLAIN, tamañoLetra));
+        hora.setFont(new Font(hora.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, tamañoLetra+lblCentro.getFont().getSize()));
         ventormentaPicture.setSize(ventormentaPicture.getWidth() +tamañoLetra, ventormentaPicture.getHeight()+tamañoLetra);
         
-        btnCalificar.setFont(new Font(btnCalificar.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnEditarUsuario.setFont(new Font(btnEditarUsuario.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnGuardarTabla.setFont(new Font(btnGuardarTabla.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnNuevaTarea.setFont(new Font(btnNuevaTarea.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnCalificar.setFont(new Font(btnCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnEditarUsuario.setFont(new Font(btnEditarUsuario.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnGuardarTabla.setFont(new Font(btnGuardarTabla.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnNuevaTarea.setFont(new Font(btnNuevaTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        rdbtnc1.setFont(new Font(rdbtnc1.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtnc3.setFont(new Font(rdbtnc3.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtnc4.setFont(new Font(rdbtnc4.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtnc2.setFont(new Font(rdbtnc2.getFont().getName(), Font.BOLD, tamañoLetra));
+        rdbtnc1.setFont(new Font(rdbtnc1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtnc3.setFont(new Font(rdbtnc3.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtnc4.setFont(new Font(rdbtnc4.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtnc2.setFont(new Font(rdbtnc2.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        rdbtnmat3A.setFont(new Font(rdbtnmat3A.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtnmat3C.setFont(new Font(rdbtnmat3C.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtnlen3A.setFont(new Font(rdbtnlen3A.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtnrel4A.setFont(new Font(rdbtnrel4A.getFont().getName(), Font.BOLD, tamañoLetra));
-        rdbtncon1A.setFont(new Font(rdbtncon1A.getFont().getName(), Font.BOLD, tamañoLetra));
+        rdbtnmat3A.setFont(new Font(rdbtnmat3A.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtnmat3C.setFont(new Font(rdbtnmat3C.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtnlen3A.setFont(new Font(rdbtnlen3A.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtnrel4A.setFont(new Font(rdbtnrel4A.getFont().getName(), Font.PLAIN, tamañoLetra));
+        rdbtncon1A.setFont(new Font(rdbtncon1A.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        jMenu1.setFont(new Font(jMenu1.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenu2.setFont(new Font(jMenu2.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenu3.setFont(new Font(jMenu3.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenu4.setFont(new Font(jMenu4.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenu7.setFont(new Font(jMenu7.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuBar1.setFont(new Font(jMenuBar1.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem1.setFont(new Font(jMenuItem1.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem10.setFont(new Font(jMenuItem10.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem11.setFont(new Font(jMenuItem11.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem6.setFont(new Font(jMenuItem6.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem7.setFont(new Font(jMenuItem7.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem8.setFont(new Font(jMenuItem8.getFont().getName(), Font.BOLD, tamañoLetra));
-        jMenuItem9.setFont(new Font(jMenuItem9.getFont().getName(), Font.BOLD, tamañoLetra));
+        jMenu1.setFont(new Font(jMenu1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenu2.setFont(new Font(jMenu2.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenu3.setFont(new Font(jMenu3.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenu4.setFont(new Font(jMenu4.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenu7.setFont(new Font(jMenu7.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuBar1.setFont(new Font(jMenuBar1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem1.setFont(new Font(jMenuItem1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem10.setFont(new Font(jMenuItem10.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem11.setFont(new Font(jMenuItem11.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem6.setFont(new Font(jMenuItem6.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem7.setFont(new Font(jMenuItem7.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem8.setFont(new Font(jMenuItem8.getFont().getName(), Font.PLAIN, tamañoLetra));
+        jMenuItem9.setFont(new Font(jMenuItem9.getFont().getName(), Font.PLAIN, tamañoLetra));
         
         tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
 

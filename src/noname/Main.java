@@ -7,22 +7,20 @@ package noname;
 
 import appinterface.MainWindow;
 import appsmallinterfaces.LoginWindow;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main {
 
     public static void main (String [] args){
 
-//        MainWindow mw = new MainWindow(1, 20);
-//        mw.pack();
-//        mw.setVisible(true);
-//        mw.setMinimumSize(mw.getSize());
+        MainWindow mw = new MainWindow(1, 16);
+        mw.pack();
+        mw.setVisible(true);
+        mw.setMinimumSize(mw.getSize());
 
-          LoginWindow lw = new LoginWindow();
-          lw.pack();
-          lw.setVisible(true);
-          lw.setMinimumSize(lw.getSize());
+//          LoginWindow lw = new LoginWindow();
+//          lw.pack();
+//          lw.setVisible(true);
+//          lw.setMinimumSize(lw.getSize());
 
     }
 }

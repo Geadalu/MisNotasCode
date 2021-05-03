@@ -582,37 +582,37 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void cambiarTamañoLetra(){
-        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblFinal1.setFont(new Font(lblFinal1.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblFinal2.setFont(new Font(lblFinal2.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblFinal3.setFont(new Font(lblFinal3.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMedia1.setFont(new Font(lblMedia1.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMedia1N.setFont(new Font(lblMedia1N.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMedia2.setFont(new Font(lblMedia2.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMedia2N.setFont(new Font(lblMedia2N.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMedia3.setFont(new Font(lblMedia3.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMedia3N.setFont(new Font(lblMedia3N.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMediaAsignatura.setFont(new Font(lblMediaAsignatura.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblMediaAsignaturaN.setFont(new Font(lblMediaAsignaturaN.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTrimestre1.setFont(new Font(lblTrimestre1.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTrimestre2.setFont(new Font(lblTrimestre2.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTrimestre3.setFont(new Font(lblTrimestre3.getFont().getName(), Font.BOLD, tamañoLetra));
-        lblTitulo.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, tamañoLetra+lblTitulo.getFont().getSize()));
+        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblFinal1.setFont(new Font(lblFinal1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblFinal2.setFont(new Font(lblFinal2.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblFinal3.setFont(new Font(lblFinal3.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMedia1.setFont(new Font(lblMedia1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMedia1N.setFont(new Font(lblMedia1N.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMedia2.setFont(new Font(lblMedia2.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMedia2N.setFont(new Font(lblMedia2N.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMedia3.setFont(new Font(lblMedia3.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMedia3N.setFont(new Font(lblMedia3N.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMediaAsignatura.setFont(new Font(lblMediaAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblMediaAsignaturaN.setFont(new Font(lblMediaAsignaturaN.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTrimestre1.setFont(new Font(lblTrimestre1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTrimestre2.setFont(new Font(lblTrimestre2.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTrimestre3.setFont(new Font(lblTrimestre3.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTitulo.setFont(new Font(lblApellidos.getFont().getName(), Font.PLAIN, tamañoLetra+lblTitulo.getFont().getSize()));
         
-        btnAnterior.setFont(new Font(btnAnterior.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.BOLD, tamañoLetra));
-        btnSiguiente.setFont(new Font(btnSiguiente.getFont().getName(), Font.BOLD, tamañoLetra));
+        btnAnterior.setFont(new Font(btnAnterior.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        btnSiguiente.setFont(new Font(btnSiguiente.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        tabla1.setFont(new Font(tabla1.getFont().getName(), Font.BOLD, tamañoLetra));
-        tabla2.setFont(new Font(tabla2.getFont().getName(), Font.BOLD, tamañoLetra));
-        tabla3.setFont(new Font(tabla3.getFont().getName(), Font.BOLD, tamañoLetra));
+        tabla1.setFont(new Font(tabla1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        tabla2.setFont(new Font(tabla2.getFont().getName(), Font.PLAIN, tamañoLetra));
+        tabla3.setFont(new Font(tabla3.getFont().getName(), Font.PLAIN, tamañoLetra));
         
-        final1.setFont(new Font(final1.getFont().getName(), Font.BOLD, tamañoLetra));
-        final2.setFont(new Font(final2.getFont().getName(), Font.BOLD, tamañoLetra));
-        final3.setFont(new Font(final3.getFont().getName(), Font.BOLD, tamañoLetra));
+        final1.setFont(new Font(final1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        final2.setFont(new Font(final2.getFont().getName(), Font.PLAIN, tamañoLetra));
+        final3.setFont(new Font(final3.getFont().getName(), Font.PLAIN, tamañoLetra));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
