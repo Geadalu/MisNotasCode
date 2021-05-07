@@ -31,9 +31,8 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
 import controladores.ControladorAlumno;
-import controladores.ControladorCurso;
-import controladores.ControladorMaestro;
 import java.awt.Font;
+import objects.Maestro;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -46,19 +45,34 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class MainWindow extends javax.swing.JFrame {
 
     ControladorAlumno contAlumnos;
-    ControladorMaestro contMaestro;
+    Maestro maestro;
     ButtonGroup cursosGrupo;
     ButtonGroup asignaturasGrupo;
     int tamañoLetra;
 
     /**
-     * Creates new form MainWindow
+     * 
+     * @param maestro
+     * @param tamañoLetra 
      */
-    public MainWindow(int idMaestro, int tamañoLetra) {
+    public MainWindow(Maestro maestro, int tamañoLetra) {
         initComponents();
         getDateTime();
         this.tamañoLetra = tamañoLetra;
+        this.maestro = maestro;
         ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
+        
+        
+       try {
+           maestro.cargarMaestro();
+       } catch (SQLException e){
+           AuxiliarMethods.showWarning("No se han podido cargar los datos del maestro.\nMás información: "+e.toString());
+       }
+        
+        lblBienvenida.setText("Bienvenido/a, "+maestro.getNombre());
+        lblMaestro.setText("Maestr@: "+maestro.getNombre());
+
+        
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
         //Cambiamos el tamaño de la letra si se ha pedido
@@ -938,7 +952,7 @@ public class MainWindow extends javax.swing.JFrame {
         return 0;
     }
 
-    public void getDateTime() {
+    private void getDateTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         fecha.setText(formatter.format(date));
@@ -1003,7 +1017,6 @@ public class MainWindow extends javax.swing.JFrame {
     public void calcularNotasMedias() {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         int i, j;
-        int cont = 0;
         double media = 0;
         ArrayList<Double> arrayNotas = new ArrayList<>();
         NumberFormat formatter = new DecimalFormat("#0.00");
@@ -1012,6 +1025,8 @@ public class MainWindow extends javax.swing.JFrame {
             for (j = 2; j < 5; j++) {
                 media += ((tabla.getValueAt(i, j) != null) ? Double.parseDouble(tabla.getValueAt(i, j).toString()) : 0.0);
                 if (media / 3 != 0) {
+                    //da error si uso el formatter para darle formato a las nuevas medias y que salgan con dos decimales
+                    //tabla.setValueAt(formatter.format(media / 3), i, 5);
                     tabla.setValueAt(media / 3, i, 5);
                 }
             }
@@ -1019,7 +1034,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    public void cambiarTamañoLetra() {
+    private void cambiarTamañoLetra() {
         lblAsignaturas.setFont(new Font(lblAsignaturas.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.PLAIN, tamañoLetra));

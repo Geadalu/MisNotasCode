@@ -7,12 +7,13 @@ package noname;
 
 import appinterface.MainWindow;
 import appsmallinterfaces.LoginWindow;
+import objects.Maestro;
 
 public class Main {
 
     public static void main (String [] args){
 
-        MainWindow mw = new MainWindow(1, 16);
+        MainWindow mw = new MainWindow(new Maestro(1, "1234"), 16);
         mw.pack();
         mw.setVisible(true);
         mw.setMinimumSize(mw.getSize());

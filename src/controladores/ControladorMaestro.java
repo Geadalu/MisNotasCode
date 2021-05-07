@@ -21,9 +21,9 @@ public class ControladorMaestro {
     public boolean comprobarCredenciales (int idMaestro, String contraseña) throws SQLException{
         String sqlCredenciales = "SELECT * FROM datossesion WHERE idMaestro = "+idMaestro+" AND password ='"+contraseña+"';";
         Statement st = DBConnection.getConnection().createStatement();
-        ResultSet resultPruebas = st.executeQuery(sqlCredenciales);
+        ResultSet resultCredenciales = st.executeQuery(sqlCredenciales);
         
-        if (resultPruebas.next()){
+        if (resultCredenciales.next()){
             this.idMaestro = idMaestro;
             return true;
         } else {
@@ -35,5 +35,24 @@ public class ControladorMaestro {
 
     public void cargarAsignaturas(int idMaestro){
         
+    }
+    
+    public String devolverNombre(int idMaestro) throws SQLException{
+        String sqlNombre = "SELECT nombre FROM maestro WHERE idMaestro = "+idMaestro;
+        Statement st = DBConnection.getConnection().createStatement();
+        ResultSet resultNombre= st.executeQuery(sqlNombre);
+        
+        if(resultNombre.next()){
+            return resultNombre.getString("nombre");
+        } else {
+            return "N/A";
+        }
+    }
+    
+    public void updateMaestro(int idMaestro, String nombre) throws SQLException{
+        String sqlMaestro = "UPDATE maestro SET (idMaestro, nombre) VALUES ("+idMaestro+", "+nombre+");";
+        Statement st = DBConnection.getConnection().createStatement();
+        
+        st.executeUpdate(sqlMaestro);
     }
 }

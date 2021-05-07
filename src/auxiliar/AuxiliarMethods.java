@@ -48,8 +48,16 @@ public class AuxiliarMethods {
     
     public static void printLista(List<?> list){
         int i;
-        System.out.println("Printeando lista...");
+        System.out.println("Imprimiendo lista...");
         for (i=0; i<list.size(); i++){
+            System.out.print(i+" ");
+        }
+    }
+    
+    public static void printArrayList(ArrayList array){
+        int i;
+        System.out.println("Imprimiendo arraylist...");
+        for (i=0; i<array.size(); i++){
             System.out.print(i+" ");
         }
     }

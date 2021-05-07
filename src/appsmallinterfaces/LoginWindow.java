@@ -8,7 +8,7 @@ package appsmallinterfaces;
 import appinterface.MainWindow;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
-import controladores.ControladorMaestro;
+import objects.Maestro;
 import java.awt.Font;
 
 /**
@@ -16,13 +16,10 @@ import java.awt.Font;
  * @author lucia
  */
 public class LoginWindow extends javax.swing.JFrame {
-
-    ControladorMaestro contMaestro;
     char mostrarContraseña;
     int tamañoLetra;
 
     public LoginWindow() {
-        contMaestro = new ControladorMaestro();
         initComponents();
         panelOpciones.setVisible(false);
         mostrarContraseña = txtContraseña.getEchoChar();
@@ -247,8 +244,16 @@ public class LoginWindow extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         boolean entrar = false;
+        Maestro maestro = new Maestro(Integer.parseInt(txtUsuario.getText()));
+        maestro.setContraseña(new String(txtContraseña.getPassword()));
         try {
-            contMaestro.comprobarCredenciales(Integer.parseInt(txtUsuario.getText()), new String(txtContraseña.getPassword()));
+            maestro.cargarMaestro();
+        } catch (SQLException e){
+            AuxiliarMethods.showWarning("No se ha podido el maestro desde la base de datos.\nMás detalles: "+e.toString());
+        }
+        
+        try {
+            maestro.comprobarCredenciales();
             entrar = true;
         } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
@@ -258,7 +263,7 @@ public class LoginWindow extends javax.swing.JFrame {
         }
         
         if (entrar){
-            MainWindow mw = new MainWindow(1, tamañoLetra);
+            MainWindow mw = new MainWindow(maestro, tamañoLetra);
             mw.pack();
             mw.setVisible(true);
             mw.setMinimumSize(mw.getSize());

@@ -5,6 +5,7 @@
  */
 package objects;
 
+import auxiliar.AuxiliarMethods;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,18 +19,22 @@ import noname.DBConnection;
 public class Prueba {
 
     public int idPrueba;
+
+
     int idAsignatura;
     String nombrePrueba;
     String fechaPrueba;
     int trimestre;
     int peso;
+    ArrayList competenciasPrueba;
 
-    public Prueba(int idAsignatura, String nombrePrueba, String fechaPrueba, int trimestre, int peso) {
+    public Prueba(int idAsignatura, String nombrePrueba, String fechaPrueba, int trimestre, int peso, ArrayList competenciasPrueba) {
         this.idAsignatura = idAsignatura;
         this.nombrePrueba = nombrePrueba;
         this.fechaPrueba = fechaPrueba;
         this.trimestre = trimestre;
         this.peso = peso;
+        this.competenciasPrueba = competenciasPrueba;
     }
     
     public Prueba(){
@@ -53,20 +58,44 @@ public class Prueba {
         }
     }
 
-    public void commitNuevaPrueba() {
-        String sqlPrueba = "INSERT INTO prueba (idAsignatura, nombrePrueba, fechaPrueba, trimestre, peso) VALUES ('" 
+    public int commitNuevaPrueba() throws SQLException {
+        String sqlPrueba = "INSERT INTO prueba (idAsignatura, nombrePrueba, fechaPrueba, trimestre, peso) VALUES ('"
                 + this.getIdAsignatura() + "', '"
                 + this.getNombrePrueba() + "', '"
                 + this.getFechaPrueba() + "', '"
                 + this.getTrimestre() + "', '"
                 + this.getPeso() + "'"
                 + ")";
-        try {
-            Statement st = DBConnection.getConnection().createStatement();
-            st.executeUpdate(sqlPrueba);
-        } catch (Exception e) {
-            System.out.println("commitPrueba dice: " + e.toString());
+
+        Statement st = DBConnection.getConnection().createStatement();
+        st.executeUpdate(sqlPrueba);
+        
+        sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = '"
+                +this.getIdAsignatura()+"' AND nombrePrueba = '"
+                +this.getNombrePrueba()+"' AND fechaPrueba = '"
+                +this.getFechaPrueba()+"';";
+        st = DBConnection.getConnection().createStatement();
+        ResultSet resultidPrueba = st.executeQuery(sqlPrueba);
+        
+        if (resultidPrueba.next()){
+            return resultidPrueba.getInt("idPrueba");
+        } else {
+            return 0;
         }
+
+    }
+    
+    public void commitCompetencias() throws SQLException{
+        Statement st;
+        for (int i=0; i<this.competenciasPrueba.size(); i++){
+            String sqlCompetencias = "INSERT INTO competenciasporprueba VALUES ("+this.competenciasPrueba.get(i)+", "+this.idPrueba+");";
+            
+            st = DBConnection.getConnection().createStatement();
+            st.executeUpdate(sqlCompetencias);
+        }
+        
+        
+        
     }
 
     public int getIdPrueba() {
@@ -111,6 +140,14 @@ public class Prueba {
 
     public void setPeso(int peso) {
         this.peso = peso;
+    }
+    
+        public void setIdPrueba(int idPrueba) {
+        this.idPrueba = idPrueba;
+    }
+
+    public void setCompetenciasPrueba(ArrayList competenciasPrueba) {
+        this.competenciasPrueba = competenciasPrueba;
     }
 
 }

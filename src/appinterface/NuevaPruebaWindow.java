@@ -18,7 +18,9 @@ import objects.Alumno;
 import controladores.ControladorAlumno;
 import controladores.ControladorCompetencia;
 import controladores.ControladorPrueba;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.HashMap;
 import objects.Competencia;
 import objects.Prueba;
@@ -51,16 +53,29 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         contCompetencias = new ControladorCompetencia();
         presionado = false;
         competenciaConID = new HashMap<>();
-        tabla.setEnabled(false);
 
-        descripcion.setEditable(false);
+        //asignamos los modelos de las listas
         listaComAct.setModel(modeloAct);
         listaComAsig.setModel(modeloAsig);
 
+        //para que el panel de descripción se ajuste al texto que contiene
         descripcion.setWrapStyleWord(true);
         descripcion.setLineWrap(true);
+        descripcion.setEditable(false);
+        
+        //ajustamos los paneles que contienen las listas
+        jPanel1.setMinimumSize(jPanel1.getSize());
+        jPanel2.setMinimumSize(jPanel2.getSize());
+        jPanel1.setPreferredSize(new Dimension(300, jPanel1.getPreferredSize().height));
+        jPanel2.setPreferredSize(new Dimension(300, jPanel2.getPreferredSize().height));
 
+        //cargamos listas y tabla de alumnos
         cargarCompetencias();
+        cargarTabla();
+        
+        //ajustamos la tabla para que se muestre correctamente al inicio
+        tabla.setEnabled(false);
+        seleccionarTodaTabla(true);
 
         try {
             contPruebas.cargarPruebasAsignatura(asignatura);
@@ -78,10 +93,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         ButtonGroup cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnSeleccionar);
         cursosGrupo.add(rdbtnTodos);
-
-        if (contAlumnos.getAlumnosAsignatura().isEmpty()) {
-            System.out.println("Constructor de NuevaTareaWindow dice: Por algún motivo, el controlador de alumnos está vacío.");
-        }
 
         txtAsignatura.setText(strAsignatura);
         //lblImagen1.setIcon(new ImageIcon("assets/plus.png"));
@@ -131,8 +142,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblCompetencias = new javax.swing.JLabel();
         lblNombrePrueba = new javax.swing.JLabel();
         lblComActuales = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listaComAct = new javax.swing.JList<>();
         lblDescripcion = new javax.swing.JLabel();
         lblComAsig = new javax.swing.JLabel();
         descripcion = new javax.swing.JTextArea();
@@ -142,7 +151,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler20 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         filler21 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         filler25 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
@@ -154,6 +162,13 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblDatos = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listaComAct = new javax.swing.JList<>();
+        lblNombreCompetencia = new javax.swing.JLabel();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
+        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva tarea");
@@ -427,7 +442,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         getContentPane().add(lblCompetencias, gridBagConstraints);
 
         lblNombrePrueba.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblNombrePrueba.setText("@nombrePrueba");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
         gridBagConstraints.gridy = 13;
@@ -442,22 +456,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(lblComActuales, gridBagConstraints);
-
-        listaComAct.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        listaComAct.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                listaComActMousePressed(evt);
-            }
-        });
-        jScrollPane2.setViewportView(listaComAct);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        getContentPane().add(jScrollPane2, gridBagConstraints);
 
         lblDescripcion.setText("Descripción:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -476,9 +474,9 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         descripcion.setRows(5);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridy = 33;
         gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         getContentPane().add(descripcion, gridBagConstraints);
 
@@ -524,11 +522,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridheight = 15;
         getContentPane().add(filler21, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 19;
-        gridBagConstraints.gridwidth = 6;
-        getContentPane().add(filler22, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -591,6 +584,45 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 10;
         getContentPane().add(filler4, gridBagConstraints);
 
+        listaComAct.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaComAct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                listaComActMousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(listaComAct);
+
+        jPanel2.add(jScrollPane2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 7;
+        getContentPane().add(jPanel2, gridBagConstraints);
+
+        lblNombreCompetencia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridwidth = 6;
+        getContentPane().add(lblNombreCompetencia, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 19;
+        getContentPane().add(filler7, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridheight = 2;
+        getContentPane().add(filler8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridwidth = 6;
+        getContentPane().add(filler14, gridBagConstraints);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -600,8 +632,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void rdbtnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnSeleccionarActionPerformed
-
         tabla.setEnabled(true);
+        seleccionarTodaTabla(false);
+    }//GEN-LAST:event_rdbtnSeleccionarActionPerformed
+    
+    private void cargarTabla(){
         DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
         if (model.getRowCount() == 0) {
             model.setRowCount(0);
@@ -616,12 +651,10 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
                 model.addRow(row);
             }
         }
-        panelTabla.setVisible(true);
-
-    }//GEN-LAST:event_rdbtnSeleccionarActionPerformed
-
+    }
     private void rdbtnTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnTodosActionPerformed
         tabla.setEnabled(false);
+        seleccionarTodaTabla(true);
     }//GEN-LAST:event_rdbtnTodosActionPerformed
 
     private void chbxTrabajoAdicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxTrabajoAdicActionPerformed
@@ -639,10 +672,17 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
             try {
                 dateFormat.parse(txtFecha.getText().trim());
-                Prueba p = new Prueba(asignatura, txtTitulo.getText(), txtFecha.getText(), trimestre, peso);
+                Prueba p = new Prueba(asignatura, txtTitulo.getText(), txtFecha.getText(), trimestre, peso, recogerCompetencias());
+                //hacer commit también en competenciasPorPrueba y guardar eso en algun sitio --> controladorPrueba.competenciasPrueba
 
                 contPruebas.añadirPruebaAAsignatura(p, asignatura);
-                p.commitNuevaPrueba();
+                try {
+                    p.setIdPrueba(p.commitNuevaPrueba());
+                    p.commitCompetencias();
+                } catch (SQLException e){
+                    AuxiliarMethods.showWarning("No se ha podido introducir la prueba en la base de datos.\nMás detalles: "+e.toString());
+        
+                }
 
                 this.dispose();
             } catch (ParseException pe) {
@@ -672,40 +712,23 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
     private void listaComActMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaComActMousePressed
         listaComAct = (JList) evt.getSource();
-        int index = 0;
 
         for (Competencia c1 : contCompetencias.getCompetenciasAsignatura().get(asignatura)) {
             if (c1.getIdCompetencia() == competenciaConID.get(modeloAct.get(listaComAct.getSelectedIndex()))) {
                 descripcion.setText(c1.getDescripcion());
             }
         }
-
-        if (evt.getClickCount() == 2 && listaComAct.locationToIndex(evt.getPoint()) != -1) { //doble clic
-            index = listaComAct.locationToIndex(evt.getPoint());
-            modeloAsig.addElement(modeloAct.get(index));
-            descripcion.setText("");
-            modeloAct.remove(index);
-
-        }
     }//GEN-LAST:event_listaComActMousePressed
 
     private void listaComAsigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaComAsigMouseClicked
         listaComAsig = (JList) evt.getSource();
-        int index = 0;
 
         for (Competencia c1 : contCompetencias.getCompetenciasAsignatura().get(asignatura)) {
             //System.out.println(modeloAsig.get(listaComAsig.getSelectedIndex()));
             if (c1.getIdCompetencia() == competenciaConID.get(modeloAsig.get(listaComAsig.getSelectedIndex()))) {
                 descripcion.setText(c1.getDescripcion());
+                lblNombreCompetencia.setText(c1.getNombre());
             }
-        }
-
-        if (evt.getClickCount() == 2 && listaComAsig.locationToIndex(evt.getPoint()) != -1) { //doble clic
-            index = listaComAsig.locationToIndex(evt.getPoint());
-
-            modeloAct.addElement(modeloAsig.get(index));
-            modeloAsig.remove(index);
-
         }
     }//GEN-LAST:event_listaComAsigMouseClicked
 
@@ -725,12 +748,10 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         if (listaComAct.getSelectedIndex() != -1) {
             for (Competencia c1 : contCompetencias.getCompetenciasAsignatura().get(asignatura)) {
                 if (c1.getIdCompetencia() == competenciaConID.get(modeloAct.get(listaComAct.getSelectedIndex()))) {
-                    descripcion.setText(c1.getDescripcion());
+                    descripcion.setText(c1.getDescripcion());                 
                 }
             }
-
             modeloAsig.addElement(modeloAct.get(listaComAct.getSelectedIndex()));
-            descripcion.setText("");
             modeloAct.remove(listaComAct.getSelectedIndex());
         }
     }//GEN-LAST:event_btnPasarIzquierdaActionPerformed
@@ -757,7 +778,21 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             modeloAsig.addElement(contCompetencias.getCompetenciasAsignatura().get(asignatura).get(i).getNombre());
             competenciaConID.put(contCompetencias.getCompetenciasAsignatura().get(asignatura).get(i).getNombre(), contCompetencias.getCompetenciasAsignatura().get(asignatura).get(i).getIdCompetencia());
         }
-
+    }
+    
+    private void seleccionarTodaTabla(boolean seleccionar){
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        for (int i=0; i<tabla.getRowCount(); i++){
+            model.setValueAt(seleccionar, i, 2);
+        }
+    }
+    
+    public ArrayList recogerCompetencias(){
+        ArrayList<Integer> listaCompetencias = new ArrayList<>();
+        for (int i=0; i<modeloAct.getSize(); i++){
+            listaCompetencias.add(competenciaConID.get(modeloAct.get(i)));
+        }
+        return listaCompetencias;
     }
 
     private void cambiarTamañoLetra() {
@@ -770,9 +805,10 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblPeso.setFont(new Font(lblPeso.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblTrimestre.setFont(new Font(lblTrimestre.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblNombreCompetencia.setFont(new Font(lblNombreCompetencia.getFont().getName(), Font.BOLD, tamañoLetra));
         lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, tamañoLetra + lblNombrePrueba.getFont().getSize()));
         lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.PLAIN, tamañoLetra + lblTituloGrande.getFont().getSize()));
-        lblDatos.setFont(new Font(lblDatos.getFont().getName(), Font.PLAIN, tamañoLetra + lblTituloGrande.getFont().getSize()));
+        lblDatos.setFont(new Font(lblDatos.getFont().getName(), Font.PLAIN, tamañoLetra + lblDatos.getFont().getSize()));
 
         txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
         txtFecha.setFont(new Font(txtFecha.getFont().getName(), Font.PLAIN, tamañoLetra));
@@ -810,6 +846,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler12;
     private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler16;
     private javax.swing.Box.Filler filler18;
@@ -817,7 +854,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
     private javax.swing.Box.Filler filler21;
-    private javax.swing.Box.Filler filler22;
     private javax.swing.Box.Filler filler23;
     private javax.swing.Box.Filler filler24;
     private javax.swing.Box.Filler filler25;
@@ -826,8 +862,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -838,6 +877,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblDatos;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblNombreCompetencia;
     private javax.swing.JLabel lblNombrePrueba;
     private javax.swing.JLabel lblPeso;
     private javax.swing.JLabel lblTitulo;
