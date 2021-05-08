@@ -52,9 +52,9 @@ public class MainWindow extends javax.swing.JFrame {
     int tamañoLetra;
 
     /**
-     * 
+     *
      * @param maestro
-     * @param tamañoLetra 
+     * @param tamañoLetra
      */
     public MainWindow(Maestro maestro, int tamañoLetra) {
         initComponents();
@@ -62,24 +62,26 @@ public class MainWindow extends javax.swing.JFrame {
         this.tamañoLetra = tamañoLetra;
         this.maestro = maestro;
         ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
-        
-        
-       try {
-           maestro.cargarMaestro();
-       } catch (SQLException e){
-           AuxiliarMethods.showWarning("No se han podido cargar los datos del maestro.\nMás información: "+e.toString());
-       }
-        
-        lblBienvenida.setText("Bienvenido/a, "+maestro.getNombre());
-        lblMaestro.setText("Maestr@: "+maestro.getNombre());
 
-        
+        try {
+            maestro.cargarMaestro();
+        } catch (SQLException e) {
+            AuxiliarMethods.showWarning("No se han podido cargar los datos del maestro.\nMás información: " + e.toString());
+        }       
+
+        lblBienvenida.setText("Bienvenido/a, " + maestro.getNombre());
+        nombreAsignatura.setText("Maestr@: " + maestro.getNombre());
+
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
         //Cambiamos el tamaño de la letra si se ha pedido
         if (tamañoLetra != 0) {
             cambiarTamañoLetra();
         }
+        
+        //Creamos los rdbtn cursos y asignaturas
+        crearCursos();
+        crearAsignaturas();
 
         //Buscar los cursos y las asignaturas del maestro
         //exclusión de los rdbtn cursos
@@ -87,19 +89,16 @@ public class MainWindow extends javax.swing.JFrame {
         cursosGrupo.add(rdbtnc1);
         cursosGrupo.add(rdbtnc2);
         cursosGrupo.add(rdbtnc3);
-        cursosGrupo.add(rdbtnc4);
 
         //exclusión de los rdbtn asignaturas
         asignaturasGrupo = new ButtonGroup();
         asignaturasGrupo.add(rdbtnmat3A);
         asignaturasGrupo.add(rdbtnlen3A);
-        asignaturasGrupo.add(rdbtnmat3C);
         asignaturasGrupo.add(rdbtnrel4A);
         asignaturasGrupo.add(rdbtncon1A);
 
         rdbtnmat3A.setEnabled(false);
         rdbtnlen3A.setEnabled(false);
-        rdbtnmat3C.setEnabled(false);
 
         rdbtncon1A.setVisible(false);
         //rdbtnmat3C.setVisible(false);
@@ -128,11 +127,10 @@ public class MainWindow extends javax.swing.JFrame {
         lblBienvenida = new javax.swing.JLabel();
         fecha = new javax.swing.JLabel();
         hora = new javax.swing.JLabel();
-        lblMaestro = new javax.swing.JLabel();
+        nombreAsignatura = new javax.swing.JLabel();
         ventormentaPicture = new javax.swing.JLabel();
         lblCursos = new javax.swing.JLabel();
         lblAsignaturas = new javax.swing.JLabel();
-        nombreAsignatura = new javax.swing.JLabel();
         txtHagaClic = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -140,17 +138,14 @@ public class MainWindow extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 32767));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         txtHagaClic2 = new javax.swing.JTextArea();
         btnCalificar = new javax.swing.JButton();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         btnNuevaTarea = new javax.swing.JButton();
-        rdbtnmat3C = new javax.swing.JRadioButton();
         rdbtnc2 = new javax.swing.JRadioButton();
         rdbtnc3 = new javax.swing.JRadioButton();
-        rdbtnc4 = new javax.swing.JRadioButton();
         rdbtnc1 = new javax.swing.JRadioButton();
         btnGuardarTabla = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
@@ -164,6 +159,8 @@ public class MainWindow extends javax.swing.JFrame {
         lblCentro = new javax.swing.JLabel();
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         rdbtncon1A = new javax.swing.JRadioButton();
+        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        lblMaestro1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -174,7 +171,6 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
 
@@ -185,8 +181,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel2.setName("panelPrincipal"); // NOI18N
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
-        jPanel2Layout.columnWidths = new int[] {0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0};
-        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
+        jPanel2Layout.columnWidths = new int[] {0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0};
+        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
         jPanel2.setLayout(jPanel2Layout);
 
         lblBienvenida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -194,7 +190,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(lblBienvenida, gridBagConstraints);
 
@@ -216,14 +212,13 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(hora, gridBagConstraints);
 
-        lblMaestro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblMaestro.setText("Maestr@: Lucía Calzado");
+        nombreAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridx = 38;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(lblMaestro, gridBagConstraints);
+        jPanel2.add(nombreAsignatura, gridBagConstraints);
 
         ventormentaPicture.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -238,7 +233,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 16;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(lblCursos, gridBagConstraints);
@@ -248,20 +242,9 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 18;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(lblAsignaturas, gridBagConstraints);
-
-        nombreAsignatura.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        nombreAsignatura.setName("nombreAsignatura"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.gridwidth = 15;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
-        jPanel2.add(nombreAsignatura, gridBagConstraints);
 
         txtHagaClic.setEditable(false);
         txtHagaClic.setBackground(getBackground());
@@ -271,9 +254,9 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic.setText("Haga clic en un alumno\npara desglosar sus notas.\n");
         txtHagaClic.setMaximumSize(new java.awt.Dimension(143, 52));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 28;
-        gridBagConstraints.gridwidth = 11;
+        gridBagConstraints.gridx = 36;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 13;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         jPanel2.add(txtHagaClic, gridBagConstraints);
@@ -317,14 +300,15 @@ public class MainWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 24;
-        gridBagConstraints.gridwidth = 25;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridwidth = 33;
         gridBagConstraints.gridheight = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jScrollPane1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 27;
         jPanel2.add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 18;
@@ -340,11 +324,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridheight = 5;
         jPanel2.add(filler5, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 39;
-        jPanel2.add(filler6, gridBagConstraints);
 
         txtHagaClic2.setEditable(false);
         txtHagaClic2.setBackground(getBackground());
@@ -353,8 +332,8 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic2.setRows(5);
         txtHagaClic2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de todos los alumnos \nen ese trimestre.");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridx = 38;
+        gridBagConstraints.gridy = 30;
         gridBagConstraints.gridwidth = 11;
         jPanel2.add(txtHagaClic2, gridBagConstraints);
 
@@ -367,19 +346,19 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 22;
-        gridBagConstraints.gridy = 40;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridx = 26;
+        gridBagConstraints.gridy = 36;
+        gridBagConstraints.gridwidth = 9;
         jPanel2.add(btnCalificar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 44;
+        gridBagConstraints.gridy = 40;
         gridBagConstraints.gridwidth = 37;
         jPanel2.add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 44;
+        gridBagConstraints.gridx = 50;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 39;
+        gridBagConstraints.gridheight = 35;
         jPanel2.add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
@@ -397,24 +376,9 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 40;
+        gridBagConstraints.gridy = 36;
         gridBagConstraints.gridwidth = 7;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
-
-        rdbtnmat3C.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rdbtnmat3C.setText("Matemáticas 3ºC");
-        rdbtnmat3C.setName("rdbtnmat3C"); // NOI18N
-        rdbtnmat3C.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtnmat3CActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(rdbtnmat3C, gridBagConstraints);
 
         rdbtnc2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnc2.setText("4ºA");
@@ -425,7 +389,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 14;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc2, gridBagConstraints);
 
@@ -438,22 +402,9 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc3, gridBagConstraints);
-
-        rdbtnc4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rdbtnc4.setText("3ºC");
-        rdbtnc4.setName("rdbtnc4"); // NOI18N
-        rdbtnc4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbtnc4ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 16;
-        jPanel2.add(rdbtnc4, gridBagConstraints);
 
         rdbtnc1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnc1.setText("1ºA");
@@ -464,7 +415,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc1, gridBagConstraints);
 
@@ -477,11 +428,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 40;
+        gridBagConstraints.gridy = 36;
         jPanel2.add(btnGuardarTabla, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridy = 28;
         jPanel2.add(filler9, gridBagConstraints);
 
         rdbtnmat3A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -493,7 +444,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -523,7 +474,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -537,14 +488,15 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 30;
+        gridBagConstraints.gridx = 38;
         gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.gridheight = 3;
         jPanel2.add(btnEditarUsuario, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 28;
+        gridBagConstraints.gridx = 36;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridheight = 25;
+        gridBagConstraints.gridheight = 21;
         jPanel2.add(filler10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -557,7 +509,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 35;
         jPanel2.add(filler12, gridBagConstraints);
 
-        lblCentro.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
+        lblCentro.setFont(new java.awt.Font("Segoe UI", 2, 30)); // NOI18N
         lblCentro.setText("C.P. Ventormenta");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -580,11 +532,25 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtncon1A, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 33;
+        jPanel2.add(filler14, gridBagConstraints);
+
+        lblMaestro1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblMaestro1.setText("Maestr@: Lucía Calzado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 38;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(lblMaestro1, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -593,6 +559,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.setText("Archivo");
         jMenu1.setName("menuArchivo"); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem1.setText("Salir");
         jMenuItem1.setName("mnbtnSalir"); // NOI18N
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -608,6 +575,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu7.setText("Alumnos");
 
+        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem6.setText("Añadir alumnos...");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -616,6 +584,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu7.add(jMenuItem6);
 
+        jMenuItem7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem7.setText("Borrar alumnos...");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -631,6 +600,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu3.setText("Vista");
         jMenu3.setName("menuVista"); // NOI18N
 
+        jMenuItem8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem8.setText("Ver colores en tabla");
         jMenuItem8.setName("mnbtnColoresTabla"); // NOI18N
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -645,15 +615,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu4.setText("Ayuda");
         jMenu4.setName("menuAyuda"); // NOI18N
 
-        jMenuItem9.setText("Ver cuadros de ayuda");
-        jMenuItem9.setName("mnbtnCuadrosAyuda"); // NOI18N
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem9);
-
+        jMenuItem10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem10.setText("Manual de ayuda");
         jMenuItem10.setName("mnbtnManualAyuda"); // NOI18N
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -663,6 +625,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem10);
 
+        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem11.setText("Acerca de...");
         jMenuItem11.setName("mnbtnAcercaDe"); // NOI18N
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
@@ -749,10 +712,6 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
-
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem10ActionPerformed
@@ -789,7 +748,6 @@ public class MainWindow extends javax.swing.JFrame {
         asignaturasGrupo.clearSelection();
         rdbtnmat3A.setVisible(false);
         rdbtnlen3A.setVisible(false);
-        rdbtnmat3C.setVisible(false);
         rdbtncon1A.setVisible(false);
         rdbtnrel4A.setVisible(true);
     }//GEN-LAST:event_rdbtnc2ActionPerformed
@@ -804,21 +762,8 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnlen3A.setEnabled(true);
         rdbtnmat3A.setEnabled(true);
         rdbtncon1A.setVisible(false);
-        rdbtnmat3C.setVisible(false);
 
     }//GEN-LAST:event_rdbtnc3ActionPerformed
-
-    private void rdbtnc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc4ActionPerformed
-        //Curso 3ºC
-        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        model.setRowCount(0);
-        asignaturasGrupo.clearSelection();
-        rdbtnmat3C.setVisible(true);
-        rdbtnmat3C.setEnabled(true);
-        rdbtnmat3A.setVisible(false);
-        rdbtnlen3A.setVisible(false);
-        rdbtncon1A.setVisible(false);
-    }//GEN-LAST:event_rdbtnc4ActionPerformed
 
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
         //Curso 1ºA 
@@ -828,7 +773,6 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnrel4A.setVisible(false);
         rdbtnmat3A.setVisible(false);
         rdbtnlen3A.setVisible(false);
-        rdbtnmat3C.setVisible(false);
         rdbtncon1A.setVisible(true);
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
@@ -889,15 +833,17 @@ public class MainWindow extends javax.swing.JFrame {
         cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtnmat3AActionPerformed
 
-    /**
-     * Seleccionar botón Matemáticas 3ºC
-     *
-     * @param evt
-     */
-    private void rdbtnmat3CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnmat3CActionPerformed
-        nombreAsignatura.setText(rdbtnmat3C.getText());
+    private void rdbtncon1AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtncon1AActionPerformed
+        nombreAsignatura.setText(rdbtncon1A.getText());
         cargarTabla(getCurso(), getAsignatura());
-    }//GEN-LAST:event_rdbtnmat3CActionPerformed
+    }//GEN-LAST:event_rdbtncon1AActionPerformed
+
+    private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
+        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, tamañoLetra);
+        euw.pack();
+        euw.setVisible(true);
+        euw.setMinimumSize(euw.getSize());
+    }//GEN-LAST:event_btnEditarUsuarioActionPerformed
 
     /**
      * Seleccionar botón Lengua 3ºA
@@ -914,18 +860,6 @@ public class MainWindow extends javax.swing.JFrame {
         cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtnrel4AActionPerformed
 
-    private void rdbtncon1AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtncon1AActionPerformed
-        nombreAsignatura.setText(rdbtncon1A.getText());
-        cargarTabla(getCurso(), getAsignatura());
-    }//GEN-LAST:event_rdbtncon1AActionPerformed
-
-    private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
-        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, tamañoLetra);
-        euw.pack();
-        euw.setVisible(true);
-        euw.setMinimumSize(euw.getSize());
-    }//GEN-LAST:event_btnEditarUsuarioActionPerformed
-
     /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
      * seleccionado curso
@@ -939,8 +873,6 @@ public class MainWindow extends javax.swing.JFrame {
         } else if (rdbtnc2.isSelected()) {
             return 4;
         } else if (rdbtnc3.isSelected()) {
-            return 3;
-        } else if (rdbtnc4.isSelected()) {
             return 3;
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Selecciona un curso primero.");
@@ -956,8 +888,6 @@ public class MainWindow extends javax.swing.JFrame {
     public int getAsignatura() {
         if (rdbtnmat3A.isSelected()) {
             return 131; //Matemáticas de 3ºA
-        } else if (rdbtnmat3C.isSelected()) {
-            return 133; //Matemáticas de 3ºC
         } else if (rdbtnlen3A.isSelected()) {
             return 331; //Lengua de 3ºA
         } else if (rdbtnrel4A.isSelected()) {
@@ -1051,35 +981,48 @@ public class MainWindow extends javax.swing.JFrame {
             media = 0;
         }
     }
+    
+     private void crearCursos() {
+         int i;
+         for (i=0; i<maestro.getCursos().size(); i++){
+             
+         }
+    }
+     
+     
+   
+
+    private void crearAsignaturas() {
+      
+    }
+
 
     private void cambiarTamañoLetra() {
         lblAsignaturas.setFont(new Font(lblAsignaturas.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMaestro.setFont(new Font(lblMaestro.getFont().getName(), Font.PLAIN, tamañoLetra));
+        nombreAsignatura.setFont(new Font(nombreAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
         //lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
         //lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.PLAIN, tamañoLetra));
         fecha.setFont(new Font(fecha.getFont().getName(), Font.PLAIN, tamañoLetra));
         hora.setFont(new Font(hora.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, tamañoLetra+lblCentro.getFont().getSize()));
-        ventormentaPicture.setSize(ventormentaPicture.getWidth() +tamañoLetra, ventormentaPicture.getHeight()+tamañoLetra);
-        
+        lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, tamañoLetra + lblCentro.getFont().getSize()));
+        ventormentaPicture.setSize(ventormentaPicture.getWidth() + tamañoLetra, ventormentaPicture.getHeight() + tamañoLetra);
+
         btnCalificar.setFont(new Font(btnCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
         btnEditarUsuario.setFont(new Font(btnEditarUsuario.getFont().getName(), Font.PLAIN, tamañoLetra));
         btnGuardarTabla.setFont(new Font(btnGuardarTabla.getFont().getName(), Font.PLAIN, tamañoLetra));
         btnNuevaTarea.setFont(new Font(btnNuevaTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
-        
+
         rdbtnc1.setFont(new Font(rdbtnc1.getFont().getName(), Font.PLAIN, tamañoLetra));
         rdbtnc3.setFont(new Font(rdbtnc3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnc4.setFont(new Font(rdbtnc4.getFont().getName(), Font.PLAIN, tamañoLetra));
         rdbtnc2.setFont(new Font(rdbtnc2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        
+
         rdbtnmat3A.setFont(new Font(rdbtnmat3A.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnmat3C.setFont(new Font(rdbtnmat3C.getFont().getName(), Font.PLAIN, tamañoLetra));
         rdbtnlen3A.setFont(new Font(rdbtnlen3A.getFont().getName(), Font.PLAIN, tamañoLetra));
         rdbtnrel4A.setFont(new Font(rdbtnrel4A.getFont().getName(), Font.PLAIN, tamañoLetra));
         rdbtncon1A.setFont(new Font(rdbtncon1A.getFont().getName(), Font.PLAIN, tamañoLetra));
-        
+
         jMenu1.setFont(new Font(jMenu1.getFont().getName(), Font.PLAIN, tamañoLetra));
         jMenu2.setFont(new Font(jMenu2.getFont().getName(), Font.PLAIN, tamañoLetra));
         jMenu3.setFont(new Font(jMenu3.getFont().getName(), Font.PLAIN, tamañoLetra));
@@ -1092,8 +1035,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem6.setFont(new Font(jMenuItem6.getFont().getName(), Font.PLAIN, tamañoLetra));
         jMenuItem7.setFont(new Font(jMenuItem7.getFont().getName(), Font.PLAIN, tamañoLetra));
         jMenuItem8.setFont(new Font(jMenuItem8.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem9.setFont(new Font(jMenuItem9.getFont().getName(), Font.PLAIN, tamañoLetra));
-        
+
         tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
 
     }
@@ -1109,11 +1051,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler12;
     private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
@@ -1130,23 +1072,20 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAsignaturas;
     private javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel lblCentro;
     private javax.swing.JLabel lblCursos;
-    private javax.swing.JLabel lblMaestro;
+    private javax.swing.JLabel lblMaestro1;
     private javax.swing.JLabel nombreAsignatura;
     private javax.swing.JRadioButton rdbtnc1;
     private javax.swing.JRadioButton rdbtnc2;
     private javax.swing.JRadioButton rdbtnc3;
-    private javax.swing.JRadioButton rdbtnc4;
     private javax.swing.JRadioButton rdbtncon1A;
     private javax.swing.JRadioButton rdbtnlen3A;
     private javax.swing.JRadioButton rdbtnmat3A;
-    private javax.swing.JRadioButton rdbtnmat3C;
     private javax.swing.JRadioButton rdbtnrel4A;
     private javax.swing.JTable tabla;
     private javax.swing.JTextArea txtHagaClic;

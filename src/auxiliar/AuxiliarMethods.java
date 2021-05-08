@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -58,8 +59,12 @@ public class AuxiliarMethods {
         int i;
         System.out.println("Imprimiendo arraylist...");
         for (i=0; i<array.size(); i++){
-            System.out.print(i+" ");
+            System.out.print(array.get(i)+" ");
         }
+    }
+    
+    public static void printHashMap(HashMap hashmap) {
+        System.out.println(Arrays.asList(hashmap));
     }
     
     public static void ajustarColumnasTabla(JTable tabla) {

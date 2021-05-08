@@ -9,6 +9,8 @@ import auxiliar.AuxiliarMethods;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import noname.DBConnection;
 
 /**
@@ -20,25 +22,31 @@ public class Maestro {
     int idMaestro;
     String nombre;
     String contraseña;
+    HashMap<Integer, String> asignaturas;
+    ArrayList<Integer> cursos;
 
     /**
      * Constructor usado para pruebas, sin contraseña
-     * @param idMaestro 
+     *
+     * @param idMaestro
      */
     public Maestro(int idMaestro) {
         this.idMaestro = idMaestro;
     }
-    
+
     /**
      * Constructor con la contraseña, usado desde el login
+     *
      * @param idMaestro
-     * @param contraseña 
+     * @param contraseña
      */
-    public Maestro(int idMaestro, String contraseña){
+    public Maestro(int idMaestro, String contraseña) {
         this.idMaestro = idMaestro;
         this.contraseña = contraseña;
+        this.asignaturas = new HashMap<>();
+        this.cursos = new ArrayList<>();
     }
-    
+
     public void cargarMaestro() throws SQLException {
         String sqlNombre = "SELECT nombre FROM datossesion WHERE idMaestro = " + this.idMaestro;
         Statement st = DBConnection.getConnection().createStatement();
@@ -47,6 +55,7 @@ public class Maestro {
         if (resultNombre.next()) {
             this.nombre = resultNombre.getString("nombre");
         }
+        cargarAsignaturas();
     }
 
     public boolean comprobarCredenciales() throws SQLException {
@@ -63,22 +72,37 @@ public class Maestro {
 
     }
 
-    public void cargarAsignaturas() {
-            
-    }
+    public void cargarAsignaturas() throws SQLException {
+        String sqlAsignaturas = "SELECT idAsignatura FROM maestro WHERE idMaestro = " + this.idMaestro;
+        String sqlNombreAsignatura;
+        Statement st = DBConnection.getConnection().createStatement();
+        ResultSet resultAsignaturas = st.executeQuery(sqlAsignaturas);
 
+        while (resultAsignaturas.next()) {
+            int idAsignatura = resultAsignaturas.getInt("idAsignatura");
+            sqlNombreAsignatura = "SELECT nombreAsignatura FROM asignatura WHERE idAsignatura = " + idAsignatura;
+            Statement st2 = DBConnection.getConnection().createStatement();
+            ResultSet resultNombresAsignaturas = st2.executeQuery(sqlNombreAsignatura);
+            if (resultNombresAsignaturas.next()) {
+                this.asignaturas.put(idAsignatura, resultNombresAsignaturas.getString("nombreAsignatura")); 
+                if (!cursos.contains(Integer.parseInt(String.valueOf(String.valueOf(idAsignatura).charAt(1))))) {
+                    this.cursos.add(Integer.parseInt(String.valueOf(String.valueOf(idAsignatura).charAt(1))));
+                }   
+            }
+        }
+    }
 
     public void updateMaestro(String nombre, String contraseña) throws SQLException {
         this.setContraseña(contraseña);
         this.setNombre(nombre);
         String sqlMaestro = "UPDATE datossesion SET contraseña = '"
-                + contraseña +"', nombre = '" 
-                + nombre + "' WHERE idMaestro = "+this.idMaestro;
+                + contraseña + "', nombre = '"
+                + nombre + "' WHERE idMaestro = " + this.idMaestro;
         Statement st = DBConnection.getConnection().createStatement();
 
         st.executeUpdate(sqlMaestro);
     }
-
+   
     public int getIdMaestro() {
         return idMaestro;
     }
@@ -98,5 +122,17 @@ public class Maestro {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
+
+    public HashMap<Integer, String> getAsignaturas() {
+        return asignaturas;
+    }
+    
+    
+    public ArrayList<Integer> getCursos() {
+        return cursos;
+    }
+
+
+    
 
 }
