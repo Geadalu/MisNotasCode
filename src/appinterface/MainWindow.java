@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.EditarUsuarioWindow;
 import auxiliar.AuxiliarMethods;
 import java.io.File;
 import java.io.FileInputStream;
@@ -127,8 +128,6 @@ public class MainWindow extends javax.swing.JFrame {
         lblBienvenida = new javax.swing.JLabel();
         fecha = new javax.swing.JLabel();
         hora = new javax.swing.JLabel();
-        lblTareasCalificar = new javax.swing.JLabel();
-        lblTareasCalificar1 = new javax.swing.JLabel();
         lblMaestro = new javax.swing.JLabel();
         ventormentaPicture = new javax.swing.JLabel();
         lblCursos = new javax.swing.JLabel();
@@ -190,6 +189,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
         jPanel2.setLayout(jPanel2Layout);
 
+        lblBienvenida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblBienvenida.setText("Bienvenido/a, @User");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -198,6 +198,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(lblBienvenida, gridBagConstraints);
 
+        fecha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fecha.setText("@Fecha");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -206,6 +207,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(fecha, gridBagConstraints);
 
+        hora.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         hora.setText("@Hora");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -214,20 +216,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(hora, gridBagConstraints);
 
-        lblTareasCalificar.setText("Tiene tareas por calificar en:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 22;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(lblTareasCalificar, gridBagConstraints);
-
-        lblTareasCalificar1.setText("@TareasCalificar");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 22;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(lblTareasCalificar1, gridBagConstraints);
-
+        lblMaestro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblMaestro.setText("Maestr@: Lucía Calzado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 30;
@@ -244,6 +233,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         jPanel2.add(ventormentaPicture, gridBagConstraints);
 
+        lblCursos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCursos.setText("Cursos:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -253,6 +243,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(lblCursos, gridBagConstraints);
 
+        lblAsignaturas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblAsignaturas.setText("Asignaturas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -275,10 +266,10 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic.setEditable(false);
         txtHagaClic.setBackground(getBackground());
         txtHagaClic.setColumns(20);
+        txtHagaClic.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtHagaClic.setRows(5);
         txtHagaClic.setText("Haga clic en un alumno\npara desglosar sus notas.\n");
         txtHagaClic.setMaximumSize(new java.awt.Dimension(143, 52));
-        txtHagaClic.setPreferredSize(new java.awt.Dimension(143, 52));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 30;
         gridBagConstraints.gridy = 28;
@@ -287,6 +278,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         jPanel2.add(txtHagaClic, gridBagConstraints);
 
+        tabla.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -357,6 +349,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic2.setEditable(false);
         txtHagaClic2.setBackground(getBackground());
         txtHagaClic2.setColumns(20);
+        txtHagaClic2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtHagaClic2.setRows(5);
         txtHagaClic2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de todos los alumnos \nen ese trimestre.");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -365,6 +358,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 11;
         jPanel2.add(txtHagaClic2, gridBagConstraints);
 
+        btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCalificar.setText("Calificar tareas o pruebas");
         btnCalificar.setName("btnCalificar"); // NOI18N
         btnCalificar.addActionListener(new java.awt.event.ActionListener() {
@@ -393,6 +387,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 11;
         jPanel2.add(filler8, gridBagConstraints);
 
+        btnNuevaTarea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNuevaTarea.setText("Nueva tarea o prueba");
         btnNuevaTarea.setName("btnNuevaTarea"); // NOI18N
         btnNuevaTarea.addActionListener(new java.awt.event.ActionListener() {
@@ -406,6 +401,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 7;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
 
+        rdbtnmat3C.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnmat3C.setText("Matemáticas 3ºC");
         rdbtnmat3C.setName("rdbtnmat3C"); // NOI18N
         rdbtnmat3C.addActionListener(new java.awt.event.ActionListener() {
@@ -420,6 +416,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnmat3C, gridBagConstraints);
 
+        rdbtnc2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnc2.setText("4ºA");
         rdbtnc2.setName("rdbtnc2"); // NOI18N
         rdbtnc2.addActionListener(new java.awt.event.ActionListener() {
@@ -432,6 +429,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc2, gridBagConstraints);
 
+        rdbtnc3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnc3.setText("3ºA");
         rdbtnc3.setName("rdbtnc3"); // NOI18N
         rdbtnc3.addActionListener(new java.awt.event.ActionListener() {
@@ -444,6 +442,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc3, gridBagConstraints);
 
+        rdbtnc4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnc4.setText("3ºC");
         rdbtnc4.setName("rdbtnc4"); // NOI18N
         rdbtnc4.addActionListener(new java.awt.event.ActionListener() {
@@ -456,6 +455,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc4, gridBagConstraints);
 
+        rdbtnc1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnc1.setText("1ºA");
         rdbtnc1.setName("rdbtnc1"); // NOI18N
         rdbtnc1.addActionListener(new java.awt.event.ActionListener() {
@@ -468,6 +468,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc1, gridBagConstraints);
 
+        btnGuardarTabla.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardarTabla.setText("Guardar tabla");
         btnGuardarTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -483,6 +484,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 32;
         jPanel2.add(filler9, gridBagConstraints);
 
+        rdbtnmat3A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnmat3A.setText("Matemáticas 3ºA");
         rdbtnmat3A.setName("rdbtnam3"); // NOI18N
         rdbtnmat3A.addActionListener(new java.awt.event.ActionListener() {
@@ -497,6 +499,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnmat3A, gridBagConstraints);
 
+        rdbtnlen3A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnlen3A.setText("Lengua Castellana 3ºA");
         rdbtnlen3A.setName("rdbtnmat3C"); // NOI18N
         rdbtnlen3A.addActionListener(new java.awt.event.ActionListener() {
@@ -511,6 +514,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnlen3A, gridBagConstraints);
 
+        rdbtnrel4A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtnrel4A.setText("Religiones 4ºA");
         rdbtnrel4A.setName("rdbtnmat3C"); // NOI18N
         rdbtnrel4A.addActionListener(new java.awt.event.ActionListener() {
@@ -525,7 +529,13 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnrel4A, gridBagConstraints);
 
+        btnEditarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditarUsuario.setText("Editar usuario");
+        btnEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarUsuarioActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 30;
         gridBagConstraints.gridy = 10;
@@ -561,6 +571,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 45;
         jPanel2.add(filler13, gridBagConstraints);
 
+        rdbtncon1A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbtncon1A.setText("Conocimiento del Medio 1ºA");
         rdbtncon1A.setName("rdbtnmat3C"); // NOI18N
         rdbtncon1A.addActionListener(new java.awt.event.ActionListener() {
@@ -908,6 +919,13 @@ public class MainWindow extends javax.swing.JFrame {
         cargarTabla(getCurso(), getAsignatura());
     }//GEN-LAST:event_rdbtncon1AActionPerformed
 
+    private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
+        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, tamañoLetra);
+        euw.pack();
+        euw.setVisible(true);
+        euw.setMinimumSize(euw.getSize());
+    }//GEN-LAST:event_btnEditarUsuarioActionPerformed
+
     /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
      * seleccionado curso
@@ -1039,8 +1057,8 @@ public class MainWindow extends javax.swing.JFrame {
         lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblMaestro.setFont(new Font(lblMaestro.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.PLAIN, tamañoLetra));
+        //lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        //lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.PLAIN, tamañoLetra));
         fecha.setFont(new Font(fecha.getFont().getName(), Font.PLAIN, tamañoLetra));
         hora.setFont(new Font(hora.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, tamañoLetra+lblCentro.getFont().getSize()));
@@ -1120,8 +1138,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblCentro;
     private javax.swing.JLabel lblCursos;
     private javax.swing.JLabel lblMaestro;
-    private javax.swing.JLabel lblTareasCalificar;
-    private javax.swing.JLabel lblTareasCalificar1;
     private javax.swing.JLabel nombreAsignatura;
     private javax.swing.JRadioButton rdbtnc1;
     private javax.swing.JRadioButton rdbtnc2;

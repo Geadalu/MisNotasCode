@@ -68,10 +68,12 @@ public class Maestro {
     }
 
 
-    public void updateMaestro() throws SQLException {
-        String sqlMaestro = "UPDATE datossesion SET contraseña = "
-                + this.contraseña +", nombre = " 
-                + this.nombre + ") WHERE idMaestro = "+this.idMaestro;
+    public void updateMaestro(String nombre, String contraseña) throws SQLException {
+        this.setContraseña(contraseña);
+        this.setNombre(nombre);
+        String sqlMaestro = "UPDATE datossesion SET contraseña = '"
+                + contraseña +"', nombre = '" 
+                + nombre + "' WHERE idMaestro = "+this.idMaestro;
         Statement st = DBConnection.getConnection().createStatement();
 
         st.executeUpdate(sqlMaestro);
