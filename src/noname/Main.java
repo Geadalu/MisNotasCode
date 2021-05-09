@@ -13,7 +13,7 @@ public class Main {
 
     public static void main (String [] args){
 
-        MainWindow mw = new MainWindow(new Maestro(1, "1234"), 16);
+        MainWindow mw = new MainWindow(new Maestro(1, "1234"), 0);
         mw.pack();
         mw.setVisible(true);
         mw.setMinimumSize(mw.getSize());

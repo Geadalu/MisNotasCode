@@ -26,15 +26,6 @@ public class Maestro {
     ArrayList<Integer> cursos;
 
     /**
-     * Constructor usado para pruebas, sin contraseña
-     *
-     * @param idMaestro
-     */
-    public Maestro(int idMaestro) {
-        this.idMaestro = idMaestro;
-    }
-
-    /**
      * Constructor con la contraseña, usado desde el login
      *
      * @param idMaestro
@@ -59,7 +50,7 @@ public class Maestro {
     }
 
     public boolean comprobarCredenciales() throws SQLException {
-        String sqlCredenciales = "SELECT * FROM datossesion WHERE idMaestro = " + this.idMaestro + " AND password ='" + this.contraseña + "';";
+        String sqlCredenciales = "SELECT * FROM datossesion WHERE idMaestro = " + this.idMaestro + " AND contraseña ='" + this.contraseña + "';";
         Statement st = DBConnection.getConnection().createStatement();
         ResultSet resultCredenciales = st.executeQuery(sqlCredenciales);
 

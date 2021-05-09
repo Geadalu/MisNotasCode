@@ -106,7 +106,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(txtContraseña, gridBagConstraints);
 
-        lblIdentificacion.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        lblIdentificacion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblIdentificacion.setText("Identificación");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -145,7 +145,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 4;
         getContentPane().add(filler7, gridBagConstraints);
 
-        btnOpciones.setText("Mostrar opciones");
+        btnOpciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Opciones.png"))); // NOI18N
         btnOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpcionesActionPerformed(evt);
@@ -244,8 +244,7 @@ public class LoginWindow extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         boolean entrar = false;
-        Maestro maestro = new Maestro(Integer.parseInt(txtUsuario.getText()));
-        maestro.setContraseña(new String(txtContraseña.getPassword()));
+        Maestro maestro = new Maestro(Integer.parseInt(txtUsuario.getText()), new String(txtContraseña.getPassword()));
         try {
             maestro.cargarMaestro();
         } catch (SQLException e){
@@ -275,11 +274,9 @@ public class LoginWindow extends javax.swing.JFrame {
         if (panelOpciones.isVisible()) {
             panelOpciones.setVisible(false);
             this.setSize(this.getWidth() - panelOpciones.getWidth(), this.getHeight());
-            btnOpciones.setText("Mostrar opciones");
         } else {
             panelOpciones.setVisible(true);
             this.setSize(this.getWidth() + panelOpciones.getWidth(), this.getHeight());
-            btnOpciones.setText("Ocultar opciones");
         }
     }//GEN-LAST:event_btnOpcionesActionPerformed
 
