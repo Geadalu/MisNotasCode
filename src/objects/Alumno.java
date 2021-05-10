@@ -57,11 +57,11 @@ public class Alumno {
             this.fechaNacimiento = resultAlumnos.getString("fechaNacimiento");
         }
         this.idAlumno = idAlumno;
-        this.cargarNotas(idAlumno);
-        this.cargarNotasFinales(idAlumno);
+        this.cargarNotas();
+        this.cargarNotasFinales();
     }
     
-    public void cargarNotas(int idAlumno) throws SQLException{
+    public void cargarNotas() throws SQLException{
         String sqlNotas = "SELECT * FROM nota WHERE idAlumno = "+idAlumno;
          
         Statement st = DBConnection.getConnection().createStatement();
@@ -72,7 +72,7 @@ public class Alumno {
         }
     }
     
-    public void cargarNotasFinales(int idAlumno) throws SQLException{
+    public void cargarNotasFinales() throws SQLException{
         String sqlNotaFinal = "SELECT * FROM notafinal WHERE idAlumno = "+idAlumno;
         
         Statement st = DBConnection.getConnection().createStatement();
