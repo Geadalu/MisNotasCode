@@ -68,6 +68,7 @@ public class LoginWindow extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
+        lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblUsuario.setText("Usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -75,6 +76,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblUsuario, gridBagConstraints);
 
+        lblContraseña.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblContraseña.setText("Contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -82,6 +84,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblContraseña, gridBagConstraints);
 
+        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtUsuario.setText("Usuario");
         txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -99,6 +102,8 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(txtUsuario, gridBagConstraints);
+
+        txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
@@ -106,7 +111,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(txtContraseña, gridBagConstraints);
 
-        lblIdentificacion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblIdentificacion.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
         lblIdentificacion.setText("Identificación");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -116,6 +121,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         getContentPane().add(lblIdentificacion, gridBagConstraints);
 
+        btnIniciar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnIniciar.setText("Iniciar sesión");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +151,9 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 4;
         getContentPane().add(filler7, gridBagConstraints);
 
+        btnOpciones.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnOpciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Opciones.png"))); // NOI18N
+        btnOpciones.setToolTipText("Opciones de la aplicación");
         btnOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpcionesActionPerformed(evt);
@@ -163,15 +171,19 @@ public class LoginWindow extends javax.swing.JFrame {
 
         panelOpciones.setLayout(new java.awt.GridBagLayout());
 
+        lbltamañoLetra.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lbltamañoLetra.setText("Tamaño de letra:");
         panelOpciones.add(lbltamañoLetra, new java.awt.GridBagConstraints());
 
-        comboTamaño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "12", "14", "18", "20", "24", "30", "36" }));
+        comboTamaño.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        comboTamaño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Muy pequeña", "Pequeña", "Normal", "Grande", "Muy grande" }));
+        comboTamaño.setSelectedItem("Normal");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         panelOpciones.add(comboTamaño, gridBagConstraints);
 
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,12 +205,14 @@ public class LoginWindow extends javax.swing.JFrame {
         panelOpciones.add(filler11, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(panelOpciones, gridBagConstraints);
 
+        chbxMostrar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         chbxMostrar.setText("Mostrar contraseña");
         chbxMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +248,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 9;
         getContentPane().add(filler16, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 12;
         getContentPane().add(filler17, gridBagConstraints);
@@ -301,8 +315,26 @@ public class LoginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_chbxMostrarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        tamañoLetra = Integer.valueOf(comboTamaño.getSelectedItem().toString());
-        
+        switch(comboTamaño.getSelectedItem().toString()){
+            case "Muy pequeña":
+                tamañoLetra = 12;
+                break;
+            case "Pequeña":
+                tamañoLetra = 14;
+                break;
+            case "Normal":
+                tamañoLetra = 16;
+                break;
+            case "Grande":
+                tamañoLetra = 18;
+                break;
+            case "Muy grande":
+                tamañoLetra = 20;
+                break;
+            default:
+                tamañoLetra = 16;
+        }
+  
         lblContraseña.setFont(new Font(lblContraseña.getFont().getName(), Font.BOLD, tamañoLetra));
         lblUsuario.setFont(new Font(lblUsuario.getFont().getName(), Font.BOLD, tamañoLetra));
         lbltamañoLetra.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra));
@@ -318,7 +350,7 @@ public class LoginWindow extends javax.swing.JFrame {
         btnOpciones.setFont(new Font(btnOpciones.getFont().getName(), Font.BOLD, tamañoLetra));
         
         chbxMostrar.setFont(new Font(chbxMostrar.getFont().getName(), Font.BOLD, tamañoLetra));
-        
+        //TODO resize window
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 

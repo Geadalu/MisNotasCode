@@ -23,7 +23,8 @@ public class Alumno {
     private String apellidos;
     private String dni;
     private String fechaNacimiento;
-    private HashMap<Integer, Double> notas;
+    private String comentario; //este comentario está en la tabls notafinal, porque depende de la asignatura
+    private HashMap<Integer, Double> notas; //idPrueba, nota
     private HashMap<Integer, ArrayList<Double>> notasFinales; //asignatura && notas de los trimestres 1, 2, 3 y final
     private int posicion; //posicion en la array de contAlumnos
 
@@ -35,6 +36,7 @@ public class Alumno {
         this.apellidos = apellidos;
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
+        this.comentario = "";
         this.notas = new HashMap<>(); //idPrueba, nota
         this.notasFinales = new HashMap<>(); //asignatura && notas de los trimestres 1, 2, 3 y final
     }
@@ -84,6 +86,7 @@ public class Alumno {
             array.add(resultNotaFinal.getDouble("notaTrimestre2"));
             array.add(resultNotaFinal.getDouble("notaTrimestre3"));
             array.add(resultNotaFinal.getDouble("notaFinal"));
+            this.comentario = resultNotaFinal.getString("comentario");
             
             this.notasFinales.put(resultNotaFinal.getInt("idAsignatura"), array);
         }
@@ -181,5 +184,15 @@ public class Alumno {
     public void setPosicion(int posicion) {
         this.posicion = posicion;
     }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+    
+    
     
 }

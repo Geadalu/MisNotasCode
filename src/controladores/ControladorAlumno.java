@@ -58,13 +58,7 @@ public class ControladorAlumno {
         }
     }
 
-    
-    public HashMap<Integer, ArrayList<Alumno>> getAlumnosAsignatura() {
-        return alumnosAsignatura;
-    }
-    
-    public void updateNotasFinales(int i, int asignatura) throws SQLException {
-        Alumno alumno = this.getAlumnosAsignatura().get(asignatura).get(i);
+    public void updateNotasFinales(Alumno alumno, int asignatura) throws SQLException {
         Statement st = DBConnection.getConnection().createStatement();
         String sqlNotas = "UPDATE notafinal SET "
                 + "idAsignatura = " + asignatura + ", "
@@ -87,15 +81,15 @@ public class ControladorAlumno {
         }
     }
     
-    public void updateNotas(int idAsignatura, int idPrueba, int i, boolean update) throws SQLException {
-        Alumno alumno = this.getAlumnosAsignatura().get(idAsignatura).get(i);
+    public void updateNotas(int idAsignatura, int idPrueba, Alumno alumno, boolean update) throws SQLException {
         Statement st = DBConnection.getConnection().createStatement();
         if (alumno.getNotas().get(idPrueba) != null){
             if (update){
-            String sqlNotas = "UPDATE nota SET "
+                String sqlNotas = "UPDATE nota SET "
                     + "idPrueba = " + idPrueba + ", "
                     + "nota = " + alumno.getNotas().get(idPrueba)
                     + " WHERE idAlumno = " + alumno.getIdAlumno();
+                st.executeUpdate(sqlNotas);
             } else { 
                 //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
                 String sqlNotasInsert = "INSERT INTO nota (idAlumno, idPrueba, nota) VALUES ("
@@ -184,9 +178,12 @@ public class ControladorAlumno {
             return resultOptativa.getInt("optativa") == 1;
         }
         return false;
+    } 
+    
+    public HashMap<Integer, ArrayList<Alumno>> getAlumnosAsignatura() {
+        return alumnosAsignatura;
     }
-
-   
+    
     
 
 

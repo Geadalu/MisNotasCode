@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="12e04163-f9ba-486d-83ae-89d016586df7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/appinterface/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/appinterface/MainWindow.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/objects/Alumno.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/objects/Alumno.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/appinterface/InformeAlumnoWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/appinterface/InformeAlumnoWindow.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/appinterface/InformeAlumnoWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/appinterface/InformeAlumnoWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/appinterface/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/appinterface/MainWindow.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/appinterface/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/appinterface/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/objects/Alumno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/Alumno.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1sLLkpCyQQIzGCKr6qoXJPlU2CB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+</project>

@@ -7,6 +7,7 @@ package appinterface;
 
 import appsmallinterfaces.EditarUsuarioWindow;
 import auxiliar.AuxiliarMethods;
+import auxiliar.ToolTipHeader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,7 +33,14 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
 import controladores.ControladorAlumno;
+import controladores.ControladorCompetencia;
+import controladores.ControladorCurso;
+import controladores.ControladorPrueba;
 import java.awt.Font;
+import java.math.RoundingMode;
+import java.util.Locale;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import objects.Maestro;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -46,11 +54,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class MainWindow extends javax.swing.JFrame {
 
     ControladorAlumno contAlumnos;
+    ControladorCurso contCurso;
+    ControladorCompetencia contCompetencias;
+    ControladorPrueba contPruebas;
     Maestro maestro;
     ButtonGroup cursosGrupo;
     ButtonGroup asignaturasGrupo;
     int tamañoLetra;
     DefaultTableModel model;
+    NumberFormat formatter;
 
     /**
      *
@@ -63,18 +75,30 @@ public class MainWindow extends javax.swing.JFrame {
         this.tamañoLetra = tamañoLetra;
         this.maestro = maestro;
         ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
+           
         nombreAsignatura.setVisible(false);
         model = (DefaultTableModel) tabla.getModel();
-
+        
+        cargarToolTipsTabla();
+        
         try {
             maestro.cargarMaestro();
         } catch (SQLException e) {
             AuxiliarMethods.showWarning("No se han podido cargar los datos del maestro.\nMás información: " + e.toString());
         }
-
+        
+        lblFotoMaestro.setIcon(maestro.getImagen());
+        
+        //Formato de los decimales
+        this.formatter = NumberFormat.getInstance(Locale.US);
+        this.formatter.setMaximumFractionDigits(2);
+        this.formatter.setRoundingMode(RoundingMode.UP);
+        
+        //labels con el nombre del maestro
         lblBienvenida.setText("Bienvenido/a, " + maestro.getNombre());
         nombreMaestro.setText("Maestr@: " + maestro.getNombre());
 
+        
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
         //Cambiamos el tamaño de la letra si se ha pedido
@@ -82,10 +106,6 @@ public class MainWindow extends javax.swing.JFrame {
             cambiarTamañoLetra();
         }
 
-//        //Creamos los rdbtn cursos y asignaturas
-//        crearCursos();
-//        crearAsignaturas();
-        //Buscar los cursos y las asignaturas del maestro
         //exclusión de los rdbtn cursos
         cursosGrupo = new ButtonGroup();
         cursosGrupo.add(rdbtnc1);
@@ -103,13 +123,15 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnlen3A.setEnabled(false);
 
         rdbtncon1A.setVisible(false);
-        //rdbtnmat3C.setVisible(false);
+        rdbtnrel4A.setVisible(false);
 
         try {
             this.contAlumnos = new ControladorAlumno();
         } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
         }
+        
+        
 
     }
 
@@ -145,7 +167,6 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnc2 = new javax.swing.JRadioButton();
         rdbtnc3 = new javax.swing.JRadioButton();
         rdbtnc1 = new javax.swing.JRadioButton();
-        btnGuardarTabla = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         rdbtnmat3A = new javax.swing.JRadioButton();
         rdbtnlen3A = new javax.swing.JRadioButton();
@@ -169,11 +190,7 @@ public class MainWindow extends javax.swing.JFrame {
         lblAprob1 = new javax.swing.JLabel();
         lblNumApTotal = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
-        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
-        filler20 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
-        filler21 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
         nombreMaestro = new javax.swing.JLabel();
@@ -181,6 +198,7 @@ public class MainWindow extends javax.swing.JFrame {
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
         filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 500), new java.awt.Dimension(0, 500), new java.awt.Dimension(32767, 500));
+        lblFotoMaestro = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -202,10 +220,10 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.setName("panelPrincipal"); // NOI18N
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] {0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0};
-        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
+        jPanel2Layout.rowHeights = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0};
         jPanel2.setLayout(jPanel2Layout);
 
-        lblBienvenida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblBienvenida.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblBienvenida.setText("Bienvenido/a, @User");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -214,7 +232,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(lblBienvenida, gridBagConstraints);
 
-        fecha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fecha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         fecha.setText("@Fecha");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -223,7 +241,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(fecha, gridBagConstraints);
 
-        hora.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        hora.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         hora.setText("@Hora");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -232,12 +250,12 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(hora, gridBagConstraints);
 
-        nombreAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nombreAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         nombreAsignatura.setText("@Asignatura");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 44;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridx = 38;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(nombreAsignatura, gridBagConstraints);
 
@@ -249,7 +267,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         jPanel2.add(ventormentaPicture, gridBagConstraints);
 
-        lblCursos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCursos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblCursos.setText("Cursos:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -258,7 +276,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(lblCursos, gridBagConstraints);
 
-        lblAsignaturas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblAsignaturas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblAsignaturas.setText("Asignaturas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -270,7 +288,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic.setEditable(false);
         txtHagaClic.setBackground(getBackground());
         txtHagaClic.setColumns(20);
-        txtHagaClic.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtHagaClic.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtHagaClic.setRows(5);
         txtHagaClic.setText("Haga clic en un alumno\npara desglosar sus notas.\n");
         txtHagaClic.setMaximumSize(new java.awt.Dimension(143, 52));
@@ -282,7 +300,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtHagaClic, gridBagConstraints);
 
-        tabla.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tabla.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -344,7 +362,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic2.setEditable(false);
         txtHagaClic2.setBackground(getBackground());
         txtHagaClic2.setColumns(20);
-        txtHagaClic2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtHagaClic2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtHagaClic2.setRows(5);
         txtHagaClic2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de todos los alumnos \nen ese trimestre.");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -354,8 +372,8 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtHagaClic2, gridBagConstraints);
 
-        btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCalificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/notepad.png"))); // NOI18N
+        btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCalificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\notepad.png")); // NOI18N
         btnCalificar.setText("Calificar tareas o pruebas");
         btnCalificar.setName("btnCalificar"); // NOI18N
         btnCalificar.addActionListener(new java.awt.event.ActionListener() {
@@ -368,11 +386,12 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 36;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(btnCalificar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 48;
+        gridBagConstraints.gridy = 42;
         gridBagConstraints.gridwidth = 61;
         jPanel2.add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -381,8 +400,8 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 11;
         jPanel2.add(filler8, gridBagConstraints);
 
-        btnNuevaTarea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNuevaTarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/plus.png"))); // NOI18N
+        btnNuevaTarea.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnNuevaTarea.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\plus.png")); // NOI18N
         btnNuevaTarea.setText("Nueva tarea o prueba");
         btnNuevaTarea.setName("btnNuevaTarea"); // NOI18N
         btnNuevaTarea.addActionListener(new java.awt.event.ActionListener() {
@@ -394,10 +413,11 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 30;
         gridBagConstraints.gridy = 36;
         gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
 
-        rdbtnc2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbtnc2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtnc2.setText("4ºA");
         rdbtnc2.setName("rdbtnc2"); // NOI18N
         rdbtnc2.addActionListener(new java.awt.event.ActionListener() {
@@ -410,7 +430,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc2, gridBagConstraints);
 
-        rdbtnc3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbtnc3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtnc3.setText("3ºA");
         rdbtnc3.setName("rdbtnc3"); // NOI18N
         rdbtnc3.addActionListener(new java.awt.event.ActionListener() {
@@ -423,7 +443,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc3, gridBagConstraints);
 
-        rdbtnc1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbtnc1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtnc1.setText("1ºA");
         rdbtnc1.setName("rdbtnc1"); // NOI18N
         rdbtnc1.addActionListener(new java.awt.event.ActionListener() {
@@ -435,25 +455,12 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 16;
         jPanel2.add(rdbtnc1, gridBagConstraints);
-
-        btnGuardarTabla.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnGuardarTabla.setText("Guardar tabla");
-        btnGuardarTabla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarTablaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 26;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 5;
-        jPanel2.add(btnGuardarTabla, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 34;
         gridBagConstraints.gridy = 30;
         jPanel2.add(filler9, gridBagConstraints);
 
-        rdbtnmat3A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbtnmat3A.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtnmat3A.setText("Matemáticas 3ºA");
         rdbtnmat3A.setName("rdbtnam3"); // NOI18N
         rdbtnmat3A.addActionListener(new java.awt.event.ActionListener() {
@@ -464,11 +471,11 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 18;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridwidth = 19;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnmat3A, gridBagConstraints);
 
-        rdbtnlen3A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbtnlen3A.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtnlen3A.setText("Lengua Castellana 3ºA");
         rdbtnlen3A.setName("rdbtnmat3C"); // NOI18N
         rdbtnlen3A.addActionListener(new java.awt.event.ActionListener() {
@@ -483,8 +490,8 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnlen3A, gridBagConstraints);
 
-        rdbtnrel4A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rdbtnrel4A.setText("Religiones 4ºA");
+        rdbtnrel4A.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        rdbtnrel4A.setText("Religiones 4ºA (opt.)");
         rdbtnrel4A.setName("rdbtnmat3C"); // NOI18N
         rdbtnrel4A.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -498,7 +505,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(rdbtnrel4A, gridBagConstraints);
 
-        btnEditarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEditarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnEditarUsuario.setText("Editar usuario");
         btnEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -527,7 +534,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 37;
         jPanel2.add(filler12, gridBagConstraints);
 
-        lblCentro.setFont(new java.awt.Font("Segoe UI", 2, 30)); // NOI18N
+        lblCentro.setFont(new java.awt.Font("Segoe UI", 2, 35)); // NOI18N
         lblCentro.setText("C.P. Ventormenta");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
@@ -541,7 +548,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 61;
         jPanel2.add(filler13, gridBagConstraints);
 
-        rdbtncon1A.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbtncon1A.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtncon1A.setText("Conocimiento del Medio 1ºA");
         rdbtncon1A.setName("rdbtnmat3C"); // NOI18N
         rdbtncon1A.addActionListener(new java.awt.event.ActionListener() {
@@ -563,34 +570,34 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 20;
-        gridBagConstraints.gridwidth = 33;
+        gridBagConstraints.gridwidth = 35;
         jPanel2.add(filler16, gridBagConstraints);
 
-        panelEstadisticas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estadísticas del curso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        panelEstadisticas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estadísticas del curso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         panelEstadisticas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lblAprob3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAprob3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblAprob3.setText("Aprobados 3º Trimestre:");
 
-        lblNumAp2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNumAp2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNumAp2.setText("-");
 
-        lblNumAp3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNumAp3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNumAp3.setText("-");
 
-        lblNumAp1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNumAp1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNumAp1.setText("-");
 
-        lblAprobTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAprobTotal.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblAprobTotal.setText("Aprobados en el curso:");
 
-        lblAprob2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAprob2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblAprob2.setText("Aprobados 2º Trimestre:");
 
-        lblAprob1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAprob1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblAprob1.setText("Aprobados 1º Trimestre:");
 
-        lblNumApTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNumApTotal.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNumApTotal.setText("-");
 
         javax.swing.GroupLayout panelEstadisticasLayout = new javax.swing.GroupLayout(panelEstadisticas);
@@ -600,44 +607,36 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(panelEstadisticasLayout.createSequentialGroup()
                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filler19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(98, 484, Short.MAX_VALUE))
+            .addGroup(panelEstadisticasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblAprobTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblAprob3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblAprob2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(5, 5, 5)
                         .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNumAp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                                .addComponent(lblAprob1)
-                                .addGap(5, 5, 5)
-                                .addComponent(lblNumAp1))
-                            .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblAprobTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblAprob3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblAprob2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                                            .addGap(5, 5, 5)
-                                            .addComponent(lblNumAp2))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEstadisticasLayout.createSequentialGroup()
-                                            .addGap(5, 5, 5)
-                                            .addComponent(lblNumAp3)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEstadisticasLayout.createSequentialGroup()
-                                        .addGap(5, 5, 5)
-                                        .addComponent(lblNumApTotal)))))))
-                .addGap(272, 272, 272))
+                                    .addComponent(lblNumAp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNumApTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())))
+                    .addGroup(panelEstadisticasLayout.createSequentialGroup()
+                        .addComponent(lblAprob1)
+                        .addGap(5, 5, 5)
+                        .addComponent(lblNumAp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         panelEstadisticasLayout.setVerticalGroup(
             panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEstadisticasLayout.createSequentialGroup()
                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filler19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblAprob1)
@@ -654,7 +653,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblAprobTotal)
                     .addComponent(lblNumApTotal))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -665,11 +664,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel2.add(panelEstadisticas, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 44;
-        gridBagConstraints.gridwidth = 33;
-        jPanel2.add(filler21, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -682,7 +676,7 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 39;
         jPanel2.add(filler22, gridBagConstraints);
 
-        nombreMaestro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nombreMaestro.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         nombreMaestro.setText("Maestr@: Taltaltaltal");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 44;
@@ -691,9 +685,10 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(nombreMaestro, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 34;
         gridBagConstraints.gridwidth = 31;
+        gridBagConstraints.gridheight = 3;
         jPanel2.add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 40;
@@ -709,6 +704,15 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 11;
         jPanel2.add(filler24, gridBagConstraints);
 
+        lblFotoMaestro.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 44;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(lblFotoMaestro, gridBagConstraints);
+
         getContentPane().add(jPanel2);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
@@ -716,7 +720,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.setText("Archivo");
         jMenu1.setName("menuArchivo"); // NOI18N
 
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem1.setText("Salir");
         jMenuItem1.setName("mnbtnSalir"); // NOI18N
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -732,7 +736,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu7.setText("Alumnos");
 
-        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem6.setText("Añadir alumnos...");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -741,7 +745,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu7.add(jMenuItem6);
 
-        jMenuItem7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem7.setText("Borrar alumnos...");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -757,7 +761,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu3.setText("Vista");
         jMenu3.setName("menuVista"); // NOI18N
 
-        jMenuItem8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem8.setText("Ver colores en tabla");
         jMenuItem8.setName("mnbtnColoresTabla"); // NOI18N
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -772,7 +776,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu4.setText("Ayuda");
         jMenu4.setName("menuAyuda"); // NOI18N
 
-        jMenuItem10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem10.setText("Manual de ayuda");
         jMenuItem10.setName("mnbtnManualAyuda"); // NOI18N
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -782,7 +786,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem10);
 
-        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem11.setText("Acerca de...");
         jMenuItem11.setName("mnbtnAcercaDe"); // NOI18N
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
@@ -883,7 +887,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, tamañoLetra);
+            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, tamañoLetra);
             ctw.pack();
             ctw.setVisible(true);
         }
@@ -892,7 +896,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, tamañoLetra);
+            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, contCompetencias, tamañoLetra);
             ntw.pack();
             ntw.setVisible(true);
             ntw.setMinimumSize(ntw.getSize());
@@ -902,8 +906,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
         //Curso 4ºA
-        model.setRowCount(0);
-        asignaturasGrupo.clearSelection();
+        limpiarSelecciones();
         rdbtnmat3A.setVisible(false);
         rdbtnlen3A.setVisible(false);
         rdbtncon1A.setVisible(false);
@@ -912,53 +915,24 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
         //Curso 3ºA
-        model.setRowCount(0);
-        asignaturasGrupo.clearSelection();
+        limpiarSelecciones();
         rdbtnmat3A.setVisible(true);
         rdbtnlen3A.setVisible(true);
         rdbtnlen3A.setEnabled(true);
         rdbtnmat3A.setEnabled(true);
         rdbtncon1A.setVisible(false);
+        rdbtnrel4A.setVisible(false);
 
     }//GEN-LAST:event_rdbtnc3ActionPerformed
 
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
         //Curso 1ºA 
-        model.setRowCount(0);
-        asignaturasGrupo.clearSelection();
+        limpiarSelecciones();
         rdbtnrel4A.setVisible(false);
         rdbtnmat3A.setVisible(false);
         rdbtnlen3A.setVisible(false);
         rdbtncon1A.setVisible(true);
     }//GEN-LAST:event_rdbtnc1ActionPerformed
-
-    private void btnGuardarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTablaActionPerformed
-        int i, j;
-
-        HashMap<Integer, ArrayList<Double>> notaFinal = null;
-
-        for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
-            notaFinal = new HashMap<>();
-            ArrayList<Double> arrayNotas = new ArrayList<>();
-            for (j = 2; j < tabla.getColumnCount(); j++) { //itera sobre las notas
-                if (j != 5) { //ignorar la columna nota media
-                    if (model.getValueAt(i, j) == null) {
-                        arrayNotas.add(0.0);
-                    } else {
-                        arrayNotas.add(Double.parseDouble((model.getValueAt(i, j)).toString()));
-                    }
-                }
-            }
-            notaFinal.put(getAsignatura(), arrayNotas);
-            contAlumnos.getAlumnosAsignatura().get(getAsignatura()).get(i).setNotasFinales(notaFinal);
-            try {
-                contAlumnos.updateNotasFinales(i, getAsignatura());
-            } catch (SQLException e) {
-                AuxiliarMethods.showWarning(e.toString());
-            }
-        }
-        calcularNotasMedias();
-    }//GEN-LAST:event_btnGuardarTablaActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         int pasarAsignatura = 0;
@@ -967,7 +941,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (tabla.getSelectedColumn() == 0) {
                 for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
                     if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0)) && alumno.getNombre().equals(model.getValueAt(tabla.getSelectedRow(), 1))) {
-                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos, tamañoLetra);
+                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos, tamañoLetra, this);
                         iaw.pack();
                         iaw.setVisible(true);
                     }
@@ -982,19 +956,19 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void rdbtnmat3AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnmat3AActionPerformed
-        nombreAsignatura.setText(rdbtnmat3A.getText());
+        nombreAsignatura.setText("Matemáticas 3ºA");
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnmat3AActionPerformed
 
     private void rdbtncon1AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtncon1AActionPerformed
-        nombreAsignatura.setText(rdbtncon1A.getText());
+        nombreAsignatura.setText("Conocimiento del Medio 1ºA");
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtncon1AActionPerformed
 
     private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
-        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, tamañoLetra);
+        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, tamañoLetra, this);
         euw.pack();
         euw.setVisible(true);
         euw.setMinimumSize(euw.getSize());
@@ -1006,13 +980,13 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void rdbtnlen3AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnlen3AActionPerformed
-        nombreAsignatura.setText(rdbtnlen3A.getText());
+        nombreAsignatura.setText("Lengua Castellana 3ºA");
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnlen3AActionPerformed
 
     private void rdbtnrel4AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnrel4AActionPerformed
-        nombreAsignatura.setText(rdbtnrel4A.getText());
+        nombreAsignatura.setText("Religiones 4ºA (opt.)");
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnrel4AActionPerformed
@@ -1024,7 +998,6 @@ public class MainWindow extends javax.swing.JFrame {
      * @return el curso seleccionado, o 0 si no hay ninguno
      */
     public int getCurso() {
-
         if (rdbtnc1.isSelected()) {
             return 1;
         } else if (rdbtnc2.isSelected()) {
@@ -1077,7 +1050,6 @@ public class MainWindow extends javax.swing.JFrame {
         //modelo para introducir filas en la tabla
         model.setRowCount(0);
 
-        //Recogemos datos de la DB
         if (curso != 0 && asignatura != 0) {
 
             Object[] row = new Object[7]; //matriz para el addRow del modelo de la tabla
@@ -1116,22 +1088,19 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
         calcularNotasMedias();
-        AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
+        añadirFilaMedias();
+        //AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
     }
 
     public void calcularNotasMedias() {
         int i, j;
         double media = 0;
-        ArrayList<Double> arrayNotas = new ArrayList<>();
-        NumberFormat formatter = new DecimalFormat("#0.00");
-
+        
         for (i = 0; i < tabla.getRowCount(); i++) {
             for (j = 2; j < 5; j++) {
                 media += ((tabla.getValueAt(i, j) != null) ? Double.parseDouble(tabla.getValueAt(i, j).toString()) : 0.0);
                 if (media / 3 != 0) {
-                    //da error si uso el formatter para darle formato a las nuevas medias y que salgan con dos decimales
-                    //tabla.setValueAt(formatter.format(media / 3), i, 5);
-                    tabla.setValueAt(media / 3, i, 5);
+                    tabla.setValueAt(Double.parseDouble(formatter.format(media / 3)), i, 5);
                 }
             }
             media = 0;
@@ -1144,7 +1113,7 @@ public class MainWindow extends javax.swing.JFrame {
         int aprobados3 = 0; //aprobados 3º Trimestre
         int aprobadosCurso = 0; //aprobados en la asignatura
         int numAlumnos = contAlumnos.getAlumnosAsignatura().get(getAsignatura()).size();
-        NumberFormat formatter = new DecimalFormat("#00");
+        
 
         for (Alumno a : contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
             if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(0) >= 5){
@@ -1167,12 +1136,76 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumApTotal.setText(String.valueOf(aprobadosCurso) + " (" +formatter.format(aprobadosCurso / (float) numAlumnos * 100 )+ "% del total de alumnos)");
 
     }
+    
+    public void añadirFilaMedias(){
+        Object[] row = new Object[7];
+        
+        double media1 = 0.0;
+        double media2 = 0.0;
+        double media3 = 0.0;
+        double media4 = 0.0;
+        double media5 = 0.0;
+        int contador = 0;
+        
+        row[1] = "MEDIAS TOTALES:";
+        for (int i=0; i<contAlumnos.getAlumnosAsignatura().get(getAsignatura()).size(); i++){
+            Alumno a = contAlumnos.getAlumnosAsignatura().get(getAsignatura()).get(i);
+            if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty()){
+                //condicion ? cosa_true : cosa_false
+                media1 += a.getNotasFinales().get(getAsignatura()).get(0) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(0);
+                media2 += a.getNotasFinales().get(getAsignatura()).get(1) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(1);
+                media3 += a.getNotasFinales().get(getAsignatura()).get(2) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(2);
+                media4 += model.getValueAt(i, 2) == null ? 0 : (double)model.getValueAt(i, 5);
+                media5 += a.getNotasFinales().get(getAsignatura()).get(3) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(3);
+                contador ++;
+            }
+        }
+        
+        try {
+            row[2] = Double.parseDouble(formatter.format(media1/contador));
+            row[3] = Double.parseDouble(formatter.format(media2/contador));
+            row[4] = Double.parseDouble(formatter.format(media3/contador));
+            row[5] = Double.parseDouble(formatter.format(media4/contador));
+            row[6] = Double.parseDouble(formatter.format(media5/contador));
+        } catch (NumberFormatException e){ //esto ocurre si nadie tiene notas finales
+            row[2] = 0;
+            row[3] = 0;
+            row[4] = 0;
+            row[5] = 0;
+            row[6] = 0;
+        }
+        
+        model.addRow(new Object[7]);
+        model.addRow(row); //añadimos fila extra en blanco para separar de la nueva
+    }
+    
+    private void cargarToolTipsTabla(){
+        JTableHeader header = tabla.getTableHeader();
+
+        ToolTipHeader tips = new ToolTipHeader();
+        
+        TableColumn col2 = tabla.getColumnModel().getColumn(2); //columna trimestre 1
+        TableColumn col3 = tabla.getColumnModel().getColumn(3); //columna trimestre 2
+        TableColumn col4 = tabla.getColumnModel().getColumn(4); //columna trimestre 3
+        tips.setToolTip(col2, "Fecha claustro: 7/12/2021");
+        tips.setToolTip(col3, "Fecha claustro: 18/03/2022");
+        tips.setToolTip(col4, "Fecha claustro: 27/06/2022");
+        header.addMouseMotionListener(tips);
+    }
+    
+    private void limpiarSelecciones(){
+        model.setRowCount(0);
+        lblNumAp1.setText("-");
+        lblNumAp2.setText("-");
+        lblNumAp3.setText("-");
+        lblNumApTotal.setText("-");
+        asignaturasGrupo.clearSelection();
+    }
 
     private void cambiarTamañoLetra() {
         lblAsignaturas.setFont(new Font(lblAsignaturas.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.PLAIN, tamañoLetra));
         lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.PLAIN, tamañoLetra));
-        nombreAsignatura.setFont(new Font(nombreAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
         //lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
         //lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.PLAIN, tamañoLetra));
         fecha.setFont(new Font(fecha.getFont().getName(), Font.PLAIN, tamañoLetra));
@@ -1182,7 +1215,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnCalificar.setFont(new Font(btnCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
         btnEditarUsuario.setFont(new Font(btnEditarUsuario.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnGuardarTabla.setFont(new Font(btnGuardarTabla.getFont().getName(), Font.PLAIN, tamañoLetra));
+//        btnGuardarTabla.setFont(new Font(btnGuardarTabla.getFont().getName(), Font.PLAIN, tamañoLetra));
         btnNuevaTarea.setFont(new Font(btnNuevaTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
 
         rdbtnc1.setFont(new Font(rdbtnc1.getFont().getName(), Font.PLAIN, tamañoLetra));
@@ -1214,7 +1247,6 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalificar;
     private javax.swing.JButton btnEditarUsuario;
-    private javax.swing.JButton btnGuardarTabla;
     private javax.swing.JButton btnNuevaTarea;
     private javax.swing.JLabel fecha;
     private javax.swing.Box.Filler filler1;
@@ -1225,12 +1257,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler16;
-    private javax.swing.Box.Filler filler17;
-    private javax.swing.Box.Filler filler18;
     private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler20;
-    private javax.swing.Box.Filler filler21;
     private javax.swing.Box.Filler filler22;
     private javax.swing.Box.Filler filler23;
     private javax.swing.Box.Filler filler24;
@@ -1261,15 +1289,16 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblAprob3;
     private javax.swing.JLabel lblAprobTotal;
     private javax.swing.JLabel lblAsignaturas;
-    private javax.swing.JLabel lblBienvenida;
+    public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel lblCentro;
     private javax.swing.JLabel lblCursos;
+    public javax.swing.JLabel lblFotoMaestro;
     private javax.swing.JLabel lblNumAp1;
     private javax.swing.JLabel lblNumAp2;
     private javax.swing.JLabel lblNumAp3;
     private javax.swing.JLabel lblNumApTotal;
     private javax.swing.JLabel nombreAsignatura;
-    private javax.swing.JLabel nombreMaestro;
+    public javax.swing.JLabel nombreMaestro;
     private javax.swing.JPanel panelEstadisticas;
     private javax.swing.JRadioButton rdbtnc1;
     private javax.swing.JRadioButton rdbtnc2;

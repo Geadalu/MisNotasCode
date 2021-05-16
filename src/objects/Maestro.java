@@ -6,11 +6,13 @@
 package objects;
 
 import auxiliar.AuxiliarMethods;
+import java.awt.Image;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.ImageIcon;
 import noname.DBConnection;
 
 /**
@@ -24,6 +26,7 @@ public class Maestro {
     String contraseña;
     HashMap<Integer, String> asignaturas;
     ArrayList<Integer> cursos;
+    ImageIcon imagen;
 
     /**
      * Constructor con la contraseña, usado desde el login
@@ -36,6 +39,7 @@ public class Maestro {
         this.contraseña = contraseña;
         this.asignaturas = new HashMap<>();
         this.cursos = new ArrayList<>();
+        this.imagen = new ImageIcon("assets/personGrande.png"); //imagen por defecto
     }
 
     public void cargarMaestro() throws SQLException {
@@ -46,6 +50,7 @@ public class Maestro {
         if (resultNombre.next()) {
             this.nombre = resultNombre.getString("nombre");
         }
+        this.imagen = new ImageIcon("assets/personGrande.png");
         cargarAsignaturas();
     }
 
@@ -75,16 +80,19 @@ public class Maestro {
             Statement st2 = DBConnection.getConnection().createStatement();
             ResultSet resultNombresAsignaturas = st2.executeQuery(sqlNombreAsignatura);
             if (resultNombresAsignaturas.next()) {
-                this.asignaturas.put(idAsignatura, resultNombresAsignaturas.getString("nombreAsignatura")); 
+                this.asignaturas.put(idAsignatura, resultNombresAsignaturas.getString("nombreAsignatura"));
                 if (!cursos.contains(Integer.parseInt(String.valueOf(String.valueOf(idAsignatura).charAt(1))))) {
                     this.cursos.add(Integer.parseInt(String.valueOf(String.valueOf(idAsignatura).charAt(1))));
-                }   
+                }
             }
         }
     }
 
     public void updateMaestro(String nombre, String contraseña) throws SQLException {
-        this.setContraseña(contraseña);
+        if (!contraseña.equals("")) {
+            this.setContraseña(contraseña);
+        }
+
         this.setNombre(nombre);
         String sqlMaestro = "UPDATE datossesion SET contraseña = '"
                 + contraseña + "', nombre = '"
@@ -93,7 +101,7 @@ public class Maestro {
 
         st.executeUpdate(sqlMaestro);
     }
-   
+
     public int getIdMaestro() {
         return idMaestro;
     }
@@ -117,13 +125,16 @@ public class Maestro {
     public HashMap<Integer, String> getAsignaturas() {
         return asignaturas;
     }
-    
-    
+
     public ArrayList<Integer> getCursos() {
         return cursos;
     }
 
+    public ImageIcon getImagen() {
+        return imagen;
+    }
 
-    
-
+    public void setImagen(ImageIcon imagen) {
+        this.imagen = imagen;
+    }
 }

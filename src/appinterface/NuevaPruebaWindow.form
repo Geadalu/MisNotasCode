@@ -34,7 +34,7 @@
     <Component class="javax.swing.JButton" name="btnCancelar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
@@ -50,7 +50,7 @@
     <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
@@ -66,7 +66,7 @@
     <Component class="javax.swing.JLabel" name="lblAsignatura">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Asignatura:"/>
       </Properties>
@@ -79,7 +79,7 @@
     <Component class="javax.swing.JLabel" name="lblTitulo">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xed;tulo:"/>
       </Properties>
@@ -92,7 +92,7 @@
     <Component class="javax.swing.JLabel" name="lblPeso">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Peso (%):"/>
       </Properties>
@@ -105,7 +105,7 @@
     <Component class="javax.swing.JCheckBox" name="chbxTrabajoAdic">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Trabajo adicional"/>
       </Properties>
@@ -121,7 +121,7 @@
     <Component class="javax.swing.JTextField" name="txtAsignatura">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -140,7 +140,7 @@
     <Component class="javax.swing.JTextField" name="txtTitulo">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[100, 22]"/>
@@ -158,7 +158,7 @@
     <Component class="javax.swing.JRadioButton" name="rdbtnTodos">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Para todos los alumnos"/>
@@ -175,7 +175,7 @@
     <Component class="javax.swing.JRadioButton" name="rdbtnSeleccionar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Seleccionar alumnos"/>
       </Properties>
@@ -191,7 +191,7 @@
     <Component class="javax.swing.JLabel" name="lblTituloGrande">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="24" style="0"/>
+          <Font name="Segoe UI" size="30" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Crear una nueva tarea o prueba"/>
       </Properties>
@@ -204,7 +204,7 @@
     <Component class="javax.swing.JTextField" name="txtPeso">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[100, 22]"/>
@@ -345,7 +345,7 @@
             <Component class="javax.swing.JTable" name="tabla">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="16" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="3" rowCount="0">
@@ -385,7 +385,7 @@
     <Component class="javax.swing.JLabel" name="lblTrimestre">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Trimestre:"/>
       </Properties>
@@ -398,7 +398,7 @@
     <Component class="javax.swing.JComboBox" name="comboTrimestre">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">
@@ -441,7 +441,7 @@
     <Component class="javax.swing.JTextField" name="txtFecha">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[100, 22]"/>
@@ -460,7 +460,7 @@
     <Component class="javax.swing.JLabel" name="lblFecha">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Fecha:"/>
       </Properties>
@@ -557,7 +557,7 @@
     <Component class="javax.swing.JLabel" name="lblCompetencias">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="18" style="0"/>
+          <Font name="Segoe UI" size="20" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Competencias de"/>
       </Properties>
@@ -582,7 +582,7 @@
     <Component class="javax.swing.JLabel" name="lblComActuales">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Competencias actuales:"/>
       </Properties>
@@ -595,7 +595,7 @@
     <Component class="javax.swing.JLabel" name="lblDescripcion">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Descripci&#xf3;n:"/>
       </Properties>
@@ -608,7 +608,7 @@
     <Component class="javax.swing.JLabel" name="lblComAsig">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Competencias de la asignatura:"/>
       </Properties>
@@ -622,7 +622,7 @@
       <Properties>
         <Property name="columns" type="int" value="20"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="rows" type="int" value="5"/>
       </Properties>
@@ -635,7 +635,7 @@
     <Component class="javax.swing.JButton" name="btnPasarIzquierda">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
       </Properties>
@@ -651,7 +651,7 @@
     <Component class="javax.swing.JButton" name="btnPasarDerecha">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
       </Properties>
@@ -872,7 +872,7 @@
             <Component class="javax.swing.JList" name="listaComAsig">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="16" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                   <StringArray count="0"/>
@@ -893,7 +893,7 @@
     <Component class="javax.swing.JLabel" name="lblDatos">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="18" style="0"/>
+          <Font name="Segoe UI" size="20" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Datos principales:"/>
       </Properties>
@@ -964,7 +964,7 @@
             <Component class="javax.swing.JList" name="listaComAct">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="16" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                   <StringArray count="0"/>
