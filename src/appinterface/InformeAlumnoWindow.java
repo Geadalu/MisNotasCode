@@ -55,7 +55,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
         }
-        
+
         tabla1.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         tabla2.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         tabla3.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
@@ -108,14 +108,13 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         model.setRowCount(0);
         int i;
-        for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).size(); i++) {
+        for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); i++) {
             Object[] row = new Object[2];
-            if (contPruebas.getPruebasAsignatura().get(asignatura).get(i).getTrimestre() == trimestre) {
-                row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba();
-                row[1] = alumno.getNotas().get(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba());
-                model.addRow(row);
-                pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba());
-            }
+            row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba();
+            row[1] = alumno.getNotas().get(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
+            model.addRow(row);
+            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
+
         }
     }
 
@@ -316,9 +315,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -334,7 +340,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         final1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        final1.setText("F1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
@@ -446,9 +451,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -464,7 +476,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         final2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        final2.setText("F2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
@@ -577,9 +588,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -595,7 +613,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         final3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        final3.setText("F3");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
@@ -753,7 +770,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         jPanel1.add(lblFinalAsig, gridBagConstraints);
 
         finalAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        finalAsig.setText("FAsig");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
@@ -972,7 +988,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
+
         //Guardar notas
         boolean update;
         DefaultTableModel model1 = (DefaultTableModel) tabla1.getModel();
@@ -982,68 +998,68 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         updateNotas(model1, notas);
         updateNotas(model2, notas);
         updateNotas(model3, notas);
-        
+
         //Guardar notas finales
         ArrayList<Double> notasFinales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotasFinales().get(asignatura);
-        if (notasFinales.isEmpty()){ //si no tiene todavía notas finales
-            if(final1.getText().equals("")){
+        if (notasFinales.isEmpty()) { //si no tiene todavía notas finales
+            if (final1.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(final1.getText()));
             }
-            
-            if(final2.getText().equals("")){
+
+            if (final2.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(final2.getText()));
             }
-            
-            if(final3.getText().equals("")){
+
+            if (final3.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(final3.getText()));
             }
-            
-            if(finalAsig.getText().equals("")){
+
+            if (finalAsig.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(finalAsig.getText()));
             }
-  
+
         } else {
-            if(final1.getText().equals("")){
+            if (final1.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(final1.getText()));
             }
-            
-            if(final2.getText().equals("")){
+
+            if (final2.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(final2.getText()));
             }
-            
-            if(final3.getText().equals("")){
+
+            if (final3.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(final3.getText()));
             }
-            
-            if(finalAsig.getText().equals("")){
+
+            if (finalAsig.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
                 notasFinales.add(Double.parseDouble(finalAsig.getText()));
             }
         }
-        
+
         try {
             contAlumnos.updateNotasFinales(alumno, asignatura);
-        } catch (SQLException e){
-            AuxiliarMethods.showWarning("Ha ocurrido un error al guardar las notas de los alumnos.\nMás información: "+e.toString());
+        } catch (SQLException e) {
+            AuxiliarMethods.showWarning("Ha ocurrido un error al guardar las notas de los alumnos.\nMás información: " + e.toString());
         }
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void updateNotas(DefaultTableModel modelo, HashMap notas) {

@@ -14,6 +14,7 @@ import objects.Alumno;
 import controladores.ControladorAlumno;
 import controladores.ControladorPrueba;
 import java.awt.Font;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -32,20 +33,31 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
 
     public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, int tamañoLetra) {
+        initComponents();
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
-        this.contPruebas = contPruebas;
+        if (contPruebas != null) {
+            this.contPruebas = contPruebas;
+        } else {
+            this.contPruebas = new ControladorPrueba();
+            try {
+                this.contPruebas.cargarPruebasAsignatura(asignatura);
+            } catch (SQLException e) {
+                AuxiliarMethods.showWarning(e.toString());
+            }
+        }
         this.tamañoLetra = tamañoLetra;
-        initComponents();
-       
+        
+        TableColumnModel columnModel = tabla.getColumnModel();
+        columnModel.getColumn(3).setWidth(200);
         
         if (tamañoLetra != 0) {
             cambiarTamañoLetra();
         }
         
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
-        cargarPruebas();
-
+        
+        cargarPruebas(1);
         txtAsignatura.setText(strAsignatura);
     }
 
@@ -85,6 +97,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         lblTrimestre = new javax.swing.JLabel();
         comboTrimestre = new javax.swing.JComboBox<>();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(150, 0), new java.awt.Dimension(150, 0), new java.awt.Dimension(150, 32767));
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
@@ -140,14 +155,14 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Apellidos", "Nombre", "Nota"
+                "Apellidos", "Nombre", "Nota", "Comentario"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -168,7 +183,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 14;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.gridheight = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -176,7 +191,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -186,10 +201,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 15;
+        gridBagConstraints.gridwidth = 8;
         getContentPane().add(filler5, gridBagConstraints);
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Cancelar.png")); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,12 +213,13 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,14 +227,14 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridx = 16;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnGuardar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 24;
-        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler8, gridBagConstraints);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
@@ -232,7 +249,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.gridwidth = 8;
         getContentPane().add(filler12, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -240,7 +257,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 22;
         getContentPane().add(filler13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 23;
         getContentPane().add(filler14, gridBagConstraints);
@@ -252,12 +269,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 26;
-        gridBagConstraints.gridwidth = 17;
+        gridBagConstraints.gridwidth = 10;
         getContentPane().add(filler2, gridBagConstraints);
 
         panelEstadisticas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estadísticas de la prueba", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
@@ -291,15 +308,15 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 15;
-        gridBagConstraints.gridwidth = 11;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         getContentPane().add(panelEstadisticas, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 28;
+        gridBagConstraints.gridx = 17;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 26;
         getContentPane().add(filler6, gridBagConstraints);
@@ -313,6 +330,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         getContentPane().add(lblTrimestre, gridBagConstraints);
 
         comboTrimestre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        comboTrimestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º", "2º", "3º" }));
         comboTrimestre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboTrimestreActionPerformed(evt);
@@ -329,6 +347,19 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         getContentPane().add(filler7, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 23;
+        getContentPane().add(filler9, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridwidth = 4;
+        getContentPane().add(filler10, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 24;
+        getContentPane().add(filler11, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -340,18 +371,20 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
     private void comboTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTareaActionPerformed
         // TODO add your handling code here:
-        if (!comboTarea.getSelectedItem().toString().equals("Seleccionar...")) {
-            DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
-            model.setRowCount(0);
-            //Cargar tabla
-            Object[] row = new Object[3];
-            for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
-                row[0] = alumno.getApellidos();
-                row[1] = alumno.getNombre();
-                row[2] = alumno.getNotas().get(pruebaConID.get(comboTarea.getSelectedItem().toString()));
-                model.addRow(row);
+        if (comboTarea.getItemCount() != 0){
+            if (!comboTarea.getSelectedItem().toString().equals("Seleccionar...")) {
+                DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
+                model.setRowCount(0);
+                //Cargar tabla
+                Object[] row = new Object[3];
+                for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
+                    row[0] = alumno.getApellidos();
+                    row[1] = alumno.getNombre();
+                    row[2] = alumno.getNotas().get(pruebaConID.get(comboTarea.getSelectedItem().toString()));
+                    model.addRow(row);
+                }
+                idPrueba = pruebaConID.get(comboTarea.getSelectedItem().toString());
             }
-            idPrueba = pruebaConID.get(comboTarea.getSelectedItem().toString());
         }
     }//GEN-LAST:event_comboTareaActionPerformed
 
@@ -377,29 +410,40 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             try {
                 contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
             } catch (SQLException e) {
-                //AuxiliarMethods.showWarning(e.toString());
-                System.out.println(e.toString());
+                AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: "+e.toString());
             }
         }
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void comboTrimestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTrimestreActionPerformed
-        // TODO add your handling code here:
+        comboTarea.removeAllItems(); //se limpia el combo para meter las pruebas de otro trimestre
+        switch(comboTrimestre.getSelectedIndex()){
+            case 0:
+                cargarPruebas(1);
+                break;
+                
+            case 1:
+                cargarPruebas(2);
+                break;
+                
+            case 2:
+                cargarPruebas(3);
+                break;
+                
+            default:
+                AuxiliarMethods.showWarning("Estamos teniendo problemas para mostrar las tareas correspondientes a este trimestre.\nPor favor, contacta con un administrador.");
+                
+        }
     }//GEN-LAST:event_comboTrimestreActionPerformed
 
-    private void cargarPruebas() {
+    private void cargarPruebas(int trimestre) {
         int i;
 
-        try {
-            contPruebas.cargarPruebasAsignatura(asignatura);
-        } catch (Exception e) {
-            AuxiliarMethods.showWarning(e.toString());
-        }
         comboTarea.addItem("Seleccionar...");
         for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).size(); i++) {
-            comboTarea.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba());
-            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(i).getIdPrueba());
+            comboTarea.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba());
+            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
         }
     }
     
@@ -424,6 +468,8 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboTarea;
     private javax.swing.JComboBox<String> comboTrimestre;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler12;
     private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler14;
@@ -435,6 +481,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel lblAprob1;
     private javax.swing.JLabel lblAsignatura;

@@ -20,7 +20,7 @@ import objects.Prueba;
  */
 public class ControladorPrueba {
 
-    private HashMap<Integer, ArrayList<Prueba>> pruebasAsignatura; //idAsignatura, lista de pruebas
+    private HashMap<Integer, HashMap<Integer, ArrayList<Prueba>>> pruebasAsignatura; //idAsignatura, pruebasTrimestres(trimestre, lista de pruebas)
     private HashMap<Integer, ArrayList<Competencia>> competenciasPrueba; //idPrueba, lista de competencias
 
    
@@ -28,16 +28,35 @@ public class ControladorPrueba {
     public ControladorPrueba() {
         this.competenciasPrueba = new HashMap<>();
         this.pruebasAsignatura = new HashMap<>();
-        this.pruebasAsignatura.put(131, new ArrayList<>()); //pruebas de matemáticas 3ºA
-        this.pruebasAsignatura.put(132, new ArrayList<>()); //pruebas de matemáticas 3ºB
-        this.pruebasAsignatura.put(133, new ArrayList<>()); //pruebas de matemáticas 3ºC
-        this.pruebasAsignatura.put(331, new ArrayList<>()); //pruebas de lengua 3ºA
-        //TODO cómo controlar el número de asignaturas?
+        this.pruebasAsignatura.put(211, inicializarHashMap()); //trimestres de conocimiento del medio 1ºA
+        this.pruebasAsignatura.put(131, inicializarHashMap()); //trimestres de matemáticas 3ºA
+        this.pruebasAsignatura.put(331, inicializarHashMap()); //trimestres de lengua 3ºA
+        this.pruebasAsignatura.put(441, inicializarHashMap()); //trimestres de religión 4ºA
+    }
+    
+    private HashMap inicializarHashMap(){
+        HashMap<Integer, ArrayList<Prueba>> trimestres = new HashMap<>();
+        trimestres.put(1, new ArrayList<>());
+        trimestres.put(2, new ArrayList<>());
+        trimestres.put(3, new ArrayList<>());
+        return trimestres;
     }
 
     public void cargarPruebasAsignatura(int asignatura) throws SQLException {
-        if (this.pruebasAsignatura.get(asignatura).isEmpty()) {
-            String sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = " + asignatura;
+        HashMap listaTrimestres = this.pruebasAsignatura.get(asignatura); //hashMap de arraylists que contiene trimestre, listadePruebas
+
+        listaTrimestres.put(1, cargarPruebasTrimestre(asignatura, 1));
+        listaTrimestres.put(2, cargarPruebasTrimestre(asignatura, 2));
+        listaTrimestres.put(3, cargarPruebasTrimestre(asignatura, 3));
+        
+        pruebasAsignatura.put(asignatura, listaTrimestres);
+        
+    }
+    
+    public ArrayList<Prueba> cargarPruebasTrimestre(int asignatura, int trimestre) throws SQLException{
+        ArrayList<Prueba> pruebasTrimestre = new ArrayList<>();
+        if (this.pruebasAsignatura.get(asignatura).get(trimestre).isEmpty()) { //si no hay pruebas en el primer trimestre
+            String sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = " + asignatura + " AND trimestre = "+trimestre;
             Statement st = DBConnection.getConnection().createStatement();
             ResultSet resultPruebas = st.executeQuery(sqlPrueba);
 
@@ -45,9 +64,10 @@ public class ControladorPrueba {
                 int idPrueba = resultPruebas.getInt("idPrueba");
                 Prueba p = new Prueba();
                 p.cargarPrueba(idPrueba);
-                this.pruebasAsignatura.get(asignatura).add(p);
+                pruebasTrimestre.add(p);
             }
         }
+        return pruebasTrimestre;
     }
     
     public void cargarCompetenciasPrueba(int prueba) throws SQLException {
@@ -66,24 +86,26 @@ public class ControladorPrueba {
         competenciasPrueba.get(p.idPrueba).add(comp);
     }
 
-    public void añadirPruebaAAsignatura(Prueba prueba, int asignatura) {
-        this.pruebasAsignatura.get(asignatura).add(prueba);
-    }
-
-    public HashMap<Integer, ArrayList<Prueba>> getPruebasAsignatura() {
-        return pruebasAsignatura;
+    public void añadirPruebaAAsignatura(Prueba prueba, int trimestre, int asignatura) {
+        this.pruebasAsignatura.get(asignatura).get(trimestre).add(prueba);
     }
     
      public HashMap<Integer, ArrayList<Competencia>> getCompetenciasPrueba() {
         return competenciasPrueba;
     }
-     
-    public void setPruebasAsignatura(HashMap<Integer, ArrayList<Prueba>> pruebasAsignatura) {
-        this.pruebasAsignatura = pruebasAsignatura;
-    }
+    
 
     public void setCompetenciasPrueba(HashMap<Integer, ArrayList<Competencia>> competenciasPrueba) {
         this.competenciasPrueba = competenciasPrueba;
     }
+
+    public HashMap<Integer, HashMap<Integer, ArrayList<Prueba>>> getPruebasAsignatura() {
+        return pruebasAsignatura;
+    }
+
+    public void setPruebasAsignatura(HashMap<Integer, HashMap<Integer, ArrayList<Prueba>>> pruebasAsignatura) {
+        this.pruebasAsignatura = pruebasAsignatura;
+    }
+    
 
 }
