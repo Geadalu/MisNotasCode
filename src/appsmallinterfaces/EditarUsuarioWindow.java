@@ -426,8 +426,9 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
             }
         }
         
-        lblCambiarContraseña.setFont(new Font(txtContraseña1.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 2));
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        lblCambiarNombre.setFont(new Font(lblCambiarNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 6));
+        lblCambiarContraseña.setFont(new Font(lblCambiarContraseña.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 6));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
         
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();

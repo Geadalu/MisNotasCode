@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableCellRenderer;
 import objects.Opciones;
 
 /**
@@ -40,6 +41,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     Alumno alumno;
     int index = 0; //indice para navegar entre los alumnos
     Opciones opciones;
+    DefaultTableModel model1;
+    DefaultTableModel model2;
+    DefaultTableModel model3;
 
     /**
      * Creates new form InformeAlumnoWindow
@@ -47,7 +51,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      * @param alumno
      * @param asignatura
      * @param contAlumnos
-     * @param tamañoLetra
+     * @param opciones
      */
     public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos, Opciones opciones, JFrame mainWindow) {
         this.asignatura = asignatura;
@@ -157,7 +161,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel1 = new javax.swing.JPanel();
         lblMedia1 = new javax.swing.JLabel();
         lblFinal1 = new javax.swing.JLabel();
-        tabla1 = new javax.swing.JTable();
+        tabla1 = new JTable(model1) {
+            public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
+                // get the current row
+                model1 = (DefaultTableModel) tabla1.getModel();
+                Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
+                // even index, not selected
+                if(Index_col != 0 && model1.getValueAt(Index_row, Index_col) != null){
+                    if (Double.parseDouble(model1.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorSuspensos());
+                    } else if (!isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorAprobados());
+                    }
+                }
+                return comp;
+            }
+        };
         final1 = new javax.swing.JTextField();
         lblMedia1N = new javax.swing.JLabel();
         filler29 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -173,7 +192,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel2 = new javax.swing.JPanel();
         lblMedia2 = new javax.swing.JLabel();
         lblFinal2 = new javax.swing.JLabel();
-        tabla2 = new javax.swing.JTable();
+        tabla2 = new JTable(model2) {
+            public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
+                // get the current row
+                model2 = (DefaultTableModel) tabla2.getModel();
+                Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
+                // even index, not selected
+                if(Index_col != 0 && model2.getValueAt(Index_row, Index_col) != null){
+                    if (Double.parseDouble(model2.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorSuspensos());
+                    } else if (!isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorAprobados());
+                    }
+                }
+                return comp;
+            }
+        };
         final2 = new javax.swing.JTextField();
         lblMedia2N = new javax.swing.JLabel();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -189,7 +223,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel3 = new javax.swing.JPanel();
         lblMedia3 = new javax.swing.JLabel();
         lblFinal3 = new javax.swing.JLabel();
-        tabla3 = new javax.swing.JTable();
+        tabla3 = new JTable(model3) {
+            public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
+                // get the current row
+                model3 = (DefaultTableModel) tabla3.getModel();
+                Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
+                // even index, not selected
+                if(Index_col != 0 && model3.getValueAt(Index_row, Index_col) != null){
+                    if (Double.parseDouble(model3.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorSuspensos());
+                    } else if (!isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorAprobados());
+                    }
+                }
+                return comp;
+            }
+        };
         final3 = new javax.swing.JTextField();
         lblMedia3N = new javax.swing.JLabel();
         filler26 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -248,7 +297,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumno");
-        setBounds(new java.awt.Rectangle(200, 200, 0, 0));
+        setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
@@ -996,9 +1045,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         //Guardar notas
         boolean update;
-        DefaultTableModel model1 = (DefaultTableModel) tabla1.getModel();
-        DefaultTableModel model2 = (DefaultTableModel) tabla2.getModel();
-        DefaultTableModel model3 = (DefaultTableModel) tabla3.getModel();
+        model1 = (DefaultTableModel) tabla1.getModel();
+        model2 = (DefaultTableModel) tabla2.getModel();
+        model3 = (DefaultTableModel) tabla3.getModel();
         HashMap<Integer, Double> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotas();
         updateNotas(model1, notas);
         updateNotas(model2, notas);
@@ -1102,7 +1151,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             }
         }
 
-        lblTitulo.setFont(new Font(lblApellidos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
+        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
+        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
+        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();

@@ -142,6 +142,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(model) {&#xd;&#xa;    public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {&#xd;&#xa;        // get the current row&#xd;&#xa;        model = (DefaultTableModel) tabla.getModel();&#xd;&#xa;        Component comp = super.prepareRenderer(renderer, Index_row, Index_col);&#xd;&#xa;        // even index, not selected&#xd;&#xa;        if(Index_col != 0 &amp;&amp; Index_col != 1 &amp;&amp; model.getValueAt(Index_row, Index_col) != null){&#xd;&#xa;            if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) &lt; 5.0 &amp;&amp; !isCellSelected(Index_row, Index_col)) {&#xd;&#xa;                comp.setForeground(opciones.getColorSuspensos());&#xd;&#xa;            } else if (!isCellSelected(Index_row, Index_col)) {&#xd;&#xa;                comp.setForeground(opciones.getColorAprobados());&#xd;&#xa;            }&#xd;&#xa;        }&#xd;&#xa;        return comp;&#xd;&#xa;    }&#xd;&#xa;};"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

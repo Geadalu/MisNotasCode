@@ -45,9 +45,11 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import objects.Maestro;
 import objects.Opciones;
@@ -79,10 +81,10 @@ public class MainWindow extends javax.swing.JFrame {
      * @param opciones
      */
     public MainWindow(Maestro maestro, Opciones opciones) {
+        this.opciones = opciones;
         initComponents();
         getDateTime();
-        this.maestro = maestro;
-        this.opciones = opciones;
+        this.maestro = maestro;     
         ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
            
         nombreAsignatura.setVisible(false);
@@ -160,7 +162,22 @@ public class MainWindow extends javax.swing.JFrame {
         lblAsignaturas = new javax.swing.JLabel();
         txtHagaClic = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tabla = new JTable(model) {
+            public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
+                // get the current row
+                model = (DefaultTableModel) tabla.getModel();
+                Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
+                // even index, not selected
+                if(Index_col != 0 && Index_col != 1 && model.getValueAt(Index_row, Index_col) != null){
+                    if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorSuspensos());
+                    } else if (!isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorAprobados());
+                    }
+                }
+                return comp;
+            }
+        };
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 32767));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -866,7 +883,7 @@ public class MainWindow extends javax.swing.JFrame {
             } catch (FileNotFoundException e2) {
                 AuxiliarMethods.showWarning("Error.\nNo se encuentra el archivo especificado.");
             } catch (Exception e3) {
-                AuxiliarMethods.showWarning(e3.toString());
+                
             }
         }
         cargarTabla(getCurso(), getAsignatura());

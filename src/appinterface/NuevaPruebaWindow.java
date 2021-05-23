@@ -773,10 +773,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         }
         
-        lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
-        lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
-        lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
-        lblAlumnos.setFont(new Font(lblAlumnos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
+        lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
+        lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
+        lblAlumnos.setFont(new Font(lblAlumnos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
+        lblDatos.setFont(new Font(lblDatos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
         
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();

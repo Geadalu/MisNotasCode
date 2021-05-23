@@ -19,8 +19,10 @@ import java.awt.Font;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import objects.Opciones;
 
@@ -39,8 +41,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     int idPrueba;
     Opciones opciones;
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
+    DefaultTableModel model;
 
     public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones) {
+        this.opciones = opciones;
         initComponents();
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
@@ -54,7 +58,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 AuxiliarMethods.showWarning(e.toString());
             }
         }
-        this.opciones = opciones;
+        
         
         TableColumnModel columnModel = tabla.getColumnModel();
         columnModel.getColumn(3).setWidth(200);
@@ -82,7 +86,22 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         lblTarea = new javax.swing.JLabel();
         comboTarea = new javax.swing.JComboBox<>();
         jScrollPane = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tabla = new JTable(model) {
+            public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
+                // get the current row
+                model = (DefaultTableModel) tabla.getModel();
+                Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
+                // even index, not selected
+                if(Index_col != 0 && Index_col != 1 && model.getValueAt(Index_row, Index_col) != null){
+                    if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorSuspensos());
+                    } else if (!isCellSelected(Index_row, Index_col)) {
+                        comp.setForeground(opciones.getColorAprobados());
+                    }
+                }
+                return comp;
+            }
+        };
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
@@ -463,7 +482,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         }
         
-        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra()+lblTitulo.getFont().getSize()));
+        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra()+15));
         
         //cambiamos el color de fondo de todos los containers del frame
         Color colorBackground = opciones.getColorBackground();
