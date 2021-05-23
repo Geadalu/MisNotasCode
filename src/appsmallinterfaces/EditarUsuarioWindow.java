@@ -8,15 +8,22 @@ package appsmallinterfaces;
 import appinterface.MainWindow;
 import appinterface.MainWindow;
 import auxiliar.AuxiliarMethods;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.TextField;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import objects.Maestro;
+import objects.Opciones;
 
 /**
  *
@@ -24,7 +31,7 @@ import objects.Maestro;
  */
 public class EditarUsuarioWindow extends javax.swing.JFrame {
 
-    int tamañoLetra;
+    Opciones opciones;
     char mostrarContraseña1;
     char mostrarContraseña2;
     Maestro maestro;
@@ -34,10 +41,10 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
      * Crear un nuevo form EditarUsuarioWindow
      *
      * @param maestro
-     * @param tamañoLetra
+     * @param opciones
      */
-    public EditarUsuarioWindow(Maestro maestro, int tamañoLetra, MainWindow mw) {
-        this.tamañoLetra = tamañoLetra;
+    public EditarUsuarioWindow(Maestro maestro, Opciones opciones, MainWindow mw) {
+        this.opciones = opciones;
         this.maestro = maestro;
         this.mw = mw;
         initComponents();
@@ -45,9 +52,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         mostrarContraseña2 = txtContraseña2.getEchoChar();
 
         //Cambiamos el tamaño de la letra si se ha pedido
-        if (tamañoLetra != 0) {
-            cambiarTamañoLetra();
-        }
+        ejecutarOpciones();
 
         txtIdMaestro.setText(String.valueOf(maestro.getIdMaestro()));
         txtNombre.setText(maestro.getNombre());
@@ -119,7 +124,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblTitulo, gridBagConstraints);
 
-        txtContraseña1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtContraseña1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 21;
@@ -128,7 +133,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(txtContraseña1, gridBagConstraints);
 
-        txtContraseña2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtContraseña2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 19;
@@ -137,7 +142,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(txtContraseña2, gridBagConstraints);
 
-        txtIdMaestro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIdMaestro.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtIdMaestro.setToolTipText("El identificador es único y no se puede cambiar");
         txtIdMaestro.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -146,7 +151,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(txtIdMaestro, gridBagConstraints);
 
-        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 11;
@@ -155,7 +160,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(txtNombre, gridBagConstraints);
 
-        lblIdentificador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblIdentificador.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblIdentificador.setText("Identificador de usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -164,7 +169,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblIdentificador, gridBagConstraints);
 
-        lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNombre.setText("Nuevo nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -173,7 +178,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNombre, gridBagConstraints);
 
-        lblNuevaContraseña1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNuevaContraseña1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNuevaContraseña1.setText("Nueva contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -182,7 +187,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNuevaContraseña1, gridBagConstraints);
 
-        lblNuevaContraseña2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNuevaContraseña2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNuevaContraseña2.setText("Repetir nueva contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -191,7 +196,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNuevaContraseña2, gridBagConstraints);
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnGuardar.setText("Guardar cambios");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,6 +314,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         getContentPane().add(filler1, gridBagConstraints);
 
+        chbxMostrar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         chbxMostrar.setText("Mostrar contraseña");
         chbxMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,6 +338,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(imagen, gridBagConstraints);
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jButton1.setText("Cambiar imagen");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -409,20 +416,25 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void cambiarTamañoLetra() {
-        lblCambiarContraseña.setFont(new Font(txtContraseña1.getFont().getName(), Font.BOLD, tamañoLetra + 2));
-        lblIdentificador.setFont(new Font(lblIdentificador.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblNuevaContraseña1.setFont(new Font(lblNuevaContraseña1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblNuevaContraseña2.setFont(new Font(lblNuevaContraseña2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, tamañoLetra + 16));
+    private void ejecutarOpciones() {
+        List<Component> components = AuxiliarMethods.getAllComponents(this);
+        
+        for (Component c : components){
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
+        
+        lblCambiarContraseña.setFont(new Font(txtContraseña1.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 2));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        
+        //cambiar el fondo de los containers
+        Color colorBackground = opciones.getColorBackground();
+        this.getContentPane().setBackground(colorBackground);
+        chbxMostrar.setBackground(colorBackground);
+        
 
-        txtContraseña1.setFont(new Font(txtContraseña1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtContraseña2.setFont(new Font(txtContraseña2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtIdMaestro.setFont(new Font(txtIdMaestro.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtNombre.setFont(new Font(txtNombre.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
     }
 
 

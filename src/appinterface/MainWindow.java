@@ -36,12 +36,21 @@ import controladores.ControladorAlumno;
 import controladores.ControladorCompetencia;
 import controladores.ControladorCurso;
 import controladores.ControladorPrueba;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
+import java.awt.TextField;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Locale;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import objects.Maestro;
+import objects.Opciones;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -60,20 +69,20 @@ public class MainWindow extends javax.swing.JFrame {
     Maestro maestro;
     ButtonGroup cursosGrupo;
     ButtonGroup asignaturasGrupo;
-    int tamañoLetra;
     DefaultTableModel model;
     NumberFormat formatter;
+    Opciones opciones;
 
     /**
      *
      * @param maestro
-     * @param tamañoLetra
+     * @param opciones
      */
-    public MainWindow(Maestro maestro, int tamañoLetra) {
+    public MainWindow(Maestro maestro, Opciones opciones) {
         initComponents();
         getDateTime();
-        this.tamañoLetra = tamañoLetra;
         this.maestro = maestro;
+        this.opciones = opciones;
         ventormentaPicture.setIcon(new ImageIcon("assets/alliance_logo.png"));
            
         nombreAsignatura.setVisible(false);
@@ -100,11 +109,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
+       
 
         //Cambiamos el tamaño de la letra si se ha pedido
-        if (tamañoLetra != 0) {
-            cambiarTamañoLetra();
-        }
+        ejecutarOpciones();
 
         //exclusión de los rdbtn cursos
         cursosGrupo = new ButtonGroup();
@@ -130,9 +138,6 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (SQLException e) {
             AuxiliarMethods.showWarning(e.toString());
         }
-        
-        
-
     }
 
     /**
@@ -887,7 +892,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, tamañoLetra);
+            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, opciones);
             ctw.pack();
             ctw.setVisible(true);
         }
@@ -896,7 +901,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, contCompetencias, tamañoLetra);
+            NuevaPruebaWindow ntw = new NuevaPruebaWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, contCompetencias, opciones);
             ntw.pack();
             ntw.setVisible(true);
             ntw.setMinimumSize(ntw.getSize());
@@ -941,7 +946,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (tabla.getSelectedColumn() == 0) {
                 for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
                     if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0)) && alumno.getNombre().equals(model.getValueAt(tabla.getSelectedRow(), 1))) {
-                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos, tamañoLetra, this);
+                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos, opciones, this);
                         iaw.pack();
                         iaw.setVisible(true);
                     }
@@ -968,7 +973,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_rdbtncon1AActionPerformed
 
     private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
-        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, tamañoLetra, this);
+        EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, opciones, this);
         euw.pack();
         euw.setVisible(true);
         euw.setMinimumSize(euw.getSize());
@@ -1201,47 +1206,44 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumApTotal.setText("-");
         asignaturasGrupo.clearSelection();
     }
+    
+    
 
-    private void cambiarTamañoLetra() {
-        lblAsignaturas.setFont(new Font(lblAsignaturas.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblBienvenida.setFont(new Font(lblBienvenida.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblCursos.setFont(new Font(lblCursos.getFont().getName(), Font.PLAIN, tamañoLetra));
-        //lblTareasCalificar.setFont(new Font(lblTareasCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        //lblTareasCalificar1.setFont(new Font(lblTareasCalificar1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        fecha.setFont(new Font(fecha.getFont().getName(), Font.PLAIN, tamañoLetra));
-        hora.setFont(new Font(hora.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, tamañoLetra + lblCentro.getFont().getSize()));
-        ventormentaPicture.setSize(ventormentaPicture.getWidth() + tamañoLetra, ventormentaPicture.getHeight() + tamañoLetra);
-
-        btnCalificar.setFont(new Font(btnCalificar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnEditarUsuario.setFont(new Font(btnEditarUsuario.getFont().getName(), Font.PLAIN, tamañoLetra));
-//        btnGuardarTabla.setFont(new Font(btnGuardarTabla.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnNuevaTarea.setFont(new Font(btnNuevaTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        rdbtnc1.setFont(new Font(rdbtnc1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnc3.setFont(new Font(rdbtnc3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnc2.setFont(new Font(rdbtnc2.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        rdbtnmat3A.setFont(new Font(rdbtnmat3A.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnlen3A.setFont(new Font(rdbtnlen3A.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnrel4A.setFont(new Font(rdbtnrel4A.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtncon1A.setFont(new Font(rdbtncon1A.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        jMenu1.setFont(new Font(jMenu1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenu2.setFont(new Font(jMenu2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenu3.setFont(new Font(jMenu3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenu4.setFont(new Font(jMenu4.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenu7.setFont(new Font(jMenu7.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuBar1.setFont(new Font(jMenuBar1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem1.setFont(new Font(jMenuItem1.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem10.setFont(new Font(jMenuItem10.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem11.setFont(new Font(jMenuItem11.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem6.setFont(new Font(jMenuItem6.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem7.setFont(new Font(jMenuItem7.getFont().getName(), Font.PLAIN, tamañoLetra));
-        jMenuItem8.setFont(new Font(jMenuItem8.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
-
+    private void ejecutarOpciones() {
+        List<Component> components = AuxiliarMethods.getAllComponents(this); //recoge todos los componentes del frame
+        
+        for (Component c : components){
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
+        
+        lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, opciones.getTamañoLetra() + 15));
+        ventormentaPicture.setSize(ventormentaPicture.getWidth() + opciones.getTamañoLetra(), ventormentaPicture.getHeight() + opciones.getTamañoLetra());
+        
+        //cambiar el fondo de los containers
+        Color colorBackground = opciones.getColorBackground();
+        jPanel2.setBackground(colorBackground);
+        rdbtnc1.setBackground(colorBackground);
+        rdbtnc2.setBackground(colorBackground);
+        rdbtnc3.setBackground(colorBackground);
+        rdbtncon1A.setBackground(colorBackground);
+        rdbtnlen3A.setBackground(colorBackground);
+        rdbtnmat3A.setBackground(colorBackground);
+        rdbtnrel4A.setBackground(colorBackground);
+        txtHagaClic.setBackground(colorBackground);
+        txtHagaClic2.setBackground(colorBackground);
+        panelEstadisticas.setBackground(colorBackground);
+        jScrollPane1.setBackground(colorBackground);
+        tabla.setBackground(colorBackground);
+        
+        //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
+        if (opciones.getOscuro()){
+            TitledBorder titledBorder = (TitledBorder)panelEstadisticas.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

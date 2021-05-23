@@ -13,8 +13,16 @@ import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
 import controladores.ControladorAlumno;
 import controladores.ControladorPrueba;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
+import objects.Opciones;
 
 /**
  *
@@ -29,10 +37,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     ControladorPrueba contPruebas;
     int asignatura;
     int idPrueba;
-    int tamañoLetra;
+    Opciones opciones;
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
 
-    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, int tamañoLetra) {
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones) {
         initComponents();
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
@@ -46,14 +54,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 AuxiliarMethods.showWarning(e.toString());
             }
         }
-        this.tamañoLetra = tamañoLetra;
+        this.opciones = opciones;
         
         TableColumnModel columnModel = tabla.getColumnModel();
         columnModel.getColumn(3).setWidth(200);
         
-        if (tamañoLetra != 0) {
-            cambiarTamañoLetra();
-        }
+        ejecutarOpciones();
         
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
         
@@ -447,19 +453,30 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         }
     }
     
-    private void cambiarTamañoLetra(){
-        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTarea.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, tamañoLetra+lblTitulo.getFont().getSize()));
+    private void ejecutarOpciones(){
+        List<Component> components = AuxiliarMethods.getAllComponents(this);
         
-        txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
+        for (Component c : components){
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JComboBox.class){
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
         
-        comboTarea.setFont(new Font(comboTarea.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra()+lblTitulo.getFont().getSize()));
         
-        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
+        //cambiamos el color de fondo de todos los containers del frame
+        Color colorBackground = opciones.getColorBackground();
+        this.getContentPane().setBackground(colorBackground);
+        panelEstadisticas.setBackground(colorBackground);
+        tabla.setBackground(colorBackground);
+        jScrollPane.setBackground(colorBackground);
         
-        tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
+        //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
+        if (opciones.getOscuro()){
+            TitledBorder titledBorder = (TitledBorder)panelEstadisticas.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

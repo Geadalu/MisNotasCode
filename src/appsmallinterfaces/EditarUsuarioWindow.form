@@ -46,7 +46,7 @@
     <Component class="javax.swing.JPasswordField" name="txtContrase&#xf1;a1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
       </Properties>
       <Constraints>
@@ -58,7 +58,7 @@
     <Component class="javax.swing.JPasswordField" name="txtContrase&#xf1;a2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
       </Properties>
       <Constraints>
@@ -70,7 +70,7 @@
     <Component class="javax.swing.JTextField" name="txtIdMaestro">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="El identificador es &#xfa;nico y no se puede cambiar"/>
         <Property name="enabled" type="boolean" value="false"/>
@@ -84,7 +84,7 @@
     <Component class="javax.swing.JTextField" name="txtNombre">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
       </Properties>
       <Constraints>
@@ -96,7 +96,7 @@
     <Component class="javax.swing.JLabel" name="lblIdentificador">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Identificador de usuario:"/>
       </Properties>
@@ -109,7 +109,7 @@
     <Component class="javax.swing.JLabel" name="lblNombre">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Nuevo nombre:"/>
       </Properties>
@@ -122,7 +122,7 @@
     <Component class="javax.swing.JLabel" name="lblNuevaContrase&#xf1;a1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Nueva contrase&#xf1;a:"/>
       </Properties>
@@ -135,7 +135,7 @@
     <Component class="javax.swing.JLabel" name="lblNuevaContrase&#xf1;a2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Repetir nueva contrase&#xf1;a:"/>
       </Properties>
@@ -148,7 +148,7 @@
     <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
+          <Font name="Segoe UI" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Guardar cambios"/>
       </Properties>
@@ -546,6 +546,9 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="chbxMostrar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="16" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Mostrar contrase&#xf1;a"/>
       </Properties>
       <Events>
@@ -587,6 +590,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="16" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Cambiar imagen"/>
       </Properties>
       <Events>

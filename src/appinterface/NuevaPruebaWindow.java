@@ -18,13 +18,20 @@ import objects.Alumno;
 import controladores.ControladorAlumno;
 import controladores.ControladorCompetencia;
 import controladores.ControladorPrueba;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import objects.Competencia;
+import objects.Opciones;
 import objects.Prueba;
 
 /**
@@ -40,16 +47,16 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     ControladorPrueba contPruebas;
     ControladorCompetencia contCompetencias;
     int asignatura;
-    int tamañoLetra;
+    Opciones opciones;
     boolean presionado; //boolean para saber si el txt de la fecha se ha presionado o no en un determinado momento
     DefaultListModel<String> modeloAsig = new DefaultListModel<>();
     HashMap<String, Integer> competenciaConID = new HashMap<>(); //nombre competencia, id
 
-    public NuevaPruebaWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, ControladorCompetencia contCompetencias, int tamañoLetra) {
+    public NuevaPruebaWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, ControladorCompetencia contCompetencias, Opciones opciones) {
         initComponents();
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
-        this.tamañoLetra = tamañoLetra;
+        this.opciones = opciones;
 
         presionado = false;
         competenciaConID = new HashMap<>();
@@ -92,9 +99,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         tabla.setEnabled(false);
         seleccionarTodaTabla(true);
 
-        if (tamañoLetra != 0) {
-            cambiarTamañoLetra();
-        }
+        ejecutarOpciones();
 
         getDate();
 
@@ -758,38 +763,33 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         return listaCompetencias;
     }
 
-    private void cambiarTamañoLetra() {
-        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.PLAIN, tamañoLetra + lblCompetencias.getFont().getSize()));
-        lblDescripcion.setFont(new Font(lblDescripcion.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblComAsig.setFont(new Font(lblComAsig.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblFecha.setFont(new Font(lblFecha.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblPeso.setFont(new Font(lblPeso.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTrimestre.setFont(new Font(lblTrimestre.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, tamañoLetra + lblNombrePrueba.getFont().getSize()));
-        lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.PLAIN, tamañoLetra + lblTituloGrande.getFont().getSize()));
-        lblDatos.setFont(new Font(lblDatos.getFont().getName(), Font.PLAIN, tamañoLetra + lblDatos.getFont().getSize()));
-
-        txtAsignatura.setFont(new Font(txtAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtFecha.setFont(new Font(txtFecha.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtPeso.setFont(new Font(txtPeso.getFont().getName(), Font.PLAIN, tamañoLetra));
-        txtTitulo.setFont(new Font(txtTitulo.getFont().getName(), Font.PLAIN, tamañoLetra));
-        descripcion.setFont(new Font(descripcion.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        rdbtnSeleccionar.setFont(new Font(rdbtnSeleccionar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        rdbtnTodos.setFont(new Font(rdbtnTodos.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        chbxTrabajoAdic.setFont(new Font(rdbtnSeleccionar.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        tabla.setFont(new Font(tabla.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        comboTrimestre.setFont(new Font(comboTrimestre.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        listaComAsig.setFont(new Font(listaComAsig.getFont().getName(), Font.PLAIN, tamañoLetra));
+    private void ejecutarOpciones() {
+        List<Component> components = AuxiliarMethods.getAllComponents(this);
+        
+        for (Component c : components){
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JComboBox.class){
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
+        
+        lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        lblAlumnos.setFont(new Font(lblAlumnos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        
+        //cambiar el fondo de los containers
+        Color colorBackground = opciones.getColorBackground();
+        this.getContentPane().setBackground(colorBackground);
+        listaComAsig.setBackground(colorBackground);
+        descripcion.setBackground(colorBackground);
+        tabla.setBackground(colorBackground);
+        jScrollPane.setBackground(colorBackground);
+        jPanel1.setBackground(colorBackground);
+        rdbtnSeleccionar.setBackground(colorBackground);
+        rdbtnTodos.setBackground(colorBackground);
+        chbxTrabajoAdic.setBackground(colorBackground);
+        
     }
 
 

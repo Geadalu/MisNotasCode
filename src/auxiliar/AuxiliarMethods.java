@@ -6,6 +6,7 @@
 package auxiliar;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,6 +37,15 @@ public class AuxiliarMethods {
         return list;
    }
     
+    public static void printArray (Object [] array){
+        int i;
+        
+        System.out.println("Voy a imprimir una array...");
+        for (i=0; i<array.length; i++){
+            System.out.print(array[i].toString()+ " ");
+        }
+    }
+    
     public static double sumarElementosLista(List<?> list){
         int i;
         double result = 0.0;
@@ -51,7 +61,7 @@ public class AuxiliarMethods {
         int i;
         System.out.println("Imprimiendo lista...");
         for (i=0; i<list.size(); i++){
-            System.out.print(i+" ");
+            System.out.println(list.get(i));
         }
     }
     
@@ -85,6 +95,18 @@ public class AuxiliarMethods {
     
     public static void showWarning(String warning){
         JOptionPane.showMessageDialog(null, warning);
+    }
+    
+    public static List<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        List<Component> compList = new ArrayList<>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container) {
+                compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+        return compList;
     }
     
 }

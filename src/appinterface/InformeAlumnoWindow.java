@@ -16,9 +16,16 @@ import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
 import controladores.ControladorAlumno;
 import controladores.ControladorPrueba;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.util.HashMap;
+import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+import objects.Opciones;
 
 /**
  *
@@ -32,7 +39,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
     Alumno alumno;
     int index = 0; //indice para navegar entre los alumnos
-    int tamañoLetra;
+    Opciones opciones;
 
     /**
      * Creates new form InformeAlumnoWindow
@@ -42,12 +49,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      * @param contAlumnos
      * @param tamañoLetra
      */
-    public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos, int tamañoLetra, JFrame mainWindow) {
+    public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos, Opciones opciones, JFrame mainWindow) {
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
         this.alumno = alumno;
-        this.tamañoLetra = tamañoLetra;
+        this.opciones = opciones;
         initComponents();
 
         try {
@@ -60,9 +67,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         tabla2.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         tabla3.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
-        if (tamañoLetra != 0) {
-            cambiarTamañoLetra();
-        }
+        ejecutarOpciones();
 
         cargarCampos(alumno);
 
@@ -204,7 +209,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         btnSiguiente = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        panelFinales = new javax.swing.JPanel();
         lblFinalAsig = new javax.swing.JLabel();
         finalAsig = new javax.swing.JTextField();
         lblMediaAsignaturaN = new javax.swing.JLabel();
@@ -757,8 +762,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 3;
         getContentPane().add(btnAnterior, gridBagConstraints);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas finales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 16))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        panelFinales.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas finales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
+        panelFinales.setLayout(new java.awt.GridBagLayout());
 
         lblFinalAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblFinalAsig.setText("Nota final de la asignatura:");
@@ -767,14 +772,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblFinalAsig, gridBagConstraints);
+        panelFinales.add(lblFinalAsig, gridBagConstraints);
 
         finalAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel1.add(finalAsig, gridBagConstraints);
+        panelFinales.add(finalAsig, gridBagConstraints);
 
         lblMediaAsignaturaN.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblMediaAsignaturaN.setText("mediaAs");
@@ -782,7 +787,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel1.add(lblMediaAsignaturaN, gridBagConstraints);
+        panelFinales.add(lblMediaAsignaturaN, gridBagConstraints);
 
         lblMediaAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblMediaAsignatura.setText("Nota media de la asignatura:");
@@ -791,38 +796,38 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(lblMediaAsignatura, gridBagConstraints);
+        panelFinales.add(lblMediaAsignatura, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 6;
-        jPanel1.add(filler47, gridBagConstraints);
+        panelFinales.add(filler47, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 3;
-        jPanel1.add(filler51, gridBagConstraints);
+        panelFinales.add(filler51, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        jPanel1.add(filler52, gridBagConstraints);
+        panelFinales.add(filler52, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        jPanel1.add(filler53, gridBagConstraints);
+        panelFinales.add(filler53, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
-        jPanel1.add(filler54, gridBagConstraints);
+        panelFinales.add(filler54, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
-        jPanel1.add(filler55, gridBagConstraints);
+        panelFinales.add(filler55, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 4;
-        jPanel1.add(filler5, gridBagConstraints);
+        panelFinales.add(filler5, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
@@ -830,7 +835,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 13;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(jPanel1, gridBagConstraints);
+        getContentPane().add(panelFinales, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -1086,37 +1091,47 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     }
 
-    private void cambiarTamañoLetra() {
-        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblFinal2.setFont(new Font(lblFinal2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblFinal2.setFont(new Font(lblFinal2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblFinal3.setFont(new Font(lblFinal3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMedia2.setFont(new Font(lblMedia2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMedia2N.setFont(new Font(lblMedia2N.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMedia2.setFont(new Font(lblMedia2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMedia2N.setFont(new Font(lblMedia2N.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMedia3.setFont(new Font(lblMedia3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMedia3N.setFont(new Font(lblMedia3N.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMediaAsignatura.setFont(new Font(lblMediaAsignatura.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblMediaAsignaturaN.setFont(new Font(lblMediaAsignaturaN.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblFinalAsig.setFont(new Font(lblFinalAsig.getFont().getName(), Font.PLAIN, tamañoLetra));
-        lblTitulo.setFont(new Font(lblApellidos.getFont().getName(), Font.PLAIN, tamañoLetra + lblTitulo.getFont().getSize()));
+    private void ejecutarOpciones() {
+        
+        List<Component> components = AuxiliarMethods.getAllComponents(this);
+        
+        for (Component c : components){
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
 
-        btnAnterior.setFont(new Font(btnAnterior.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnCancelar.setFont(new Font(btnCancelar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnGuardar.setFont(new Font(btnGuardar.getFont().getName(), Font.PLAIN, tamañoLetra));
-        btnSiguiente.setFont(new Font(btnSiguiente.getFont().getName(), Font.PLAIN, tamañoLetra));
+        lblTitulo.setFont(new Font(lblApellidos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 3));
+        
+        //cambiar el fondo de los containers
+        Color colorBackground = opciones.getColorBackground();
+        this.getContentPane().setBackground(colorBackground);
+        panel1.setBackground(colorBackground);
+        panel2.setBackground(colorBackground);
+        panel3.setBackground(colorBackground);
+        tabla1.setBackground(colorBackground);
+        tabla2.setBackground(colorBackground);
+        tabla3.setBackground(colorBackground);
+        txtComentarios.setBackground(colorBackground);
+        panelFinales.setBackground(colorBackground);
+        
+        //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
+        if (opciones.getOscuro()){
+            TitledBorder titledBorder = (TitledBorder)panel1.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+            
+            titledBorder = (TitledBorder)panel2.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+            
+            titledBorder = (TitledBorder)panel2.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+            
+            titledBorder = (TitledBorder)panelFinales.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+        }
 
-        tabla2.setFont(new Font(tabla2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        tabla3.setFont(new Font(tabla3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        tabla1.setFont(new Font(tabla1.getFont().getName(), Font.PLAIN, tamañoLetra));
-
-        final2.setFont(new Font(final2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        final2.setFont(new Font(final2.getFont().getName(), Font.PLAIN, tamañoLetra));
-        final3.setFont(new Font(final3.getFont().getName(), Font.PLAIN, tamañoLetra));
-        finalAsig.setFont(new Font(final3.getFont().getName(), Font.PLAIN, tamañoLetra));
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1187,7 +1202,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JTextField final2;
     private javax.swing.JTextField final3;
     private javax.swing.JTextField finalAsig;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblApellidos;
     private javax.swing.JLabel lblComentarios;
     private javax.swing.JLabel lblDNI;
@@ -1212,6 +1226,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panel3;
+    private javax.swing.JPanel panelFinales;
     private javax.swing.JTable tabla1;
     private javax.swing.JTable tabla2;
     private javax.swing.JTable tabla3;

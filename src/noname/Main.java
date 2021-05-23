@@ -13,15 +13,15 @@ public class Main {
 
     public static void main (String [] args){
 
-        MainWindow mw = new MainWindow(new Maestro(1, "1234"), 0);
-        mw.pack();
-        mw.setVisible(true);
-        mw.setMinimumSize(mw.getSize());
+//        MainWindow mw = new MainWindow(new Maestro(1, "1234"), 10);
+//        mw.pack();
+//        mw.setVisible(true);
+//        mw.setMinimumSize(mw.getSize());
 
-//          LoginWindow lw = new LoginWindow();
-//          lw.pack();
-//          lw.setVisible(true);
-//          lw.setMinimumSize(lw.getSize());
+          LoginWindow lw = new LoginWindow();
+          lw.pack();
+          lw.setVisible(true);
+          lw.setMinimumSize(lw.getSize());
 
     }
 }
