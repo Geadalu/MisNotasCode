@@ -25,6 +25,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import objects.Opciones;
@@ -450,6 +451,11 @@ public class LoginWindow extends javax.swing.JFrame {
         lblOlvidarContraseña.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         lblOlvidarContraseña.setForeground(new java.awt.Color(0, 0, 204));
         lblOlvidarContraseña.setText("¿Has olvidado la contraseña?");
+        lblOlvidarContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblOlvidarContraseñaMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 8;
@@ -619,6 +625,21 @@ public class LoginWindow extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_chbxOscuroActionPerformed
+
+    private void lblOlvidarContraseñaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOlvidarContraseñaMouseClicked
+        String usuario = JOptionPane.showInputDialog("Introduce tu número de usuario:");
+        
+        if (usuario == null){
+            AuxiliarMethods.showWarning("El número de usuario no existe.");
+        } else {
+            Maestro m = new Maestro(Integer.parseInt(usuario));
+            try {
+                JOptionPane.showMessageDialog(null, "La contraseña es: "+m.recuperarContraseña(m.getIdMaestro()));
+            } catch (SQLException e){
+                AuxiliarMethods.showWarning("No se ha podido recuperar la contraseña. \nPor favor, contacte con un administrador.");
+            }
+        }
+    }//GEN-LAST:event_lblOlvidarContraseñaMouseClicked
 
     public int traducirTamañoLetra(){
         switch(comboTamaño.getSelectedItem().toString()){

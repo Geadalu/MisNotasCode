@@ -41,6 +41,14 @@ public class Maestro {
         this.cursos = new ArrayList<>();
         this.imagen = new ImageIcon("assets/personGrande.png"); //imagen por defecto
     }
+    
+    /**
+     * Constructor sin contraseña, usado para recuperar contraseña
+     * @param idMaestro 
+     */
+    public Maestro(int idMaestro){
+        this.idMaestro = idMaestro;
+    }
 
     public void cargarMaestro() throws SQLException {
         String sqlNombre = "SELECT nombre FROM datossesion WHERE idMaestro = " + this.idMaestro;
@@ -66,6 +74,18 @@ public class Maestro {
             return false;
         }
 
+    }
+    
+    public String recuperarContraseña(int usuario) throws SQLException {
+        String sqlCredenciales = "SELECT contraseña FROM datossesion WHERE idMaestro = "+usuario+";";
+        Statement st = DBConnection.getConnection().createStatement();
+        ResultSet resultCredenciales = st.executeQuery(sqlCredenciales);
+        
+        if (resultCredenciales.next()) {
+            return resultCredenciales.getString("contraseña");
+        } else {
+            return null;
+        }
     }
 
     public void cargarAsignaturas() throws SQLException {
