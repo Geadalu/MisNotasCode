@@ -136,7 +136,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         rdbtnSeleccionar = new javax.swing.JRadioButton();
         lblTituloGrande = new javax.swing.JLabel();
         txtPeso = new javax.swing.JTextField();
-        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         panelTabla = new javax.swing.JPanel();
         jScrollPane = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -152,8 +151,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listaComAsig = new javax.swing.JList<>();
-        lblDatos = new javax.swing.JLabel();
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler29 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
@@ -164,10 +161,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler26 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler27 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-        filler28 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler31 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
-        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         filler32 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler33 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
@@ -176,6 +170,13 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         filler35 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler36 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler37 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
+        lblEtiqueta = new javax.swing.JLabel();
+        txtEtiqueta = new javax.swing.JTextField();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva tarea");
@@ -193,8 +194,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 19;
-        gridBagConstraints.gridy = 31;
+        gridBagConstraints.gridx = 20;
+        gridBagConstraints.gridy = 33;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(btnCancelar, gridBagConstraints);
@@ -208,16 +209,16 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 21;
-        gridBagConstraints.gridy = 31;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridx = 22;
+        gridBagConstraints.gridy = 33;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnGuardar, gridBagConstraints);
 
         lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblAsignatura.setText("Asignatura:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -226,7 +227,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblTitulo.setText("Título:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -235,13 +236,13 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblPeso.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblPeso.setText("Peso (%):");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 19;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
         getContentPane().add(lblPeso, gridBagConstraints);
 
         chbxTrabajoAdic.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        chbxTrabajoAdic.setText("Trabajo adicional");
+        chbxTrabajoAdic.setText("Es recuperación");
         chbxTrabajoAdic.setToolTipText("Haga clic aquí si este trabajo no tiene peso en la nota final");
         chbxTrabajoAdic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -249,9 +250,9 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 21;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         getContentPane().add(chbxTrabajoAdic, gridBagConstraints);
 
@@ -260,7 +261,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         txtAsignatura.setMaximumSize(new java.awt.Dimension(100, 22));
         txtAsignatura.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -275,9 +276,9 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridwidth = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(txtTitulo, gridBagConstraints);
 
@@ -290,8 +291,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(rdbtnTodos, gridBagConstraints);
@@ -304,8 +305,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 23;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridx = 25;
+        gridBagConstraints.gridy = 16;
         getContentPane().add(rdbtnSeleccionar, gridBagConstraints);
 
         lblTituloGrande.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
@@ -313,7 +314,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 19;
+        gridBagConstraints.gridwidth = 20;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblTituloGrande, gridBagConstraints);
@@ -321,16 +322,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         txtPeso.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtPeso.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 21;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         getContentPane().add(txtPeso, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 15;
-        getContentPane().add(filler13, gridBagConstraints);
 
         panelTabla.setMinimumSize(new java.awt.Dimension(300, 200));
         panelTabla.setLayout(new javax.swing.BoxLayout(panelTabla, javax.swing.BoxLayout.LINE_AXIS));
@@ -368,9 +364,9 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         panelTabla.add(jScrollPane);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.gridheight = 14;
         getContentPane().add(panelTabla, gridBagConstraints);
 
@@ -378,15 +374,16 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblTrimestre.setText("Trimestre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblTrimestre, gridBagConstraints);
 
         comboTrimestre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         comboTrimestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º", "2º", "3º" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 15;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(comboTrimestre, gridBagConstraints);
 
@@ -403,7 +400,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridx = 20;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -413,7 +410,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblFecha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblFecha.setText("Fecha:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 13;
+        gridBagConstraints.gridx = 18;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblFecha, gridBagConstraints);
@@ -422,7 +419,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblCompetencias.setText("Competencias de la prueba:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblCompetencias, gridBagConstraints);
@@ -431,16 +428,17 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         lblDescripcion.setText("Descripción:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 23;
+        gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblDescripcion, gridBagConstraints);
 
         lblComAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblComAsig.setText("Seleccionar competencias:");
+        lblComAsig.setText("Seleccionar competencias deseadas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblComAsig, gridBagConstraints);
 
@@ -449,7 +447,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         descripcion.setRows(5);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 10;
         gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -458,7 +456,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 20;
+        gridBagConstraints.gridwidth = 22;
         getContentPane().add(filler24, gridBagConstraints);
 
         listaComAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -474,139 +472,154 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 17;
         gridBagConstraints.gridwidth = 10;
         gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(jPanel1, gridBagConstraints);
-
-        lblDatos.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblDatos.setText("Datos principales:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblDatos, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 20;
-        getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 30;
+        gridBagConstraints.gridheight = 32;
         getContentPane().add(filler17, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 29;
+        gridBagConstraints.gridheight = 31;
         getContentPane().add(filler22, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 32;
-        gridBagConstraints.gridwidth = 24;
+        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridwidth = 26;
         getContentPane().add(filler29, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 24;
+        gridBagConstraints.gridx = 26;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 33;
+        gridBagConstraints.gridheight = 35;
         getContentPane().add(filler30, gridBagConstraints);
 
         lblAlumnos.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         lblAlumnos.setText("Alumnos asignados a la prueba:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblAlumnos, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridy = 23;
         getContentPane().add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 23;
+        gridBagConstraints.gridwidth = 25;
         getContentPane().add(filler9, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridx = 17;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(filler19, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 3;
         getContentPane().add(filler26, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 14;
+        gridBagConstraints.gridx = 19;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 3;
         getContentPane().add(filler27, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridheight = 3;
-        getContentPane().add(filler28, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.gridwidth = 20;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = 22;
         getContentPane().add(filler31, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridheight = 4;
-        getContentPane().add(filler1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridheight = 3;
-        getContentPane().add(filler11, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridx = 19;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler32, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         getContentPane().add(filler33, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 10;
         getContentPane().add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 16;
         getContentPane().add(filler34, gridBagConstraints);
 
         jSeparator1.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 22;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 24;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(jSeparator1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 25;
+        gridBagConstraints.gridx = 27;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 29;
+        gridBagConstraints.gridheight = 31;
         getContentPane().add(filler35, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 30;
-        gridBagConstraints.gridwidth = 18;
+        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridwidth = 20;
         getContentPane().add(filler36, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridx = 16;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(filler37, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        getContentPane().add(filler3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 11;
+        getContentPane().add(filler5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 11;
+        getContentPane().add(filler7, gridBagConstraints);
+
+        lblEtiqueta.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblEtiqueta.setText("Etiqueta:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        getContentPane().add(lblEtiqueta, gridBagConstraints);
+
+        txtEtiqueta.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtEtiqueta.setMinimumSize(new java.awt.Dimension(100, 22));
+        txtEtiqueta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEtiquetaKeyReleased(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 20;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        getContentPane().add(txtEtiqueta, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 7;
+        getContentPane().add(filler4, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridy = 7;
+        getContentPane().add(filler10, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -721,6 +734,10 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chbxTrabajoAdicActionPerformed
 
+    private void txtEtiquetaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEtiquetaKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEtiquetaKeyReleased
+
     private void getDate() {
         //Rellenamos el campo de fecha por defecto con la fecha de hoy para que sepan el formato
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -794,9 +811,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JCheckBox chbxTrabajoAdic;
     private javax.swing.JComboBox<String> comboTrimestre;
     private javax.swing.JTextArea descripcion;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler11;
-    private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
@@ -804,8 +819,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler24;
     private javax.swing.Box.Filler filler26;
     private javax.swing.Box.Filler filler27;
-    private javax.swing.Box.Filler filler28;
     private javax.swing.Box.Filler filler29;
+    private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler30;
     private javax.swing.Box.Filler filler31;
     private javax.swing.Box.Filler filler32;
@@ -815,7 +830,9 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler36;
     private javax.swing.Box.Filler filler37;
     private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane;
@@ -825,8 +842,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblAsignatura;
     private javax.swing.JLabel lblComAsig;
     private javax.swing.JLabel lblCompetencias;
-    private javax.swing.JLabel lblDatos;
     private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblEtiqueta;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblPeso;
     private javax.swing.JLabel lblTitulo;
@@ -838,6 +855,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdbtnTodos;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtAsignatura;
+    private javax.swing.JTextField txtEtiqueta;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtPeso;
     private javax.swing.JTextField txtTitulo;
