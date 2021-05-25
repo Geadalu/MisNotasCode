@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.TextField;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -60,6 +61,11 @@ public class LoginWindow extends javax.swing.JFrame {
         initComponents();
         panelOpciones.setVisible(false);
         mostrarContraseña = txtContraseña.getEchoChar();
+        
+        
+        //BORRAR AL TERMINAR DE PROBAR
+        txtUsuario.setText("1");
+        txtContraseña.setText("1234");
 
     }
 
@@ -162,6 +168,11 @@ public class LoginWindow extends javax.swing.JFrame {
         getContentPane().add(txtUsuario, gridBagConstraints);
 
         txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtContraseñaKeyReleased(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
@@ -476,35 +487,7 @@ public class LoginWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        boolean entrar = false;
-        Maestro maestro = null;
-        
-        try {
-            maestro = new Maestro(Integer.parseInt(txtUsuario.getText()), new String(txtContraseña.getPassword()));
-            maestro.cargarMaestro();
-            if(maestro.comprobarCredenciales()){
-                entrar = true;
-            }
-        } catch (NumberFormatException e) {
-            AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
-        } catch (SQLException e){
-            AuxiliarMethods.showWarning("No se ha podido el maestro desde la base de datos.\nMás detalles: "+e.toString());
-        }
-        
-        opciones = new Opciones(traducirTamañoLetra(), chbxOscuro.isSelected(), 
-                getImageColor(comboBackground.getSelectedItem().toString()), 
-                getImageColor(comboColorAprobados.getSelectedItem().toString()),
-                getImageColor(comboColorSuspensos.getSelectedItem().toString()));
-        
-        if (entrar){
-            MainWindow mw = new MainWindow(maestro, opciones);
-            mw.pack();
-            mw.setVisible(true);
-            mw.setMinimumSize(mw.getSize());
-            this.dispose();
-        }
-        
-
+        iniciarSesion();
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcionesActionPerformed
@@ -641,6 +624,12 @@ public class LoginWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lblOlvidarContraseñaMouseClicked
 
+    private void txtContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            iniciarSesion();
+        }
+    }//GEN-LAST:event_txtContraseñaKeyReleased
+
     public int traducirTamañoLetra(){
         switch(comboTamaño.getSelectedItem().toString()){
             case "Muy pequeña":
@@ -683,6 +672,36 @@ public class LoginWindow extends javax.swing.JFrame {
         }
 
         return new Color(color);
+    }
+    
+    public void iniciarSesion(){
+        boolean entrar = false;
+        Maestro maestro = null;
+        
+        try {
+            maestro = new Maestro(Integer.parseInt(txtUsuario.getText()), new String(txtContraseña.getPassword()));
+            maestro.cargarMaestro();
+            if(maestro.comprobarCredenciales()){
+                entrar = true;
+            }
+        } catch (NumberFormatException e) {
+            AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+        } catch (SQLException e){
+            AuxiliarMethods.showWarning("No se ha podido el maestro desde la base de datos.\nMás detalles: "+e.toString());
+        }
+        
+        opciones = new Opciones(traducirTamañoLetra(), chbxOscuro.isSelected(), 
+                getImageColor(comboBackground.getSelectedItem().toString()), 
+                getImageColor(comboColorAprobados.getSelectedItem().toString()),
+                getImageColor(comboColorSuspensos.getSelectedItem().toString()));
+        
+        if (entrar){
+            MainWindow mw = new MainWindow(maestro, opciones);
+            mw.pack();
+            mw.setVisible(true);
+            mw.setMinimumSize(mw.getSize());
+            this.dispose();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

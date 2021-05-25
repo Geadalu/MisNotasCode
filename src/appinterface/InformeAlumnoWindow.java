@@ -19,8 +19,10 @@ import controladores.ControladorPrueba;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -44,6 +46,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     DefaultTableModel model1;
     DefaultTableModel model2;
     DefaultTableModel model3;
+    NumberFormat formatter;
+    
 
     /**
      * Creates new form InformeAlumnoWindow
@@ -60,6 +64,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         this.alumno = alumno;
         this.opciones = opciones;
         initComponents();
+        
+        this.formatter = NumberFormat.getInstance(Locale.US);
+        this.formatter.setMaximumFractionDigits(2);
+        this.formatter.setRoundingMode(RoundingMode.UP);
 
         try {
             this.contPruebas.cargarPruebasAsignatura(asignatura);
@@ -74,6 +82,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         ejecutarOpciones();
 
         cargarCampos(alumno);
+        
+        cargarEstados();
 
     }
 
@@ -96,15 +106,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             final1.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
             final2.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
             final3.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
-            double mediaAsig = Double.parseDouble(final1.getText())
+            double mediaAsig = (Double.parseDouble(final1.getText())
                     + Double.parseDouble(final2.getText())
-                    + Double.parseDouble(final3.getText()) / 3.0;
-            NumberFormat formatter = new DecimalFormat("#0.00");
+                    + Double.parseDouble(final3.getText())) / 3.0;
             lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
             //Cargar medias
-            lblMedia1N.setText(calcularMedia(tabla1));
-            lblMedia2N.setText(calcularMedia(tabla2));
-            lblMedia3N.setText(calcularMedia(tabla3));
+            lblMedia1N.setText(calcularMedia(tabla1, 1));
+            lblMedia2N.setText(calcularMedia(tabla2, 2));
+            lblMedia3N.setText(calcularMedia(tabla3, 3));
         } else { //si no tiene notas finales todavía
             final1.setText("");
             final2.setText("");
@@ -127,20 +136,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }
 
-    public String calcularMedia(JTable tabla) {
+    public String calcularMedia(JTable tabla, int trimestre) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         int i;
-        int contadorMedia = 0; //las filas que cuentan para la media
-        NumberFormat formatter = new DecimalFormat("#0.00");
         double media = 0.0;
+        int numeroPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); //el numero de pruebas que hay en el trimestre (para hacer la media)
 
         for (i = 0; i < model.getRowCount(); i++) {
             if (model.getValueAt(i, 1) != null) {
                 media += Double.parseDouble(model.getValueAt(i, 1).toString());
-                contadorMedia++;
             }
         }
-        return formatter.format(media / contadorMedia);
+        if (numeroPruebas == 0){
+            return "N/A";
+        } else {        
+            return formatter.format(media / numeroPruebas);
+        }
     }
 
     /**
@@ -189,6 +200,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         lblPruebas1 = new javax.swing.JLabel();
         filler61 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 30));
+        filler60 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
+        filler64 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        lblCalificacion1 = new javax.swing.JLabel();
+        filler67 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
+        filler68 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         panel2 = new javax.swing.JPanel();
         lblMedia2 = new javax.swing.JLabel();
         lblFinal2 = new javax.swing.JLabel();
@@ -220,6 +236,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler43 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         filler44 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         lblPruebas2 = new javax.swing.JLabel();
+        filler63 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
+        lblEstado2 = new javax.swing.JLabel();
+        filler65 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        lblCalificacion2 = new javax.swing.JLabel();
+        filler69 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         panel3 = new javax.swing.JPanel();
         lblMedia3 = new javax.swing.JLabel();
         lblFinal3 = new javax.swing.JLabel();
@@ -251,6 +272,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler45 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         filler46 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         lblPruebas3 = new javax.swing.JLabel();
+        filler62 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
+        lblEstado3 = new javax.swing.JLabel();
+        filler66 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        lblCalificacion3 = new javax.swing.JLabel();
+        filler70 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         btnCancelar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 15), new java.awt.Dimension(15, 15), new java.awt.Dimension(15, 15));
@@ -270,6 +296,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler54 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler55 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        filler56 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 32767));
         filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 32767));
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(300, 0), new java.awt.Dimension(300, 0), new java.awt.Dimension(300, 32767));
@@ -294,6 +321,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler49 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler59 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 200), new java.awt.Dimension(0, 200), new java.awt.Dimension(32767, 200));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
+        lblEstadoFinal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumno");
@@ -403,7 +431,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel1.add(final1, gridBagConstraints);
 
         lblMedia1N.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblMedia1N.setText("numMedia1");
+        lblMedia1N.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
@@ -465,6 +493,30 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 11;
         panel1.add(filler61, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 4;
+        panel1.add(filler60, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 10;
+        panel1.add(filler64, gridBagConstraints);
+
+        lblCalificacion1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblCalificacion1.setText("Calif");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 10;
+        panel1.add(lblCalificacion1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 10;
+        panel1.add(filler67, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 10;
+        panel1.add(filler68, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -520,7 +572,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.ipadx = 120;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -539,7 +591,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel2.add(final2, gridBagConstraints);
 
         lblMedia2N.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblMedia2N.setText("numMedia2");
+        lblMedia2N.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
@@ -559,7 +611,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel2.add(filler25, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -569,17 +621,17 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel2.add(filler34, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel2.add(filler38, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel2.add(filler24, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -587,7 +639,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 12;
         panel2.add(filler43, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 12;
         panel2.add(filler44, gridBagConstraints);
@@ -601,6 +653,33 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panel2.add(lblPruebas2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 4;
+        panel2.add(filler63, gridBagConstraints);
+
+        lblEstado2.setText("-");
+        lblEstado2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 10;
+        panel2.add(lblEstado2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 10;
+        panel2.add(filler65, gridBagConstraints);
+
+        lblCalificacion2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblCalificacion2.setText("Calif");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 10;
+        panel2.add(lblCalificacion2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 10;
+        panel2.add(filler69, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
@@ -657,7 +736,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.ipadx = 120;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -676,7 +755,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel3.add(final3, gridBagConstraints);
 
         lblMedia3N.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblMedia3N.setText("numMedia3");
+        lblMedia3N.setText("-");
         lblMedia3N.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -697,7 +776,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel3.add(filler28, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -706,17 +785,17 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel3.add(filler35, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel3.add(filler41, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         panel3.add(filler42, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -724,7 +803,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 12;
         panel3.add(filler45, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 10;
         panel3.add(filler46, gridBagConstraints);
@@ -735,9 +814,36 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panel3.add(lblPruebas3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 4;
+        panel3.add(filler62, gridBagConstraints);
+
+        lblEstado3.setText("-");
+        lblEstado3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 10;
+        panel3.add(lblEstado3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 10;
+        panel3.add(filler66, gridBagConstraints);
+
+        lblCalificacion3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblCalificacion3.setText("Calif");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 10;
+        panel3.add(lblCalificacion3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 10;
+        panel3.add(filler70, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 29;
@@ -829,14 +935,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         panelFinales.add(finalAsig, gridBagConstraints);
 
         lblMediaAsignaturaN.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblMediaAsignaturaN.setText("mediaAs");
+        lblMediaAsignaturaN.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         panelFinales.add(lblMediaAsignaturaN, gridBagConstraints);
 
@@ -879,6 +987,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 4;
         panelFinales.add(filler5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 3;
+        panelFinales.add(filler56, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
@@ -1016,6 +1128,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 29;
         gridBagConstraints.gridwidth = 21;
         getContentPane().add(filler8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 31;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridheight = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        getContentPane().add(lblEstadoFinal, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1030,6 +1148,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         if (alumno.getPosicion() != contAlumnos.getAlumnosAsignatura().get(asignatura).size() - 1) {
             //guardar campos
             cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() + 1));
+            cargarEstados();
             this.alumno = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() + 1);
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
@@ -1039,6 +1158,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         if (alumno.getPosicion() != 0) {
             //guardar campos
             cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() - 1));
+            cargarEstados();
             this.alumno = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() - 1);
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
@@ -1057,7 +1177,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         //Guardar notas finales
         ArrayList<Double> notasFinales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotasFinales().get(asignatura);
-        if (notasFinales.isEmpty()) { //si no tiene todavía notas finales
+        if (notasFinales == null) { //si no tiene todavía notas finales
+            notasFinales = new ArrayList<>();
             if (final1.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
@@ -1167,7 +1288,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         tabla1.setBackground(colorBackground);
         tabla2.setBackground(colorBackground);
         tabla3.setBackground(colorBackground);
-        txtComentarios.setBackground(colorBackground);
         panelFinales.setBackground(colorBackground);
         
         //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
@@ -1186,6 +1306,88 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         
+    }
+    
+    private void cargarEstados(){
+        System.out.println("Cargar estados");
+        if(!final1.getText().isEmpty() && !final2.getText().isEmpty()){
+            if((int)Double.parseDouble(final1.getText()) > (int)Double.parseDouble(final2.getText())){
+                //Si el alumno ha empeorado la nota del trimestre 1 al 2
+                lblEstado2.setText("");
+                lblEstado2.setIcon(new ImageIcon("assets/FlechaRoja.png"));         
+                lblEstado2.setToolTipText("Nota empeorada respecto al trimestre anterior");
+            } else if ((int)Double.parseDouble(final1.getText()) < (int)Double.parseDouble(final2.getText())){
+                //Si el alumno ha mejorado la nota del trimestre 1 al 2
+                lblEstado2.setText("");
+                lblEstado2.setIcon(new ImageIcon("assets/FlechaVerde.png"));
+                lblEstado2.setToolTipText("Nota mejorada respecto al trimestre anterior");
+            } else if (Double.parseDouble(final1.getText()) == Double.parseDouble(final2.getText())){
+                //Si el alumno ha mantenido la nota
+                lblEstado2.setText("=");
+                lblEstado2.setToolTipText("Nota igual al trimestre anterior");
+            }
+            
+        }
+        if(!final2.getText().isEmpty() && !final3.getText().isEmpty()){
+            
+            if((int)Double.parseDouble(final2.getText()) > (int)Double.parseDouble(final3.getText())){
+                //Si el alumno ha empeorado la nota del trimestre 2 al 3
+                lblEstado3.setText("");
+                lblEstado3.setIcon(new ImageIcon("assets/FlechaRoja.png")); 
+                lblEstado3.setToolTipText("Nota empeorada respecto al trimestre anterior");
+            } else if ((int)Double.parseDouble(final2.getText()) < (int)Double.parseDouble(final3.getText())){
+                //Si el alumno ha mejorado la nota del trimestre 2 al 3
+                lblEstado3.setText("");
+                lblEstado3.setIcon(new ImageIcon("assets/FlechaVerde.png"));
+                lblEstado3.setToolTipText("Nota mejorada respecto al trimestre anterior");
+            } else if (Double.parseDouble(final1.getText()) == Double.parseDouble(final2.getText())){
+                //Si el alumno ha mantenido la nota
+                lblEstado3.setText("=");
+                lblEstado3.setToolTipText("Nota igual al trimestre anterior");
+            }
+        }
+        System.out.println(final1.getText());
+        System.out.println(final2.getText());
+        System.out.println(final3.getText());
+        
+        if(!final1.getText().isEmpty() || !final1.getText().equals("")){
+            lblCalificacion1.setText(cargarCalificacion(Double.parseDouble(final1.getText())));
+        }
+        
+        if(!final2.getText().isEmpty() || !final2.getText().equals("")){
+            lblCalificacion2.setText(cargarCalificacion(Double.parseDouble(final2.getText())));
+        }
+        
+        if(!final3.getText().isEmpty() || !final3.getText().equals("")){
+            lblCalificacion3.setText(cargarCalificacion(Double.parseDouble(final3.getText())));
+        }
+        
+        try {
+            if(Double.parseDouble(lblMediaAsignaturaN.getText()) >= 5.0){
+                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoy.png"));
+            } else {
+                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoySad.png"));
+            }
+        } catch (NumberFormatException e){
+            lblEstadoFinal.setIcon(new ImageIcon("assets/NormalVaultBoy.png"));
+        }
+        
+    }
+    
+    private String cargarCalificacion(Double nota) {
+        System.out.println("nota = "+nota);
+        if(nota<5.0){
+            return "Insuficiente";
+        } else if(nota>=5.0 && nota<6.0){
+            return "Suficiente";
+        } else if(nota>=6.0 && nota<7.0){
+            return "Bien";
+        } else if(nota>=7.0 && nota<9.0){
+            return "Notable";
+        } else if(nota>=9.0){
+            return "Sobresaliente";
+        }
+        return "";
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1244,12 +1446,23 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler53;
     private javax.swing.Box.Filler filler54;
     private javax.swing.Box.Filler filler55;
+    private javax.swing.Box.Filler filler56;
     private javax.swing.Box.Filler filler57;
     private javax.swing.Box.Filler filler58;
     private javax.swing.Box.Filler filler59;
     private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler60;
     private javax.swing.Box.Filler filler61;
+    private javax.swing.Box.Filler filler62;
+    private javax.swing.Box.Filler filler63;
+    private javax.swing.Box.Filler filler64;
+    private javax.swing.Box.Filler filler65;
+    private javax.swing.Box.Filler filler66;
+    private javax.swing.Box.Filler filler67;
+    private javax.swing.Box.Filler filler68;
+    private javax.swing.Box.Filler filler69;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler70;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JTextField final1;
@@ -1257,8 +1470,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JTextField final3;
     private javax.swing.JTextField finalAsig;
     private javax.swing.JLabel lblApellidos;
+    private javax.swing.JLabel lblCalificacion1;
+    private javax.swing.JLabel lblCalificacion2;
+    private javax.swing.JLabel lblCalificacion3;
     private javax.swing.JLabel lblComentarios;
     private javax.swing.JLabel lblDNI;
+    private javax.swing.JLabel lblEstado2;
+    private javax.swing.JLabel lblEstado3;
+    private javax.swing.JLabel lblEstadoFinal;
     private javax.swing.JLabel lblFinal1;
     private javax.swing.JLabel lblFinal2;
     private javax.swing.JLabel lblFinal3;
@@ -1286,4 +1505,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JTable tabla3;
     private javax.swing.JTextArea txtComentarios;
     // End of variables declaration//GEN-END:variables
+
+
 }

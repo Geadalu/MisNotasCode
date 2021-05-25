@@ -333,9 +333,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(imagen, gridBagConstraints);
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N

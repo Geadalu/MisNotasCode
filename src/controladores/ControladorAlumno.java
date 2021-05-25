@@ -67,6 +67,7 @@ public class ControladorAlumno {
                 + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
                 + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3)
                 + " WHERE idAlumno = " + alumno.getIdAlumno();
+       
 
         if(st.executeUpdate(sqlNotas) == 0){
             //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
