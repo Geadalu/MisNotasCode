@@ -333,7 +333,7 @@ public class LoginWindow extends javax.swing.JFrame {
         panelOpciones.add(filler19, gridBagConstraints);
 
         chbxDaltonico.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        chbxDaltonico.setText("Modo daltónicos (deuteranopía)");
+        chbxDaltonico.setText("Modo daltónicos");
         chbxDaltonico.setToolTipText("Cambia el color de aprobados y suspensos para que sean fáciles de reconocer para personas daltónicas");
         chbxDaltonico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

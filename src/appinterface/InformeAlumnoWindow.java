@@ -1309,7 +1309,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }
     
     private void cargarEstados(){
-        System.out.println("Cargar estados");
+        //lblEstado2: la del segundo trimestre
         if(!final1.getText().isEmpty() && !final2.getText().isEmpty()){
             if((int)Double.parseDouble(final1.getText()) > (int)Double.parseDouble(final2.getText())){
                 //Si el alumno ha empeorado la nota del trimestre 1 al 2
@@ -1323,13 +1323,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 lblEstado2.setToolTipText("Nota mejorada respecto al trimestre anterior");
             } else if (Double.parseDouble(final1.getText()) == Double.parseDouble(final2.getText())){
                 //Si el alumno ha mantenido la nota
+                lblEstado3.setIcon(null);
                 lblEstado2.setText("=");
                 lblEstado2.setToolTipText("Nota igual al trimestre anterior");
             }
             
         }
-        if(!final2.getText().isEmpty() && !final3.getText().isEmpty()){
-            
+        
+        //lblEstado3: la del tercer trimestre
+        if(!final2.getText().isEmpty() && !final3.getText().isEmpty()){  
             if((int)Double.parseDouble(final2.getText()) > (int)Double.parseDouble(final3.getText())){
                 //Si el alumno ha empeorado la nota del trimestre 2 al 3
                 lblEstado3.setText("");
@@ -1340,15 +1342,17 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 lblEstado3.setText("");
                 lblEstado3.setIcon(new ImageIcon("assets/FlechaVerde.png"));
                 lblEstado3.setToolTipText("Nota mejorada respecto al trimestre anterior");
-            } else if (Double.parseDouble(final1.getText()) == Double.parseDouble(final2.getText())){
+            } else if (Double.parseDouble(final2.getText()) == Double.parseDouble(final3.getText())){
                 //Si el alumno ha mantenido la nota
+                lblEstado3.setIcon(null);
                 lblEstado3.setText("=");
                 lblEstado3.setToolTipText("Nota igual al trimestre anterior");
             }
         }
-        System.out.println(final1.getText());
-        System.out.println(final2.getText());
-        System.out.println(final3.getText());
+        
+        lblCalificacion1.setText("");
+        lblCalificacion2.setText("");
+        lblCalificacion3.setText("");
         
         if(!final1.getText().isEmpty() || !final1.getText().equals("")){
             lblCalificacion1.setText(cargarCalificacion(Double.parseDouble(final1.getText())));
@@ -1375,7 +1379,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }
     
     private String cargarCalificacion(Double nota) {
-        System.out.println("nota = "+nota);
         if(nota<5.0){
             return "Insuficiente";
         } else if(nota>=5.0 && nota<6.0){

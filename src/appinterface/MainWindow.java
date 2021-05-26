@@ -1159,9 +1159,9 @@ public class MainWindow extends javax.swing.JFrame {
         TableColumn col2 = tabla.getColumnModel().getColumn(2); //columna trimestre 1
         TableColumn col3 = tabla.getColumnModel().getColumn(3); //columna trimestre 2
         TableColumn col4 = tabla.getColumnModel().getColumn(4); //columna trimestre 3
-        tips.setToolTip(col2, "Fecha claustro: 7/12/2021");
-        tips.setToolTip(col3, "Fecha claustro: 18/03/2022");
-        tips.setToolTip(col4, "Fecha claustro: 27/06/2022");
+        tips.setToolTip(col2, "Fecha evaluación: 7/12/2021");
+        tips.setToolTip(col3, "Fecha evaluación: 18/03/2022");
+        tips.setToolTip(col4, "Fecha evaluación: 27/06/2022");
         header.addMouseMotionListener(tips);
     }
     
