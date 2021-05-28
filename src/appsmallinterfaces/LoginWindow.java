@@ -19,6 +19,7 @@ import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import static java.lang.Math.max;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,13 +97,12 @@ public class LoginWindow extends javax.swing.JFrame {
         panelOpciones = new javax.swing.JPanel();
         lbltamañoLetra = new javax.swing.JLabel();
         comboTamaño = new javax.swing.JComboBox<>();
-        btnGuardar = new javax.swing.JButton();
+        btnAplicar = new javax.swing.JButton();
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
-        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         lblColorAprobados = new javax.swing.JLabel();
         lblColorSuspensos = new javax.swing.JLabel();
         lblBackground = new javax.swing.JLabel();
@@ -117,16 +117,19 @@ public class LoginWindow extends javax.swing.JFrame {
         filler21 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         lblEjemplo = new javax.swing.JLabel();
+        filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        lblColorAprobados1 = new javax.swing.JLabel();
+        filler25 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         chbxMostrar = new javax.swing.JCheckBox();
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
         filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 60), new java.awt.Dimension(0, 60), new java.awt.Dimension(32767, 60));
         filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
-        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         lblOlvidarContraseña = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
+        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Identificación");
@@ -261,76 +264,72 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelOpciones.add(comboTamaño, gridBagConstraints);
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnGuardar.setText("Aplicar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnAplicar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnAplicar.setText("Aplicar");
+        btnAplicar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnAplicarActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.gridwidth = 6;
-        panelOpciones.add(btnGuardar, gridBagConstraints);
+        panelOpciones.add(btnAplicar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         panelOpciones.add(filler8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 15;
         panelOpciones.add(filler11, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 3;
         panelOpciones.add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 3;
         panelOpciones.add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 3;
         panelOpciones.add(filler14, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        panelOpciones.add(filler18, gridBagConstraints);
 
         lblColorAprobados.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblColorAprobados.setText("Color aprobados:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        panelOpciones.add(lblColorAprobados, gridBagConstraints);
-
-        lblColorSuspensos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblColorSuspensos.setText("Color suspensos:");
+        lblColorAprobados.setText("Aprobados:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        panelOpciones.add(lblColorSuspensos, gridBagConstraints);
+        panelOpciones.add(lblColorAprobados, gridBagConstraints);
 
-        lblBackground.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblBackground.setText("Color del fondo:");
+        lblColorSuspensos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblColorSuspensos.setText("Suspensos:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        panelOpciones.add(lblColorSuspensos, gridBagConstraints);
+
+        lblBackground.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblBackground.setText("Fondo:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         panelOpciones.add(lblBackground, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 3;
         panelOpciones.add(filler19, gridBagConstraints);
 
@@ -344,7 +343,7 @@ public class LoginWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 3;
         panelOpciones.add(chbxDaltonico, gridBagConstraints);
 
@@ -357,13 +356,14 @@ public class LoginWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         panelOpciones.add(chbxOscuro, gridBagConstraints);
 
         comboBackground.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelOpciones.add(comboBackground, gridBagConstraints);
 
@@ -371,19 +371,21 @@ public class LoginWindow extends javax.swing.JFrame {
         comboColorAprobados.setSelectedIndex(1);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelOpciones.add(comboColorAprobados, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         panelOpciones.add(filler20, gridBagConstraints);
 
         comboColorSuspensos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         comboColorSuspensos.setSelectedIndex(0);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelOpciones.add(comboColorSuspensos, gridBagConstraints);
 
@@ -406,17 +408,35 @@ public class LoginWindow extends javax.swing.JFrame {
 
         lblEjemplo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblEjemplo.setText("Ejemplo");
+        lblEjemplo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelOpciones.add(lblEjemplo, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 5;
+        panelOpciones.add(filler24, gridBagConstraints);
+
+        lblColorAprobados1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblColorAprobados1.setText("Colores");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        panelOpciones.add(lblColorAprobados1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 6;
+        panelOpciones.add(filler25, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 10;
+        gridBagConstraints.gridheight = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(panelOpciones, gridBagConstraints);
 
@@ -455,11 +475,6 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 10;
         getContentPane().add(filler16, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 14;
-        getContentPane().add(filler17, gridBagConstraints);
 
         lblOlvidarContraseña.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         lblOlvidarContraseña.setForeground(new java.awt.Color(0, 0, 204));
@@ -484,6 +499,11 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridheight = 9;
         getContentPane().add(filler23, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 12;
+        getContentPane().add(filler18, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -496,9 +516,11 @@ public class LoginWindow extends javax.swing.JFrame {
         if (panelOpciones.isVisible()) {
             panelOpciones.setVisible(false);
             this.setSize(this.getWidth() - panelOpciones.getWidth(), this.getHeight() - panelOpciones.getHeight());
+            this.setLocation(600, 200);
         } else {
             panelOpciones.setVisible(true);
-            this.setSize(this.getWidth() + panelOpciones.getWidth(), this.getHeight() + panelOpciones.getHeight());
+            this.setSize(this.getWidth() + panelOpciones.getWidth(), 100 + max(this.getHeight(), panelOpciones.getHeight()));
+            AuxiliarMethods.centrarVentana(this);
         }
     }//GEN-LAST:event_btnOpcionesActionPerformed
 
@@ -522,17 +544,15 @@ public class LoginWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chbxMostrarActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
         int tamañoLetra = traducirTamañoLetra();
-        if (tamañoLetra > lblBackground.getFont().getSize()) {
-            this.setSize(this.getPreferredSize().width + panelOpciones.getWidth(), this.getPreferredSize().height + panelOpciones.getHeight());
-        } else if (tamañoLetra < lblBackground.getFont().getSize()) {
+        if (tamañoLetra > lblBackground.getFont().getSize()) { //se ha aumentado la letra
+            this.setSize(this.getPreferredSize().width + panelOpciones.getWidth(), this.getMinimumSize().height + panelOpciones.getHeight());
+        } else if (tamañoLetra < lblBackground.getFont().getSize()) { //se ha disminuido la letra
             this.setSize(this.getPreferredSize().width - panelOpciones.getWidth(), this.getPreferredSize().height - panelOpciones.getHeight());
         }
 
-        //ajustamos el frame a la mitad de la pantalla
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        AuxiliarMethods.centrarVentana(this);
 
         //recogemos los componentes del frame para ir cambiándolos según las opciones elegidas
         List<Component> components = AuxiliarMethods.getAllComponents(this);
@@ -541,6 +561,8 @@ public class LoginWindow extends javax.swing.JFrame {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), tamañoLetra));
             if (chbxOscuro.isSelected() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JPasswordField.class) {
                 c.setForeground(Color.LIGHT_GRAY);
+            } else if (!chbxOscuro.isSelected()){
+                c.setForeground(new Color(60,63,65));
             }
         }
         lblOlvidarContraseña.setForeground(Color.BLUE);
@@ -555,7 +577,7 @@ public class LoginWindow extends javax.swing.JFrame {
         chbxOscuro.setBackground(backgroundColor);
         panelOpciones.setBackground(backgroundColor);
 
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnAplicarActionPerformed
 
     private void chbxDaltonicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxDaltonicoActionPerformed
 
@@ -602,6 +624,7 @@ public class LoginWindow extends javax.swing.JFrame {
         } else {
             comboBackground.setEnabled(true);
             comboBackground.removeAllItems();
+            comboBackground.addItem(new ImageIcon("assets/colorFondoDefault.png"));
             comboBackground.addItem(new ImageIcon("assets/colorFondoNaranja.png"));
             comboBackground.addItem(new ImageIcon("assets/colorFondoRosa.png"));
             comboBackground.addItem(new ImageIcon("assets/colorFondoAzul.png"));
@@ -718,7 +741,7 @@ public class LoginWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnAplicar;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnOpciones;
     private javax.swing.JCheckBox chbxDaltonico;
@@ -736,7 +759,6 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler16;
-    private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler18;
     private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
@@ -744,6 +766,8 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler21;
     private javax.swing.Box.Filler filler22;
     private javax.swing.Box.Filler filler23;
+    private javax.swing.Box.Filler filler24;
+    private javax.swing.Box.Filler filler25;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
@@ -753,6 +777,7 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel lblBackground;
     private javax.swing.JLabel lblColorAprobados;
+    private javax.swing.JLabel lblColorAprobados1;
     private javax.swing.JLabel lblColorSuspensos;
     private javax.swing.JLabel lblContraseña;
     private javax.swing.JLabel lblEjemplo;
