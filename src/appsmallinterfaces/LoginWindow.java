@@ -20,6 +20,8 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.Icon;
@@ -36,35 +38,35 @@ import objects.Opciones;
  * @author lucia
  */
 public class LoginWindow extends javax.swing.JFrame {
+
     char mostrarContraseña;
-    Object[] coloresLetras =
-        {
-            new ImageIcon("assets/colorRojo.png"),
-            new ImageIcon("assets/colorVerde.png"),
-            new ImageIcon("assets/colorAzul.png"),
-            new ImageIcon("assets/colorNaranja.png"),
-            new ImageIcon("assets/colorMorado.png")
-        };
-    
-    Object[] coloresFondo =
-            {
-            new ImageIcon("assets/colorFondoDefault.png"),
-            new ImageIcon("assets/colorFondoNaranja.png"),
-            new ImageIcon("assets/colorFondoRosa.png"),
-            new ImageIcon("assets/colorFondoAzul.png"),
-            new ImageIcon("assets/colorFondoVerde.png")
-        };
-    
+    Object[] coloresLetras
+            = {
+                new ImageIcon("assets/colorRojo.png"),
+                new ImageIcon("assets/colorVerde.png"),
+                new ImageIcon("assets/colorAzul.png"),
+                new ImageIcon("assets/colorNaranja.png"),
+                new ImageIcon("assets/colorMorado.png")
+            };
+
+    Object[] coloresFondo
+            = {
+                new ImageIcon("assets/colorFondoDefault.png"),
+                new ImageIcon("assets/colorFondoNaranja.png"),
+                new ImageIcon("assets/colorFondoRosa.png"),
+                new ImageIcon("assets/colorFondoAzul.png"),
+                new ImageIcon("assets/colorFondoVerde.png")
+            };
+
     Opciones opciones;
 
     public LoginWindow() {
         initComponents();
         panelOpciones.setVisible(false);
         mostrarContraseña = txtContraseña.getEchoChar();
-        
-        
+
         //BORRAR AL TERMINAR DE PROBAR
-        txtUsuario.setText("1");
+        txtUsuario.setText("01234567A");
         txtContraseña.setText("1234");
 
     }
@@ -501,20 +503,20 @@ public class LoginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOpcionesActionPerformed
 
     private void txtUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMouseClicked
-        if(txtUsuario.getText().equals("Usuario")){
+        if (txtUsuario.getText().equals("Usuario")) {
             txtUsuario.setText("");
         }
     }//GEN-LAST:event_txtUsuarioMouseClicked
 
     private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
-        if(txtUsuario.getText().equals("")){
+        if (txtUsuario.getText().equals("")) {
             txtUsuario.setText("Usuario");
         }
     }//GEN-LAST:event_txtUsuarioFocusLost
 
     private void chbxMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxMostrarActionPerformed
-        if (!chbxMostrar.isSelected()){
-            txtContraseña.setEchoChar(mostrarContraseña); 
+        if (!chbxMostrar.isSelected()) {
+            txtContraseña.setEchoChar(mostrarContraseña);
         } else {
             txtContraseña.setEchoChar((char) 0);
         }
@@ -522,46 +524,46 @@ public class LoginWindow extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         int tamañoLetra = traducirTamañoLetra();
-        if (tamañoLetra > lblBackground.getFont().getSize()){
+        if (tamañoLetra > lblBackground.getFont().getSize()) {
             this.setSize(this.getPreferredSize().width + panelOpciones.getWidth(), this.getPreferredSize().height + panelOpciones.getHeight());
-        } else if (tamañoLetra < lblBackground.getFont().getSize()){
+        } else if (tamañoLetra < lblBackground.getFont().getSize()) {
             this.setSize(this.getPreferredSize().width - panelOpciones.getWidth(), this.getPreferredSize().height - panelOpciones.getHeight());
         }
-        
+
         //ajustamos el frame a la mitad de la pantalla
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
         //recogemos los componentes del frame para ir cambiándolos según las opciones elegidas
         List<Component> components = AuxiliarMethods.getAllComponents(this);
-        
-        for (Component c : components){
+
+        for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), tamañoLetra));
-            if(chbxOscuro.isSelected() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JPasswordField.class){
+            if (chbxOscuro.isSelected() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JPasswordField.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             }
         }
         lblOlvidarContraseña.setForeground(Color.BLUE);
 
-        lblIdentificacion.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra+15));
-        lblOpciones.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra+15));
-        
+        lblIdentificacion.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra + 15));
+        lblOpciones.setFont(new Font(lbltamañoLetra.getFont().getName(), Font.BOLD, tamañoLetra + 15));
+
         Color backgroundColor = getImageColor(comboBackground.getSelectedItem().toString());
-        this.getContentPane().setBackground(backgroundColor);  
+        this.getContentPane().setBackground(backgroundColor);
         chbxDaltonico.setBackground(backgroundColor);
         chbxMostrar.setBackground(backgroundColor);
         chbxOscuro.setBackground(backgroundColor);
         panelOpciones.setBackground(backgroundColor);
-        
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void chbxDaltonicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxDaltonicoActionPerformed
-        
-        if(chbxDaltonico.isSelected()){
+
+        if (chbxDaltonico.isSelected()) {
             comboColorAprobados.removeAllItems();
             comboColorSuspensos.removeAllItems();
-            comboColorAprobados.addItem(new ImageIcon ("assets/colorDaltAprobado.png"));
-            comboColorSuspensos.addItem(new ImageIcon ("assets/colorDaltSuspenso.png"));
+            comboColorAprobados.addItem(new ImageIcon("assets/colorDaltAprobado.png"));
+            comboColorSuspensos.addItem(new ImageIcon("assets/colorDaltSuspenso.png"));
             comboColorAprobados.setEnabled(false);
             comboColorSuspensos.setEnabled(false);
             comboColorAprobados.setToolTipText("No se puede cambiar en el modo para daltónicos");
@@ -592,7 +594,7 @@ public class LoginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_comboTamañoActionPerformed
 
     private void chbxOscuroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxOscuroActionPerformed
-        if(chbxOscuro.isSelected()){
+        if (chbxOscuro.isSelected()) {
             comboBackground.setEnabled(false);
             comboBackground.removeAllItems();
             comboBackground.addItem(new ImageIcon("assets/colorFondoGris.png"));
@@ -606,32 +608,32 @@ public class LoginWindow extends javax.swing.JFrame {
             comboBackground.addItem(new ImageIcon("assets/colorFondoVerde.png"));
             comboBackground.setToolTipText(null);
         }
-        
+
     }//GEN-LAST:event_chbxOscuroActionPerformed
 
     private void lblOlvidarContraseñaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOlvidarContraseñaMouseClicked
-        String usuario = JOptionPane.showInputDialog("Introduce tu número de usuario:");
-        
-        if (usuario == null){
-            AuxiliarMethods.showWarning("El número de usuario no existe.");
+        String usuario = JOptionPane.showInputDialog("Introduce tu ID de usuario:");
+
+        if (usuario == null) {
+            AuxiliarMethods.showWarning("El ID de usuario no existe.");
         } else {
-            Maestro m = new Maestro(Integer.parseInt(usuario));
+            Maestro m = new Maestro(usuario);
             try {
-                JOptionPane.showMessageDialog(null, "La contraseña es: "+m.recuperarContraseña(m.getIdMaestro()));
-            } catch (SQLException e){
+                JOptionPane.showMessageDialog(null, "La contraseña es: " + m.recuperarContraseña(m.getIdMaestro()));
+            } catch (SQLException e) {
                 AuxiliarMethods.showWarning("No se ha podido recuperar la contraseña. \nPor favor, contacte con un administrador.");
             }
         }
     }//GEN-LAST:event_lblOlvidarContraseñaMouseClicked
 
     private void txtContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             iniciarSesion();
         }
     }//GEN-LAST:event_txtContraseñaKeyReleased
 
-    public int traducirTamañoLetra(){
-        switch(comboTamaño.getSelectedItem().toString()){
+    public int traducirTamañoLetra() {
+        switch (comboTamaño.getSelectedItem().toString()) {
             case "Muy pequeña":
                 return 12;
             case "Pequeña":
@@ -646,11 +648,13 @@ public class LoginWindow extends javax.swing.JFrame {
                 return 16;
         }
     }
-    
+
     /**
      * Devuelve el color RGB de la imagen que se le pasa por argumento
-     * @param colorSeleccionado: el path a la imagen que se le pasa por argumento
-     * @return 
+     *
+     * @param colorSeleccionado: el path a la imagen que se le pasa por
+     * argumento
+     * @return
      */
     Color getImageColor(String colorSeleccionado) {
         ImageIcon icon = new ImageIcon(colorSeleccionado);
@@ -673,29 +677,38 @@ public class LoginWindow extends javax.swing.JFrame {
 
         return new Color(color);
     }
-    
-    public void iniciarSesion(){
+
+    public void iniciarSesion() {
         boolean entrar = false;
         Maestro maestro = null;
-        
+
         try {
-            maestro = new Maestro(Integer.parseInt(txtUsuario.getText()), new String(txtContraseña.getPassword()));
-            maestro.cargarMaestro();
-            if(maestro.comprobarCredenciales()){
-                entrar = true;
+            maestro = new Maestro(txtUsuario.getText(), new String(txtContraseña.getPassword()));
+            Pattern p = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])");
+            Matcher m;
+            String dni = txtUsuario.getText();
+            m = p.matcher(dni);
+            boolean match = m.matches();
+            if (!match) {
+                AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+                entrar = false;
+            } else {
+                maestro.cargarMaestro();
+                if (maestro.comprobarCredenciales()) {
+                    entrar = true;
+                }
             }
-        } catch (NumberFormatException e) {
-            AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
-        } catch (SQLException e){
-            AuxiliarMethods.showWarning("No se ha podido el maestro desde la base de datos.\nMás detalles: "+e.toString());
+
+        } catch (SQLException e) {
+            AuxiliarMethods.showWarning("No se ha podido recoger el maestro desde la base de datos.\nMás detalles: " + e.toString());
         }
-        
-        opciones = new Opciones(traducirTamañoLetra(), chbxOscuro.isSelected(), 
-                getImageColor(comboBackground.getSelectedItem().toString()), 
+
+        opciones = new Opciones(traducirTamañoLetra(), chbxOscuro.isSelected(),
+                getImageColor(comboBackground.getSelectedItem().toString()),
                 getImageColor(comboColorAprobados.getSelectedItem().toString()),
                 getImageColor(comboColorSuspensos.getSelectedItem().toString()));
-        
-        if (entrar){
+
+        if (entrar) {
             MainWindow mw = new MainWindow(maestro, opciones);
             mw.pack();
             mw.setVisible(true);

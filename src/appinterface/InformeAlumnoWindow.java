@@ -80,7 +80,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         tabla3.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
         ejecutarOpciones();
-
+        
+        refrescarCampos();
         cargarCampos(alumno);
         
         cargarEstados();
@@ -329,7 +330,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
-        lblTitulo.setText("Informe del alumno");
+        lblTitulo.setText("Informe del alumnado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -534,14 +535,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
         panel2.add(lblMedia2, gridBagConstraints);
 
         lblFinal2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblFinal2.setText("Nota final:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         panel2.add(lblFinal2, gridBagConstraints);
 
@@ -584,7 +586,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         final2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -596,16 +598,17 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         panel2.add(lblMedia2N, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridheight = 3;
         panel2.add(filler9, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 9;
         panel2.add(filler12, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -615,12 +618,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel2.add(filler25, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridheight = 3;
         panel2.add(filler15, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 12;
         panel2.add(filler34, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -636,12 +639,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 12;
+        gridBagConstraints.gridheight = 13;
         panel2.add(filler43, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 12;
+        gridBagConstraints.gridheight = 13;
         panel2.add(filler44, gridBagConstraints);
 
         lblPruebas2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -655,30 +658,30 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel2.add(lblPruebas2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 4;
         panel2.add(filler63, gridBagConstraints);
 
         lblEstado2.setText("-");
-        lblEstado2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panel2.add(lblEstado2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel2.add(filler65, gridBagConstraints);
 
         lblCalificacion2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblCalificacion2.setText("Calif");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel2.add(lblCalificacion2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel2.add(filler69, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -698,14 +701,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
         panel3.add(lblMedia3, gridBagConstraints);
 
         lblFinal3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblFinal3.setText("Nota final:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         panel3.add(lblFinal3, gridBagConstraints);
 
@@ -748,7 +752,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         final3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -761,16 +765,17 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         panel3.add(lblMedia3N, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridheight = 3;
         panel3.add(filler26, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 4;
         panel3.add(filler27, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -780,11 +785,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel3.add(filler28, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel3.add(filler33, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 12;
         panel3.add(filler35, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -800,12 +805,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 12;
+        gridBagConstraints.gridheight = 13;
         panel3.add(filler45, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 10;
+        gridBagConstraints.gridheight = 11;
         panel3.add(filler46, gridBagConstraints);
 
         lblPruebas3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -819,30 +824,30 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel3.add(lblPruebas3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 4;
         panel3.add(filler62, gridBagConstraints);
 
         lblEstado3.setText("-");
-        lblEstado3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panel3.add(lblEstado3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel3.add(filler66, gridBagConstraints);
 
         lblCalificacion3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblCalificacion3.setText("Calif");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel3.add(lblCalificacion3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         panel3.add(filler70, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1103,11 +1108,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(filler58, gridBagConstraints);
 
         lblComentarios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblComentarios.setText("Comentarios sobre el alumno:");
+        lblComentarios.setText("Comentarios:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         getContentPane().add(lblComentarios, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -1308,45 +1314,55 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         
     }
     
+    private void refrescarCampos(){
+        lblCalificacion1.setText("-");
+        lblCalificacion2.setText("-");
+        lblCalificacion3.setText("-");
+        lblEstado2.setText("-");
+        lblEstado2.setIcon(null);
+        lblEstado3.setText("-");
+        lblEstado3.setIcon(null);
+    }
+    
     private void cargarEstados(){
         //lblEstado2: la del segundo trimestre
-        if(!final1.getText().isEmpty() && !final2.getText().isEmpty()){
-            if((int)Double.parseDouble(final1.getText()) > (int)Double.parseDouble(final2.getText())){
+        if(!lblMedia1N.getText().equals("0") && !lblMedia2N.getText().equals("0")){
+            if((int)Double.parseDouble(lblMedia1N.getText()) > (int)Double.parseDouble(lblMedia2N.getText())){
                 //Si el alumno ha empeorado la nota del trimestre 1 al 2
                 lblEstado2.setText("");
                 lblEstado2.setIcon(new ImageIcon("assets/FlechaRoja.png"));         
-                lblEstado2.setToolTipText("Nota empeorada respecto al trimestre anterior");
-            } else if ((int)Double.parseDouble(final1.getText()) < (int)Double.parseDouble(final2.getText())){
+                lblEstado2.setToolTipText("Nota media empeorada respecto al trimestre anterior");
+            } else if ((int)Double.parseDouble(lblMedia1N.getText()) < (int)Double.parseDouble(lblMedia2N.getText())){
                 //Si el alumno ha mejorado la nota del trimestre 1 al 2
                 lblEstado2.setText("");
                 lblEstado2.setIcon(new ImageIcon("assets/FlechaVerde.png"));
-                lblEstado2.setToolTipText("Nota mejorada respecto al trimestre anterior");
-            } else if (Double.parseDouble(final1.getText()) == Double.parseDouble(final2.getText())){
+                lblEstado2.setToolTipText("Nota media mejorada respecto al trimestre anterior");
+            } else if (Double.parseDouble(lblMedia1N.getText()) == Double.parseDouble(lblMedia2N.getText())){
                 //Si el alumno ha mantenido la nota
-                lblEstado3.setIcon(null);
-                lblEstado2.setText("=");
-                lblEstado2.setToolTipText("Nota igual al trimestre anterior");
+                lblEstado2.setText("");
+                lblEstado2.setIcon(new ImageIcon("assets/CambioNeutral.png"));
+                lblEstado2.setToolTipText("Nota media parecida al trimestre anterior");
             }
             
         }
         
         //lblEstado3: la del tercer trimestre
-        if(!final2.getText().isEmpty() && !final3.getText().isEmpty()){  
-            if((int)Double.parseDouble(final2.getText()) > (int)Double.parseDouble(final3.getText())){
+        if(!lblMedia2N.getText().equals("0") && !lblMedia3N.getText().equals("0")){  
+            if((int)Double.parseDouble(lblMedia2N.getText()) > (int)Double.parseDouble(lblMedia3N.getText())){
                 //Si el alumno ha empeorado la nota del trimestre 2 al 3
                 lblEstado3.setText("");
                 lblEstado3.setIcon(new ImageIcon("assets/FlechaRoja.png")); 
-                lblEstado3.setToolTipText("Nota empeorada respecto al trimestre anterior");
-            } else if ((int)Double.parseDouble(final2.getText()) < (int)Double.parseDouble(final3.getText())){
+                lblEstado3.setToolTipText("Nota media empeorada respecto al trimestre anterior");
+            } else if ((int)Double.parseDouble(lblMedia2N.getText()) < (int)Double.parseDouble(lblMedia3N.getText())){
                 //Si el alumno ha mejorado la nota del trimestre 2 al 3
                 lblEstado3.setText("");
                 lblEstado3.setIcon(new ImageIcon("assets/FlechaVerde.png"));
-                lblEstado3.setToolTipText("Nota mejorada respecto al trimestre anterior");
-            } else if (Double.parseDouble(final2.getText()) == Double.parseDouble(final3.getText())){
+                lblEstado3.setToolTipText("Nota media mejorada respecto al trimestre anterior");
+            } else if (Double.parseDouble(lblMedia2N.getText()) == Double.parseDouble(lblMedia3N.getText())){
                 //Si el alumno ha mantenido la nota
-                lblEstado3.setIcon(null);
-                lblEstado3.setText("=");
-                lblEstado3.setToolTipText("Nota igual al trimestre anterior");
+                lblEstado3.setText("");
+                lblEstado3.setIcon(new ImageIcon("assets/CambioNeutral.png"));
+                lblEstado3.setToolTipText("Nota media parecida al trimestre anterior");
             }
         }
         
