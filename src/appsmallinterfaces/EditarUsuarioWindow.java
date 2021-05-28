@@ -389,7 +389,6 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_chbxMostrarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        mw.nombreMaestro.setText(maestro.getNombre());
         mw.lblBienvenida.setText("Bienvenido/a, "+maestro.getNombre());
         mw.lblFotoMaestro.setIcon(maestro.getImagen());
     }//GEN-LAST:event_formWindowClosed
