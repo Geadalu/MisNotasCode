@@ -129,10 +129,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         int i;
         for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); i++) {
             Object[] row = new Object[2];
-            row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba();
+            row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo();
             row[1] = alumno.getNotas().get(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
             model.addRow(row);
-            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
+            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
 
         }
     }

@@ -91,8 +91,8 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 // get the current row
                 model = (DefaultTableModel) tabla.getModel();
                 Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
-                // even index, not selected
-                if(Index_col != 0 && Index_col != 1 && model.getValueAt(Index_row, Index_col) != null){
+
+                if(Index_col != 0 && Index_col != 1 && Index_col != 3 && model.getValueAt(Index_row, Index_col) != null && !model.getValueAt(Index_row, Index_col).equals("")){
                     if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
                         comp.setForeground(opciones.getColorSuspensos());
                     } else if (!isCellSelected(Index_row, Index_col)) {
@@ -414,7 +414,6 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_comboTareaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
         int i;
         boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
@@ -425,9 +424,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 notas.put(idPrueba, null);
             } else if (notas.get(idPrueba) == null) {
                 notas.put(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()));
+                System.out.println("alumno "+contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getIdAlumno()+": creation");
                 update = false;
             } else {
                 notas.replace(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()));
+                System.out.println("alumno "+contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getIdAlumno()+": update");
                 update = true;
             }
             contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
@@ -466,9 +467,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         int i;
 
         comboTarea.addItem("Seleccionar...");
-        for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).size(); i++) {
-            comboTarea.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba());
-            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getNombrePrueba(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
+        for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); i++) {
+            comboTarea.addItem(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo());
+            pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
         }
     }
     

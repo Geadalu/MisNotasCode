@@ -22,16 +22,18 @@ public class Prueba {
 
 
     int idAsignatura;
-    String nombrePrueba;
-    String fechaPrueba;
+    String titulo;
+    String fecha;
+    String etiqueta; //título corto de 5 caracteres
     int trimestre;
     int peso;
     ArrayList competenciasPrueba;
 
-    public Prueba(int idAsignatura, String nombrePrueba, String fechaPrueba, int trimestre, int peso, ArrayList competenciasPrueba) {
+    public Prueba(int idAsignatura, String titulo, String etiqueta, String fecha, int trimestre, int peso, ArrayList competenciasPrueba) {
         this.idAsignatura = idAsignatura;
-        this.nombrePrueba = nombrePrueba;
-        this.fechaPrueba = fechaPrueba;
+        this.titulo = titulo;
+        this.etiqueta = etiqueta;
+        this.fecha = fecha;
         this.trimestre = trimestre;
         this.peso = peso;
         this.competenciasPrueba = competenciasPrueba;
@@ -50,8 +52,8 @@ public class Prueba {
         while (resultPruebas.next()) {
             this.idPrueba = resultPruebas.getInt("idPrueba");
             this.idAsignatura = resultPruebas.getInt("idAsignatura");
-            this.nombrePrueba = resultPruebas.getString("nombrePrueba");
-            this.fechaPrueba = resultPruebas.getString("fechaPrueba");
+            this.titulo = resultPruebas.getString("titulo");
+            this.fecha = resultPruebas.getString("fecha");
             this.trimestre = resultPruebas.getInt("trimestre");
             this.peso = resultPruebas.getInt("peso");
 
@@ -59,10 +61,11 @@ public class Prueba {
     }
 
     public int commitNuevaPrueba() throws SQLException {
-        String sqlPrueba = "INSERT INTO prueba (idAsignatura, nombrePrueba, fechaPrueba, trimestre, peso) VALUES ('"
+        String sqlPrueba = "INSERT INTO prueba (idAsignatura, titulo, etiqueta, fecha, trimestre, peso) VALUES ('"
                 + this.getIdAsignatura() + "', '"
-                + this.getNombrePrueba() + "', '"
-                + this.getFechaPrueba() + "', '"
+                + this.getTitulo() + "', '"
+                + this.getEtiqueta() + "', '"
+                + this.getFecha() + "', '"
                 + this.getTrimestre() + "', '"
                 + this.getPeso() + "'"
                 + ")";
@@ -70,13 +73,15 @@ public class Prueba {
         Statement st = DBConnection.getConnection().createStatement();
         st.executeUpdate(sqlPrueba);
         
+        //se recoge el idPrueba recién creado
         sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = '"
-                +this.getIdAsignatura()+"' AND nombrePrueba = '"
-                +this.getNombrePrueba()+"' AND fechaPrueba = '"
-                +this.getFechaPrueba()+"';";
+                +this.getIdAsignatura()+"' AND titulo = '"
+                +this.getTitulo()+"' AND fecha = '"
+                +this.getFecha()+"';";
         st = DBConnection.getConnection().createStatement();
         ResultSet resultidPrueba = st.executeQuery(sqlPrueba);
         
+        //y se asigna a la prueba
         if (resultidPrueba.next()){
             return resultidPrueba.getInt("idPrueba");
         } else {
@@ -106,12 +111,12 @@ public class Prueba {
         return idAsignatura;
     }
 
-    public String getNombrePrueba() {
-        return nombrePrueba;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public String getFechaPrueba() {
-        return fechaPrueba;
+    public String getFecha() {
+        return fecha;
     }
 
     public int getTrimestre() {
@@ -122,16 +127,25 @@ public class Prueba {
         return peso;
     }
     
+    
+    public String getEtiqueta() {
+        return etiqueta;
+    }
+
+    public void setEtiqueta(String etiqueta) {
+        this.etiqueta = etiqueta;
+    }
+    
      public void setIdAsignatura(int idAsignatura) {
         this.idAsignatura = idAsignatura;
     }
 
-    public void setNombrePrueba(String nombrePrueba) {
-        this.nombrePrueba = nombrePrueba;
+    public void setTitulo(String nombrePrueba) {
+        this.titulo = nombrePrueba;
     }
 
-    public void setFechaPrueba(String fechaPrueba) {
-        this.fechaPrueba = fechaPrueba;
+    public void setFecha(String fechaPrueba) {
+        this.fecha = fechaPrueba;
     }
 
     public void setTrimestre(int trimestre) {
@@ -142,7 +156,7 @@ public class Prueba {
         this.peso = peso;
     }
     
-        public void setIdPrueba(int idPrueba) {
+    public void setIdPrueba(int idPrueba) {
         this.idPrueba = idPrueba;
     }
 

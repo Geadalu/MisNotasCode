@@ -93,6 +93,7 @@ public class ControladorAlumno {
                 st.executeUpdate(sqlNotas);
             } else { 
                 //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
+                System.out.println("insert en alumno "+alumno.getIdAlumno());
                 String sqlNotasInsert = "INSERT INTO nota (idAlumno, idPrueba, nota) VALUES ("
                     + alumno.getIdAlumno() +", "
                     + idPrueba + ", "
