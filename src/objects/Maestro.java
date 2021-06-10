@@ -115,7 +115,7 @@ public class Maestro {
 
         this.setNombre(nombre);
         String sqlMaestro = "UPDATE datossesion SET contraseña = '"
-                + contraseña + "', nombre = '"
+                + this.getContraseña() + "', nombre = '"
                 + nombre + "' WHERE idMaestro = '" + this.idMaestro + "'";
         Statement st = DBConnection.getConnection().createStatement();
 
