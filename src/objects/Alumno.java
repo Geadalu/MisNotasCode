@@ -24,11 +24,11 @@ public class Alumno {
     private String dni;
     private String fechaNacimiento;
     private String comentario; //este comentario está en la tabls notafinal, porque depende de la asignatura
-    private HashMap<Integer, Double> notas; //idPrueba, nota
+    private ArrayList<Nota> notas;
     private HashMap<Integer, ArrayList<Double>> notasFinales; //asignatura && notas de los trimestres 1, 2, 3 y final
+    private HashMap<Integer, String> comentariosAsignaturas; //idAsignatura, comentario
     private int posicion; //posicion en la array de contAlumnos
-
-    
+      
 
     public Alumno(int idAlumno, String nombre, String apellidos, String dni, String fechaNacimiento) {
         this.idAlumno = idAlumno;
@@ -37,13 +37,15 @@ public class Alumno {
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
         this.comentario = "";
-        this.notas = new HashMap<>(); //idPrueba, nota
+        this.notas = new ArrayList<Nota>(); //idPrueba, nota
         this.notasFinales = new HashMap<>(); //asignatura && notas de los trimestres 1, 2, 3 y final
+        this.comentariosAsignaturas = new HashMap<>(); //idAsignatura, comentario
     }
 
     public Alumno() {
-        this.notas = new HashMap<>();
+        this.notas = new ArrayList<>();
         this.notasFinales = new HashMap<>();
+        this.comentariosAsignaturas = new HashMap<>();
     }
 
     public void cargarAlumno(int idAlumno) throws SQLException {
@@ -61,6 +63,7 @@ public class Alumno {
         this.idAlumno = idAlumno;
         this.cargarNotas();
         this.cargarNotasFinales();
+        this.cargarComentariosAsignaturas();
     }
     
     public void cargarNotas() throws SQLException{
@@ -70,7 +73,7 @@ public class Alumno {
         ResultSet resultNotas = st.executeQuery(sqlNotas);
         
         while(resultNotas.next()){
-            this.notas.put(resultNotas.getInt("idPrueba"), resultNotas.getDouble("nota"));
+            this.notas.add(new Nota(resultNotas.getInt("idPrueba"), resultNotas.getDouble("nota"), resultNotas.getString("comentario")));
         }
     }
     
@@ -89,6 +92,18 @@ public class Alumno {
             this.comentario = resultNotaFinal.getString("comentario");
             
             this.notasFinales.put(resultNotaFinal.getInt("idAsignatura"), array);
+        }
+    }
+    
+    
+    public void cargarComentariosAsignaturas() throws SQLException{
+        String sqlComentarios = "SELECT * FROM notafinal WHERE idAlumno = "+idAlumno+";";
+        
+        Statement st = DBConnection.getConnection().createStatement();
+        ResultSet resultComentarios = st.executeQuery(sqlComentarios);
+
+        while(resultComentarios.next()){
+            this.comentariosAsignaturas.put(resultComentarios.getInt("idAsignatura"), resultComentarios.getString("comentario"));
         }
     }
     
@@ -141,16 +156,20 @@ public class Alumno {
         return fechaNacimiento;
     }
     
-    public HashMap<Integer, Double> getNotas() {
+    public ArrayList<Nota> getNotas() {
         return notas;
     }
     
-      public HashMap<Integer, ArrayList<Double>> getNotasFinales() {
+    public HashMap<Integer, ArrayList<Double>> getNotasFinales() {
         return notasFinales;
     }
     
     public int getPosicion() {
         return posicion;
+    }
+    
+    public HashMap<Integer, String> getComentariosAsignaturas() {
+        return comentariosAsignaturas;
     }
 
     public void setIdAlumno(int idAlumno) {
@@ -173,7 +192,7 @@ public class Alumno {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public void setNotas(HashMap<Integer, Double> notas) {
+    public void setNotas(ArrayList<Nota> notas) {
         this.notas = notas;
     }
     

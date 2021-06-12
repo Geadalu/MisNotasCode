@@ -28,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
+import objects.Nota;
 import objects.Opciones;
 
 /**
@@ -130,7 +131,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); i++) {
             Object[] row = new Object[2];
             row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo();
-            row[1] = alumno.getNotas().get(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
+            for (Nota n : alumno.getNotas()){
+                if (n.getIdPrueba() == contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba()){
+                    row[1] = n.getNota();
+                }
+            }
+           
             model.addRow(row);
             pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
 
@@ -322,7 +328,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler49 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler59 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 200), new java.awt.Dimension(0, 200), new java.awt.Dimension(32767, 200));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
-        lblEstadoFinal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumno");
@@ -1134,12 +1139,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 29;
         gridBagConstraints.gridwidth = 21;
         getContentPane().add(filler8, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 31;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.gridheight = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        getContentPane().add(lblEstadoFinal, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1176,7 +1175,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         model1 = (DefaultTableModel) tabla1.getModel();
         model2 = (DefaultTableModel) tabla2.getModel();
         model3 = (DefaultTableModel) tabla3.getModel();
-        HashMap<Integer, Double> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotas();
+        ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotas();
         updateNotas(model1, notas);
         updateNotas(model2, notas);
         updateNotas(model3, notas);
@@ -1245,19 +1244,28 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void updateNotas(DefaultTableModel modelo, HashMap notas) {
+    private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
         boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
+        boolean yaCreada = false;
+        
         for (i = 0; i < modelo.getRowCount(); i++) {
             int idPrueba = pruebaConID.get((modelo.getValueAt(i, 0)).toString());
             if (modelo.getValueAt(i, 1) == null) { //si no hay nada en la tabla, se pone nada en la nota, pero se crea
-                notas.put(idPrueba, null);
-            } else if (notas.get(idPrueba) == null) { //si por el contrario, la prueba ya existe pero no tiene nada, se le pone esta nota nueva
-                notas.put(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()));
-                update = false;
-            } else { //en este caso, ya había tanto prueba como nota, así que se reemplaza la anterior
-                notas.replace(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()));
-                update = true;
+                notas.add(new Nota(idPrueba, -1, "")); //TODO EXPECTED COMENTARIO
+            } else { //si por el contrario, la prueba ya existe pero no tiene nada, se le pone esta nota nueva
+                for (Nota n : notas){
+                    if (n.getIdPrueba() == idPrueba && n.getNota() == -1){
+                        yaCreada = true;
+                        update = true;
+                        n.setNota(Double.parseDouble(modelo.getValueAt(i, 1).toString()));
+                        n.setComentario(""); //TODO EXPECTED COMENTARIO
+                    }
+                }
+                if(!yaCreada){
+                    notas.add(new Nota(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()), "")); //TODO EXPECTED COMENTARIO
+                    update = false;
+                }
             }
             try {
                 contAlumnos.updateNotas(asignatura, idPrueba, alumno, update);
@@ -1291,9 +1299,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panel1.setBackground(colorBackground);
         panel2.setBackground(colorBackground);
         panel3.setBackground(colorBackground);
-        tabla1.setBackground(colorBackground);
-        tabla2.setBackground(colorBackground);
-        tabla3.setBackground(colorBackground);
+//        tabla1.setBackground(colorBackground);
+//        tabla2.setBackground(colorBackground);
+//        tabla3.setBackground(colorBackground);
         panelFinales.setBackground(colorBackground);
         
         //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
@@ -1382,15 +1390,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             lblCalificacion3.setText(cargarCalificacion(Double.parseDouble(final3.getText())));
         }
         
-        try {
-            if(Double.parseDouble(lblMediaAsignaturaN.getText()) >= 5.0){
-                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoy.png"));
-            } else {
-                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoySad.png"));
-            }
-        } catch (NumberFormatException e){
-            lblEstadoFinal.setIcon(new ImageIcon("assets/NormalVaultBoy.png"));
-        }
+//        try {
+//            if(Double.parseDouble(lblMediaAsignaturaN.getText()) >= 5.0){
+//                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoy.png"));
+//            } else {
+//                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoySad.png"));
+//            }
+//        } catch (NumberFormatException e){
+//            lblEstadoFinal.setIcon(new ImageIcon("assets/NormalVaultBoy.png"));
+//        }
         
     }
     
@@ -1496,7 +1504,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblDNI;
     private javax.swing.JLabel lblEstado2;
     private javax.swing.JLabel lblEstado3;
-    private javax.swing.JLabel lblEstadoFinal;
     private javax.swing.JLabel lblFinal1;
     private javax.swing.JLabel lblFinal2;
     private javax.swing.JLabel lblFinal3;
