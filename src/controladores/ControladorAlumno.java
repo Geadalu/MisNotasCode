@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import noname.DBConnection;
 import objects.Alumno;
+import objects.Nota;
 
 /**
  *
@@ -84,22 +85,27 @@ public class ControladorAlumno {
     
     public void updateNotas(int idAsignatura, int idPrueba, Alumno alumno, boolean update) throws SQLException {
         Statement st = DBConnection.getConnection().createStatement();
-        if (alumno.getNotas().get(idPrueba) != null){
-            if (update){
-                String sqlNotas = "UPDATE nota SET "
-                    + "idPrueba = " + idPrueba + ", "
-                    + "nota = " + alumno.getNotas().get(idPrueba)
-                    + " WHERE idAlumno = " + alumno.getIdAlumno();
-                st.executeUpdate(sqlNotas);
-            } else { 
-                //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
-                System.out.println("insert en alumno "+alumno.getIdAlumno());
-                String sqlNotasInsert = "INSERT INTO nota (idAlumno, idPrueba, nota) VALUES ("
-                    + alumno.getIdAlumno() +", "
-                    + idPrueba + ", "
-                    + alumno.getNotas().get(idPrueba) +")";
-               
-                st.executeUpdate(sqlNotasInsert);
+        for (Nota n : alumno.getNotas()) {
+            if (n.getIdPrueba() == idPrueba && n.getNota() != -1) {
+                if (update) {
+                    String sqlNotas = "UPDATE nota SET"
+                           // + "idPrueba = " + idPrueba + ", "
+                            + " nota = " + n.getNota()
+                            + ", comentario = '" + n.getComentario()
+                            + "' WHERE idAlumno = " + alumno.getIdAlumno() 
+                            + " AND idPrueba = " +idPrueba;
+                    st.executeUpdate(sqlNotas);
+                } else {
+                    //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
+                    System.out.println("insert en alumno " + alumno.getIdAlumno());
+                    String sqlNotasInsert = "INSERT INTO nota (idAlumno, idPrueba, nota, comentario) VALUES ("
+                            + alumno.getIdAlumno() + ", "
+                            + idPrueba + ", "
+                            + n.getNota() + ", '"
+                            + n.getComentario() + "')";
+
+                    st.executeUpdate(sqlNotasInsert);
+                }
             }
         }
     }

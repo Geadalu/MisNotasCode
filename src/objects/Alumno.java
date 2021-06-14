@@ -5,6 +5,7 @@
  */
 package objects;
 
+import auxiliar.AuxiliarMethods;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,7 +38,7 @@ public class Alumno {
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
         this.comentario = "";
-        this.notas = new ArrayList<Nota>(); //idPrueba, nota
+        this.notas = new ArrayList<>(); //idPrueba, nota
         this.notasFinales = new HashMap<>(); //asignatura && notas de los trimestres 1, 2, 3 y final
         this.comentariosAsignaturas = new HashMap<>(); //idAsignatura, comentario
     }
@@ -75,6 +76,10 @@ public class Alumno {
         while(resultNotas.next()){
             this.notas.add(new Nota(resultNotas.getInt("idPrueba"), resultNotas.getDouble("nota"), resultNotas.getString("comentario")));
         }
+//        System.out.println(this.getNombre()+" "+this.getApellidos());
+//        for (Nota n : notas){
+//            System.out.println(n.getIdPrueba()+" "+n.getNota());
+//        }
     }
     
     public void cargarNotasFinales() throws SQLException{

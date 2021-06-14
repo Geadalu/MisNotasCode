@@ -70,15 +70,13 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         this.formatter.setMaximumFractionDigits(2);
         this.formatter.setRoundingMode(RoundingMode.UP);
 
-        TableColumnModel columnModel = tabla.getColumnModel();
-        columnModel.getColumn(3).setWidth(200);
-
         ejecutarOpciones();
 
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
         cargarPruebas(1);
         txtAsignatura.setText(strAsignatura);
+        model = (DefaultTableModel) tabla.getModel();
     }
 
     /**
@@ -418,26 +416,33 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void comboTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTareaActionPerformed
+        boolean encontrado = false;
         if (comboTarea.getItemCount() != 0) {
             if (!comboTarea.getSelectedItem().toString().equals("Seleccionar...")) {
-                DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
+                //DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
                 model.setRowCount(0);
                 idPrueba = pruebaConID.get(comboTarea.getSelectedItem().toString());
                 //Cargar tabla
                 Object[] row = new Object[4];
                 for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
+                    encontrado = false;
                     row[0] = alumno.getApellidos();
                     row[1] = alumno.getNombre();
-                    for (Nota n : alumno.getNotas()){
-                        if (n.getIdPrueba() == idPrueba){
+                    for (Nota n : alumno.getNotas()) {
+                        if (n.getIdPrueba() == idPrueba && n.getNota() != -1) {
+                            encontrado = true;
                             row[2] = n.getNota();
                             row[3] = n.getComentario();
                         }
                     }
-                    
+                    if (!encontrado) {
+                        row[2] = null;
+                        row[3] = null;
+                    }
+
                     model.addRow(row);
                 }
-                
+
                 obtenerEstadísticas();
             } else {
                 lblNumAp.setText("-");
@@ -450,27 +455,34 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         int i;
         boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
         boolean yaCreada = false;
+        model = (DefaultTableModel) tabla.getModel();
 
         for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
             ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
-            if(model.getValueAt(i, 2) != null || !model.getValueAt(i, 2).equals("")){ //hay nota escrita
-                for (Nota n : notas){
-                    if (n.getIdPrueba() == idPrueba){ //hay nota escrita: pero ya había una creada
+            if (model.getValueAt(i, 2) != null) { //hay nota escrita
+                for (Nota n : notas) {
+                    if (n.getIdPrueba() == idPrueba) { //hay nota escrita: pero ya había una creada
                         yaCreada = true;
                         update = true;
                         n.setNota(Double.parseDouble(model.getValueAt(i, 2).toString()));
-                        n.setComentario(model.getValueAt(i, 3).toString());
+                        try {
+                            n.setComentario(model.getValueAt(i, 3).toString());
+                        } catch (NullPointerException e) {
+                            n.setComentario("");
+                        }
                     }
                 }
-                if (!yaCreada){//hay nota escrita: pero hay que crearla
+                if (!yaCreada) {//hay nota escrita: pero hay que crearla
                     update = false;
                     notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), model.getValueAt(i, 3).toString()));
                 }
-                
+
             }
             try {
+                System.out.println("Alumno = " + contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getIdAlumno() + " "
+                        + contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNombre() + "; UPDATE: " + update);
                 contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
             }
         }
@@ -541,8 +553,8 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
         for (Alumno a : contAlumnos.getAlumnosAsignatura().get(asignatura)) {
             ArrayList<Nota> notas = a.getNotas();
-            for (Nota n : notas){
-                if (n.getIdPrueba() == idPrueba && n.getNota() >= 5){
+            for (Nota n : notas) {
+                if (n.getIdPrueba() == idPrueba && n.getNota() >= 5) {
                     aprobados++;
                 }
             }
