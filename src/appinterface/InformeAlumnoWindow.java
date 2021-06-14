@@ -19,6 +19,7 @@ import controladores.ControladorPrueba;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
@@ -194,7 +195,28 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 }
                 return comp;
             }
+
+            //Implement table cell tool tips.           
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+
+                //try {
+                    for (Nota n : alumno.getNotas()){
+                        if (n.getIdPrueba() == pruebaConID.get(getValueAt(rowIndex, 0).toString())){
+                            tip = n.getComentario();
+                        }
+                    }
+
+                    //} catch (RuntimeException e1) {
+                    //catch null pointer exception if mouse is over an empty line
+                    //}
+
+                return tip;
+            }
         };
+        ;
         final1 = new javax.swing.JTextField();
         lblMedia1N = new javax.swing.JLabel();
         filler29 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -230,6 +252,26 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 }
                 return comp;
             }
+
+            //Implement table cell tool tips.           
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+
+                //try {
+                    for (Nota n : alumno.getNotas()){
+                        if (n.getIdPrueba() == pruebaConID.get(getValueAt(rowIndex, 0).toString())){
+                            tip = n.getComentario();
+                        }
+                    }
+
+                    //} catch (RuntimeException e1) {
+                    //catch null pointer exception if mouse is over an empty line
+                    //}
+
+                return tip;
+            }
         };
         final2 = new javax.swing.JTextField();
         lblMedia2N = new javax.swing.JLabel();
@@ -257,7 +299,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 model3 = (DefaultTableModel) tabla3.getModel();
                 Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
                 // even index, not selected
-                if(Index_col != 0 && model3.getValueAt(Index_row, Index_col) != null){
+                if(Index_col != 0 && Index_col != 2 && model3.getValueAt(Index_row, Index_col) != null){
                     if (Double.parseDouble(model3.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
                         comp.setForeground(opciones.getColorSuspensos());
                     } else if (!isCellSelected(Index_row, Index_col)) {
@@ -265,6 +307,26 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                     }
                 }
                 return comp;
+            }
+
+            //Implement table cell tool tips.           
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+
+                //try {
+                    for (Nota n : alumno.getNotas()){
+                        if (n.getIdPrueba() == pruebaConID.get(getValueAt(rowIndex, 0).toString())){
+                            tip = n.getComentario();
+                        }
+                    }
+
+                    //} catch (RuntimeException e1) {
+                    //catch null pointer exception if mouse is over an empty line
+                    //}
+
+                return tip;
             }
         };
         final3 = new javax.swing.JTextField();
@@ -1233,6 +1295,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 notasFinales.add(Double.parseDouble(finalAsig.getText()));
             }
         }
+        
+        alumno.setComentario(txtComentarios.getText());
 
         try {
             contAlumnos.updateNotasFinales(alumno, asignatura);
@@ -1250,28 +1314,25 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         boolean yaCreada = false;
         
         for (i = 0; i < modelo.getRowCount(); i++) {
+            update = false;
             int idPrueba = pruebaConID.get((modelo.getValueAt(i, 0)).toString());
-            if (modelo.getValueAt(i, 1) == null) { //si no hay nada en la tabla, se pone nada en la nota, pero se crea
-                notas.add(new Nota(idPrueba, -1, "")); //TODO EXPECTED COMENTARIO
-            } else { //si por el contrario, la prueba ya existe pero no tiene nada, se le pone esta nota nueva
+            if (modelo.getValueAt(i, 1) != null) { //si no hay nada en la tabla, se pone nada en la nota, pero se crea
                 for (Nota n : notas){
                     if (n.getIdPrueba() == idPrueba && n.getNota() == -1){
                         yaCreada = true;
                         update = true;
                         n.setNota(Double.parseDouble(modelo.getValueAt(i, 1).toString()));
-                        n.setComentario(""); //TODO EXPECTED COMENTARIO
                     }
                 }
                 if(!yaCreada){
-                    notas.add(new Nota(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()), "")); //TODO EXPECTED COMENTARIO
-                    update = false;
+                    notas.add(new Nota(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()), ""));
                 }
             }
             try {
                 contAlumnos.updateNotas(asignatura, idPrueba, alumno, update);
             } catch (SQLException e) {
                 //AuxiliarMethods.showWarning(e.toString());
-                System.out.println(e.toString());
+                AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
             }
         }
 

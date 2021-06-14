@@ -416,7 +416,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void comboTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTareaActionPerformed
-        boolean encontrado = false;
+        boolean encontrado;
         if (comboTarea.getItemCount() != 0) {
             if (!comboTarea.getSelectedItem().toString().equals("Seleccionar...")) {
                 //DefaultTableModel model = (DefaultTableModel) tabla.getModel(); //modelo para introducir filas en la tabla
@@ -478,9 +478,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 }
 
             }
+            
+            contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
+            
             try {
-                System.out.println("Alumno = " + contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getIdAlumno() + " "
-                        + contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNombre() + "; UPDATE: " + update);
                 contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
             } catch (SQLException e) {
                 AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());

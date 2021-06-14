@@ -66,7 +66,8 @@ public class ControladorAlumno {
                 + "notaTrimestre1 = " + alumno.getNotasFinales().get(asignatura).get(0) + ", "
                 + "notaTrimestre2 = " + alumno.getNotasFinales().get(asignatura).get(1) + ", "
                 + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
-                + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3)
+                + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3) +", "
+                + "comentario = '" + alumno.getComentario() + "' "
                 + " WHERE idAlumno = " + alumno.getIdAlumno();
        
 
@@ -140,6 +141,7 @@ public class ControladorAlumno {
     /**
      * Commit de la base de datos para asignar un alumno a una sola asignatura. Se usa para las optativas.
      * @param idAsignatura
+     * @param alumno
      * @throws SQLException 
      */
     public void commitAlumnoAsignatura(Alumno alumno, int idAsignatura) throws SQLException {
