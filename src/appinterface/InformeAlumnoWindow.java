@@ -107,23 +107,28 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         AuxiliarMethods.ajustarColumnasTabla(tabla1);
 
         if (!alumno.getNotasFinales().isEmpty()) { //si tiene puestas las notas finales
-            final1.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
-            final2.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
-            final3.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
-            double mediaAsig = (Double.parseDouble(final1.getText())
-                    + Double.parseDouble(final2.getText())
-                    + Double.parseDouble(final3.getText())) / 3.0;
-            lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
-            //Cargar medias
-            lblMedia1N.setText(calcularMedia(tabla1, 1));
-            lblMedia2N.setText(calcularMedia(tabla2, 2));
-            lblMedia3N.setText(calcularMedia(tabla3, 3));
+            try {
+                final1.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
+                final2.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
+                final3.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
+                double mediaAsig = (Double.parseDouble(final1.getText())
+                        + Double.parseDouble(final2.getText())
+                        + Double.parseDouble(final3.getText())) / 3.0;
+                lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
+                //Cargar medias
+                lblMedia1N.setText(calcularMedia(tabla1, 1));
+                lblMedia2N.setText(calcularMedia(tabla2, 2));
+                lblMedia3N.setText(calcularMedia(tabla3, 3));
+            } catch (NullPointerException e) {
+                
+            }
         } else { //si no tiene notas finales todavía
             final1.setText("");
             final2.setText("");
             final3.setText("");
             lblMediaAsignaturaN.setText("N/A");
         }
+
     }
 
     public void cargarTabla(JTable tabla, Alumno alumno, int trimestre) {
