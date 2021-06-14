@@ -24,7 +24,6 @@ public class Alumno {
     private String apellidos;
     private String dni;
     private String fechaNacimiento;
-    private String comentario; //este comentario está en la tabls notafinal, porque depende de la asignatura
     private ArrayList<Nota> notas;
     private HashMap<Integer, ArrayList<Double>> notasFinales; //asignatura && notas de los trimestres 1, 2, 3 y final
     private HashMap<Integer, String> comentariosAsignaturas; //idAsignatura, comentario
@@ -37,7 +36,6 @@ public class Alumno {
         this.apellidos = apellidos;
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
-        this.comentario = "";
         this.notas = new ArrayList<>(); //idPrueba, nota
         this.notasFinales = new HashMap<>(); //asignatura && notas de los trimestres 1, 2, 3 y final
         this.comentariosAsignaturas = new HashMap<>(); //idAsignatura, comentario
@@ -94,7 +92,7 @@ public class Alumno {
             array.add(resultNotaFinal.getDouble("notaTrimestre2"));
             array.add(resultNotaFinal.getDouble("notaTrimestre3"));
             array.add(resultNotaFinal.getDouble("notaFinal"));
-            this.comentario = resultNotaFinal.getString("comentario");
+            this.comentariosAsignaturas.put(resultNotaFinal.getInt("idAsignatura"), resultNotaFinal.getString("comentario"));
             
             this.notasFinales.put(resultNotaFinal.getInt("idAsignatura"), array);
         }
@@ -176,6 +174,10 @@ public class Alumno {
     public HashMap<Integer, String> getComentariosAsignaturas() {
         return comentariosAsignaturas;
     }
+    
+    public void setComentariosAsignaturas(HashMap<Integer, String> comentariosAsignaturas){
+        this.comentariosAsignaturas = comentariosAsignaturas;
+    }
 
     public void setIdAlumno(int idAlumno) {
         this.idAlumno = idAlumno;
@@ -207,14 +209,6 @@ public class Alumno {
     
     public void setPosicion(int posicion) {
         this.posicion = posicion;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
     }
     
     

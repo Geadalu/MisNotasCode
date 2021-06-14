@@ -95,6 +95,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblNombre.setText(alumno.getNombre());
         lblDNI.setText(alumno.getDni());
         lblImagen.setIcon(new ImageIcon("assets/person.png"));
+        txtComentarios.setText(alumno.getComentariosAsignaturas().get(asignatura));
         //Cargar tablas
         cargarTabla(tabla1, alumno, 1);
         cargarTabla(tabla2, alumno, 2);
@@ -1296,7 +1297,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             }
         }
         
-        alumno.setComentario(txtComentarios.getText());
+        //añadimos o modificamos el comentario de la asignatura
+        HashMap comentAsig = alumno.getComentariosAsignaturas();
+        if(!comentAsig.containsKey(asignatura)){
+            comentAsig.replace(asignatura, txtComentarios.getText());
+            alumno.setComentariosAsignaturas(comentAsig);
+        } else {
+            comentAsig.put(asignatura, txtComentarios.getText());
+            alumno.setComentariosAsignaturas(comentAsig);
+        }
 
         try {
             contAlumnos.updateNotasFinales(alumno, asignatura);

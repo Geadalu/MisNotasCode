@@ -67,7 +67,7 @@ public class ControladorAlumno {
                 + "notaTrimestre2 = " + alumno.getNotasFinales().get(asignatura).get(1) + ", "
                 + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
                 + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3) +", "
-                + "comentario = '" + alumno.getComentario() + "' "
+                + "comentario = '" + alumno.getComentariosAsignaturas().get(asignatura) + "' "
                 + " WHERE idAlumno = " + alumno.getIdAlumno();
        
 
