@@ -53,6 +53,7 @@ public class Prueba {
             this.idPrueba = resultPruebas.getInt("idPrueba");
             this.idAsignatura = resultPruebas.getInt("idAsignatura");
             this.titulo = resultPruebas.getString("titulo");
+            this.etiqueta = resultPruebas.getString("etiqueta");
             this.fecha = resultPruebas.getString("fecha");
             this.trimestre = resultPruebas.getInt("trimestre");
             this.peso = resultPruebas.getInt("peso");

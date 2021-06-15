@@ -29,6 +29,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -736,6 +737,7 @@ public class LoginWindow extends javax.swing.JFrame {
             mw.pack();
             mw.setVisible(true);
             mw.setMinimumSize(mw.getSize());
+            mw.setExtendedState(JFrame.MAXIMIZED_BOTH);
             this.dispose();
         }
     }
