@@ -16,6 +16,7 @@ import controladores.ControladorPrueba;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -109,6 +110,23 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 }
                 return comp;
             }
+
+            //Implement table cell tool tips.           
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+
+                try {
+                    if (columnAtPoint(p) == 3){
+                        tip = getValueAt(rowIndex, 3).toString();
+                    }   
+                } catch (RuntimeException e1) {
+                    //catch null pointer exception if mouse is over an empty line
+                }
+
+                return tip;
+            }
         };
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -134,13 +152,13 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         lblTrimestre = new javax.swing.JLabel();
         comboTrimestre = new javax.swing.JComboBox<>();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
-        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(150, 0), new java.awt.Dimension(150, 0), new java.awt.Dimension(150, 32767));
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
-        setBounds(new java.awt.Rectangle(600, 200, 0, 0));
+        setBounds(new java.awt.Rectangle(300, 200, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -249,8 +267,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(btnCancelar, gridBagConstraints);
 
@@ -395,10 +414,6 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 7;
         getContentPane().add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 23;
-        getContentPane().add(filler9, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.gridwidth = 4;
@@ -407,6 +422,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 24;
         getContentPane().add(filler11, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 23;
+        gridBagConstraints.gridwidth = 7;
+        getContentPane().add(filler9, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -449,6 +469,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 //model.setRowCount(0);
             }
         }
+        AuxiliarMethods.ajustarColumnasTabla(tabla);
     }//GEN-LAST:event_comboTareaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
