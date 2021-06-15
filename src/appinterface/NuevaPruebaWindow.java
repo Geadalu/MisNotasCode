@@ -175,7 +175,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
-        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(80, 0), new java.awt.Dimension(80, 0), new java.awt.Dimension(80, 32767));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(200, 0), new java.awt.Dimension(200, 0), new java.awt.Dimension(200, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva tarea");
@@ -414,7 +414,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblCompetencias, gridBagConstraints);
 
@@ -455,6 +455,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         listaComAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         listaComAsig.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        listaComAsig.setToolTipText("Selecciona varias competencias con Ctrl+Clic");
         listaComAsig.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 listaComAsigMouseClicked(evt);
@@ -607,7 +608,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 30;
-        getContentPane().add(filler11, gridBagConstraints);
+        getContentPane().add(filler1, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -798,8 +799,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JCheckBox chbxTrabajoAdic;
     private javax.swing.JComboBox<String> comboTrimestre;
     private javax.swing.JTextArea descripcion;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
-    private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler22;

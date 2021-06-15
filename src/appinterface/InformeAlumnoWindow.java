@@ -1324,7 +1324,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
-        boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
+        boolean update; //para saber si hay que hacer UPDATE o INSERT en la BD
         boolean yaCreada = false;
         
         for (i = 0; i < modelo.getRowCount(); i++) {

@@ -458,6 +458,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         model = (DefaultTableModel) tabla.getModel();
 
         for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
+            yaCreada = false;
             ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
             if (model.getValueAt(i, 2) != null) { //hay nota escrita
                 for (Nota n : notas) {
