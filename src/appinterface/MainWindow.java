@@ -42,6 +42,8 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.TextField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Locale;
@@ -109,7 +111,32 @@ public class MainWindow extends javax.swing.JFrame {
         //labels con el nombre del maestro
         lblBienvenida.setText("Bienvenido/a, " + maestro.getNombre());
 
-        
+        //cositas para la tabla
+        tabla.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                switch (tabla.columnAtPoint(e.getPoint())){ //recogemos qué columnheader estamos apuntando en el momento del clic
+                    case 2:
+                        InformeTrimestreWindow itw1 = new InformeTrimestreWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText(), 1);
+                        itw1.pack();
+                        itw1.setVisible(true);
+                        itw1.setMinimumSize(itw1.getSize());
+                        break;
+                    case 3:
+                        InformeTrimestreWindow itw2 = new InformeTrimestreWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText(), 2);
+                        itw2.pack();
+                        itw2.setVisible(true);
+                        itw2.setMinimumSize(itw2.getSize());
+                        break;
+                    case 4:
+                        InformeTrimestreWindow itw3 = new InformeTrimestreWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText(), 3);
+                        itw3.pack();
+                        itw3.setVisible(true);
+                        itw3.setMinimumSize(itw3.getSize());
+                        break;
+                }
+            }
+        });
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
        
 
@@ -220,7 +247,6 @@ public class MainWindow extends javax.swing.JFrame {
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 500), new java.awt.Dimension(0, 500), new java.awt.Dimension(32767, 500));
         lblFotoMaestro = new javax.swing.JLabel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
-        btnInformeCurso = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -724,18 +750,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         jPanel2.add(filler5, gridBagConstraints);
 
-        btnInformeCurso.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnInformeCurso.setText("Informe del curso");
-        btnInformeCurso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformeCursoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 40;
-        gridBagConstraints.gridy = 10;
-        jPanel2.add(btnInformeCurso, gridBagConstraints);
-
         getContentPane().add(jPanel2);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
@@ -923,6 +937,11 @@ public class MainWindow extends javax.swing.JFrame {
                         iaw.setVisible(true);
                     }
                 }
+            } else if (tabla.getSelectedColumn() == 2 || tabla.getSelectedColumn() == 3 || tabla.getSelectedColumn() == 4){
+                InformeCursoWindow icw = new InformeCursoWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText());
+                icw.pack();
+                icw.setVisible(true);
+                icw.setMinimumSize(icw.getSize());
             }
         }
     }//GEN-LAST:event_tablaMouseClicked
@@ -967,13 +986,6 @@ public class MainWindow extends javax.swing.JFrame {
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnrel4AActionPerformed
-
-    private void btnInformeCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeCursoActionPerformed
-        InformeCursoWindow icw = new InformeCursoWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText());
-        icw.pack();
-        icw.setVisible(true);
-        icw.setMinimumSize(icw.getSize());
-    }//GEN-LAST:event_btnInformeCursoActionPerformed
 
     /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
@@ -1236,7 +1248,6 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalificar;
     private javax.swing.JButton btnEditarUsuario;
-    private javax.swing.JButton btnInformeCurso;
     private javax.swing.JButton btnNuevaTarea;
     private javax.swing.JLabel fecha;
     private javax.swing.Box.Filler filler1;

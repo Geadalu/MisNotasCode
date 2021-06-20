@@ -115,7 +115,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lblTitulo.setText("Datos personales del/de la maestr@");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -425,7 +425,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         
         lblCambiarNombre.setFont(new Font(lblCambiarNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 6));
         lblCambiarContraseña.setFont(new Font(lblCambiarContraseña.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 6));
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();

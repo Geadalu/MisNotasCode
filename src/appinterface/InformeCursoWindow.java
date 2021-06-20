@@ -11,14 +11,29 @@ import controladores.ControladorPrueba;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import objects.Alumno;
+import objects.Nota;
 import objects.Opciones;
+import objects.Prueba;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -30,8 +45,7 @@ public class InformeCursoWindow extends javax.swing.JFrame {
     ControladorPrueba contPruebas;
     Opciones opciones;
     int asignatura;
-    
-    
+
     public InformeCursoWindow(ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones, int asignatura, String nombreAsignatura) {
         initComponents();
         this.contAlumnos = contAlumnos;
@@ -50,73 +64,97 @@ public class InformeCursoWindow extends javax.swing.JFrame {
         }
         lblAsignatura.setText(nombreAsignatura);
         ejecutarOpciones();
+        tabla.setAutoCreateColumnsFromModel(true);
         cargarTabla();
-        
+
     }
-    
-    private void cargarTabla(){
+
+    private void cargarTabla() {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         int i;
         int numPruebas1 = contPruebas.getPruebasAsignatura().get(asignatura).get(1).size();
         int numPruebas2 = contPruebas.getPruebasAsignatura().get(asignatura).get(2).size();
         int numPruebas3 = contPruebas.getPruebasAsignatura().get(asignatura).get(3).size();
-        
-        
-        
+        TableColumn c;
+        int columnNumber = 2;
+
         //añadir pruebas
-        
         //primer trimestre
-        for (i=0; i<numPruebas1; i++){
-            //model.addColumn();
-            TableColumn c = new TableColumn();
+        for (i = 0; i < numPruebas1; i++) {
+            c = new TableColumn();
             c.setHeaderValue(contPruebas.getPruebasAsignatura().get(asignatura).get(1).get(i).getEtiqueta());
-            tabla.getColumnModel().addColumn(c);
+            tabla.addColumn(c);
+            //model.addColumn(tabla.getColumnName(columnNumber++));
         }
-        
+
         //segundo trimestre
-        for (i=0; i<numPruebas2; i++){
-            TableColumn c = new TableColumn();
+        for (i = 0; i < numPruebas2; i++) {
+            c = new TableColumn();
             c.setHeaderValue(contPruebas.getPruebasAsignatura().get(asignatura).get(2).get(i).getEtiqueta());
-            tabla.getColumnModel().addColumn(c);
-            //model.addColumn(
+            tabla.addColumn(c);
+            //model.addColumn(tabla.getColumnName(columnNumber++));
         }
-        
+
         //tercer trimestre
-        for (i=0; i<numPruebas3; i++){
+        for (i = 0; i < numPruebas3; i++) {
             //model.addColumn(contPruebas.getPruebasAsignatura().get(asignatura).get(3).get(i).getEtiqueta());
-            TableColumn c = new TableColumn();
+            c = new TableColumn();
             c.setHeaderValue(contPruebas.getPruebasAsignatura().get(asignatura).get(3).get(i).getEtiqueta());
-            tabla.getColumnModel().addColumn(c);
-            
+            tabla.addColumn(c);
+            //model.addColumn(tabla.getColumnName(columnNumber++));
+
         }
+
+        //notas finales
+        c = new TableColumn();
+        c.setHeaderValue("1TRFIN");
+        tabla.addColumn(c);
+        //model.addColumn(tabla.getColumnName(columnNumber++));
+        c = new TableColumn();
+        c.setHeaderValue("2TRFIN");
+        tabla.addColumn(c);
+        //model.addColumn(tabla.getColumnName(columnNumber++));
+        c = new TableColumn();
+        c.setHeaderValue("3TRFIN");
+        tabla.addColumn(c);
+        //model.addColumn(tabla.getColumnName(columnNumber++));
        
-        
-        
+
         //añadir alumnos
-        Object[] row = new Object[numPruebas1+numPruebas2+numPruebas3+2];
+        Object[] row = new Object[numPruebas1 + numPruebas2 + numPruebas3 + 2];
         for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
             row[0] = alumno.getApellidos();
             row[1] = alumno.getNombre();
+            for (i = 0; i < numPruebas1; i++) {
+                for (Nota n : alumno.getNotas()) {
+                    for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(1)) {
+                        if (n.getIdPrueba() == p.getIdPrueba()) {
+                            row[i + 2] = n.getNota();
+                        }
+                    }
+                }
+            }
+
             model.addRow(row);
         }
-        
-        AuxiliarMethods.ajustarColumnasTabla(tabla);
-        
+
+        //AuxiliarMethods.ajustarColumnasTabla(tabla);
+
     }
-    
+
     private void ejecutarOpciones() {
-        
+
         List<Component> components = AuxiliarMethods.getAllComponents(this);
-        
-        for (Component c : components){
+
+        for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             }
         }
 
-        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra()+4));
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
+        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 4));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
     }
 
     /**
@@ -197,7 +235,7 @@ public class InformeCursoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 9;
         getContentPane().add(btnAceptar, gridBagConstraints);
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblTitulo.setText("Informe general del curso");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -257,6 +295,11 @@ public class InformeCursoWindow extends javax.swing.JFrame {
         btnExportar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnExportar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\excel.png")); // NOI18N
         btnExportar.setText("Exportar a Excel");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
@@ -322,6 +365,68 @@ public class InformeCursoWindow extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        //First Download Apache POI Library For Dealing with excel files.
+        //Then add the library to the current project
+        FileOutputStream excelFos = null;
+        XSSFWorkbook excelJTableExport = null;
+        BufferedOutputStream excelBos = null;
+        String excelImagePath = null;
+        try {
+
+            //Choosing Saving Location
+            //Set default location to C:\Users\Authentic\Desktop or your preferred location
+            JFileChooser excelFileChooser = new JFileChooser("C:\\Users\\Authentic\\Desktop");
+            //Dialog box title
+            excelFileChooser.setDialogTitle("Guardar como...");
+            //Filter only xls, xlsx, xlsm files
+            FileNameExtensionFilter fnef = new FileNameExtensionFilter("Files", "xls", "xlsx", "xlsm");
+            //Setting extension for selected file names
+            excelFileChooser.setFileFilter(fnef);
+            int chooser = excelFileChooser.showSaveDialog(null);
+            //Check if save button has been clicked
+            if (chooser == JFileChooser.APPROVE_OPTION) {
+                //If button is clicked execute this code
+                excelJTableExport = new XSSFWorkbook();
+                XSSFSheet excelSheet = excelJTableExport.createSheet("Exportación");
+                //Loop through the jtable columns and rows to get its values
+                for (int i = 0; i<model.getRowCount(); i++) {
+                    XSSFRow excelRow = excelSheet.createRow(i);
+                    for (int j = 0; j<tabla.getColumnModel().getColumnCount(); j++) {
+                        
+                        XSSFCell excelCell = excelRow.createCell(j);
+                        excelCell.setCellValue(model.getValueAt(i, j).toString());
+                    }
+                }
+                excelFos = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
+                excelBos = new BufferedOutputStream(excelFos);
+                excelJTableExport.write(excelBos);
+                JOptionPane.showMessageDialog(null, "Exportado correctamente");
+            }
+
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            try {
+                if (excelFos != null) {
+                    excelFos.close();
+                }
+                if (excelBos != null) {
+                    excelBos.close();
+                }
+                if (excelJTableExport != null) {
+                    excelJTableExport.close();
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_btnExportarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;

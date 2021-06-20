@@ -292,7 +292,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler8, gridBagConstraints);
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lblTitulo.setText("Calificar tareas o pruebas");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -554,7 +554,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         }
 
-        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
+        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD , opciones.getTamañoLetra() + 15));
 
         //cambiamos el color de fondo de todos los containers del frame
         Color colorBackground = opciones.getColorBackground();

@@ -53,7 +53,7 @@ public class ControladorPrueba {
         
     }
     
-    public ArrayList<Prueba> cargarPruebasTrimestre(int asignatura, int trimestre) throws SQLException{
+    public ArrayList<Prueba> cargarPruebasTrimestre(int asignatura, int trimestre) throws SQLException, NullPointerException {
         ArrayList<Prueba> pruebasTrimestre = new ArrayList<>();
         if (this.pruebasAsignatura.get(asignatura).get(trimestre).isEmpty()) { //si no hay pruebas en el primer trimestre
             String sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = " + asignatura + " AND trimestre = "+trimestre;

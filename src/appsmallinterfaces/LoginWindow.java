@@ -69,7 +69,7 @@ public class LoginWindow extends javax.swing.JFrame {
 
         //BORRAR AL TERMINAR DE PROBAR
         txtUsuario.setText("01234567A");
-        txtContraseña.setText("1234");
+        txtContraseña.setText("4321");
 
     }
 

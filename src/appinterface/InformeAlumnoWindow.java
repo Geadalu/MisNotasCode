@@ -402,7 +402,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lblTitulo.setText("Informe del alumnado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1352,48 +1352,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     }
 
-    private void ejecutarOpciones() {
-        
-        List<Component> components = AuxiliarMethods.getAllComponents(this);
-        
-        for (Component c : components){
-            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
-                c.setForeground(Color.LIGHT_GRAY);
-            }
-        }
-
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 15));
-        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
-        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
-        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
-        
-        //cambiar el fondo de los containers
-        Color colorBackground = opciones.getColorBackground();
-        this.getContentPane().setBackground(colorBackground);
-        panel1.setBackground(colorBackground);
-        panel2.setBackground(colorBackground);
-        panel3.setBackground(colorBackground);
-//        tabla1.setBackground(colorBackground);
-//        tabla2.setBackground(colorBackground);
-//        tabla3.setBackground(colorBackground);
-        panelFinales.setBackground(colorBackground);
-        
-        //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
-        if (opciones.getOscuro()){
-            TitledBorder titledBorder = (TitledBorder)panel1.getBorder();
-            titledBorder.setTitleColor(Color.LIGHT_GRAY);
-            
-            titledBorder = (TitledBorder)panel2.getBorder();
-            titledBorder.setTitleColor(Color.LIGHT_GRAY);
-            
-            titledBorder = (TitledBorder)panel2.getBorder();
-            titledBorder.setTitleColor(Color.LIGHT_GRAY);
-            
-            titledBorder = (TitledBorder)panelFinales.getBorder();
-            titledBorder.setTitleColor(Color.LIGHT_GRAY);
-        }
-    }
     
     private void refrescarCampos(){
         lblCalificacion1.setText("-");
@@ -1488,6 +1446,50 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             return "Sobresaliente";
         }
         return "";
+    }
+    
+    
+    private void ejecutarOpciones() {
+        
+        List<Component> components = AuxiliarMethods.getAllComponents(this);
+        
+        for (Component c : components){
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
+
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
+        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
+        lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
+        
+        //cambiar el fondo de los containers
+        Color colorBackground = opciones.getColorBackground();
+        this.getContentPane().setBackground(colorBackground);
+        panel1.setBackground(colorBackground);
+        panel2.setBackground(colorBackground);
+        panel3.setBackground(colorBackground);
+//        tabla1.setBackground(colorBackground);
+//        tabla2.setBackground(colorBackground);
+//        tabla3.setBackground(colorBackground);
+        panelFinales.setBackground(colorBackground);
+        
+        //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
+        if (opciones.getOscuro()){
+            TitledBorder titledBorder = (TitledBorder)panel1.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+            
+            titledBorder = (TitledBorder)panel2.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+            
+            titledBorder = (TitledBorder)panel2.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+            
+            titledBorder = (TitledBorder)panelFinales.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
