@@ -655,7 +655,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
             try {
                 dateFormat.parse(txtFecha.getText().trim());
-                Prueba p = new Prueba(asignatura, txtTitulo.getText(), txtEtiqueta.getText(), txtFecha.getText(), trimestre, peso, recogerCompetencias());
+                ArrayList competencias = recogerCompetencias();
+                Prueba p = new Prueba(asignatura, txtTitulo.getText(), txtEtiqueta.getText(), txtFecha.getText(), trimestre, peso, competencias);
                 //hacer commit también en competenciasPorPrueba y guardar eso en algun sitio --> controladorPrueba.competenciasPrueba
 
                 contPruebas.añadirPruebaAAsignatura(p, trimestre, asignatura);
