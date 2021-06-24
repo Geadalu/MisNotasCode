@@ -403,7 +403,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtHagaClic2.setColumns(20);
         txtHagaClic2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtHagaClic2.setRows(5);
-        txtHagaClic2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de todos los alumnos \nen ese trimestre.");
+        txtHagaClic2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de los alumnos y \nlas pruebas asignadas a ese\ntrimestre.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 46;
         gridBagConstraints.gridy = 32;
@@ -929,7 +929,7 @@ public class MainWindow extends javax.swing.JFrame {
         int pasarAsignatura = 0;
 
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            if (tabla.getSelectedColumn() == 0) {
+            if (tabla.getSelectedColumn() == 0 || tabla.getSelectedColumn() == 1) {
                 for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
                     if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0)) && alumno.getNombre().equals(model.getValueAt(tabla.getSelectedRow(), 1))) {
                         InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos, opciones, this);

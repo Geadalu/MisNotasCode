@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import noname.DBConnection;
 import objects.Competencia;
+import objects.Nota;
 import objects.Prueba;
 
 /**
@@ -55,7 +56,7 @@ public class ControladorPrueba {
     
     public ArrayList<Prueba> cargarPruebasTrimestre(int asignatura, int trimestre) throws SQLException, NullPointerException {
         ArrayList<Prueba> pruebasTrimestre = new ArrayList<>();
-        if (this.pruebasAsignatura.get(asignatura).get(trimestre).isEmpty()) { //si no hay pruebas en el primer trimestre
+        if (this.pruebasAsignatura.get(asignatura).get(trimestre) == null || this.pruebasAsignatura.get(asignatura).get(trimestre).isEmpty()) { //si no hay pruebas en el primer trimestre
             String sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = " + asignatura + " AND trimestre = "+trimestre;
             Statement st = DBConnection.getConnection().createStatement();
             ResultSet resultPruebas = st.executeQuery(sqlPrueba);
@@ -64,6 +65,7 @@ public class ControladorPrueba {
                 int idPrueba = resultPruebas.getInt("idPrueba");
                 Prueba p = new Prueba();
                 p.cargarPrueba(idPrueba);
+                cargarCompetenciasPrueba(p.getIdPrueba());
                 pruebasTrimestre.add(p);
             }
         }
@@ -71,15 +73,42 @@ public class ControladorPrueba {
     }
     
     public void cargarCompetenciasPrueba(int prueba) throws SQLException {
-        if (this.competenciasPrueba.get(prueba).isEmpty()) {
-            String sqlCompetencias = "SELECT idCompetencia FROM competenciasporpruebas WHERE idPrueba = "+prueba;
+        if (this.competenciasPrueba.get(prueba) == null) {
+            ArrayList<Competencia> listaCompetencias = new ArrayList<>();
+            String sqlCompetencias = "SELECT idCompetencia FROM competenciasporprueba WHERE idPrueba = "+prueba;
             Statement st = DBConnection.getConnection().createStatement();
             ResultSet resultCompetencias = st.executeQuery(sqlCompetencias);
             
             while (resultCompetencias.next()) {
-                competenciasPrueba.get(prueba).add(new Competencia(resultCompetencias.getInt("idCompetencia")));
+                Competencia c = new Competencia(resultCompetencias.getInt("idCompetencia"));
+                c.cargarCompetencia(c.getIdCompetencia());
+                listaCompetencias.add(c);
+            }
+            competenciasPrueba.put(prueba, listaCompetencias);
+        }
+    }
+    
+    public void borrarPrueba(int idPrueba, int trimestre, int asignatura) throws SQLException {
+        String sqlPrueba = "DELETE FROM prueba WHERE idPrueba = "+idPrueba;
+        Statement st = DBConnection.getConnection().createStatement();
+        st.executeUpdate(sqlPrueba);
+        
+        sqlPrueba = "DELETE FROM competenciasporprueba WHERE idPrueba = "+idPrueba;
+        st.executeUpdate(sqlPrueba);
+        
+        sqlPrueba = "DELETE FROM nota WHERE idPrueba = "+idPrueba;
+        st.executeUpdate(sqlPrueba);
+        
+        ArrayList<Prueba> pruebitas = (ArrayList<Prueba>) this.pruebasAsignatura.get(asignatura).get(trimestre).clone();
+        for (Prueba p : this.pruebasAsignatura.get(asignatura).get(trimestre)){
+            if (p.getIdPrueba() == idPrueba){
+                pruebitas.remove(this.pruebasAsignatura.get(asignatura).get(trimestre).indexOf(p));
             }
         }
+        this.setPruebasAsignatura(pruebasAsignatura);
+        
+        competenciasPrueba.remove(idPrueba);
+        
     }
     
     public void añadirCompetenciaAPrueba(Competencia comp, Prueba p){

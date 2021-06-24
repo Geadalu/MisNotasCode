@@ -11,12 +11,15 @@ import controladores.ControladorPrueba;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -39,6 +42,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     ControladorPrueba contPruebas;
     Opciones opciones;
     int asignatura;
+    int trimestre;
     DefaultTableModel modelNotas;
     DefaultTableModel modelPruebas;
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
@@ -48,6 +52,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         this.contAlumnos = contAlumnos;
         this.opciones = opciones;
         this.asignatura = asignatura;
+        this.trimestre = trimestre;
 
         if (contPruebas != null) {
             this.contPruebas = contPruebas;
@@ -63,13 +68,13 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         initComponents();
         lblAsignatura.setText(nombreAsignatura);
         lblTitulo.setText("Vista general del " + trimestre + "º Trimestre");
-        rellenarTablaNotas(trimestre);
-        rellenarTablaPruebas(trimestre);
+        rellenarTablaNotas();
+        rellenarTablaPruebas();
         ejecutarOpciones();
 
     }
 
-    private void rellenarTablaNotas(int trimestre) {
+    private void rellenarTablaNotas() {
         //rellenar tabla con el trimestre en el que estamos
         int i;
         int numPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size();
@@ -105,7 +110,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
     }
     
-    private void rellenarTablaPruebas (int trimestre) {
+    private void rellenarTablaPruebas () {
         modelPruebas = (DefaultTableModel) tablaPruebas.getModel();
         Object[] row = new Object[6];
         int i;
@@ -177,7 +182,17 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaPruebas = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        listaCompetencias = new javax.swing.JList<>();
+        listaCompetencias = new JList(){
+            public String getToolTipText(MouseEvent me) {
+                int index = locationToIndex(me.getPoint());
+                if (index > -1) {
+                    String item = (String) getModel().getElementAt(index);
+                    return item;
+                }
+                return null;
+            }
+        }
+        ;
         btnBorrarPrueba = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lblAsignatura = new javax.swing.JLabel();
@@ -256,7 +271,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1220, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1290, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -299,8 +314,8 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
 
         listaCompetencias.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        listaCompetencias.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        listaCompetencias.setToolTipText("Selecciona varias competencias con Ctrl+Clic");
+        listaCompetencias.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaCompetencias.setToolTipText("Competencias de la prueba");
         listaCompetencias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 listaCompetenciasMouseClicked(evt);
@@ -332,12 +347,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBorrarPrueba)
-                        .addGap(58, 58, 58))))
+                        .addGap(90, 90, 90))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,25 +427,51 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_listaCompetenciasMouseClicked
 
     private void btnBorrarPruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarPruebaActionPerformed
-        String titulo = "¿Quieres borrar "+modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString()+"?";
-        
-        int borrar = JOptionPane.showConfirmDialog(null, titulo, "Confirmar borrado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        String nombrePrueba = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString();
+        String titulo = "¡CUIDADO!\n¿Seguro que quieres borrar "+nombrePrueba+"?\nEsta acción borrará sus competencias y todas sus calificaciones. Esto no se puede deshacer.";
+        int paneBorrar = JOptionPane.showConfirmDialog(null, titulo, "Confirmar borrado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         // 0 --> sí         1 --> no
-        if (borrar == 0){
+        if (paneBorrar == 0){
+            ArrayList<Nota> notasAlumno;
             //TODO proceder a borrar la prueba de la tabla, de contPruebas, las notas de los alumnos respecto a esa prueba en contAlumnos y todo de la base de datos
+            for (int i=0; i<contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++){ //itero sobre los alumnos
+                notasAlumno = (ArrayList<Nota>) contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas().clone();
+                for (Nota n : contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas()) {
+                    if (n.getIdPrueba() == pruebaConID.get(nombrePrueba)){
+                        notasAlumno.remove(notasAlumno.indexOf(n));
+                    }
+                    
+                }
+                
+                contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notasAlumno);
+            }
+            
+            try {
+                contPruebas.borrarPrueba(pruebaConID.get(nombrePrueba), trimestre, asignatura);
+            } catch (SQLException e){
+                AuxiliarMethods.showWarning("No se ha podido borrar la prueba de la base de datos. Por favor, contacte con un administrador.\nMás información: "+e.toString());
+            }
+            
+            modelPruebas.removeRow(tablaPruebas.getSelectedRow());
+            
         }
         
     }//GEN-LAST:event_btnBorrarPruebaActionPerformed
 
     private void tablaPruebasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPruebasMouseClicked
         DefaultListModel<String> modeloAsig = new DefaultListModel<>();
+        listaCompetencias.setModel(modeloAsig);
+        modeloAsig.clear();
         String pruebaCogida = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString();
         int idPruebaCogida = pruebaConID.get(pruebaCogida);
         ArrayList<Competencia> arrayCompetencias = contPruebas.getCompetenciasPrueba().get(idPruebaCogida); //competencias de la prueba seleccionada
         
         for (int i=0; i<arrayCompetencias.size(); i++){
             modeloAsig.addElement(arrayCompetencias.get(i).getNombre());
+            System.out.println("nombre: "+arrayCompetencias.get(i).getNombre());
         }
+        
+        
     }//GEN-LAST:event_tablaPruebasMouseClicked
 
 

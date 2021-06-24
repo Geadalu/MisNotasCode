@@ -1365,7 +1365,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     
     private void cargarEstados(){
         //lblEstado2: la del segundo trimestre
-        if(!lblMedia1N.getText().equals("0") && !lblMedia1N.getText().equals("-") && (!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-"))){
+        if(!lblMedia1N.getText().equals("0") && !lblMedia1N.getText().equals("-") && (!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-")) &&
+                !lblMedia1N.getText().equals("N/A") && !lblMedia2N.getText().equals("N/A")){
             if((int)Double.parseDouble(lblMedia1N.getText()) > (int)Double.parseDouble(lblMedia2N.getText())){
                 //Si el alumno ha empeorado la nota del trimestre 1 al 2
                 lblEstado2.setText("");
@@ -1386,7 +1387,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
         
         //lblEstado3: la del tercer trimestre
-        if(!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-") && !lblMedia3N.getText().equals("0") && !lblMedia3N.getText().equals("-")){  
+        if(!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-") && !lblMedia3N.getText().equals("0") && !lblMedia3N.getText().equals("-") && 
+                !lblMedia2N.getText().equals("N/A") && !lblMedia3N.getText().equals("N/A")){  
             if((int)Double.parseDouble(lblMedia2N.getText()) > (int)Double.parseDouble(lblMedia3N.getText())){
                 //Si el alumno ha empeorado la nota del trimestre 2 al 3
                 lblEstado3.setText("");
