@@ -13,6 +13,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,7 +50,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
 
     public InformeTrimestreWindow(ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones, int asignatura, String nombreAsignatura, int trimestre) {
-        
+
         this.contAlumnos = contAlumnos;
         this.opciones = opciones;
         this.asignatura = asignatura;
@@ -64,12 +66,19 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 AuxiliarMethods.showWarning(e.toString());
             }
         }
-        
+
         initComponents();
         lblAsignatura.setText(nombreAsignatura);
         lblTitulo.setText("Vista general del " + trimestre + "º Trimestre");
         rellenarTablaNotas();
         rellenarTablaPruebas();
+
+        if (tablaPruebas.getRowCount() == 0) {
+            lblNoPruebas.setVisible(true);
+        } else {
+            lblNoPruebas.setVisible(false);
+        }
+
         ejecutarOpciones();
 
     }
@@ -78,20 +87,19 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         //rellenar tabla con el trimestre en el que estamos
         int i;
         int numPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size();
-        
+
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Apellidos");
         tableModel.addColumn("Nombre");
         for (i = 0; i < numPruebas; i++) {
-             tableModel.addColumn(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getEtiqueta());
-         }
+            tableModel.addColumn(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getEtiqueta());
+        }
 
         tablaNotas.setModel(tableModel);
         modelNotas = (DefaultTableModel) tablaNotas.getModel();
-        
-        
+
         //añadir alumnos
-        Object[] row = new Object[numPruebas+2];
+        Object[] row = new Object[numPruebas + 2];
         for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
             row[0] = alumno.getApellidos();
             row[1] = alumno.getNombre();
@@ -99,7 +107,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 for (Nota n : alumno.getNotas()) {
                     for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)) {
                         if (n.getIdPrueba() == p.getIdPrueba()) {
-                            
+
                             row[i + 2] = n.getNota();
                         }
                     }
@@ -109,14 +117,14 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             modelNotas.addRow(row);
         }
     }
-    
-    private void rellenarTablaPruebas () {
+
+    private void rellenarTablaPruebas() {
         modelPruebas = (DefaultTableModel) tablaPruebas.getModel();
         Object[] row = new Object[6];
         int i;
         ArrayList<Prueba> pruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre);
-        
-        for (i=0; i<pruebas.size(); i++){
+
+        for (i = 0; i < pruebas.size(); i++) {
             row[0] = pruebas.get(i).getTitulo();
             row[1] = pruebas.get(i).getEtiqueta();
             row[2] = pruebas.get(i).getPeso();
@@ -124,21 +132,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
             modelPruebas.addRow(row);
         }
-        
-    }
-
-    private void ejecutarOpciones() {
-        List<Component> components = AuxiliarMethods.getAllComponents(this);
-
-        for (Component c : components) {
-            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class) {
-                c.setForeground(Color.LIGHT_GRAY);
-            }
-        }
-
-        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 4));
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
 
     }
 
@@ -159,6 +152,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 80), new java.awt.Dimension(0, 80), new java.awt.Dimension(32767, 80));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
+        lblNoPruebas = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -200,9 +194,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         btnCerrar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
+        txtExplain = new javax.swing.JTextArea();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vista general del trimestre");
+        setBounds(new java.awt.Rectangle(300, 50, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -216,21 +213,21 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.gridheight = 10;
         getContentPane().add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.gridheight = 8;
         getContentPane().add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 8;
+        gridBagConstraints.gridheight = 11;
         getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridwidth = 6;
         getContentPane().add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -240,9 +237,18 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         getContentPane().add(filler5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         getContentPane().add(filler6, gridBagConstraints);
+
+        lblNoPruebas.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblNoPruebas.setForeground(new java.awt.Color(255, 51, 51));
+        lblNoPruebas.setText("Todavía no hay pruebas en este trimestre");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 3;
+        getContentPane().add(lblNoPruebas, gridBagConstraints);
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -352,7 +358,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBorrarPrueba)
-                        .addGap(90, 90, 90))))
+                        .addGap(96, 96, 96))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +380,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -399,7 +405,8 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         getContentPane().add(filler8, gridBagConstraints);
 
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCerrar.setText("Cerrar");
+        btnCerrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
+        btnCerrar.setText("Guardar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarActionPerformed(evt);
@@ -407,19 +414,92 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnCerrar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 12;
         getContentPane().add(filler9, gridBagConstraints);
+
+        txtExplain.setEditable(false);
+        txtExplain.setColumns(20);
+        txtExplain.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtExplain.setRows(5);
+        txtExplain.setText("Puede modificar los datos de una prueba en la tabla \"Pruebas\".\nEsta ventana solo es una vista. Si quiere modificar las notas de los alumnos, haga clic en este texto.");
+        txtExplain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtExplainMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridheight = 2;
+        getContentPane().add(txtExplain, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        getContentPane().add(filler10, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        this.dispose();
+        boolean salir = true;
+        String titulo = "";
+        for (int i = 0; i < tablaPruebas.getRowCount(); i++) {
+            String tituloAntiguo = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo();
+            if (tablaPruebas.getValueAt(i, 1).toString().length() <= 5) {
+
+                //validamos que la fecha tiene el formato correcto
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                dateFormat.setLenient(false);
+
+                try {
+                    int peso = Integer.parseInt(tablaPruebas.getValueAt(i, 2).toString());
+                    titulo = tablaPruebas.getValueAt(i, 0).toString();
+                    String etiqueta = tablaPruebas.getValueAt(i, 1).toString();
+                    String fecha = tablaPruebas.getValueAt(i, 3).toString();
+                    dateFormat.parse(tablaPruebas.getValueAt(i, 3).toString());
+
+                    //buscamos las pruebas que existen, encontramos la que hay ahora mismo recorriéndose y la cambiamos
+                    for (Prueba p2 : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)) {
+                        if (p2.getIdPrueba() == pruebaConID.get(tituloAntiguo)) {
+                            if (!titulo.equals("") && !String.valueOf(peso).equals("") && !etiqueta.equals("") && !fecha.equals("")) {
+                                p2.setTitulo(titulo);
+                                p2.setEtiqueta(etiqueta);
+                                p2.setPeso(peso);
+                                p2.setFecha(fecha);
+                                contPruebas.updatePrueba(p2);
+                            } else {
+                                throw new NullPointerException();
+                            }
+
+                        }
+                    }
+
+                } catch (ParseException pe) {
+                    salir = false;
+                    AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
+                } catch (SQLException sql) {
+                    salir = false;
+                    AuxiliarMethods.showWarning("No se ha podido actualizar la prueba " + titulo + ". Por favor, contacte con un administrador.\nMás información: " + sql.toString());
+//                } catch (NullPointerException npe) {
+//                    salir = false;
+//                    AuxiliarMethods.showWarning("Por favor, asegúrese de que todas las celdas de la tabla están bien escritas.");
+//                    AuxiliarMethods.showWarning(npe.printStackTrace() );
+                }
+
+            } else {
+                salir = false;
+                AuxiliarMethods.showWarning("La longitud máxima de la etiqueta de la prueba es 5.");
+            }
+        }
+        if (salir) {
+            this.dispose();
+        }
+
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void listaCompetenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaCompetenciasMouseClicked
@@ -428,57 +508,81 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     private void btnBorrarPruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarPruebaActionPerformed
         String nombrePrueba = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString();
-        String titulo = "¡CUIDADO!\n¿Seguro que quieres borrar "+nombrePrueba+"?\nEsta acción borrará sus competencias y todas sus calificaciones. Esto no se puede deshacer.";
+        String titulo = "¡CUIDADO!\n¿Seguro que quieres borrar " + nombrePrueba + "?\nEsta acción borrará sus competencias y todas sus calificaciones. Esto no se puede deshacer.";
         int paneBorrar = JOptionPane.showConfirmDialog(null, titulo, "Confirmar borrado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         // 0 --> sí         1 --> no
-        if (paneBorrar == 0){
+        if (paneBorrar == 0) {
             ArrayList<Nota> notasAlumno;
             //TODO proceder a borrar la prueba de la tabla, de contPruebas, las notas de los alumnos respecto a esa prueba en contAlumnos y todo de la base de datos
-            for (int i=0; i<contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++){ //itero sobre los alumnos
+            for (int i = 0; i < contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++) { //itero sobre los alumnos
                 notasAlumno = (ArrayList<Nota>) contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas().clone();
                 for (Nota n : contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas()) {
-                    if (n.getIdPrueba() == pruebaConID.get(nombrePrueba)){
+                    if (n.getIdPrueba() == pruebaConID.get(nombrePrueba)) {
                         notasAlumno.remove(notasAlumno.indexOf(n));
                     }
-                    
+
                 }
-                
+
                 contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notasAlumno);
             }
-            
+
             try {
                 contPruebas.borrarPrueba(pruebaConID.get(nombrePrueba), trimestre, asignatura);
-            } catch (SQLException e){
-                AuxiliarMethods.showWarning("No se ha podido borrar la prueba de la base de datos. Por favor, contacte con un administrador.\nMás información: "+e.toString());
+            } catch (SQLException e) {
+                AuxiliarMethods.showWarning("No se ha podido borrar la prueba de la base de datos. Por favor, contacte con un administrador.\nMás información: " + e.toString());
             }
-            
+
             modelPruebas.removeRow(tablaPruebas.getSelectedRow());
-            
+
         }
-        
+
     }//GEN-LAST:event_btnBorrarPruebaActionPerformed
 
     private void tablaPruebasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPruebasMouseClicked
         DefaultListModel<String> modeloAsig = new DefaultListModel<>();
         listaCompetencias.setModel(modeloAsig);
         modeloAsig.clear();
-        String pruebaCogida = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString();
+        String pruebaCogida = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(tablaPruebas.getSelectedRow()).getTitulo();
         int idPruebaCogida = pruebaConID.get(pruebaCogida);
         ArrayList<Competencia> arrayCompetencias = contPruebas.getCompetenciasPrueba().get(idPruebaCogida); //competencias de la prueba seleccionada
-        
-        for (int i=0; i<arrayCompetencias.size(); i++){
+
+        for (int i = 0; i < arrayCompetencias.size(); i++) {
             modeloAsig.addElement(arrayCompetencias.get(i).getNombre());
-            System.out.println("nombre: "+arrayCompetencias.get(i).getNombre());
+            System.out.println("nombre: " + arrayCompetencias.get(i).getNombre());
         }
-        
-        
+
+
     }//GEN-LAST:event_tablaPruebasMouseClicked
 
+    private void txtExplainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtExplainMouseClicked
+        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones);
+        ctw.pack();
+        ctw.setVisible(true);
+    }//GEN-LAST:event_txtExplainMouseClicked
+
+    private void ejecutarOpciones() {
+        List<Component> components = AuxiliarMethods.getAllComponents(this);
+
+        for (Component c : components) {
+            c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
+            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class) {
+                c.setForeground(Color.LIGHT_GRAY);
+            }
+        }
+
+        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 4));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        lblNoPruebas.setFont(new Font(lblNoPruebas.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 10));
+
+        txtExplain.setBackground(opciones.getColorBackground());
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarPrueba;
     private javax.swing.JButton btnCerrar;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -495,9 +599,11 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblAsignatura;
+    private javax.swing.JLabel lblNoPruebas;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JList<String> listaCompetencias;
     private javax.swing.JTable tablaNotas;
     private javax.swing.JTable tablaPruebas;
+    private javax.swing.JTextArea txtExplain;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,7 +20,6 @@ public class Prueba {
 
     public int idPrueba;
 
-
     int idAsignatura;
     String titulo;
     String fecha;
@@ -38,11 +37,11 @@ public class Prueba {
         this.peso = peso;
         this.competenciasPrueba = competenciasPrueba;
     }
-    
-    public Prueba(){
-        
+
+    public Prueba() {
+
     }
-    
+
     public void cargarPrueba(int idPrueba) throws SQLException {
         String sqlPruebas = "SELECT * FROM prueba WHERE idPrueba = " + idPrueba;
 
@@ -73,41 +72,40 @@ public class Prueba {
 
         Statement st = DBConnection.getConnection().createStatement();
         st.executeUpdate(sqlPrueba);
-        
+
         //se recoge el idPrueba recién creado
         sqlPrueba = "SELECT idPrueba FROM prueba WHERE idAsignatura = '"
-                +this.getIdAsignatura()+"' AND titulo = '"
-                +this.getTitulo()+"' AND fecha = '"
-                +this.getFecha()+"';";
+                + this.getIdAsignatura() + "' AND titulo = '"
+                + this.getTitulo() + "' AND fecha = '"
+                + this.getFecha() + "';";
         st = DBConnection.getConnection().createStatement();
         ResultSet resultidPrueba = st.executeQuery(sqlPrueba);
-        
+
         //y se asigna a la prueba
-        if (resultidPrueba.next()){
+        if (resultidPrueba.next()) {
             return resultidPrueba.getInt("idPrueba");
         } else {
             return 0;
         }
 
     }
-    
-    public void commitCompetencias() throws SQLException{
+
+
+    public void commitCompetencias() throws SQLException {
         Statement st;
-        for (int i=0; i<this.competenciasPrueba.size(); i++){
-            String sqlCompetencias = "INSERT INTO competenciasporprueba VALUES ("+this.competenciasPrueba.get(i)+", "+this.idPrueba+");";
-            
+        for (int i = 0; i < this.competenciasPrueba.size(); i++) {
+            String sqlCompetencias = "INSERT INTO competenciasporprueba VALUES (" + this.competenciasPrueba.get(i) + ", " + this.idPrueba + ");";
+
             st = DBConnection.getConnection().createStatement();
             st.executeUpdate(sqlCompetencias);
         }
-        
-        
-        
+
     }
 
     public int getIdPrueba() {
         return idPrueba;
     }
-    
+
     public int getIdAsignatura() {
         return idAsignatura;
     }
@@ -127,8 +125,7 @@ public class Prueba {
     public int getPeso() {
         return peso;
     }
-    
-    
+
     public String getEtiqueta() {
         return etiqueta;
     }
@@ -136,8 +133,8 @@ public class Prueba {
     public void setEtiqueta(String etiqueta) {
         this.etiqueta = etiqueta;
     }
-    
-     public void setIdAsignatura(int idAsignatura) {
+
+    public void setIdAsignatura(int idAsignatura) {
         this.idAsignatura = idAsignatura;
     }
 
@@ -156,7 +153,7 @@ public class Prueba {
     public void setPeso(int peso) {
         this.peso = peso;
     }
-    
+
     public void setIdPrueba(int idPrueba) {
         this.idPrueba = idPrueba;
     }

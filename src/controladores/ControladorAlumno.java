@@ -80,7 +80,7 @@ public class ControladorAlumno {
                 + alumno.getNotasFinales().get(asignatura).get(1) + ", "
                 + alumno.getNotasFinales().get(asignatura).get(2) + ", "
                 + alumno.getNotasFinales().get(asignatura).get(3) +")";
-            st.executeUpdate(sqlNotasInsert);
+            
         }
     }
     

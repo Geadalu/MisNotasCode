@@ -76,6 +76,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
 
         cargarPruebas(1);
+        obtenerEstadísticas();
         txtAsignatura.setText(strAsignatura);
         model = (DefaultTableModel) tabla.getModel();
     }
@@ -155,6 +156,8 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 32767));
+        btnRefrescar = new javax.swing.JButton();
+        filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
@@ -377,7 +380,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 15;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         getContentPane().add(panelEstadisticas, gridBagConstraints);
@@ -428,6 +431,23 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler9, gridBagConstraints);
 
+        btnRefrescar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnRefrescar.setText("Refrescar estadísticas");
+        btnRefrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefrescarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridwidth = 6;
+        getContentPane().add(btnRefrescar, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 20;
+        getContentPane().add(filler19, gridBagConstraints);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -475,10 +495,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         int i;
         boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
-        boolean yaCreada = false;
+        boolean yaCreada;
         model = (DefaultTableModel) tabla.getModel();
 
-        for (i = 0; i < tabla.getRowCount(); i++) { //itera sobre los alumnos
+        for (i = 0; i < contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++) { //itera sobre los alumnos
             yaCreada = false;
             ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
             if (model.getValueAt(i, 2) != null) { //hay nota escrita
@@ -496,13 +516,17 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 }
                 if (!yaCreada) {//hay nota escrita: pero hay que crearla
                     update = false;
-                    notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), model.getValueAt(i, 3).toString()));
+                    try {
+                        notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), model.getValueAt(i, 3).toString()));
+                    } catch (NullPointerException e) { //puede dar esto porque no hay comentario escrito
+                        notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), ""));
+                    }
                 }
 
             }
-            
+
             contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
-            
+
             try {
                 contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
             } catch (SQLException e) {
@@ -533,6 +557,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboTrimestreActionPerformed
 
+    private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
+        obtenerEstadísticas();
+    }//GEN-LAST:event_btnRefrescarActionPerformed
+
     private void cargarPruebas(int trimestre) {
         int i;
 
@@ -554,7 +582,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         }
 
-        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD , opciones.getTamañoLetra() + 15));
+        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
 
         //cambiamos el color de fondo de todos los containers del frame
         Color colorBackground = opciones.getColorBackground();
@@ -570,16 +598,17 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         }
     }
 
-    public void obtenerEstadísticas() {
-        int numAlumnos = contAlumnos.getAlumnosAsignatura().get(asignatura).size(); //ESTO TIENE QUE CAMBIARSE CUANDO SE IMPLEMENTEN LOS ALUMNOS POR PRUEBA
+    private void obtenerEstadísticas() {
+        int numAlumnos = contAlumnos.getAlumnosAsignatura().get(asignatura).size();
         int aprobados = 0;
 
-        for (Alumno a : contAlumnos.getAlumnosAsignatura().get(asignatura)) {
-            ArrayList<Nota> notas = a.getNotas();
-            for (Nota n : notas) {
-                if (n.getIdPrueba() == idPrueba && n.getNota() >= 5) {
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            try {
+                if (Double.parseDouble(tabla.getValueAt(i, 2).toString()) >= 5) {
                     aprobados++;
                 }
+            } catch (NullPointerException npe){
+                
             }
         }
         lblNumAp.setText(String.valueOf(aprobados) + " (" + formatter.format(aprobados / (float) numAlumnos * 100) + "% del total de alumnos)");
@@ -588,6 +617,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnRefrescar;
     private javax.swing.JComboBox<String> comboTarea;
     private javax.swing.JComboBox<String> comboTrimestre;
     private javax.swing.Box.Filler filler1;
@@ -600,6 +630,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler16;
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler18;
+    private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
     private javax.swing.Box.Filler filler3;

@@ -937,11 +937,11 @@ public class MainWindow extends javax.swing.JFrame {
                         iaw.setVisible(true);
                     }
                 }
-            } else if (tabla.getSelectedColumn() == 2 || tabla.getSelectedColumn() == 3 || tabla.getSelectedColumn() == 4){
-                InformeCursoWindow icw = new InformeCursoWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText());
-                icw.pack();
-                icw.setVisible(true);
-                icw.setMinimumSize(icw.getSize());
+//            } else if (tabla.getSelectedColumn() == 2 || tabla.getSelectedColumn() == 3 || tabla.getSelectedColumn() == 4){
+//                InformeCursoWindow icw = new InformeCursoWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText());
+//                icw.pack();
+//                icw.setVisible(true);
+//                icw.setMinimumSize(icw.getSize());
             }
         }
     }//GEN-LAST:event_tablaMouseClicked

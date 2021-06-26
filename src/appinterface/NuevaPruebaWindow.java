@@ -29,6 +29,7 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import objects.Competencia;
 import objects.Opciones;
@@ -645,36 +646,47 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_rdbtnTodosActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        int continuar = 0;
         if (!txtPeso.getText().equals("") || chbxTrabajoAdic.isSelected()) {
-            int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
-            int trimestre = Integer.parseInt(String.valueOf(comboTrimestre.getSelectedItem().toString().charAt(0)));
-            //validamos que la fecha tiene el formato correcto
+            if (!txtTitulo.getText().equals("") && !txtEtiqueta.getText().equals("")) {
+                int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
+                int trimestre = Integer.parseInt(String.valueOf(comboTrimestre.getSelectedItem().toString().charAt(0)));
+                //validamos que la fecha tiene el formato correcto
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            dateFormat.setLenient(false);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                dateFormat.setLenient(false);
 
-            try {
-                dateFormat.parse(txtFecha.getText().trim());
-                ArrayList competencias = recogerCompetencias();
-                Prueba p = new Prueba(asignatura, txtTitulo.getText(), txtEtiqueta.getText(), txtFecha.getText(), trimestre, peso, competencias);
-                //hacer commit también en competenciasPorPrueba y guardar eso en algun sitio --> controladorPrueba.competenciasPrueba
-
-                contPruebas.añadirPruebaAAsignatura(p, trimestre, asignatura);
                 try {
-                    p.setIdPrueba(p.commitNuevaPrueba());
-                    p.commitCompetencias();
-                } catch (SQLException e) {
-                    AuxiliarMethods.showWarning("No se ha podido introducir la prueba en la base de datos.\nMás detalles: " + e.toString());
+                    dateFormat.parse(txtFecha.getText().trim());
+                    ArrayList competencias = recogerCompetencias();
+                    if (competencias.isEmpty()) {
+                        String dialog = "¿Seguro que quiere crear una prueba sin competencias? \nLas competencias no se podrán modificar más adelante.";
+                        continuar = JOptionPane.showConfirmDialog(null, dialog, "Confirmar creación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    }
+                    if (continuar == 0) {
+                        Prueba p = new Prueba(asignatura, txtTitulo.getText(), txtEtiqueta.getText(), txtFecha.getText(), trimestre, peso, competencias);
+                        //hacer commit también en competenciasPorPrueba y guardar eso en algun sitio --> controladorPrueba.competenciasPrueba
 
+                        contPruebas.añadirPruebaAAsignatura(p, trimestre, asignatura);
+                        try {
+                            p.setIdPrueba(p.commitNuevaPrueba());
+                            p.commitCompetencias();
+                        } catch (SQLException e) {
+                            AuxiliarMethods.showWarning("No se ha podido introducir la prueba en la base de datos.\nMás detalles: " + e.toString());
+
+                        }
+
+                        this.dispose();
+                    }
+                } catch (ParseException pe) {
+                    AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
                 }
 
-                this.dispose();
-            } catch (ParseException pe) {
-                AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
+            } else {
+                AuxiliarMethods.showWarning("Si la prueba no tiene peso, seleccione Es recuperación.");
             }
-
         } else {
-            AuxiliarMethods.showWarning("Si la prueba no tiene peso, seleccione Trabajo adicional.");
+            AuxiliarMethods.showWarning("Por favor, rellene todos los datos de la nueva prueba.");
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -702,7 +714,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
                 if (c1.getIdCompetencia() == competenciaConID.get(modeloAsig.get(listaComAsig.getSelectedIndex()))) {
                     descripcion.setText(c1.getDescripcion());
                 }
-            } catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 descripcion.setText(c1.getDescripcion());
             }
         }
@@ -766,19 +778,19 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
-        
-        for (Component c : components){
+
+        for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JComboBox.class){
+            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JComboBox.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             }
         }
-        
+
         lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
         //lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
         lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         lblAlumnos.setFont(new Font(lblAlumnos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
-        
+
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();
         this.getContentPane().setBackground(colorBackground);
@@ -790,7 +802,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         rdbtnSeleccionar.setBackground(colorBackground);
         rdbtnTodos.setBackground(colorBackground);
         chbxTrabajoAdic.setBackground(colorBackground);
-        
+
     }
 
 

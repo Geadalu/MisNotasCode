@@ -111,6 +111,18 @@ public class ControladorPrueba {
         
     }
     
+    public void updatePrueba(Prueba prueba) throws SQLException{
+        Statement st = DBConnection.getConnection().createStatement();
+        String sqlNotas = "UPDATE prueba SET "
+                + "titulo = '" + prueba.getTitulo() + "', "
+                + "etiqueta = '" + prueba.getEtiqueta() + "', "
+                + "fecha = '" + prueba.getFecha() +"', "
+                + "peso = '" + prueba.getPeso() + "' "
+                + " WHERE idPrueba = " + prueba.getIdPrueba();
+        
+        st.executeUpdate(sqlNotas);
+    }
+    
     public void añadirCompetenciaAPrueba(Competencia comp, Prueba p){
         competenciasPrueba.get(p.idPrueba).add(comp);
     }
