@@ -12,6 +12,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,10 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -33,6 +39,10 @@ import objects.Competencia;
 import objects.Nota;
 import objects.Opciones;
 import objects.Prueba;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -146,6 +156,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         lblTitulo = new javax.swing.JLabel();
+        btnExportar3 = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(80, 0), new java.awt.Dimension(80, 0), new java.awt.Dimension(80, 32767));
@@ -210,6 +221,21 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblTitulo, gridBagConstraints);
+
+        btnExportar3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnExportar3.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\excel.png")); // NOI18N
+        btnExportar3.setText("Exportar notas a Excel");
+        btnExportar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportar3ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(btnExportar3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -560,6 +586,70 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         ctw.setVisible(true);
     }//GEN-LAST:event_txtExplainMouseClicked
 
+    private void btnExportar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportar3ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tablaNotas.getModel();
+        //First Download Apache POI Library For Dealing with excel files.
+        //Then add the library to the current project
+        FileOutputStream excelFos = null;
+        XSSFWorkbook excelJTableExport = null;
+        BufferedOutputStream excelBos = null;
+        String excelImagePath = null;
+        try {
+
+            //Choosing Saving Location
+            //Set default location to C:\Users\Authentic\Desktop or your preferred location
+            JFileChooser excelFileChooser = new JFileChooser("C:\\Users\\Authentic\\Desktop");
+            //Dialog box title
+            excelFileChooser.setDialogTitle("Guardar como...");
+            //Filter only xls, xlsx, xlsm files
+            FileNameExtensionFilter fnef = new FileNameExtensionFilter("Files", "xls", "xlsx", "xlsm");
+            //Setting extension for selected file names
+            excelFileChooser.setFileFilter(fnef);
+            int chooser = excelFileChooser.showSaveDialog(null);
+            //Check if save button has been clicked
+            if (chooser == JFileChooser.APPROVE_OPTION) {
+                //If button is clicked execute this code
+                excelJTableExport = new XSSFWorkbook();
+                XSSFSheet excelSheet = excelJTableExport.createSheet("Notas "+trimestre+"º trimestre");
+                XSSFRow header = excelSheet.createRow(0);
+                XSSFCell headerCell = header.createCell(0);
+                headerCell.setCellValue("Notas de "+lblAsignatura.getText()+" del "+trimestre+"º trimestre");
+                //Loop through the jtable columns and rows to get its values
+                for (int i = 2; i<model.getRowCount()+2; i++) {
+                    XSSFRow excelRow = excelSheet.createRow(i);
+                    for (int j = 0; j<tablaNotas.getColumnModel().getColumnCount(); j++) {
+
+                        XSSFCell excelCell = excelRow.createCell(j);
+                        excelCell.setCellValue(model.getValueAt(i, j).toString());
+                    }
+                }
+                excelFos = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
+                excelBos = new BufferedOutputStream(excelFos);
+                excelJTableExport.write(excelBos);
+                JOptionPane.showMessageDialog(null, "Exportado correctamente");
+            }
+
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            try {
+                if (excelFos != null) {
+                    excelFos.close();
+                }
+                if (excelBos != null) {
+                    excelBos.close();
+                }
+                if (excelJTableExport != null) {
+                    excelJTableExport.close();
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnExportar3ActionPerformed
+
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
@@ -581,6 +671,10 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarPrueba;
     private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnExportar1;
+    private javax.swing.JButton btnExportar2;
+    private javax.swing.JButton btnExportar3;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
