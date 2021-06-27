@@ -31,6 +31,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import objects.Nota;
 import objects.Opciones;
+import objects.Prueba;
 
 /**
  *
@@ -107,25 +108,24 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         AuxiliarMethods.ajustarColumnasTabla(tabla1);
 
         if (!alumno.getNotasFinales().isEmpty()) { //si tiene puestas las notas finales
-            try {
-                final1.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
-                final2.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
-                final3.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
-                double mediaAsig = (Double.parseDouble(final1.getText())
-                        + Double.parseDouble(final2.getText())
-                        + Double.parseDouble(final3.getText())) / 3.0;
-                lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
-                //Cargar medias
-                lblMedia1N.setText(calcularMedia(tabla1, 1));
-                lblMedia2N.setText(calcularMedia(tabla2, 2));
-                lblMedia3N.setText(calcularMedia(tabla3, 3));
-            } catch (NullPointerException e) {
-                
-            }
+            final1.setText(alumno.getNotasFinales().get(asignatura).get(0).toString());
+            final2.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
+            final3.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
+            finalAsig.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
+            double mediaAsig = (Double.parseDouble(final1.getText())
+                    + Double.parseDouble(final2.getText())
+                    + Double.parseDouble(final3.getText())) / 3.0;
+            lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
+            //Cargar medias
+            lblMedia1N.setText(calcularMedia(tabla1, 1));
+            lblMedia2N.setText(calcularMedia(tabla2, 2));
+            lblMedia3N.setText(calcularMedia(tabla3, 3));
+
         } else { //si no tiene notas finales todavía
             final1.setText("");
             final2.setText("");
             final3.setText("");
+            finalAsig.setText("");
             lblMediaAsignaturaN.setText("N/A");
         }
 
@@ -152,18 +152,29 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     public String calcularMedia(JTable tabla, int trimestre) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-        int i;
+        int indiceTabla = 0;
         double media = 0.0;
         int numeroPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); //el numero de pruebas que hay en el trimestre (para hacer la media)
-
-        for (i = 0; i < model.getRowCount(); i++) {
-            if (model.getValueAt(i, 1) != null) {
-                media += Double.parseDouble(model.getValueAt(i, 1).toString());
+        
+        
+        for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)){
+            try {
+                if (p.getIdPrueba() == pruebaConID.get(model.getValueAt(indiceTabla, 0).toString())){
+                    System.out.println("\nPeso de "+p.getTitulo()+" = "+p.getPeso());
+                    System.out.println("Nota = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()));
+                    System.out.println("Nota calculada ahora = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10);
+                    media += Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10;
+                    System.out.println("Media acumulada = "+media);
+                    indiceTabla++;
+                }
+            } catch (NullPointerException npe){
+                indiceTabla++;
             }
         }
         if (numeroPruebas == 0){
             return "N/A";
         } else {        
+            System.out.println("media/pruebas = "+media/numeroPruebas);
             return formatter.format(media / numeroPruebas);
         }
     }

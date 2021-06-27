@@ -61,17 +61,28 @@ public class ControladorAlumno {
 
     public void updateNotasFinales(Alumno alumno, int asignatura) throws SQLException {
         Statement st = DBConnection.getConnection().createStatement();
-        String sqlNotas = "UPDATE notafinal SET "
-                + "idAsignatura = " + asignatura + ", "
-                + "notaTrimestre1 = " + alumno.getNotasFinales().get(asignatura).get(0) + ", "
-                + "notaTrimestre2 = " + alumno.getNotasFinales().get(asignatura).get(1) + ", "
-                + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
-                + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3) +", "
-                + "comentario = '" + alumno.getComentariosAsignaturas().get(asignatura) + "' "
-                + " WHERE idAlumno = " + alumno.getIdAlumno();
-       
-
-        if(st.executeUpdate(sqlNotas) == 0){
+        boolean update = false;
+        
+        //Comprobamos que no haya ya una fila en la base de datos primero
+        String select = "SELECT * FROM notafinal WHERE idAlumno = "+alumno.getIdAlumno()+" AND idAsignatura = "+asignatura;
+        ResultSet resultAlumnos = st.executeQuery(select);
+        if(resultAlumnos.next()){
+            update = true; //hay fila, entonces es update
+        }
+        
+        if(update){
+            String sqlNotas = "UPDATE notafinal SET "
+                    + "idAsignatura = " + asignatura + ", "
+                    + "notaTrimestre1 = " + alumno.getNotasFinales().get(asignatura).get(0) + ", "
+                    + "notaTrimestre2 = " + alumno.getNotasFinales().get(asignatura).get(1) + ", "
+                    + "notaTrimestre3 = " + alumno.getNotasFinales().get(asignatura).get(2) + ", "
+                    + "notaFinal = " + alumno.getNotasFinales().get(asignatura).get(3) +", "
+                    + "comentario = '" + alumno.getComentariosAsignaturas().get(asignatura) + "' "
+                    + " WHERE idAlumno = " + alumno.getIdAlumno();
+            st.executeUpdate(sqlNotas);
+            
+        } else {
+            
             //Si no quiere meterlo como UPDATE, es que tiene que ser INSERT
             String sqlNotasInsert = "INSERT INTO notafinal (idAlumno, idAsignatura, notaTrimestre1, notaTrimestre2, notaTrimestre3, notaFinal) VALUES ("
                 + alumno.getIdAlumno() +", "
@@ -80,6 +91,7 @@ public class ControladorAlumno {
                 + alumno.getNotasFinales().get(asignatura).get(1) + ", "
                 + alumno.getNotasFinales().get(asignatura).get(2) + ", "
                 + alumno.getNotasFinales().get(asignatura).get(3) +")";
+            st.executeUpdate(sqlNotasInsert);
             
         }
     }

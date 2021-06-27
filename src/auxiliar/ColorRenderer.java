@@ -13,14 +13,17 @@ import javax.swing.table.DefaultTableModel;
 import objects.Opciones;
 
 /**
- *
+ * Clase para colorear la tabla de InformeTrimestreWindow
  * @author lucia
  */
 public class ColorRenderer extends DefaultTableCellRenderer {
     
     Opciones opciones;
     
-    
+    /**
+     * Constructor. Necesita las opciones para el color
+     * @param opciones 
+     */
     public ColorRenderer(Opciones opciones){
         this.opciones = opciones;
     }

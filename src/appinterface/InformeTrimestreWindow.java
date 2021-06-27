@@ -108,11 +108,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             tableModel.addColumn(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getEtiqueta());
         }
         
-        //colocamos el custom cell renderer para los colores
-        
-
         tablaNotas.setModel(tableModel);
         
+        //colocamos el custom cell renderer para los colores
         TableCellRenderer colorRenderer = new ColorRenderer(opciones);
         for (i=2; i<tablaNotas.getColumnCount(); i++){
             try {
