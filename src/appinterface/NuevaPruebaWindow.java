@@ -32,6 +32,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import objects.Competencia;
+import objects.Nota;
 import objects.Opciones;
 import objects.Prueba;
 
@@ -647,6 +648,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         int continuar = 0;
+        boolean salir = true;
         if (!txtPeso.getText().equals("") || chbxTrabajoAdic.isSelected()) {
             if (!txtTitulo.getText().equals("") && !txtEtiqueta.getText().equals("")) {
                 int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
@@ -671,23 +673,40 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
                         try {
                             p.setIdPrueba(p.commitNuevaPrueba());
                             p.commitCompetencias();
+                            //Recoger a los alumnos que han sido seleccionados
+                            //Crear notas vacías para ellos con comentario ("No tiene que hacer la prueba")
+                            for (int i = 0; i < tabla.getRowCount(); i++) {
+                                if (tabla.getValueAt(i, 2).toString().equals("false")) {
+                                    ArrayList<Nota> notasActuales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
+                                    notasActuales.add(new Nota(p.getIdPrueba(), 0, "No tiene que hacer la prueba"));
+                                    contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notasActuales);
+                                    contAlumnos.updateNotas(asignatura, p.getIdPrueba(), contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), false);
+                                }
+                            }
                         } catch (SQLException e) {
-                            AuxiliarMethods.showWarning("No se ha podido introducir la prueba en la base de datos.\nMás detalles: " + e.toString());
-
+                            AuxiliarMethods.showWarning("No se ha podido introducir la prueba en la base de datos. Por favor, contacte con un administrador. \nMás detalles: " + e.toString());
+                            salir = false;
                         }
 
-                        this.dispose();
                     }
                 } catch (ParseException pe) {
                     AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
+                    salir = false;
                 }
 
             } else {
                 AuxiliarMethods.showWarning("Si la prueba no tiene peso, seleccione Es recuperación.");
+                salir = false;
             }
         } else {
             AuxiliarMethods.showWarning("Por favor, rellene todos los datos de la nueva prueba.");
+            salir = false;
         }
+
+        if (salir) {
+            this.dispose();
+        }
+
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 

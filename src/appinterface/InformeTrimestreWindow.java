@@ -109,17 +109,18 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         modelNotas = (DefaultTableModel) tablaNotas.getModel();
 
         //añadir alumnos
-        Object[] row = new Object[numPruebas + 2];
+        Object[] row;
         for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
+            row = new Object[numPruebas + 2];
             row[0] = alumno.getApellidos();
             row[1] = alumno.getNombre();
-            for (i = 0; i < numPruebas; i++) {
-                for (Nota n : alumno.getNotas()) {
-                    for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)) {
-                        if (n.getIdPrueba() == p.getIdPrueba()) {
-
-                            row[i + 2] = n.getNota();
-                        }
+            i=2;
+            for (Nota n : alumno.getNotas()) {
+                for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)) {
+                    if (n.getIdPrueba() == p.getIdPrueba() && n.getComentario() != null && !n.getComentario().equals("No tiene que hacer la prueba")) {
+                        row[i++] = n.getNota();
+                    } else if (n.getIdPrueba() == p.getIdPrueba() && n.getComentario() != null && n.getComentario().equals("No tiene que hacer la prueba")){
+                        row[i++] = "-";
                     }
                 }
             }
@@ -173,7 +174,8 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) tablaNotas.getModel();
                 Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
 
-                if(Index_col != 0 && Index_col != 1 && model.getValueAt(Index_row, Index_col) != null && !model.getValueAt(Index_row, Index_col).equals("")){
+                if(Index_col != 0 && Index_col != 1 && model.getValueAt(Index_row, Index_col) != null && !model.getValueAt(Index_row, Index_col).equals("")
+                    && !model.getValueAt(Index_row, Index_col).equals("-")){
                     if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
                         comp.setForeground(opciones.getColorSuspensos());
                     } else if (!isCellSelected(Index_row, Index_col)) {
@@ -206,7 +208,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         btnCerrar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         txtExplain = new javax.swing.JTextArea();
-        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vista general del trimestre");
@@ -463,10 +464,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridheight = 2;
         getContentPane().add(txtExplain, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 7;
-        getContentPane().add(filler10, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -511,10 +508,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 } catch (SQLException sql) {
                     salir = false;
                     AuxiliarMethods.showWarning("No se ha podido actualizar la prueba " + titulo + ". Por favor, contacte con un administrador.\nMás información: " + sql.toString());
-//                } catch (NullPointerException npe) {
-//                    salir = false;
-//                    AuxiliarMethods.showWarning("Por favor, asegúrese de que todas las celdas de la tabla están bien escritas.");
-//                    AuxiliarMethods.showWarning(npe.printStackTrace() );
+                } catch (NullPointerException npe) {
+                    salir = false;
+                    AuxiliarMethods.showWarning("Por favor, asegúrese de que todas las celdas de la tabla están bien escritas.");
                 }
 
             } else {
@@ -538,6 +534,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         int paneBorrar = JOptionPane.showConfirmDialog(null, titulo, "Confirmar borrado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         // 0 --> sí         1 --> no
         if (paneBorrar == 0) {
+            listaCompetencias.removeAll();
             ArrayList<Nota> notasAlumno;
             //TODO proceder a borrar la prueba de la tabla, de contPruebas, las notas de los alumnos respecto a esa prueba en contAlumnos y todo de la base de datos
             for (int i = 0; i < contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++) { //itero sobre los alumnos
@@ -671,12 +668,8 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarPrueba;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnExportar;
-    private javax.swing.JButton btnExportar1;
-    private javax.swing.JButton btnExportar2;
     private javax.swing.JButton btnExportar3;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;

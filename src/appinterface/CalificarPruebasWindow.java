@@ -240,7 +240,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridwidth = 8;
         gridBagConstraints.gridheight = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -270,7 +270,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -285,7 +285,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridx = 17;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnGuardar, gridBagConstraints);
@@ -315,7 +315,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 22;
         getContentPane().add(filler13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 23;
         getContentPane().add(filler14, gridBagConstraints);
@@ -332,7 +332,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 26;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 11;
         getContentPane().add(filler2, gridBagConstraints);
 
         panelEstadisticas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estadísticas de la prueba", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
@@ -377,7 +377,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         panelEstadisticas.add(filler18, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 15;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.gridheight = 5;
@@ -385,7 +385,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         getContentPane().add(panelEstadisticas, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 17;
+        gridBagConstraints.gridx = 18;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 26;
         getContentPane().add(filler6, gridBagConstraints);
@@ -417,7 +417,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 7;
         getContentPane().add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridx = 13;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.gridwidth = 4;
         getContentPane().add(filler10, gridBagConstraints);
@@ -439,12 +439,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 21;
         gridBagConstraints.gridwidth = 6;
         getContentPane().add(btnRefrescar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 20;
         getContentPane().add(filler19, gridBagConstraints);
 
@@ -606,6 +606,8 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             try {
                 if (Double.parseDouble(tabla.getValueAt(i, 2).toString()) >= 5) {
                     aprobados++;
+                } else if (tabla.getValueAt(i, 3).toString().equals("No tiene que hacer la prueba")){
+                    numAlumnos--;
                 }
             } catch (NullPointerException npe){
                 
