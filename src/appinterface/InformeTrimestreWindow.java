@@ -6,6 +6,7 @@
 package appinterface;
 
 import auxiliar.AuxiliarMethods;
+import auxiliar.ColorRenderer;
 import controladores.ControladorAlumno;
 import controladores.ControladorPrueba;
 import java.awt.Color;
@@ -97,16 +98,33 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         //rellenar tabla con el trimestre en el que estamos
         int i;
         int numPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size();
-
+        
+        
+        
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Apellidos");
         tableModel.addColumn("Nombre");
         for (i = 0; i < numPruebas; i++) {
             tableModel.addColumn(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getEtiqueta());
         }
+        
+        //colocamos el custom cell renderer para los colores
+        
 
         tablaNotas.setModel(tableModel);
+        
+        TableCellRenderer colorRenderer = new ColorRenderer(opciones);
+        for (i=2; i<tablaNotas.getColumnCount(); i++){
+            try {
+                tablaNotas.getColumnModel().getColumn(i).setCellRenderer(colorRenderer);
+            } catch (NullPointerException npe){
+                
+            }
+        }
+        
         modelNotas = (DefaultTableModel) tablaNotas.getModel();
+        
+        
 
         //añadir alumnos
         Object[] row;
@@ -168,23 +186,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaNotas = new JTable() {
-            public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
-                // get the current row
-                DefaultTableModel model = (DefaultTableModel) tablaNotas.getModel();
-                Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
-
-                if(Index_col != 0 && Index_col != 1 && model.getValueAt(Index_row, Index_col) != null && !model.getValueAt(Index_row, Index_col).equals("")
-                    && !model.getValueAt(Index_row, Index_col).equals("-")){
-                    if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
-                        comp.setForeground(opciones.getColorSuspensos());
-                    } else if (!isCellSelected(Index_row, Index_col)) {
-                        comp.setForeground(opciones.getColorAprobados());
-                    }
-                }
-                return comp;
-            }
-        };
+        tablaNotas = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaPruebas = new javax.swing.JTable();
