@@ -160,12 +160,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)){
             try {
                 if (p.getIdPrueba() == pruebaConID.get(model.getValueAt(indiceTabla, 0).toString())){
-                    System.out.println("\nPeso de "+p.getTitulo()+" = "+p.getPeso());
-                    System.out.println("Nota = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()));
-                    System.out.println("Nota calculada ahora = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10);
-                    media += Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10;
-                    System.out.println("Media acumulada = "+media);
-                    indiceTabla++;
+                    if(Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()) != 0){
+                        System.out.println("\nPeso de "+p.getTitulo()+" = "+p.getPeso());
+                        System.out.println("Nota = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()));
+                        System.out.println("Nota calculada ahora = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10);
+                        media += Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10;
+                        System.out.println("Media acumulada = "+media);
+                        indiceTabla++;
+                    } else { //no se tienen en cuenta los ceros (de pruebas que no se tienen que hacer)
+                        numeroPruebas --;
+                    }
                 }
             } catch (NullPointerException npe){
                 indiceTabla++;
