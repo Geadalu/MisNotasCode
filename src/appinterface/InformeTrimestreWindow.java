@@ -578,9 +578,10 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaPruebasMouseClicked
 
     private void txtExplainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtExplainMouseClicked
-        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones);
+        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestre");
         ctw.pack();
         ctw.setVisible(true);
+        ctw.setMinimumSize(ctw.getSize());
     }//GEN-LAST:event_txtExplainMouseClicked
 
     private void btnExportar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportar3ActionPerformed

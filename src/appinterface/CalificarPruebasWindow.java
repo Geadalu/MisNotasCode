@@ -46,15 +46,17 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     int asignatura;
     int idPrueba;
     Opciones opciones;
+    String desdeDonde; //para saber desde dónde se abrió la ventana para refrescar en caso de cambio
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
     DefaultTableModel model;
     NumberFormat formatter;
 
-    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones) {
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones, String desdeDonde) {
         this.opciones = opciones;
         initComponents();
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
+        this.desdeDonde = desdeDonde;
         if (contPruebas != null) {
             this.contPruebas = contPruebas;
         } else {

@@ -878,9 +878,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
-            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, opciones);
+            CalificarPruebasWindow ctw = new CalificarPruebasWindow(nombreAsignatura.getText(), pasarAsignatura, contAlumnos, contPruebas, opciones, "MainWindow");
             ctw.pack();
             ctw.setVisible(true);
+            ctw.setMinimumSize(ctw.getSize());
         }
     }//GEN-LAST:event_btnCalificarActionPerformed
 
@@ -932,16 +933,12 @@ public class MainWindow extends javax.swing.JFrame {
             if (tabla.getSelectedColumn() == 0 || tabla.getSelectedColumn() == 1) {
                 for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
                     if (alumno.getApellidos().equals(model.getValueAt(tabla.getSelectedRow(), 0)) && alumno.getNombre().equals(model.getValueAt(tabla.getSelectedRow(), 1))) {
-                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, contAlumnos, opciones, this);
+                        InformeAlumnoWindow iaw = new InformeAlumnoWindow(alumno, pasarAsignatura, nombreAsignatura.getText(), contAlumnos, opciones, this);
                         iaw.pack();
                         iaw.setVisible(true);
+                        iaw.setMinimumSize(iaw.getSize());
                     }
                 }
-//            } else if (tabla.getSelectedColumn() == 2 || tabla.getSelectedColumn() == 3 || tabla.getSelectedColumn() == 4){
-//                InformeCursoWindow icw = new InformeCursoWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText());
-//                icw.pack();
-//                icw.setVisible(true);
-//                icw.setMinimumSize(icw.getSize());
             }
         }
     }//GEN-LAST:event_tablaMouseClicked
@@ -1303,7 +1300,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdbtnlen3A;
     private javax.swing.JRadioButton rdbtnmat3A;
     private javax.swing.JRadioButton rdbtnrel4A;
-    private javax.swing.JTable tabla;
+    public javax.swing.JTable tabla;
     private javax.swing.JTextArea txtHagaClic;
     private javax.swing.JTextArea txtHagaClic2;
     private javax.swing.JLabel ventormentaPicture;

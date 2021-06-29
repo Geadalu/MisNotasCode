@@ -40,6 +40,7 @@ import objects.Prueba;
 public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     int asignatura;
+    String nombreAsignatura;
     ControladorAlumno contAlumnos;
     ControladorPrueba contPruebas;
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
@@ -57,11 +58,13 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      *
      * @param alumno
      * @param asignatura
+     * @param nombreAsignatura
      * @param contAlumnos
      * @param opciones
      */
-    public InformeAlumnoWindow(Alumno alumno, int asignatura, ControladorAlumno contAlumnos, Opciones opciones, JFrame mainWindow) {
+    public InformeAlumnoWindow(Alumno alumno, int asignatura, String nombreAsignatura, ControladorAlumno contAlumnos, Opciones opciones, JFrame mainWindow) {
         this.asignatura = asignatura;
+        this.nombreAsignatura = nombreAsignatura;
         this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
         this.alumno = alumno;
@@ -161,11 +164,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             try {
                 if (p.getIdPrueba() == pruebaConID.get(model.getValueAt(indiceTabla, 0).toString())){
                     if(Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()) != 0){
-                        System.out.println("\nPeso de "+p.getTitulo()+" = "+p.getPeso());
-                        System.out.println("Nota = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()));
-                        System.out.println("Nota calculada ahora = "+Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10);
                         media += Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10;
-                        System.out.println("Media acumulada = "+media);
                         indiceTabla++;
                     } else { //no se tienen en cuenta los ceros (de pruebas que no se tienen que hacer)
                         numeroPruebas --;
@@ -178,7 +177,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         if (numeroPruebas == 0){
             return "N/A";
         } else {        
-            System.out.println("media/pruebas = "+media/numeroPruebas);
             return formatter.format(media / numeroPruebas);
         }
     }
@@ -411,9 +409,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler49 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler59 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 200), new java.awt.Dimension(0, 200), new java.awt.Dimension(32767, 200));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
+        filler71 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        filler72 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Informe del alumno");
+        setTitle("Informe del alumnado");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -956,7 +956,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 31;
-        gridBagConstraints.gridy = 31;
+        gridBagConstraints.gridy = 33;
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -969,7 +969,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 32;
-        gridBagConstraints.gridy = 31;
+        gridBagConstraints.gridy = 33;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(btnGuardar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -978,11 +978,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 20;
         getContentPane().add(filler13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 23;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridheight = 5;
         getContentPane().add(filler17, gridBagConstraints);
 
@@ -996,7 +996,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 33;
         gridBagConstraints.gridy = 17;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         getContentPane().add(btnSiguiente, gridBagConstraints);
 
         btnAnterior.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -1009,7 +1009,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 17;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         getContentPane().add(btnAnterior, gridBagConstraints);
 
         panelFinales.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas finales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
@@ -1087,7 +1087,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 13;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -1095,32 +1095,32 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 19;
+        gridBagConstraints.gridheight = 21;
         getContentPane().add(filler10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 32;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 24;
+        gridBagConstraints.gridheight = 26;
         getContentPane().add(filler18, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 5;
         getContentPane().add(filler19, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 13;
         getContentPane().add(filler20, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 29;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(filler21, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 26;
+        gridBagConstraints.gridheight = 28;
         getContentPane().add(filler23, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -1130,7 +1130,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridy = 34;
         gridBagConstraints.gridwidth = 35;
         getContentPane().add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1139,13 +1139,13 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(filler37, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.gridwidth = 24;
         getContentPane().add(filler39, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 35;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 32;
+        gridBagConstraints.gridheight = 34;
         getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1155,12 +1155,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridheight = 15;
+        gridBagConstraints.gridheight = 16;
         getContentPane().add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 28;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridheight = 15;
+        gridBagConstraints.gridheight = 16;
         getContentPane().add(filler7, gridBagConstraints);
 
         txtComentarios.setColumns(20);
@@ -1169,25 +1169,25 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         txtComentarios.setBorder(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(txtComentarios, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridheight = 6;
         getContentPane().add(filler48, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 29;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridheight = 7;
         getContentPane().add(filler50, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 33;
+        gridBagConstraints.gridheight = 35;
         getContentPane().add(filler57, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1199,40 +1199,46 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblComentarios.setText("Comentarios:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         getContentPane().add(lblComentarios, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridy = 23;
         getContentPane().add(filler22, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 34;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 31;
+        gridBagConstraints.gridheight = 33;
         getContentPane().add(filler49, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridheight = 7;
         getContentPane().add(filler59, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 29;
+        gridBagConstraints.gridy = 31;
         gridBagConstraints.gridwidth = 21;
         getContentPane().add(filler8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 19;
+        getContentPane().add(filler71, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 21;
+        getContentPane().add(filler72, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
         if (alumno.getPosicion() != contAlumnos.getAlumnosAsignatura().get(asignatura).size() - 1) {
             //guardar campos
             cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() + 1));
@@ -1242,7 +1248,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        // TODO add your handling code here:
         if (alumno.getPosicion() != 0) {
             //guardar campos
             cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() - 1));
@@ -1251,14 +1256,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
+    
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-
         //Guardar notas
         boolean update;
         model1 = (DefaultTableModel) tabla1.getModel();
         model2 = (DefaultTableModel) tabla2.getModel();
         model3 = (DefaultTableModel) tabla3.getModel();
-        ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotas();
+        ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()).getNotas();
         updateNotas(model1, notas);
         updateNotas(model2, notas);
         updateNotas(model3, notas);
@@ -1340,20 +1345,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
         boolean update; //para saber si hay que hacer UPDATE o INSERT en la BD
-        boolean yaCreada = false;
+        boolean yaCreada;
         
         for (i = 0; i < modelo.getRowCount(); i++) {
+            yaCreada = false;
             update = false;
             int idPrueba = pruebaConID.get((modelo.getValueAt(i, 0)).toString());
-            if (modelo.getValueAt(i, 1) != null) { //si no hay nada en la tabla, se pone nada en la nota, pero se crea
+            if (modelo.getValueAt(i, 1) != null) { //hay nota escrita
                 for (Nota n : notas){
-                    if (n.getIdPrueba() == idPrueba && n.getNota() == -1){
+                    if(n.getIdPrueba() == idPrueba){ //hay nota escrita: pero ya había una creada
                         yaCreada = true;
                         update = true;
                         n.setNota(Double.parseDouble(modelo.getValueAt(i, 1).toString()));
                     }
                 }
-                if(!yaCreada){
+                if(!yaCreada){ //hay nota escrita: pero hay que crearla
+                    update = false;
                     notas.add(new Nota(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()), ""));
                 }
             }
@@ -1582,6 +1589,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler69;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler70;
+    private javax.swing.Box.Filler filler71;
+    private javax.swing.Box.Filler filler72;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JTextField final1;
@@ -1618,9 +1627,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panel3;
     private javax.swing.JPanel panelFinales;
-    private javax.swing.JTable tabla1;
-    private javax.swing.JTable tabla2;
-    private javax.swing.JTable tabla3;
+    public javax.swing.JTable tabla1;
+    public javax.swing.JTable tabla2;
+    public javax.swing.JTable tabla3;
     private javax.swing.JTextArea txtComentarios;
     // End of variables declaration//GEN-END:variables
 
