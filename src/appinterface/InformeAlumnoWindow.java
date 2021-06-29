@@ -1269,7 +1269,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         updateNotas(model3, notas);
 
         //Guardar notas finales
-        ArrayList<Double> notasFinales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getIdAlumno()).getNotasFinales().get(asignatura);
+        ArrayList<Double> notasFinales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()).getNotasFinales().get(asignatura);
         if (notasFinales == null) { //si no tiene todavía notas finales
             notasFinales = new ArrayList<>();
             if (final1.getText().equals("")) {
@@ -1300,25 +1300,25 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             if (final1.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
-                notasFinales.add(Double.parseDouble(final1.getText()));
+                notasFinales.set(0, Double.parseDouble(final1.getText()));
             }
 
             if (final2.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
-                notasFinales.add(Double.parseDouble(final2.getText()));
+                notasFinales.set(1, Double.parseDouble(final2.getText()));
             }
 
             if (final3.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
-                notasFinales.add(Double.parseDouble(final3.getText()));
+                notasFinales.set(2, Double.parseDouble(final3.getText()));
             }
 
             if (finalAsig.getText().equals("")) {
                 notasFinales.add(0.0);
             } else {
-                notasFinales.add(Double.parseDouble(finalAsig.getText()));
+                notasFinales.set(3, Double.parseDouble(finalAsig.getText()));
             }
         }
         
