@@ -274,6 +274,7 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
@@ -447,7 +448,7 @@
     <Component class="javax.swing.JLabel" name="lblAsignatura">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="18" style="0"/>
+          <Font name="Segoe UI" size="20" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="@Asignatura"/>
       </Properties>
@@ -539,18 +540,18 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JTextArea" name="txtExplain">
+    <Component class="javax.swing.JTextArea" name="txtSubtitulo">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="columns" type="int" value="20"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="16" style="0"/>
+          <Font name="Segoe UI" size="18" style="0"/>
         </Property>
         <Property name="rows" type="int" value="5"/>
         <Property name="text" type="java.lang.String" value="Puede modificar los datos de una prueba en la tabla &quot;Pruebas&quot;.&#xa;Esta ventana solo es una vista. Si quiere modificar las notas de los alumnos, haga clic en este texto."/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtExplainMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtSubtituloMouseClicked"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

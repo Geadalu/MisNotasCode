@@ -937,6 +937,7 @@ public class MainWindow extends javax.swing.JFrame {
                         iaw.pack();
                         iaw.setVisible(true);
                         iaw.setMinimumSize(iaw.getSize());
+                        iaw.setExtendedState(JFrame.MAXIMIZED_BOTH);
                     }
                 }
             }

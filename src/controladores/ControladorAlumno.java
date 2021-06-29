@@ -59,7 +59,7 @@ public class ControladorAlumno {
         }
     }
 
-    public void updateNotasFinales(Alumno alumno, int asignatura) throws SQLException {
+    public void updateNotasFinales(Alumno alumno, int asignatura) throws SQLException, NullPointerException {
         Statement st = DBConnection.getConnection().createStatement();
         boolean update = false;
         

@@ -112,6 +112,20 @@ public class AuxiliarMethods {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
+    
+    /**
+     * Método que comprueba si una array está llena de ceros.
+     * @param array
+     * @return 
+     */
+    public static boolean arrayTodoCeros(ArrayList<Double> array){
+        for (int i=0; i<array.size(); i++){
+            if (array.get(i) != 0){
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Muestra un warning por pantalla

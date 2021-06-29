@@ -98,31 +98,27 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         //rellenar tabla con el trimestre en el que estamos
         int i;
         int numPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size();
-        
-        
-        
+
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Apellidos");
         tableModel.addColumn("Nombre");
         for (i = 0; i < numPruebas; i++) {
             tableModel.addColumn(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getEtiqueta());
         }
-        
+
         tablaNotas.setModel(tableModel);
-        
+
         //colocamos el custom cell renderer para los colores
         TableCellRenderer colorRenderer = new ColorRenderer(opciones);
-        for (i=2; i<tablaNotas.getColumnCount(); i++){
+        for (i = 2; i < tablaNotas.getColumnCount(); i++) {
             try {
                 tablaNotas.getColumnModel().getColumn(i).setCellRenderer(colorRenderer);
-            } catch (NullPointerException npe){
-                
+            } catch (NullPointerException npe) {
+
             }
         }
-        
+
         modelNotas = (DefaultTableModel) tablaNotas.getModel();
-        
-        
 
         //añadir alumnos
         Object[] row;
@@ -130,12 +126,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             row = new Object[numPruebas + 2];
             row[0] = alumno.getApellidos();
             row[1] = alumno.getNombre();
-            i=2;
+            i = 2;
             for (Nota n : alumno.getNotas()) {
                 for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)) {
                     if (n.getIdPrueba() == p.getIdPrueba() && n.getComentario() != null && !n.getComentario().equals("No tiene que hacer la prueba")) {
                         row[i++] = n.getNota();
-                    } else if (n.getIdPrueba() == p.getIdPrueba() && n.getComentario() != null && n.getComentario().equals("No tiene que hacer la prueba")){
+                    } else if (n.getIdPrueba() == p.getIdPrueba() && n.getComentario() != null && n.getComentario().equals("No tiene que hacer la prueba")) {
                         row[i++] = "-";
                     }
                 }
@@ -207,7 +203,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         btnCerrar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
-        txtExplain = new javax.swing.JTextArea();
+        txtSubtitulo = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vista general del trimestre");
@@ -296,6 +292,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tablaNotas.setEnabled(false);
         jScrollPane1.setViewportView(tablaNotas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -413,7 +410,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(jTabbedPane1, gridBagConstraints);
 
-        lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         lblAsignatura.setText("@Asignatura");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -449,21 +446,21 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 12;
         getContentPane().add(filler9, gridBagConstraints);
 
-        txtExplain.setEditable(false);
-        txtExplain.setColumns(20);
-        txtExplain.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtExplain.setRows(5);
-        txtExplain.setText("Puede modificar los datos de una prueba en la tabla \"Pruebas\".\nEsta ventana solo es una vista. Si quiere modificar las notas de los alumnos, haga clic en este texto.");
-        txtExplain.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtSubtitulo.setEditable(false);
+        txtSubtitulo.setColumns(20);
+        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSubtitulo.setRows(5);
+        txtSubtitulo.setText("Puede modificar los datos de una prueba en la tabla \"Pruebas\".\nEsta ventana solo es una vista. Si quiere modificar las notas de los alumnos, haga clic en este texto.");
+        txtSubtitulo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtExplainMouseClicked(evt);
+                txtSubtituloMouseClicked(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridheight = 2;
-        getContentPane().add(txtExplain, gridBagConstraints);
+        getContentPane().add(txtSubtitulo, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -577,12 +574,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tablaPruebasMouseClicked
 
-    private void txtExplainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtExplainMouseClicked
+    private void txtSubtituloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSubtituloMouseClicked
         CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestre");
         ctw.pack();
         ctw.setVisible(true);
         ctw.setMinimumSize(ctw.getSize());
-    }//GEN-LAST:event_txtExplainMouseClicked
+    }//GEN-LAST:event_txtSubtituloMouseClicked
 
     private void btnExportar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportar3ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablaNotas.getModel();
@@ -608,15 +605,14 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             if (chooser == JFileChooser.APPROVE_OPTION) {
                 //If button is clicked execute this code
                 excelJTableExport = new XSSFWorkbook();
-                XSSFSheet excelSheet = excelJTableExport.createSheet("Notas "+trimestre+"º trimestre");
+                XSSFSheet excelSheet = excelJTableExport.createSheet("Notas " + trimestre + "º trimestre");
                 XSSFRow header = excelSheet.createRow(0);
                 XSSFCell headerCell = header.createCell(0);
-                headerCell.setCellValue("Notas de "+lblAsignatura.getText()+" del "+trimestre+"º trimestre");
+                headerCell.setCellValue("Notas de " + lblAsignatura.getText() + " del " + trimestre + "º trimestre");
                 //Loop through the jtable columns and rows to get its values
-                for (int i = 2; i<model.getRowCount()+2; i++) {
+                for (int i = 2; i < model.getRowCount() + 2; i++) {
                     XSSFRow excelRow = excelSheet.createRow(i);
-                    for (int j = 0; j<tablaNotas.getColumnModel().getColumnCount(); j++) {
-
+                    for (int j = 0; j < tablaNotas.getColumnModel().getColumnCount(); j++) {
                         XSSFCell excelCell = excelRow.createCell(j);
                         excelCell.setCellValue(model.getValueAt(i, j).toString());
                     }
@@ -659,10 +655,11 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
 
         lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 4));
+        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 2));
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         lblNoPruebas.setFont(new Font(lblNoPruebas.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 10));
 
-        txtExplain.setBackground(opciones.getColorBackground());
+        txtSubtitulo.setBackground(opciones.getColorBackground());
 
     }
 
@@ -692,6 +689,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     private javax.swing.JList<String> listaCompetencias;
     private javax.swing.JTable tablaNotas;
     private javax.swing.JTable tablaPruebas;
-    private javax.swing.JTextArea txtExplain;
+    private javax.swing.JTextArea txtSubtitulo;
     // End of variables declaration//GEN-END:variables
 }

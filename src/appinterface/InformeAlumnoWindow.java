@@ -16,14 +16,19 @@ import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
 import controladores.ControladorAlumno;
 import controladores.ControladorPrueba;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -53,6 +58,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     DefaultTableModel model3;
     NumberFormat formatter;
     MainWindow mainWindow;
+    Robot r; //para presionar teclas automáticamente :^)
     
 
     /**
@@ -63,6 +69,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      * @param nombreAsignatura
      * @param contAlumnos
      * @param opciones
+     * @param mainWindow
      */
     public InformeAlumnoWindow(Alumno alumno, int asignatura, String nombreAsignatura, ControladorAlumno contAlumnos, Opciones opciones, MainWindow mainWindow) {
         this.asignatura = asignatura;
@@ -73,6 +80,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         this.opciones = opciones;
         this.mainWindow = mainWindow;
         initComponents();
+        lblMatricula.setVisible(false);
         
         this.formatter = NumberFormat.getInstance(Locale.US);
         this.formatter.setMaximumFractionDigits(2);
@@ -87,6 +95,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         tabla1.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         tabla2.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         tabla3.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        
+        try {
+            r = new Robot();
+        } catch (AWTException awte){
+            AuxiliarMethods.showWarning("No se podrán actualizar las etiquetas de las calificaciones.\nEste no es un error grave.\nMás información: "+awte.toString());
+        }
 
         ejecutarOpciones();
         
@@ -113,15 +127,41 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         AuxiliarMethods.ajustarColumnasTabla(tabla3);
         AuxiliarMethods.ajustarColumnasTabla(tabla1);
 
-        if (!alumno.getNotasFinales().isEmpty()) { //si tiene puestas las notas finales
-            final1.setText(alumno.getNotasFinales().get(asignatura).get(0).toString());
-            final2.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
-            final3.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
-            finalAsig.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
+        if (!alumno.getNotasFinales().isEmpty() && !alumno.getNotasFinales().get(asignatura).isEmpty() && !AuxiliarMethods.arrayTodoCeros(alumno.getNotasFinales().get(asignatura))) { //si tiene puestas las notas finales
+            if (alumno.getNotasFinales().get(asignatura).get(0) != 0){
+                final1.setText(alumno.getNotasFinales().get(asignatura).get(0).toString());
+            } else {
+                final1.setText("");
+            }
+             
+            if (alumno.getNotasFinales().get(asignatura).get(1) != 0){
+                final2.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
+            } else {
+                final2.setText("");
+            }
+            
+            if (alumno.getNotasFinales().get(asignatura).get(2) != 0){
+                final3.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
+            } else {
+                final3.setText("");
+            }
+           
+            if (alumno.getNotasFinales().get(asignatura).get(3) != 0){
+                finalAsig.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
+            } else {
+                finalAsig.setText("");
+            }
+            
+            try {
             double mediaAsig = (Double.parseDouble(final1.getText())
                     + Double.parseDouble(final2.getText())
                     + Double.parseDouble(final3.getText())) / 3.0;
             lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
+            } catch (NumberFormatException nfe){
+                lblMediaAsignaturaN.setText("N/A");
+                lblMediaAsignatura.setToolTipText("Todavía no se puede calcular: faltan una o varias notas finales");
+            }
+            
             //Cargar medias
             lblMedia1N.setText(calcularMedia(tabla1, 1));
             lblMedia2N.setText(calcularMedia(tabla2, 2));
@@ -133,6 +173,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             final3.setText("");
             finalAsig.setText("");
             lblMediaAsignaturaN.setText("N/A");
+        }
+        
+        if(finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")){
+            lblMatricula.setVisible(true);
+        } else {
+            lblMatricula.setVisible(false);
         }
 
     }
@@ -414,6 +460,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
         filler71 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler72 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        filler73 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
+        txtSubtitulo = new javax.swing.JTextArea();
+        lblMatricula = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -422,7 +471,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumnado");
-        setBounds(new java.awt.Rectangle(200, 100, 0, 0));
+        setBounds(new java.awt.Rectangle(100, 100, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
@@ -438,7 +487,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblApellidos.setText("apellidos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblApellidos, gridBagConstraints);
 
@@ -446,20 +495,20 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblNombre.setText("nombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblNombre, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         getContentPane().add(lblImagen, gridBagConstraints);
 
         lblDNI.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDNI.setText("DNI");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblDNI, gridBagConstraints);
 
@@ -519,6 +568,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         final1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        final1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                final1KeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
@@ -617,7 +671,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.gridheight = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -680,6 +734,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         final2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        final2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                final2KeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 11;
@@ -782,7 +841,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 16;
         gridBagConstraints.gridheight = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -846,6 +905,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         final3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        final3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                final3KeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 11;
@@ -948,7 +1012,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 29;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -964,7 +1028,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 31;
-        gridBagConstraints.gridy = 33;
+        gridBagConstraints.gridy = 35;
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -977,20 +1041,20 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 32;
-        gridBagConstraints.gridy = 33;
+        gridBagConstraints.gridy = 35;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(btnGuardar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         getContentPane().add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         getContentPane().add(filler13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 23;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridheight = 5;
         getContentPane().add(filler17, gridBagConstraints);
 
@@ -1003,7 +1067,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 33;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 19;
         gridBagConstraints.gridheight = 4;
         getContentPane().add(btnSiguiente, gridBagConstraints);
 
@@ -1016,7 +1080,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 19;
         gridBagConstraints.gridheight = 4;
         getContentPane().add(btnAnterior, gridBagConstraints);
 
@@ -1033,6 +1097,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         panelFinales.add(lblFinalAsig, gridBagConstraints);
 
         finalAsig.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        finalAsig.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                finalAsigKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
@@ -1095,7 +1164,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 13;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -1103,57 +1172,57 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 21;
+        gridBagConstraints.gridheight = 23;
         getContentPane().add(filler10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 32;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 26;
+        gridBagConstraints.gridheight = 28;
         getContentPane().add(filler18, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.gridwidth = 5;
         getContentPane().add(filler19, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.gridwidth = 13;
         getContentPane().add(filler20, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 29;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.gridwidth = 3;
         getContentPane().add(filler21, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 28;
+        gridBagConstraints.gridheight = 30;
         getContentPane().add(filler23, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 26;
         gridBagConstraints.gridheight = 2;
         getContentPane().add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridy = 36;
         gridBagConstraints.gridwidth = 35;
         getContentPane().add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         getContentPane().add(filler37, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 24;
         getContentPane().add(filler39, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 35;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 34;
+        gridBagConstraints.gridheight = 36;
         getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1162,12 +1231,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(filler14, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 16;
         getContentPane().add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 28;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 16;
         getContentPane().add(filler7, gridBagConstraints);
 
@@ -1177,25 +1246,25 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         txtComentarios.setBorder(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(txtComentarios, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridheight = 6;
         getContentPane().add(filler48, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 29;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridheight = 7;
         getContentPane().add(filler50, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 35;
+        gridBagConstraints.gridheight = 37;
         getContentPane().add(filler57, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1207,37 +1276,61 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblComentarios.setText("Comentarios:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         getContentPane().add(lblComentarios, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 23;
+        gridBagConstraints.gridy = 25;
         getContentPane().add(filler22, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 34;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 33;
+        gridBagConstraints.gridheight = 35;
         getContentPane().add(filler49, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridheight = 7;
         getContentPane().add(filler59, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 31;
+        gridBagConstraints.gridy = 33;
         gridBagConstraints.gridwidth = 21;
         getContentPane().add(filler8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 21;
         getContentPane().add(filler71, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridy = 23;
         getContentPane().add(filler72, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        getContentPane().add(filler73, gridBagConstraints);
+
+        txtSubtitulo.setEditable(false);
+        txtSubtitulo.setColumns(20);
+        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSubtitulo.setRows(2);
+        txtSubtitulo.setText("Informe del/la alumn@ seleccionada en la asignatura actual. \nAquí también se califican las notas finales de la asignatura.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(txtSubtitulo, gridBagConstraints);
+
+        lblMatricula.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\matriculahonor.png")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 31;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 9;
+        getContentPane().add(lblMatricula, gridBagConstraints);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
 
@@ -1307,11 +1400,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         guardarNotas();
         
         for (Alumno a : contAlumnos.getAlumnosAsignatura().get(asignatura)){
-            try{
-                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(0), a.getPosicion(), 2);
-                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(1), a.getPosicion(), 3);
-                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(2), a.getPosicion(), 4);
-                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(3), a.getPosicion(), 6);
+            try {
+                if (a.getNotasFinales().get(asignatura).get(0) != 0){
+                    mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(0), a.getPosicion(), 2);
+                }
+               
+                if (a.getNotasFinales().get(asignatura).get(1) != 0){
+                    mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(1), a.getPosicion(), 3);
+                }
+                
+                if (a.getNotasFinales().get(asignatura).get(2) != 0){
+                    mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(2), a.getPosicion(), 4);
+                }
+                
+                if (a.getNotasFinales().get(asignatura).get(3) != 0){
+                    mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(3), a.getPosicion(), 6);
+                }
             } catch (NullPointerException npe) { //cuando no tiene notas finales todavía
                 
             }
@@ -1356,6 +1460,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             } else {
                 notasFinales.add(Double.parseDouble(finalAsig.getText()));
             }
+            
+            //Aquí copio todas las notas finales del alumno, el hashmap, para poder sustituirlo con las nuevas de estas asignatura en el setNotasFinales
+            HashMap<Integer, ArrayList<Double>> todasNotasFinales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()).getNotasFinales();
+            todasNotasFinales.put(asignatura, notasFinales);
+            contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()).setNotasFinales(todasNotasFinales);
 
         } else {
             if (final1.getText().equals("")) {
@@ -1385,7 +1494,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         
         //añadimos o modificamos el comentario de la asignatura
         HashMap comentAsig = alumno.getComentariosAsignaturas();
-        if(!comentAsig.containsKey(asignatura)){
+        if(comentAsig.containsKey(asignatura)){
             comentAsig.replace(asignatura, txtComentarios.getText());
             alumno.setComentariosAsignaturas(comentAsig);
         } else {
@@ -1404,6 +1513,52 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Cuando se escribe una nota en la nota final del primer trimestre
+     * @param evt 
+     */
+    private void final1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_final1KeyTyped
+        r.keyPress(KeyEvent.VK_ENTER);
+        r.keyRelease(KeyEvent.VK_ENTER);
+
+        cargarEstados();
+    }//GEN-LAST:event_final1KeyTyped
+
+    /**
+     * Cuando se escribe una nota en la nota final del segundo trimestre
+     * @param evt 
+     */
+    private void final2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_final2KeyTyped
+        r.keyPress(KeyEvent.VK_ENTER);
+        r.keyRelease(KeyEvent.VK_ENTER);
+
+        cargarEstados();
+    }//GEN-LAST:event_final2KeyTyped
+
+    /**
+     * Cuando se escribe una nota en la nota final del tercer trimestre
+     * @param evt 
+     */
+    private void final3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_final3KeyTyped
+        r.keyPress(KeyEvent.VK_ENTER);
+        r.keyRelease(KeyEvent.VK_ENTER);
+
+        cargarEstados();
+    }//GEN-LAST:event_final3KeyTyped
+
+    private void finalAsigKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_finalAsigKeyTyped
+        r.keyPress(KeyEvent.VK_ENTER);
+        r.keyRelease(KeyEvent.VK_ENTER);
+        
+        if(finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")){
+            lblMatricula.setVisible(true);
+        } else {
+            lblMatricula.setVisible(false);
+        }
+    }//GEN-LAST:event_finalAsigKeyTyped
+
+    
+    
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
         boolean update; //para saber si hay que hacer UPDATE o INSERT en la BD
@@ -1497,26 +1652,18 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         
         if(!final1.getText().isEmpty() || !final1.getText().equals("")){
             lblCalificacion1.setText(cargarCalificacion(Double.parseDouble(final1.getText())));
+            lblCalificacion1.setForeground(colorearCalificacion(lblCalificacion1.getText()));
         }
         
         if(!final2.getText().isEmpty() || !final2.getText().equals("")){
             lblCalificacion2.setText(cargarCalificacion(Double.parseDouble(final2.getText())));
+            lblCalificacion2.setForeground(colorearCalificacion(lblCalificacion2.getText()));
         }
         
         if(!final3.getText().isEmpty() || !final3.getText().equals("")){
             lblCalificacion3.setText(cargarCalificacion(Double.parseDouble(final3.getText())));
+            lblCalificacion3.setForeground(colorearCalificacion(lblCalificacion3.getText()));
         }
-        
-//        try {
-//            if(Double.parseDouble(lblMediaAsignaturaN.getText()) >= 5.0){
-//                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoy.png"));
-//            } else {
-//                lblEstadoFinal.setIcon(new ImageIcon("assets/VaultBoySad.png"));
-//            }
-//        } catch (NumberFormatException e){
-//            lblEstadoFinal.setIcon(new ImageIcon("assets/NormalVaultBoy.png"));
-//        }
-        
     }
     
     private String cargarCalificacion(Double nota) {
@@ -1534,6 +1681,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         return "";
     }
     
+    private Color colorearCalificacion(String calificacion){
+        switch (calificacion){
+            case "Insuficiente":
+                return opciones.getColorSuspensos();
+            case "Suficiente":
+                return Color.ORANGE;
+            case "Bien":
+                return Color.ORANGE;
+            case "Notable":
+                return opciones.getColorAprobados();
+            case "Sobresaliente":
+                return opciones.getColorAprobados();
+        }
+        return Color.BLACK;        
+    }
+    
     
     private void ejecutarOpciones() {
         
@@ -1547,12 +1710,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 2));
         lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();
+        txtSubtitulo.setBackground(colorBackground);
         this.getContentPane().setBackground(colorBackground);
         panel1.setBackground(colorBackground);
         panel2.setBackground(colorBackground);
@@ -1654,6 +1819,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler70;
     private javax.swing.Box.Filler filler71;
     private javax.swing.Box.Filler filler72;
+    private javax.swing.Box.Filler filler73;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JTextField final1;
@@ -1677,6 +1843,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblFinal3;
     private javax.swing.JLabel lblFinalAsig;
     private javax.swing.JLabel lblImagen;
+    private javax.swing.JLabel lblMatricula;
     private javax.swing.JLabel lblMedia1;
     private javax.swing.JLabel lblMedia1N;
     private javax.swing.JLabel lblMedia2;
@@ -1698,6 +1865,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     public javax.swing.JTable tabla2;
     public javax.swing.JTable tabla3;
     private javax.swing.JTextArea txtComentarios;
+    private javax.swing.JTextArea txtSubtitulo;
     // End of variables declaration//GEN-END:variables
 
 
