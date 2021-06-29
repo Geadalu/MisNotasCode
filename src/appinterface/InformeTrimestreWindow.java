@@ -204,6 +204,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         btnCerrar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         txtSubtitulo = new javax.swing.JTextArea();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vista general del trimestre");
@@ -449,7 +450,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         txtSubtitulo.setEditable(false);
         txtSubtitulo.setColumns(20);
         txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSubtitulo.setRows(5);
+        txtSubtitulo.setRows(2);
         txtSubtitulo.setText("Puede modificar los datos de una prueba en la tabla \"Pruebas\".\nEsta ventana solo es una vista. Si quiere modificar las notas de los alumnos, haga clic en este texto.");
         txtSubtitulo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -461,6 +462,10 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridheight = 2;
         getContentPane().add(txtSubtitulo, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        getContentPane().add(filler10, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -574,13 +579,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tablaPruebasMouseClicked
 
-    private void txtSubtituloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSubtituloMouseClicked
-        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestre");
-        ctw.pack();
-        ctw.setVisible(true);
-        ctw.setMinimumSize(ctw.getSize());
-    }//GEN-LAST:event_txtSubtituloMouseClicked
-
     private void btnExportar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportar3ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablaNotas.getModel();
         //First Download Apache POI Library For Dealing with excel files.
@@ -610,11 +608,15 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 XSSFCell headerCell = header.createCell(0);
                 headerCell.setCellValue("Notas de " + lblAsignatura.getText() + " del " + trimestre + "º trimestre");
                 //Loop through the jtable columns and rows to get its values
-                for (int i = 2; i < model.getRowCount() + 2; i++) {
-                    XSSFRow excelRow = excelSheet.createRow(i);
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    XSSFRow excelRow = excelSheet.createRow(i+2);
                     for (int j = 0; j < tablaNotas.getColumnModel().getColumnCount(); j++) {
                         XSSFCell excelCell = excelRow.createCell(j);
-                        excelCell.setCellValue(model.getValueAt(i, j).toString());
+                        try {
+                            excelCell.setCellValue(model.getValueAt(i, j).toString());
+                        } catch (NullPointerException npe){ //Celda vacía
+                            
+                        }
                     }
                 }
                 excelFos = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
@@ -644,6 +646,13 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExportar3ActionPerformed
 
+    private void txtSubtituloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSubtituloMouseClicked
+        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestre");
+        ctw.pack();
+        ctw.setVisible(true);
+        ctw.setMinimumSize(ctw.getSize());
+    }//GEN-LAST:event_txtSubtituloMouseClicked
+
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
@@ -668,6 +677,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnExportar3;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
