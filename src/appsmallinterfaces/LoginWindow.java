@@ -42,6 +42,7 @@ import objects.Opciones;
 public class LoginWindow extends javax.swing.JFrame {
 
     char mostrarContraseña;
+    Dimension normalSize;
     Object[] coloresLetras
             = {
                 new ImageIcon("assets/colorRojo.png"),
@@ -64,6 +65,7 @@ public class LoginWindow extends javax.swing.JFrame {
 
     public LoginWindow() {
         initComponents();
+        normalSize = this.getSize();
         panelOpciones.setVisible(false);
         mostrarContraseña = txtContraseña.getEchoChar();
 
@@ -583,10 +585,14 @@ public class LoginWindow extends javax.swing.JFrame {
 
     private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
         int tamañoLetra = traducirTamañoLetra();
-        if (tamañoLetra > lblBackground.getFont().getSize()) { //se ha aumentado la letra
-            this.setSize(this.getPreferredSize().width + panelOpciones.getWidth(), this.getMinimumSize().height + panelOpciones.getHeight());
-        } else if (tamañoLetra < lblBackground.getFont().getSize()) { //se ha disminuido la letra
-            this.setSize(this.getPreferredSize().width - panelOpciones.getWidth(), this.getPreferredSize().height - panelOpciones.getHeight());
+        if(tamañoLetra == 16){
+            this.setSize(normalSize);
+        } else {
+            if (tamañoLetra > lblBackground.getFont().getSize()) { //se ha aumentado la letra
+                this.setSize((int) (this.normalSize.width + Math.pow(tamañoLetra, 1.8)), (int) (this.normalSize.height + Math.pow(tamañoLetra, 1.8)));
+            } else if (tamañoLetra < lblBackground.getFont().getSize()) { //se ha disminuido la letra
+                this.setSize((int)(this.normalSize.width - Math.pow(tamañoLetra, 1.3)), (int)(this.normalSize.height - Math.pow(tamañoLetra, 1.3)));
+            }
         }
 
         AuxiliarMethods.centrarVentana(this);
