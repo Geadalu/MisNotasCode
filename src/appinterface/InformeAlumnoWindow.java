@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
@@ -51,6 +52,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     DefaultTableModel model2;
     DefaultTableModel model3;
     NumberFormat formatter;
+    MainWindow mainWindow;
     
 
     /**
@@ -62,13 +64,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
      * @param contAlumnos
      * @param opciones
      */
-    public InformeAlumnoWindow(Alumno alumno, int asignatura, String nombreAsignatura, ControladorAlumno contAlumnos, Opciones opciones, JFrame mainWindow) {
+    public InformeAlumnoWindow(Alumno alumno, int asignatura, String nombreAsignatura, ControladorAlumno contAlumnos, Opciones opciones, MainWindow mainWindow) {
         this.asignatura = asignatura;
         this.nombreAsignatura = nombreAsignatura;
         this.contAlumnos = contAlumnos;
         this.contPruebas = new ControladorPrueba();
         this.alumno = alumno;
         this.opciones = opciones;
+        this.mainWindow = mainWindow;
         initComponents();
         
         this.formatter = NumberFormat.getInstance(Locale.US);
@@ -411,6 +414,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
         filler71 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler72 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        chbxGuardar = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumnado");
@@ -961,7 +969,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
-        btnGuardar.setText("Guardar");
+        btnGuardar.setText("Guardar y cerrar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -1231,14 +1239,49 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 21;
         getContentPane().add(filler72, gridBagConstraints);
 
+        jMenuBar1.setName("menuEditar"); // NOI18N
+
+        jMenu1.setText("Archivo");
+        jMenu1.setName("menuArchivo"); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem1.setText("Cerrar");
+        jMenuItem1.setName("mnbtnSalir"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Editar");
+
+        chbxGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        chbxGuardar.setSelected(true);
+        chbxGuardar.setText("Guardar al cambiar de alumno");
+        chbxGuardar.setToolTipText("Guarda los cambios al pasar de un alumno a otro");
+        jMenu2.add(chbxGuardar);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
+        String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+        if (JOptionPane.showConfirmDialog(null, titulo, "Cerrar ventana", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 1){
+            this.dispose();
+        }        
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        if (chbxGuardar.isSelected()){
+            guardarNotas();
+        }
         if (alumno.getPosicion() != contAlumnos.getAlumnosAsignatura().get(asignatura).size() - 1) {
             //guardar campos
             cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() + 1));
@@ -1248,6 +1291,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        if (chbxGuardar.isSelected()){
+            guardarNotas();
+        }
         if (alumno.getPosicion() != 0) {
             //guardar campos
             cargarCampos(contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion() - 1));
@@ -1258,8 +1304,23 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        //Guardar notas
-        boolean update;
+        guardarNotas();
+        
+        for (Alumno a : contAlumnos.getAlumnosAsignatura().get(asignatura)){
+            try{
+                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(0), a.getPosicion(), 2);
+                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(1), a.getPosicion(), 3);
+                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(2), a.getPosicion(), 4);
+                mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(3), a.getPosicion(), 6);
+            } catch (NullPointerException npe) { //cuando no tiene notas finales todavía
+                
+            }
+        }
+        
+        this.dispose();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    public void guardarNotas(){
         model1 = (DefaultTableModel) tabla1.getModel();
         model2 = (DefaultTableModel) tabla2.getModel();
         model3 = (DefaultTableModel) tabla3.getModel();
@@ -1337,10 +1398,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         } catch (SQLException e) {
             AuxiliarMethods.showWarning("Ha ocurrido un error al guardar las notas de los alumnos.\nMás información: " + e.toString());
         }
-
+    }
+    
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
-
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
@@ -1521,6 +1583,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JCheckBoxMenuItem chbxGuardar;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
@@ -1597,6 +1660,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JTextField final2;
     private javax.swing.JTextField final3;
     private javax.swing.JTextField finalAsig;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblApellidos;
     private javax.swing.JLabel lblCalificacion1;
     private javax.swing.JLabel lblCalificacion2;
