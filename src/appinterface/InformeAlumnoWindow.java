@@ -1366,7 +1366,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
-        if (JOptionPane.showConfirmDialog(null, titulo, "Cerrar ventana", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 1){
+        if (JOptionPane.showConfirmDialog(null, titulo, "Cerrar ventana", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0){
             this.dispose();
         }        
     }//GEN-LAST:event_btnCancelarActionPerformed
