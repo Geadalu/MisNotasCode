@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.Ayuda;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -93,8 +94,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         tabla1.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        tabla1.setRowHeight(25);
         tabla2.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        tabla2.setRowHeight(25);
         tabla3.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        tabla3.setRowHeight(25);
         
         try {
             r = new Robot();
@@ -460,14 +464,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
         filler71 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler72 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        filler73 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
-        txtSubtitulo = new javax.swing.JTextArea();
         lblMatricula = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         chbxGuardar = new javax.swing.JCheckBoxMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumnado");
@@ -1307,22 +1312,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 23;
         getContentPane().add(filler72, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        getContentPane().add(filler73, gridBagConstraints);
-
-        txtSubtitulo.setEditable(false);
-        txtSubtitulo.setColumns(20);
-        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSubtitulo.setRows(2);
-        txtSubtitulo.setText("Informe del/la alumn@ seleccionada en la asignatura actual. \nAquí también se califican las notas finales de la asignatura.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtSubtitulo, gridBagConstraints);
 
         lblMatricula.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\matriculahonor.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1358,6 +1347,30 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         jMenu2.add(chbxGuardar);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu4.setText("Ayuda");
+        jMenu4.setName("menuAyuda"); // NOI18N
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem2.setText("Manual de ayuda");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem2);
+
+        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem11.setText("Acerca de...");
+        jMenuItem11.setName("mnbtnAcercaDe"); // NOI18N
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -1557,6 +1570,17 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_finalAsigKeyTyped
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Ayuda ayuda = new Ayuda(opciones, 5);
+        ayuda.pack();
+        ayuda.setVisible(true);
+        ayuda.setMinimumSize(ayuda.getSize());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     
     
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
@@ -1710,14 +1734,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
 
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
-        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 2));
         lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();
-        txtSubtitulo.setBackground(colorBackground);
         this.getContentPane().setBackground(colorBackground);
         panel1.setBackground(colorBackground);
         panel2.setBackground(colorBackground);
@@ -1819,7 +1841,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler70;
     private javax.swing.Box.Filler filler71;
     private javax.swing.Box.Filler filler72;
-    private javax.swing.Box.Filler filler73;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JTextField final1;
@@ -1828,8 +1849,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JTextField finalAsig;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JLabel lblApellidos;
     private javax.swing.JLabel lblCalificacion1;
     private javax.swing.JLabel lblCalificacion2;
@@ -1865,7 +1889,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     public javax.swing.JTable tabla2;
     public javax.swing.JTable tabla3;
     private javax.swing.JTextArea txtComentarios;
-    private javax.swing.JTextArea txtSubtitulo;
     // End of variables declaration//GEN-END:variables
 
 

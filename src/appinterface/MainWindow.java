@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.Ayuda;
 import appsmallinterfaces.EditarUsuarioWindow;
 import auxiliar.AuxiliarMethods;
 import auxiliar.ToolTipHeader;
@@ -255,6 +256,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu7 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -772,10 +774,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu2.setText("Editar");
 
-        jMenu7.setText("Alumnos");
+        jMenu7.setText("Alumnado");
 
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jMenuItem6.setText("Añadir alumnos...");
+        jMenuItem6.setText("Añadir alumnos/as...");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -789,6 +791,15 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu4.setText("Ayuda");
         jMenu4.setName("menuAyuda"); // NOI18N
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem2.setText("Manual de ayuda");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem2);
 
         jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem11.setText("Acerca de...");
@@ -985,6 +996,13 @@ public class MainWindow extends javax.swing.JFrame {
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnrel4AActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Ayuda ayuda = new Ayuda(opciones, 1);
+        ayuda.pack();
+        ayuda.setVisible(true);
+        ayuda.setMinimumSize(ayuda.getSize());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
@@ -1309,6 +1327,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

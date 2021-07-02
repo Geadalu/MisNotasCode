@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.Ayuda;
 import auxiliar.AuxiliarMethods;
 import auxiliar.ColorRenderer;
 import controladores.ControladorAlumno;
@@ -27,6 +28,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -79,8 +81,15 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
 
         initComponents();
+        //Ponemos más espacio entre las rows de las tablas
+        tablaNotas.setRowHeight(25);
+        tablaPruebas.setRowHeight(25);
+        
+        //Rellenamos los títulos
         lblAsignatura.setText(nombreAsignatura);
         lblTitulo.setText("Vista general del " + trimestre + "º Trimestre");
+        
+        //... y las tablas
         rellenarTablaNotas();
         rellenarTablaPruebas();
 
@@ -205,6 +214,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         txtSubtitulo = new javax.swing.JTextArea();
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vista general del trimestre");
@@ -467,6 +482,49 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 7;
         getContentPane().add(filler10, gridBagConstraints);
 
+        jMenuBar1.setName("menuEditar"); // NOI18N
+
+        jMenu1.setText("Archivo");
+        jMenu1.setName("menuArchivo"); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem1.setText("Cerrar");
+        jMenuItem1.setName("mnbtnSalir"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Ayuda");
+        jMenu4.setName("menuAyuda"); // NOI18N
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem2.setText("Manual de ayuda");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem2);
+
+        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem11.setText("Acerca de...");
+        jMenuItem11.setName("mnbtnAcercaDe"); // NOI18N
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -653,6 +711,22 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         ctw.setMinimumSize(ctw.getSize());
     }//GEN-LAST:event_txtSubtituloMouseClicked
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Ayuda ayuda = new Ayuda(opciones, 6);
+        ayuda.pack();
+        ayuda.setVisible(true);
+        ayuda.setMinimumSize(ayuda.getSize());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
@@ -687,6 +761,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

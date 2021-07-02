@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.Ayuda;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -29,6 +30,7 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import objects.Competencia;
@@ -99,6 +101,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         //ajustamos la tabla para que se muestre correctamente al inicio
         tabla.setEnabled(false);
+        tabla.setRowHeight(20);
         seleccionarTodaTabla(true);
 
         ejecutarOpciones();
@@ -145,19 +148,41 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         comboTrimestre = new javax.swing.JComboBox<>();
         txtFecha = new javax.swing.JTextField();
         lblFecha = new javax.swing.JLabel();
-        lblCompetencias = new javax.swing.JLabel();
         lblDescripcion = new javax.swing.JLabel();
         lblComAsig = new javax.swing.JLabel();
         descripcion = new javax.swing.JTextArea();
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        listaComAsig = new javax.swing.JList<>();
+        listaComAsig = new JList();
+
+        listaComAsig.setSelectionModel(new DefaultListSelectionModel() {
+            public void setSelectionInterval(int index0, int index1) {
+                if (index0 == index1) {
+                    if (isSelectedIndex(index0)) {
+                        removeSelectionInterval(index0, index0);
+                        return;
+                    }
+                }
+                super.setSelectionInterval(index0, index1);
+            }
+
+            @Override
+            public void addSelectionInterval(int index0, int index1) {
+                if (index0 == index1) {
+                    if (isSelectedIndex(index0)) {
+                        removeSelectionInterval(index0, index0);
+                        return;
+                    }
+                    super.addSelectionInterval(index0, index1);
+                }
+            }
+
+        });
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler29 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler30 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
-        lblAlumnos = new javax.swing.JLabel();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
         filler26 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler27 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -179,8 +204,14 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(200, 0), new java.awt.Dimension(200, 0), new java.awt.Dimension(200, 32767));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
-        txtSubtitulo = new javax.swing.JTextArea();
-        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
+        txtCompetencias = new javax.swing.JTextArea();
+        txtAlumnos = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva tarea");
@@ -270,11 +301,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         txtTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtTitulo.setMinimumSize(new java.awt.Dimension(100, 22));
-        txtTitulo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTituloKeyReleased(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 9;
@@ -284,20 +310,21 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         rdbtnTodos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         rdbtnTodos.setSelected(true);
-        rdbtnTodos.setText("Todos los alumnos");
+        rdbtnTodos.setText("Todo el alumnado");
         rdbtnTodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rdbtnTodosActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 13;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(rdbtnTodos, gridBagConstraints);
 
         rdbtnSeleccionar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        rdbtnSeleccionar.setText("Seleccionar alumnos");
+        rdbtnSeleccionar.setText("Seleccionar alumnos/as");
         rdbtnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rdbtnSeleccionarActionPerformed(evt);
@@ -415,15 +442,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblFecha, gridBagConstraints);
 
-        lblCompetencias.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblCompetencias.setText("Competencias de la prueba:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblCompetencias, gridBagConstraints);
-
         lblDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblDescripcion.setText("Descripción:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -438,7 +456,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 16;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblComAsig, gridBagConstraints);
 
@@ -449,7 +467,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         getContentPane().add(descripcion, gridBagConstraints);
@@ -473,7 +491,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -509,15 +527,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 35;
         getContentPane().add(filler30, gridBagConstraints);
-
-        lblAlumnos.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblAlumnos.setText("Alumnos asignados a la prueba:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblAlumnos, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -595,11 +604,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         txtEtiqueta.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtEtiqueta.setMinimumSize(new java.awt.Dimension(100, 22));
-        txtEtiqueta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtEtiquetaKeyReleased(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 15;
         gridBagConstraints.gridy = 9;
@@ -631,21 +635,73 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 24;
         getContentPane().add(filler7, gridBagConstraints);
 
-        txtSubtitulo.setEditable(false);
-        txtSubtitulo.setColumns(20);
-        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSubtitulo.setRows(2);
-        txtSubtitulo.setText("Cree una nueva tarea o una nueva prueba rellenando el formulario.\nPara seleccionar varias competencias, haga clic en la lista manteniendo pulsado Ctrl.");
+        txtCompetencias.setEditable(false);
+        txtCompetencias.setColumns(20);
+        txtCompetencias.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        txtCompetencias.setRows(1);
+        txtCompetencias.setText("Competencias de la prueba:");
+        txtCompetencias.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtSubtitulo, gridBagConstraints);
+        getContentPane().add(txtCompetencias, gridBagConstraints);
+
+        txtAlumnos.setEditable(false);
+        txtAlumnos.setColumns(20);
+        txtAlumnos.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        txtAlumnos.setRows(1);
+        txtAlumnos.setText("Alumnos asignados a la prueba:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        getContentPane().add(filler10, gridBagConstraints);
+        gridBagConstraints.gridx = 13;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(txtAlumnos, gridBagConstraints);
+
+        jMenuBar1.setName("menuEditar"); // NOI18N
+
+        jMenu1.setText("Archivo");
+        jMenu1.setName("menuArchivo"); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem1.setText("Cerrar");
+        jMenuItem1.setName("mnbtnSalir"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Ayuda");
+        jMenu4.setName("menuAyuda"); // NOI18N
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem2.setText("Manual de ayuda");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem2);
+
+        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem11.setText("Acerca de...");
+        jMenuItem11.setName("mnbtnAcercaDe"); // NOI18N
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -774,12 +830,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listaComAsigMouseClicked
 
-    private void txtTituloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTituloKeyReleased
-        //lblNombrePrueba.setText(txtTitulo.getText());
-        lblCompetencias.setText("Competencias de " + txtTitulo.getText() + ":");
-        lblAlumnos.setText("Alumnos asignados a " + txtTitulo.getText() + ":");
-    }//GEN-LAST:event_txtTituloKeyReleased
-
     private void chbxTrabajoAdicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxTrabajoAdicActionPerformed
         if (!chbxTrabajoAdic.isSelected()) {
             txtPeso.setText("");
@@ -790,9 +840,20 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chbxTrabajoAdicActionPerformed
 
-    private void txtEtiquetaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEtiquetaKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEtiquetaKeyReleased
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Ayuda ayuda = new Ayuda(opciones, 2);
+        ayuda.pack();
+        ayuda.setVisible(true);
+        ayuda.setMinimumSize(ayuda.getSize());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void getDate() {
         //Rellenamos el campo de fecha por defecto con la fecha de hoy para que sepan el formato
@@ -835,22 +896,20 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
         for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JComboBox.class) {
+            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JComboBox.class && c.getClass() != JList.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             }
         }
 
-        lblCompetencias.setFont(new Font(lblCompetencias.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
-        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() +2));
+        txtCompetencias.setFont(new Font(txtCompetencias.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
         //lblNombrePrueba.setFont(new Font(lblNombrePrueba.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
         lblTituloGrande.setFont(new Font(lblTituloGrande.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
-        lblAlumnos.setFont(new Font(lblAlumnos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
+        txtAlumnos.setFont(new Font(txtAlumnos.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 6));
 
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();
         this.getContentPane().setBackground(colorBackground);
         //listaComAsig.setBackground(colorBackground);
-        txtSubtitulo.setBackground(colorBackground);
         descripcion.setBackground(colorBackground);
         tabla.setBackground(colorBackground);
         jScrollPane.setBackground(colorBackground);
@@ -858,6 +917,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         rdbtnSeleccionar.setBackground(colorBackground);
         rdbtnTodos.setBackground(colorBackground);
         chbxTrabajoAdic.setBackground(colorBackground);
+        txtAlumnos.setBackground(colorBackground);
+        txtCompetencias.setBackground(colorBackground);
 
     }
 
@@ -869,7 +930,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboTrimestre;
     private javax.swing.JTextArea descripcion;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler22;
@@ -892,14 +952,18 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblAlumnos;
     private javax.swing.JLabel lblAsignatura;
     private javax.swing.JLabel lblComAsig;
-    private javax.swing.JLabel lblCompetencias;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblEtiqueta;
     private javax.swing.JLabel lblFecha;
@@ -912,11 +976,12 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdbtnSeleccionar;
     private javax.swing.JRadioButton rdbtnTodos;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextArea txtAlumnos;
     private javax.swing.JTextField txtAsignatura;
+    private javax.swing.JTextArea txtCompetencias;
     private javax.swing.JTextField txtEtiqueta;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtPeso;
-    private javax.swing.JTextArea txtSubtitulo;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

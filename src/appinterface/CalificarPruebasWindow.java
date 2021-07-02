@@ -5,6 +5,7 @@
  */
 package appinterface;
 
+import appsmallinterfaces.Ayuda;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -76,6 +79,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         ejecutarOpciones();
 
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
+        tabla.setRowHeight(25);
 
         cargarPruebas(1);
         obtenerEstadísticas();
@@ -160,8 +164,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 32767));
         btnRefrescar = new javax.swing.JButton();
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        txtSubtitulo = new javax.swing.JTextArea();
-        filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
@@ -452,22 +460,48 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 23;
         getContentPane().add(filler19, gridBagConstraints);
 
-        txtSubtitulo.setEditable(false);
-        txtSubtitulo.setColumns(20);
-        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSubtitulo.setRows(2);
-        txtSubtitulo.setText("Elija el trimestre y la tarea o prueba que quiera calificar.\nPuede poner tanto una nota como un comentario al alumno en la prueba seleccionada.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtSubtitulo, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 7;
-        getContentPane().add(filler22, gridBagConstraints);
+        jMenuBar1.setName("menuEditar"); // NOI18N
+
+        jMenu1.setText("Archivo");
+        jMenu1.setName("menuArchivo"); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem1.setText("Cerrar");
+        jMenuItem1.setName("mnbtnSalir"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Ayuda");
+        jMenu4.setName("menuAyuda"); // NOI18N
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem2.setText("Manual de ayuda");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem2);
+
+        jMenuItem11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem11.setText("Acerca de...");
+        jMenuItem11.setName("mnbtnAcercaDe"); // NOI18N
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -582,6 +616,21 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         obtenerEstadísticas();
     }//GEN-LAST:event_btnRefrescarActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Ayuda ayuda = new Ayuda(opciones, 3);
+        ayuda.pack();
+        ayuda.setVisible(true);
+        ayuda.setMinimumSize(ayuda.getSize());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     private void cargarPruebas(int trimestre) {
         int i;
 
@@ -603,13 +652,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         }
 
-        lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
-        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() +2));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
 
         //cambiamos el color de fondo de todos los containers del frame
         Color colorBackground = opciones.getColorBackground();
         this.getContentPane().setBackground(colorBackground);
-        txtSubtitulo.setBackground(colorBackground);
         panelEstadisticas.setBackground(colorBackground);
         tabla.setBackground(colorBackground);
         jScrollPane.setBackground(colorBackground);
@@ -658,7 +705,6 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
-    private javax.swing.Box.Filler filler22;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
@@ -666,6 +712,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel lblAprob1;
     private javax.swing.JLabel lblAsignatura;
@@ -676,6 +728,5 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panelEstadisticas;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtAsignatura;
-    private javax.swing.JTextArea txtSubtitulo;
     // End of variables declaration//GEN-END:variables
 }

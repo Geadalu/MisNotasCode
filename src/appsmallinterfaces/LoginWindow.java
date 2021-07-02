@@ -33,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import objects.Opciones;
 
 /**
@@ -114,7 +115,7 @@ public class LoginWindow extends javax.swing.JFrame {
         lblEjemplo = new javax.swing.JLabel();
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         filler25 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
-        jPanel1 = new javax.swing.JPanel();
+        panel = new javax.swing.JPanel();
         lblColorSuspensos = new javax.swing.JLabel();
         lblColorAprobados = new javax.swing.JLabel();
         chbxOscuro = new javax.swing.JCheckBox();
@@ -358,8 +359,8 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 6;
         panelOpciones.add(filler25, gridBagConstraints);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Colores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Colores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        panel.setLayout(new java.awt.GridBagLayout());
 
         lblColorSuspensos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblColorSuspensos.setText("Suspensos:");
@@ -367,7 +368,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel1.add(lblColorSuspensos, gridBagConstraints);
+        panel.add(lblColorSuspensos, gridBagConstraints);
 
         lblColorAprobados.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblColorAprobados.setText("Aprobados:");
@@ -375,7 +376,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel1.add(lblColorAprobados, gridBagConstraints);
+        panel.add(lblColorAprobados, gridBagConstraints);
 
         chbxOscuro.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         chbxOscuro.setText("Modo oscuro");
@@ -387,7 +388,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
-        jPanel1.add(chbxOscuro, gridBagConstraints);
+        panel.add(chbxOscuro, gridBagConstraints);
 
         chbxDaltonico.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         chbxDaltonico.setText("Modo daltónicos");
@@ -401,7 +402,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 3;
-        jPanel1.add(chbxDaltonico, gridBagConstraints);
+        panel.add(chbxDaltonico, gridBagConstraints);
 
         lblBackground.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblBackground.setText("Fondo:");
@@ -409,7 +410,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel1.add(lblBackground, gridBagConstraints);
+        panel.add(lblBackground, gridBagConstraints);
 
         comboBackground.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -418,7 +419,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(comboBackground, gridBagConstraints);
+        panel.add(comboBackground, gridBagConstraints);
 
         comboColorAprobados.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         comboColorAprobados.setSelectedIndex(1);
@@ -428,7 +429,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(comboColorAprobados, gridBagConstraints);
+        panel.add(comboColorAprobados, gridBagConstraints);
 
         comboColorSuspensos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         comboColorSuspensos.setSelectedIndex(0);
@@ -438,34 +439,34 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(comboColorSuspensos, gridBagConstraints);
+        panel.add(comboColorSuspensos, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 6;
-        jPanel1.add(filler17, gridBagConstraints);
+        panel.add(filler17, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
-        jPanel1.add(filler26, gridBagConstraints);
+        panel.add(filler26, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
-        jPanel1.add(filler27, gridBagConstraints);
+        panel.add(filler27, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
-        jPanel1.add(filler28, gridBagConstraints);
+        panel.add(filler28, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        jPanel1.add(filler29, gridBagConstraints);
+        panel.add(filler29, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 7;
-        panelOpciones.add(jPanel1, gridBagConstraints);
+        panelOpciones.add(panel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -606,7 +607,7 @@ public class LoginWindow extends javax.swing.JFrame {
 
         for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), tamañoLetra));
-            if (chbxOscuro.isSelected() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JPasswordField.class) {
+            if (chbxOscuro.isSelected() && c.getClass() != JButton.class && c.getClass() != JTextField.class && c.getClass() != JPasswordField.class && c.getClass() != JComboBox.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             } else if (!chbxOscuro.isSelected()){
                 c.setForeground(new Color(60,63,65));
@@ -619,10 +620,16 @@ public class LoginWindow extends javax.swing.JFrame {
 
         Color backgroundColor = getImageColor(comboBackground.getSelectedItem().toString());
         this.getContentPane().setBackground(backgroundColor);
+        panel.setBackground(backgroundColor);
         chbxDaltonico.setBackground(backgroundColor);
         chbxMostrar.setBackground(backgroundColor);
         chbxOscuro.setBackground(backgroundColor);
         panelOpciones.setBackground(backgroundColor);
+        
+         if (chbxOscuro.isSelected()){
+            TitledBorder titledBorder = (TitledBorder)panel.getBorder();
+            titledBorder.setTitleColor(Color.LIGHT_GRAY);
+         }
 
     }//GEN-LAST:event_btnAplicarActionPerformed
 
@@ -830,7 +837,6 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblBackground;
     private javax.swing.JLabel lblColorAprobados;
     private javax.swing.JLabel lblColorSuspensos;
@@ -841,6 +847,7 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblOpciones;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel lbltamañoLetra;
+    private javax.swing.JPanel panel;
     private javax.swing.JPanel panelOpciones;
     private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtUsuario;
