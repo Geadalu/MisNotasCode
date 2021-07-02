@@ -138,6 +138,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
+        tabla.setRowHeight(25);
        
 
         //Cambiamos el tamaño de la letra si se ha pedido
@@ -1147,28 +1148,60 @@ public class MainWindow extends javax.swing.JFrame {
         double media3 = 0.0;
         double media4 = 0.0;
         double media5 = 0.0;
-        int contador = 0;
+        int contador1 = 0;
+        int contador2 = 0;
+        int contador3 = 0;
+        int contador4 = 0;
+        int contador5 = 0;
         
         row[1] = "MEDIAS TOTALES:";
         for (int i=0; i<contAlumnos.getAlumnosAsignatura().get(getAsignatura()).size(); i++){
             Alumno a = contAlumnos.getAlumnosAsignatura().get(getAsignatura()).get(i);
             if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty()){
                 //condicion ? cosa_true : cosa_false
-                media1 += a.getNotasFinales().get(getAsignatura()).get(0) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(0);
-                media2 += a.getNotasFinales().get(getAsignatura()).get(1) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(1);
-                media3 += a.getNotasFinales().get(getAsignatura()).get(2) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(2);
-                media4 += model.getValueAt(i, 2) == null ? 0 : (double)model.getValueAt(i, 5);
-                media5 += a.getNotasFinales().get(getAsignatura()).get(3) == null ? 0 : a.getNotasFinales().get(getAsignatura()).get(3);
-                contador ++;
+                if (a.getNotasFinales().get(getAsignatura()).get(0) == null || a.getNotasFinales().get(getAsignatura()).get(0) == 0){
+                    media1 += 0;
+                } else {
+                    media1 += a.getNotasFinales().get(getAsignatura()).get(0);
+                    contador1++;
+                }
+                
+                if (a.getNotasFinales().get(getAsignatura()).get(1) == null || a.getNotasFinales().get(getAsignatura()).get(1) == 0){
+                    media2 += 0;
+                } else {
+                    media2 += a.getNotasFinales().get(getAsignatura()).get(1);
+                    contador2++;
+                }
+                
+                if (a.getNotasFinales().get(getAsignatura()).get(2) == null || a.getNotasFinales().get(getAsignatura()).get(2) == 0){
+                    media3 += 0;
+                } else {
+                    media3 += a.getNotasFinales().get(getAsignatura()).get(2);
+                    contador3++;
+                }
+                
+                if (model.getValueAt(i,5) == null){
+                    media4 += 0;
+                } else {
+                    media4 += (double)model.getValueAt(i, 5);
+                    contador4++;
+                }
+                
+                if (a.getNotasFinales().get(getAsignatura()).get(3) == null || a.getNotasFinales().get(getAsignatura()).get(3) == 0){
+                    media5 += 0;
+                } else {
+                    media5 += a.getNotasFinales().get(getAsignatura()).get(3);
+                    contador5++;
+                }
             }
         }
         
         try {
-            row[2] = Double.parseDouble(formatter.format(media1/contador));
-            row[3] = Double.parseDouble(formatter.format(media2/contador));
-            row[4] = Double.parseDouble(formatter.format(media3/contador));
-            row[5] = Double.parseDouble(formatter.format(media4/contador));
-            row[6] = Double.parseDouble(formatter.format(media5/contador));
+            row[2] = Double.parseDouble(formatter.format(media1/contador1));
+            row[3] = Double.parseDouble(formatter.format(media2/contador2));
+            row[4] = Double.parseDouble(formatter.format(media3/contador3));
+            row[5] = Double.parseDouble(formatter.format(media4/contador4));
+            row[6] = Double.parseDouble(formatter.format(media5/contador5));
         } catch (NumberFormatException e){ //esto ocurre si nadie tiene notas finales
             row[2] = 0;
             row[3] = 0;
