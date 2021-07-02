@@ -254,6 +254,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -776,8 +777,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu7.setText("Alumnado");
 
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem3.setText("Cargar un/a alumno/a");
+        jMenu7.add(jMenuItem3);
+
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jMenuItem6.setText("Añadir alumnos/as...");
+        jMenuItem6.setText("Cargar alumnos/as mediante Excel");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -1328,6 +1333,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
