@@ -104,6 +104,8 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         imagen = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
+        txtSubtitulo = new javax.swing.JTextArea();
+        filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos personales");
@@ -127,7 +129,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         txtContraseña1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridy = 23;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -136,7 +138,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         txtContraseña2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 21;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -147,14 +149,14 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         txtIdMaestro.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(txtIdMaestro, gridBagConstraints);
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -164,7 +166,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         lblIdentificador.setText("Identificador de usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblIdentificador, gridBagConstraints);
@@ -173,7 +175,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         lblNombre.setText("Nuevo nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNombre, gridBagConstraints);
@@ -182,7 +184,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         lblNuevaContraseña1.setText("Nueva contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridy = 21;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNuevaContraseña1, gridBagConstraints);
@@ -191,7 +193,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         lblNuevaContraseña2.setText("Repetir nueva contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridy = 23;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNuevaContraseña2, gridBagConstraints);
@@ -205,7 +207,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridy = 27;
         gridBagConstraints.gridwidth = 9;
         getContentPane().add(btnGuardar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -215,7 +217,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 27;
+        gridBagConstraints.gridy = 29;
         gridBagConstraints.gridwidth = 11;
         getContentPane().add(filler5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -225,58 +227,58 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         getContentPane().add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 22;
         getContentPane().add(filler8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 21;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 13;
+        gridBagConstraints.gridheight = 15;
         gridBagConstraints.weightx = 0.4;
         getContentPane().add(filler11, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 16;
+        gridBagConstraints.gridheight = 18;
         getContentPane().add(filler12, gridBagConstraints);
 
         lblCambiarContraseña.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCambiarContraseña.setText("Cambiar contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 9;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblCambiarContraseña, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 4;
         getContentPane().add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 2;
         getContentPane().add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 5;
         getContentPane().add(filler10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         getContentPane().add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         getContentPane().add(filler16, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         getContentPane().add(filler13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -286,7 +288,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         getContentPane().add(filler15, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 5;
         getContentPane().add(filler18, gridBagConstraints);
 
@@ -294,19 +296,19 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         lblCambiarNombre.setText("Cambiar nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblCambiarNombre, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 11;
         getContentPane().add(filler17, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridheight = 4;
         getContentPane().add(filler20, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -323,16 +325,16 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 23;
+        gridBagConstraints.gridy = 25;
         gridBagConstraints.gridwidth = 4;
         getContentPane().add(chbxMostrar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 24;
         getContentPane().add(filler9, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridheight = 3;
         getContentPane().add(imagen, gridBagConstraints);
 
@@ -345,13 +347,29 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         getContentPane().add(jButton1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         getContentPane().add(filler14, gridBagConstraints);
+
+        txtSubtitulo.setEditable(false);
+        txtSubtitulo.setColumns(20);
+        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSubtitulo.setRows(1);
+        txtSubtitulo.setText("Edite aquí sus datos personales, de acceso, y su fotografía.");
+        txtSubtitulo.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 12;
+        getContentPane().add(txtSubtitulo, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
+        getContentPane().add(filler19, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -423,6 +441,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
             }
         }
         
+        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() +2));
         lblCambiarNombre.setFont(new Font(lblCambiarNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 6));
         lblCambiarContraseña.setFont(new Font(lblCambiarContraseña.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 6));
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
@@ -431,6 +450,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         Color colorBackground = opciones.getColorBackground();
         this.getContentPane().setBackground(colorBackground);
         chbxMostrar.setBackground(colorBackground);
+        txtSubtitulo.setBackground(colorBackground);
         
 
     }
@@ -449,6 +469,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler16;
     private javax.swing.Box.Filler filler17;
     private javax.swing.Box.Filler filler18;
+    private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
     private javax.swing.Box.Filler filler3;
@@ -471,6 +492,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtContraseña2;
     private javax.swing.JTextField txtIdMaestro;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextArea txtSubtitulo;
     // End of variables declaration//GEN-END:variables
 
 }

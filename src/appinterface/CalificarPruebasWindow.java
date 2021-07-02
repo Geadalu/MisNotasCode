@@ -160,17 +160,19 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 32767));
         btnRefrescar = new javax.swing.JButton();
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        txtSubtitulo = new javax.swing.JTextArea();
+        filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
-        setBounds(new java.awt.Rectangle(300, 200, 0, 0));
+        setBounds(new java.awt.Rectangle(300, 100, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblAsignatura.setText("Asignatura:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblAsignatura, gridBagConstraints);
 
@@ -180,7 +182,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         txtAsignatura.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -190,7 +192,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         lblTarea.setText("Tarea o prueba:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblTarea, gridBagConstraints);
 
@@ -202,7 +204,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -241,7 +243,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.gridheight = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -249,17 +251,17 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         getContentPane().add(jScrollPane, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 6;
         getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 8;
         getContentPane().add(filler5, gridBagConstraints);
 
@@ -273,7 +275,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
-        gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(btnCancelar, gridBagConstraints);
@@ -288,12 +290,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 17;
-        gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnGuardar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 27;
         gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler8, gridBagConstraints);
 
@@ -314,17 +316,17 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 22;
+        gridBagConstraints.gridheight = 25;
         getContentPane().add(filler13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 23;
+        gridBagConstraints.gridheight = 26;
         getContentPane().add(filler14, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 22;
+        gridBagConstraints.gridheight = 25;
         getContentPane().add(filler15, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -333,7 +335,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         getContentPane().add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridy = 29;
         gridBagConstraints.gridwidth = 11;
         getContentPane().add(filler2, gridBagConstraints);
 
@@ -380,7 +382,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 18;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -389,14 +391,14 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 18;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 26;
+        gridBagConstraints.gridheight = 29;
         getContentPane().add(filler6, gridBagConstraints);
 
         lblTrimestre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblTrimestre.setText("Trimestre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblTrimestre, gridBagConstraints);
 
@@ -409,27 +411,27 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(comboTrimestre, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 10;
         getContentPane().add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 13;
-        gridBagConstraints.gridy = 25;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.gridwidth = 4;
         getContentPane().add(filler10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 27;
         getContentPane().add(filler11, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 23;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 7;
         getContentPane().add(filler9, gridBagConstraints);
 
@@ -442,13 +444,30 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 6;
         getContentPane().add(btnRefrescar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 23;
         getContentPane().add(filler19, gridBagConstraints);
+
+        txtSubtitulo.setEditable(false);
+        txtSubtitulo.setColumns(20);
+        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSubtitulo.setRows(2);
+        txtSubtitulo.setText("Elija el trimestre y la tarea o prueba que quiera calificar.\nPuede poner tanto una nota como un comentario al alumno en la prueba seleccionada.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(txtSubtitulo, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 7;
+        getContentPane().add(filler22, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -585,10 +604,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         }
 
         lblTitulo.setFont(new Font(lblTarea.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() +2));
 
         //cambiamos el color de fondo de todos los containers del frame
         Color colorBackground = opciones.getColorBackground();
         this.getContentPane().setBackground(colorBackground);
+        txtSubtitulo.setBackground(colorBackground);
         panelEstadisticas.setBackground(colorBackground);
         tabla.setBackground(colorBackground);
         jScrollPane.setBackground(colorBackground);
@@ -637,6 +658,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
+    private javax.swing.Box.Filler filler22;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
@@ -654,5 +676,6 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panelEstadisticas;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtAsignatura;
+    private javax.swing.JTextArea txtSubtitulo;
     // End of variables declaration//GEN-END:variables
 }
