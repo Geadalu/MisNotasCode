@@ -51,17 +51,22 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     int asignatura;
     int idPrueba;
     Opciones opciones;
+    InformeTrimestreWindow itw;
     String desdeDonde; //para saber desde dónde se abrió la ventana para refrescar en caso de cambio
     HashMap<String, Integer> pruebaConID = new HashMap<>(); //para almacenar las pruebas con sus IDs
     DefaultTableModel model;
     NumberFormat formatter;
 
-    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones, String desdeDonde) {
+    public CalificarPruebasWindow(String strAsignatura, int asignatura, ControladorAlumno contAlumnos, ControladorPrueba contPruebas, Opciones opciones, String desdeDonde, InformeTrimestreWindow itw) {
         this.opciones = opciones;
         initComponents();
+        this.desdeDonde = desdeDonde;
+        if (desdeDonde.equals("InformeTrimestreWindow")){
+            this.itw = itw;
+        }
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
-        this.desdeDonde = desdeDonde;
+        
         if (contPruebas != null) {
             this.contPruebas = contPruebas;
         } else {
@@ -592,6 +597,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             } catch (SQLException e) {
                 AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
             }
+        }
+        
+        if(desdeDonde.equals("InformeTrimestreWindow")){
+            itw.rellenarTablaNotas();
         }
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed

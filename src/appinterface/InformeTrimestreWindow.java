@@ -106,12 +106,15 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     }
 
-    private void rellenarTablaNotas() {
+    public void rellenarTablaNotas() {
         //rellenar tabla con el trimestre en el que estamos
         int i;
         int numPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size();
-
+        
         DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.setColumnCount(0);
+        tableModel.setRowCount(0);
+        
         tableModel.addColumn("Apellidos");
         tableModel.addColumn("Nombre");
         for (i = 0; i < numPruebas; i++) {
@@ -215,8 +218,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         btnCerrar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
-        txtSubtitulo = new javax.swing.JTextArea();
-        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        btnCalificar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -445,7 +447,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         getContentPane().add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         getContentPane().add(filler8, gridBagConstraints);
 
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -466,25 +468,22 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 12;
         getContentPane().add(filler9, gridBagConstraints);
 
-        txtSubtitulo.setEditable(false);
-        txtSubtitulo.setColumns(20);
-        txtSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSubtitulo.setRows(2);
-        txtSubtitulo.setText("Puede modificar los datos de una prueba en la tabla \"Pruebas\".\nEsta ventana solo es una vista. Si quiere modificar las notas de los alumnos, haga clic en este texto.");
-        txtSubtitulo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtSubtituloMouseClicked(evt);
+        btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCalificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\notepad.png")); // NOI18N
+        btnCalificar.setText("Calificar tareas o pruebas");
+        btnCalificar.setName("btnCalificar"); // NOI18N
+        btnCalificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalificarActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridheight = 2;
-        getContentPane().add(txtSubtitulo, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 7;
-        getContentPane().add(filler10, gridBagConstraints);
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        getContentPane().add(btnCalificar, gridBagConstraints);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
 
@@ -720,13 +719,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExportar3ActionPerformed
 
-    private void txtSubtituloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSubtituloMouseClicked
-        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestre");
-        ctw.pack();
-        ctw.setVisible(true);
-        ctw.setMinimumSize(ctw.getSize());
-    }//GEN-LAST:event_txtSubtituloMouseClicked
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -742,6 +734,13 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
+        CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestreWindow", this);
+        ctw.pack();
+        ctw.setVisible(true);
+        ctw.setMinimumSize(ctw.getSize());
+    }//GEN-LAST:event_btnCalificarActionPerformed
 
     public void setComportamientoBotonCerrar(){
         this.addWindowListener(new WindowAdapter() {
@@ -768,12 +767,15 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             }
         }
 
+        this.getContentPane().setBackground(opciones.getColorBackground());
+        tablaNotas.setBackground(opciones.getColorBackground());
+        tablaPruebas.setBackground(opciones.getColorBackground());
+        jPanel1.setBackground(opciones.getColorBackground());
+        jPanel2.setBackground(opciones.getColorBackground());
         lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 4));
-        txtSubtitulo.setFont(new Font(txtSubtitulo.getFont().getName(), Font.PLAIN, opciones.getTamañoLetra() + 2));
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         lblNoPruebas.setFont(new Font(lblNoPruebas.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 10));
 
-        txtSubtitulo.setBackground(opciones.getColorBackground());
 
     }
     
@@ -781,10 +783,10 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarPrueba;
+    private javax.swing.JButton btnCalificar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnExportar3;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -811,7 +813,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JList<String> listaCompetencias;
     private javax.swing.JTable tablaNotas;
-    private javax.swing.JTable tablaPruebas;
-    private javax.swing.JTextArea txtSubtitulo;
+    public javax.swing.JTable tablaPruebas;
     // End of variables declaration//GEN-END:variables
 }
