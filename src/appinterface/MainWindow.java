@@ -254,6 +254,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnAddAlumno = new javax.swing.JButton();
         btnAddAlumno.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnAddAlumno.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnCerrarSesion = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -745,9 +746,24 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 50;
-        gridBagConstraints.gridy = 32;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridheight = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnAddAlumno, gridBagConstraints);
+
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCerrarSesion.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\cerrarSesion.png")); // NOI18N
+        btnCerrarSesion.setText("Cerrar sesión");
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 52;
+        gridBagConstraints.gridy = 40;
+        gridBagConstraints.gridwidth = 7;
+        jPanel2.add(btnCerrarSesion, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -757,7 +773,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.setName("menuArchivo"); // NOI18N
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jMenuItem1.setText("Salir");
+        jMenuItem1.setText("Cerrar sesión");
         jMenuItem1.setName("mnbtnSalir"); // NOI18N
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -826,7 +842,10 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        MainWindow.this.dispose();
+        String confirmation = "¿Seguro que quiere cerrar la sesión?";
+        if (AuxiliarMethods.showCloseConfirmation(confirmation) == 0){
+            MainWindow.this.dispose();
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -1040,6 +1059,13 @@ public class MainWindow extends javax.swing.JFrame {
             ca.setMinimumSize(ca.getSize());
         }
     }//GEN-LAST:event_btnAddAlumnoActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        String confirmation = "¿Seguro que quiere cerrar la sesión?";
+        if (AuxiliarMethods.showCloseConfirmation(confirmation) == 0){
+            MainWindow.this.dispose();
+        }
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
@@ -1347,6 +1373,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddAlumno;
     private javax.swing.JButton btnCalificar;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnEditarUsuario;
     private javax.swing.JButton btnNuevaTarea;
     private javax.swing.JLabel fecha;
