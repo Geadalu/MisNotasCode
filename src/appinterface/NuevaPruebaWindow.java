@@ -711,7 +711,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar? Se perderá todo el progreso.");
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -746,7 +746,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         boolean salir = true;
         if (!txtPeso.getText().equals("") || chbxTrabajoAdic.isSelected()) {
             if (!txtTitulo.getText().equals("") && !txtEtiqueta.getText().equals("")) {
-                int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
+                
                 int trimestre = Integer.parseInt(String.valueOf(comboTrimestre.getSelectedItem().toString().charAt(0)));
                 //validamos que la fecha tiene el formato correcto
 
@@ -754,6 +754,10 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
                 dateFormat.setLenient(false);
 
                 try {
+                    int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
+                    if (peso < 1 || peso > 9){
+                        throw new NumberFormatException("Introduzca un número entre 1 y 10 en el campo Peso.");
+                    }
                     dateFormat.parse(txtFecha.getText().trim());
                     ArrayList competencias = recogerCompetencias();
                     if (competencias.isEmpty()) {
@@ -779,13 +783,19 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
                                 }
                             }
                         } catch (SQLException e) {
-                            AuxiliarMethods.showWarning("No se ha podido introducir la prueba en la base de datos. Por favor, contacte con un administrador. \nMás detalles: " + e.toString());
+                            AuxiliarMethods.showWarning("Ha ocurrido un error al grabar en la base de datos.\nPor favor, compruebe que la etiqueta es única.\n\nSi este error continúa saliendo, por favor, contacte con un administrador. \nMás detalles: " + e.toString());
                             salir = false;
                         }
 
                     }
                 } catch (ParseException pe) {
                     AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
+                    salir = false;
+                } catch (NumberFormatException nfe){
+                    AuxiliarMethods.showWarning("Introduzca un número entre 1 y 10 en el campo Peso.");
+                    salir = false;
+                } catch (Exception e){
+                    AuxiliarMethods.showWarning("¡Vaya! Ha pasado algo que no hemos tenido en cuenta.\nPor favor, contacte con un administrador.\nMás información: "+e.toString());
                     salir = false;
                 }
 

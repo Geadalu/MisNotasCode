@@ -101,7 +101,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             lblNoPruebas.setVisible(false);
         }
 
-        setComportamientoBotonCerrar();
+        //setComportamientoBotonCerrar();
         ejecutarOpciones();
 
     }
@@ -226,6 +226,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vista general del trimestre");
+        setBackground(new java.awt.Color(252, 244, 237));
         setBounds(new java.awt.Rectangle(300, 50, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -593,6 +594,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     private void btnBorrarPruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarPruebaActionPerformed
         String nombrePrueba = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString();
+        String etiqueta = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 1).toString();
         String titulo = "¡CUIDADO!\n¿Seguro que quieres borrar " + nombrePrueba + "?\nEsta acción borrará sus competencias y todas sus calificaciones. Esto no se puede deshacer.";
         int paneBorrar = JOptionPane.showConfirmDialog(null, titulo, "Confirmar borrado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         // 0 --> sí         1 --> no
@@ -611,6 +613,17 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
                 contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notasAlumno);
             }
+            
+            //La borramos tambien del controlador
+            ArrayList<Prueba> pruebasActuales = (ArrayList<Prueba>) contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).clone();
+            for (Prueba p : pruebasActuales){
+                if (p.getIdPrueba() == pruebaConID.get(nombrePrueba)){
+                    contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).remove(pruebasActuales.indexOf(p));
+                }
+            }
+            
+            TableColumn col = tablaNotas.getColumnModel().getColumn(tablaNotas.getColumnModel().getColumnIndex(etiqueta));
+            tablaNotas.removeColumn(col);
 
             try {
                 contPruebas.borrarPrueba(pruebaConID.get(nombrePrueba), trimestre, asignatura);

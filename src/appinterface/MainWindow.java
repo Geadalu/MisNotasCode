@@ -146,7 +146,7 @@ public class MainWindow extends javax.swing.JFrame {
         tabla.setRowHeight(25);
 
         //Cambiamos el tamaño de la letra si se ha pedido
-        setComportamientoBotonCerrar();
+        //setComportamientoBotonCerrar();
         ejecutarOpciones();
 
         //exclusión de los rdbtn cursos
@@ -845,6 +845,7 @@ public class MainWindow extends javax.swing.JFrame {
         String confirmation = "¿Seguro que quiere cerrar la sesión?";
         if (AuxiliarMethods.showCloseConfirmation(confirmation) == 0){
             MainWindow.this.dispose();
+            System.exit(0);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -1064,6 +1065,7 @@ public class MainWindow extends javax.swing.JFrame {
         String confirmation = "¿Seguro que quiere cerrar la sesión?";
         if (AuxiliarMethods.showCloseConfirmation(confirmation) == 0){
             MainWindow.this.dispose();
+            System.exit(0);
         }
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
@@ -1325,7 +1327,7 @@ public class MainWindow extends javax.swing.JFrame {
             int resp = AuxiliarMethods.showCloseConfirmation(titulo);
 
             if (resp == JOptionPane.YES_OPTION) {
-                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             } else {
                 setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             }
