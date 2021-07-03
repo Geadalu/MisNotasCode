@@ -52,6 +52,7 @@ import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -189,7 +190,6 @@ public class MainWindow extends javax.swing.JFrame {
         ventormentaPicture = new javax.swing.JLabel();
         lblCursos = new javax.swing.JLabel();
         lblAsignaturas = new javax.swing.JLabel();
-        txtHagaClic = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new JTable(model) {
             public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {
@@ -209,7 +209,6 @@ public class MainWindow extends javax.swing.JFrame {
         };
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 0), new java.awt.Dimension(25, 32767));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
-        txtHagaClic2 = new javax.swing.JTextArea();
         btnCalificar = new javax.swing.JButton();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -249,6 +248,9 @@ public class MainWindow extends javax.swing.JFrame {
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 500), new java.awt.Dimension(0, 500), new java.awt.Dimension(32767, 500));
         lblFotoMaestro = new javax.swing.JLabel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
+        btnAddAlumno = new javax.swing.JButton();
+        btnAddAlumno.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnAddAlumno.setHorizontalTextPosition(SwingConstants.CENTER);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -333,21 +335,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(lblAsignaturas, gridBagConstraints);
 
-        txtHagaClic.setEditable(false);
-        txtHagaClic.setBackground(getBackground());
-        txtHagaClic.setColumns(20);
-        txtHagaClic.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtHagaClic.setRows(5);
-        txtHagaClic.setText("Haga clic en un alumno\npara desglosar sus notas.\n");
-        txtHagaClic.setMaximumSize(new java.awt.Dimension(143, 52));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 46;
-        gridBagConstraints.gridy = 26;
-        gridBagConstraints.gridwidth = 13;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(txtHagaClic, gridBagConstraints);
-
         jScrollPane1.setBackground(new java.awt.Color(252, 237, 237));
         jScrollPane1.setForeground(new java.awt.Color(252, 244, 237));
 
@@ -405,19 +392,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 35;
         jPanel2.add(filler4, gridBagConstraints);
-
-        txtHagaClic2.setEditable(false);
-        txtHagaClic2.setBackground(getBackground());
-        txtHagaClic2.setColumns(20);
-        txtHagaClic2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtHagaClic2.setRows(5);
-        txtHagaClic2.setText("Haga clic en un trimestre \npara ver un desglose \nde las notas de los alumnos y \nlas pruebas asignadas a ese\ntrimestre.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 46;
-        gridBagConstraints.gridy = 32;
-        gridBagConstraints.gridwidth = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(txtHagaClic2, gridBagConstraints);
 
         btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnCalificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\notepad.png")); // NOI18N
@@ -758,6 +732,20 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         jPanel2.add(filler5, gridBagConstraints);
 
+        btnAddAlumno.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnAddAlumno.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\añadirAlumno.png")); // NOI18N
+        btnAddAlumno.setText("Añadir alumno");
+        btnAddAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddAlumnoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 50;
+        gridBagConstraints.gridy = 32;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
+        jPanel2.add(btnAddAlumno, gridBagConstraints);
+
         getContentPane().add(jPanel2);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
@@ -1035,6 +1023,21 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
+     * Add un alumno nuevo a la asignatura seleccionada
+     * @param evt 
+     */
+    private void btnAddAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAlumnoActionPerformed
+       int asignatura = getAsignatura();
+        if (asignatura != 0) {
+            CargarAlumno ca = new CargarAlumno(opciones, nombreAsignatura.getText(), getAsignatura(), getCurso(), contAlumnos, this);
+            ca.pack();
+            AuxiliarMethods.centrarVentana(ca);
+            ca.setVisible(true);
+            ca.setMinimumSize(ca.getSize());
+        }
+    }//GEN-LAST:event_btnAddAlumnoActionPerformed
+
+    /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
      * seleccionado curso
      *
@@ -1310,8 +1313,6 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnlen3A.setBackground(colorBackground);
         rdbtnmat3A.setBackground(colorBackground);
         rdbtnrel4A.setBackground(colorBackground);
-        txtHagaClic.setBackground(colorBackground);
-        txtHagaClic2.setBackground(colorBackground);
         panelEstadisticas.setBackground(colorBackground);
         jScrollPane1.setBackground(colorBackground);
         tabla.setBackground(colorBackground);
@@ -1325,6 +1326,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddAlumno;
     private javax.swing.JButton btnCalificar;
     private javax.swing.JButton btnEditarUsuario;
     private javax.swing.JButton btnNuevaTarea;
@@ -1385,8 +1387,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdbtnmat3A;
     private javax.swing.JRadioButton rdbtnrel4A;
     public javax.swing.JTable tabla;
-    private javax.swing.JTextArea txtHagaClic;
-    private javax.swing.JTextArea txtHagaClic2;
     private javax.swing.JLabel ventormentaPicture;
     // End of variables declaration//GEN-END:variables
 

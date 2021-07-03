@@ -12,6 +12,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,9 +75,7 @@ public class CargarAlumno extends javax.swing.JFrame {
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
-        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
@@ -84,6 +84,8 @@ public class CargarAlumno extends javax.swing.JFrame {
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
+        filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cargar alumno/a");
@@ -99,7 +101,7 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblTitulo, gridBagConstraints);
 
-        lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblAsignatura.setText("@Asignatura");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -202,18 +204,10 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 9;
         getContentPane().add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        getContentPane().add(filler6, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 12;
         getContentPane().add(filler7, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 5;
-        getContentPane().add(filler8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 7;
@@ -268,45 +262,74 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 14;
         getContentPane().add(filler12, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        getContentPane().add(filler5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        getContentPane().add(filler15, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Alumno alumno = new Alumno();
-        alumno.setApellidos(txtApellidos.getText());
-        alumno.setNombre(txtNombre.getText());
-        alumno.setFechaNacimiento(txtFNac.getText());
-
-        //Comprobamos que el DNI está bien escrito
-        Pattern p = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])");
-        Matcher m;
-        String dni = txtDNI.getText();
-        m = p.matcher(dni);
-        boolean match = m.matches();
-        if (!match) {
-            AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+        boolean salir = true;
+        
+        //Para comprobar si la fecha está bien escrita
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        
+        if (txtApellidos.getText().equals("") || txtNombre.getText().equals("") || txtFNac.getText().equals("") || txtDNI.getText().equals("")){
+            AuxiliarMethods.showWarning("Por favor, rellene todos los datos del alumno antes de guardar.");
         } else {
-            alumno.setDni(dni);
-            try {
-                alumno.setIdAlumno(alumno.commitNuevoAlumno());
+            alumno.setApellidos(txtApellidos.getText());
+            alumno.setNombre(txtNombre.getText());
+            alumno.setFechaNacimiento(txtFNac.getText());
 
-                if (contAlumnos.esOptativa(asignatura)) {
-                    contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
-                    contAlumnos.commitAlumnoAsignatura(alumno, asignatura);
-                } else {
-                    //se tiene que añadir el alumno a todas las asignaturas del curso actual
-                    contAlumnos.añadirAlumnoACurso(alumno, asignatura);
-                    contAlumnos.commitAlumnoCurso(alumno, asignatura); //commit el alumno a todas las asignaturas de un curso
+            //Comprobamos que el DNI está bien escrito
+            Pattern p = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])");
+            Matcher m;
+            String dni = txtDNI.getText();
+            m = p.matcher(dni);
+            boolean match = m.matches();
+            if (!match) {
+                AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+            } else {
+                alumno.setDni(dni);
+                try {
+                    dateFormat.parse(txtFNac.getText().trim());
+                    alumno.setIdAlumno(alumno.commitNuevoAlumno());
+
+                    if (contAlumnos.esOptativa(asignatura)) {
+                        contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
+                        contAlumnos.commitAlumnoAsignatura(alumno, asignatura);
+                        AuxiliarMethods.showWarning("La asignatura es optativa, así que solo se cargará al/a la alumno/a en esta asignatura.");
+                    } else {
+                        //se tiene que añadir el alumno a todas las asignaturas del curso actual
+                        contAlumnos.añadirAlumnoACurso(alumno, asignatura);
+                        contAlumnos.commitAlumnoCurso(alumno, asignatura); //commit el alumno a todas las asignaturas de un curso
+                        AuxiliarMethods.showWarning("La asignatura es troncal, así que se cargará al/a la alumno/a en todas las asignaturas del curso "+
+                                lblAsignatura.getText().substring(lblAsignatura.getText().length() - 3));
+                    }
+                } catch (SQLException sqle) {
+                    AuxiliarMethods.showWarning("No se puede añadir el/la alumno/a nuevo/a\n.Por favor, contacte con un administrador.\nMás información: " + sqle.toString());
+                    salir = false;
+                } catch (ParseException pe) {
+                    AuxiliarMethods.showWarning("Introduzca una fecha válida.\nFormato: dd/mm/aaaa");
+                    salir = false;
                 }
-            } catch (SQLException sqle) {
-                AuxiliarMethods.showWarning("No se puede añadir el/la alumno/a nuevo/a\n.Por favor, contacte con un administrador.\nMás información: " + sqle.toString());
+                
+                if (salir){
+                    contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
+
+                    mainWindow.cargarTabla(curso, asignatura);
+
+                    this.dispose();
+                }
             }
-            contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
-            
-            mainWindow.cargarTabla(curso, asignatura);
-            
-            this.dispose();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -327,6 +350,7 @@ public class CargarAlumno extends javax.swing.JFrame {
         }
 
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        lblAsignatura.setFont(new Font(lblAsignatura.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 4));
 
         //cambiamos el color de fondo de todos los containers del frame
         Color colorBackground = opciones.getColorBackground();
@@ -343,12 +367,12 @@ public class CargarAlumno extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler12;
     private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler14;
+    private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel lblApellidos;
     private javax.swing.JLabel lblAsignatura;
