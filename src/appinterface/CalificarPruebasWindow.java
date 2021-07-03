@@ -61,12 +61,12 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         this.opciones = opciones;
         initComponents();
         this.desdeDonde = desdeDonde;
-        if (desdeDonde.equals("InformeTrimestreWindow")){
+        if (desdeDonde.equals("InformeTrimestreWindow")) {
             this.itw = itw;
         }
         this.asignatura = asignatura;
         this.contAlumnos = contAlumnos;
-        
+
         if (contPruebas != null) {
             this.contPruebas = contPruebas;
         } else {
@@ -515,7 +515,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        if (AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar?\nSe perderán todos los cambios.") == 0){
+        if (AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar?\nSe perderán todos los cambios.") == 0) {
             this.dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
@@ -558,51 +558,54 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_comboTareaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        int i;
-        boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
-        boolean yaCreada;
-        model = (DefaultTableModel) tabla.getModel();
+        if (!comboTarea.getSelectedItem().toString().equals("Seleccionar...")) {
+            int i;
+            boolean update = false; //para saber si hay que hacer UPDATE o INSERT en la BD
+            boolean yaCreada;
+            model = (DefaultTableModel) tabla.getModel();
 
-        for (i = 0; i < contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++) { //itera sobre los alumnos
-            yaCreada = false;
-            ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
-            if (model.getValueAt(i, 2) != null) { //hay nota escrita
-                for (Nota n : notas) {
-                    if (n.getIdPrueba() == idPrueba) { //hay nota escrita: pero ya había una creada
-                        yaCreada = true;
-                        update = true;
-                        n.setNota(Double.parseDouble(model.getValueAt(i, 2).toString()));
-                        try {
-                            n.setComentario(model.getValueAt(i, 3).toString());
-                        } catch (NullPointerException e) {
-                            n.setComentario("");
+            for (i = 0; i < contAlumnos.getAlumnosAsignatura().get(asignatura).size(); i++) { //itera sobre los alumnos
+                yaCreada = false;
+                ArrayList<Nota> notas = contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).getNotas();
+                if (model.getValueAt(i, 2) != null) { //hay nota escrita
+                    for (Nota n : notas) {
+                        if (n.getIdPrueba() == idPrueba) { //hay nota escrita: pero ya había una creada
+                            yaCreada = true;
+                            update = true;
+                            n.setNota(Double.parseDouble(model.getValueAt(i, 2).toString()));
+                            try {
+                                n.setComentario(model.getValueAt(i, 3).toString());
+                            } catch (NullPointerException e) {
+                                n.setComentario("");
+                            }
                         }
                     }
-                }
-                if (!yaCreada) {//hay nota escrita: pero hay que crearla
-                    update = false;
-                    try {
-                        notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), model.getValueAt(i, 3).toString()));
-                    } catch (NullPointerException e) { //puede dar esto porque no hay comentario escrito
-                        notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), ""));
+                    if (!yaCreada) {//hay nota escrita: pero hay que crearla
+                        update = false;
+                        try {
+                            notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), model.getValueAt(i, 3).toString()));
+                        } catch (NullPointerException e) { //puede dar esto porque no hay comentario escrito
+                            notas.add(new Nota(idPrueba, Double.parseDouble(model.getValueAt(i, 2).toString()), ""));
+                        }
                     }
+
                 }
 
+                contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
+
+                try {
+                    contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
+                } catch (SQLException e) {
+                    AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
+                }
             }
 
-            contAlumnos.getAlumnosAsignatura().get(asignatura).get(i).setNotas(notas);
-
-            try {
-                contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
-            } catch (SQLException e) {
-                AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
+            if (desdeDonde.equals("InformeTrimestreWindow")) {
+                itw.rellenarTablaNotas();
             }
-        }
-        
-        if(desdeDonde.equals("InformeTrimestreWindow")){
-            itw.rellenarTablaNotas();
         }
         this.dispose();
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void comboTrimestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTrimestreActionPerformed
@@ -690,29 +693,29 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             try {
                 if (Double.parseDouble(tabla.getValueAt(i, 2).toString()) >= 5) {
                     aprobados++;
-                } else if (tabla.getValueAt(i, 3).toString().equals("No tiene que hacer la prueba")){
+                } else if (tabla.getValueAt(i, 3).toString().equals("No tiene que hacer la prueba")) {
                     numAlumnos--;
                 }
-            } catch (NullPointerException npe){
-                
+            } catch (NullPointerException npe) {
+
             }
         }
         lblNumAp.setText(String.valueOf(aprobados) + " (" + formatter.format(aprobados / (float) numAlumnos * 100) + "% del total de alumnos)");
     }
-    
-    public void setComportamientoBotonCerrar(){
-        this.addWindowListener(new WindowAdapter() {
-        public void windowClosing(WindowEvent evt) {
-            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
-            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
 
-            if (resp == JOptionPane.YES_OPTION) {
-                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            } else {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    public void setComportamientoBotonCerrar() {
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+                int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+                if (resp == JOptionPane.YES_OPTION) {
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
             }
-        }
-    });
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

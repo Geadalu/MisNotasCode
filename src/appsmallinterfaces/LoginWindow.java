@@ -63,13 +63,14 @@ public class LoginWindow extends javax.swing.JFrame {
             };
 
     Opciones opciones;
+    boolean ojitoAbierto;
 
     public LoginWindow() {
         initComponents();
+        ojitoAbierto = false;
         
         //ponemos el fondo por defecto
         this.getContentPane().setBackground(new Color(252, 244, 237));
-        chbxMostrar.setBackground(new Color(252, 244, 237));
         panelOpciones.setBackground(new Color(252, 244, 237));
         chbxDaltonico.setBackground(new Color(252, 244, 237));
         chbxOscuro.setBackground(new Color(252, 244, 237));
@@ -140,7 +141,6 @@ public class LoginWindow extends javax.swing.JFrame {
         filler29 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         filler30 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        chbxMostrar = new javax.swing.JCheckBox();
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
@@ -150,6 +150,7 @@ public class LoginWindow extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
         filler31 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
+        btnMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Identificación");
@@ -495,18 +496,6 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(panelOpciones, gridBagConstraints);
-
-        chbxMostrar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        chbxMostrar.setText("Mostrar contraseña");
-        chbxMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chbxMostrarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 6;
-        getContentPane().add(chbxMostrar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 7;
@@ -561,6 +550,17 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 10;
         getContentPane().add(filler31, gridBagConstraints);
 
+        btnMostrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Ojitocerrado.png")); // NOI18N
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 6;
+        getContentPane().add(btnMostrar, gridBagConstraints);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -591,14 +591,6 @@ public class LoginWindow extends javax.swing.JFrame {
             txtUsuario.setText("Usuario");
         }
     }//GEN-LAST:event_txtUsuarioFocusLost
-
-    private void chbxMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxMostrarActionPerformed
-        if (!chbxMostrar.isSelected()) {
-            txtContraseña.setEchoChar(mostrarContraseña);
-        } else {
-            txtContraseña.setEchoChar((char) 0);
-        }
-    }//GEN-LAST:event_chbxMostrarActionPerformed
 
     private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
         int tamañoLetra = traducirTamañoLetra();
@@ -634,7 +626,6 @@ public class LoginWindow extends javax.swing.JFrame {
         this.getContentPane().setBackground(backgroundColor);
         panel.setBackground(backgroundColor);
         chbxDaltonico.setBackground(backgroundColor);
-        chbxMostrar.setBackground(backgroundColor);
         chbxOscuro.setBackground(backgroundColor);
         panelOpciones.setBackground(backgroundColor);
         
@@ -720,6 +711,19 @@ public class LoginWindow extends javax.swing.JFrame {
             iniciarSesion();
         }
     }//GEN-LAST:event_txtContraseñaKeyReleased
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        if(!ojitoAbierto){
+            ojitoAbierto = true;
+            btnMostrar.setIcon(new ImageIcon("assets/ojitoAbierto.png"));
+           
+            txtContraseña.setEchoChar((char) 0);
+        } else {
+            ojitoAbierto = false;
+            btnMostrar.setIcon(new ImageIcon("assets/ojitoCerrado.png"));
+            txtContraseña.setEchoChar(mostrarContraseña);
+        }
+    }//GEN-LAST:event_btnMostrarActionPerformed
 
     public int traducirTamañoLetra() {
         switch (comboTamaño.getSelectedItem().toString()) {
@@ -810,9 +814,9 @@ public class LoginWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAplicar;
     private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnOpciones;
     private javax.swing.JCheckBox chbxDaltonico;
-    private javax.swing.JCheckBox chbxMostrar;
     private javax.swing.JCheckBox chbxOscuro;
     private javax.swing.JComboBox<Icon> comboBackground;
     private javax.swing.JComboBox<Icon> comboColorAprobados;
