@@ -46,6 +46,8 @@ import java.awt.Image;
 import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Locale;
@@ -144,6 +146,7 @@ public class MainWindow extends javax.swing.JFrame {
         tabla.setRowHeight(25);
 
         //Cambiamos el tamaño de la letra si se ha pedido
+        setComportamientoBotonCerrar();
         ejecutarOpciones();
 
         //exclusión de los rdbtn cursos
@@ -983,6 +986,7 @@ public class MainWindow extends javax.swing.JFrame {
         EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, opciones, this);
         euw.pack();
         euw.setVisible(true);
+        AuxiliarMethods.centrarVentana(euw);
         euw.setMinimumSize(euw.getSize());
     }//GEN-LAST:event_btnEditarUsuarioActionPerformed
 
@@ -1286,6 +1290,21 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumAp3.setText("-");
         lblNumApTotal.setText("-");
         asignaturasGrupo.clearSelection();
+    }
+    
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Quiere cerrar sesión?";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
     }
 
     private void ejecutarOpciones() {

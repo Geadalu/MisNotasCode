@@ -11,6 +11,8 @@ import controladores.ControladorAlumno;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +50,8 @@ public class CargarAlumno extends javax.swing.JFrame {
         initComponents();
         
         lblAsignatura.setText(nombreAsignatura);
+        
+        setComportamientoBotonCerrar();
 
         ejecutarOpciones();
 
@@ -339,6 +345,22 @@ public class CargarAlumno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
+    }
+    
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 

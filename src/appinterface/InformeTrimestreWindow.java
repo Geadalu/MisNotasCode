@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -99,6 +101,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             lblNoPruebas.setVisible(false);
         }
 
+        setComportamientoBotonCerrar();
         ejecutarOpciones();
 
     }
@@ -727,6 +730,21 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
+    }
+    
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
@@ -745,6 +763,8 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         txtSubtitulo.setBackground(opciones.getColorBackground());
 
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarPrueba;

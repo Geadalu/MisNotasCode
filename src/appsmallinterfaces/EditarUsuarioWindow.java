@@ -13,6 +13,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.TextField;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
@@ -53,6 +55,8 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         mostrarContraseña1 = txtContraseña1.getEchoChar();
         mostrarContraseña2 = txtContraseña2.getEchoChar();
 
+        setComportamientoBotonCerrar();
+        
         //Cambiamos el tamaño de la letra si se ha pedido
         ejecutarOpciones();
 
@@ -478,7 +482,22 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
+    
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
 
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
+    }
+    
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
         

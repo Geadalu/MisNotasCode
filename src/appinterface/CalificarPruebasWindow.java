@@ -18,6 +18,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -76,6 +78,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         this.formatter.setMaximumFractionDigits(2);
         this.formatter.setRoundingMode(RoundingMode.UP);
 
+        setComportamientoBotonCerrar();
         ejecutarOpciones();
 
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
@@ -507,7 +510,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
+        if (AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar?\nSe perderán todos los cambios.") == 0){
+            this.dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void comboTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTareaActionPerformed
@@ -684,6 +689,21 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
             }
         }
         lblNumAp.setText(String.valueOf(aprobados) + " (" + formatter.format(aprobados / (float) numAlumnos * 100) + "% del total de alumnos)");
+    }
+    
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -24,6 +24,8 @@ import java.awt.Font;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +108,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             AuxiliarMethods.showWarning("No se podrán actualizar las etiquetas de las calificaciones.\nEste no es un error grave.\nMás información: "+awte.toString());
         }
 
+        setComportamientoBotonCerrar();
         ejecutarOpciones();
         
         refrescarCampos();
@@ -1384,6 +1387,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }        
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    
+    
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         if (chbxGuardar.isSelected()){
             guardarNotas();
@@ -1719,6 +1724,21 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 return opciones.getColorAprobados();
         }
         return Color.BLACK;        
+    }
+    
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
     }
     
     

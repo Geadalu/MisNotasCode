@@ -23,6 +23,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +105,8 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         tabla.setEnabled(false);
         tabla.setRowHeight(20);
         seleccionarTodaTabla(true);
+        
+        setComportamientoBotonCerrar();
 
         ejecutarOpciones();
 
@@ -889,6 +893,21 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
             listaCompetencias.add(competenciaConID.get(modeloAsig.get(seleccionadas[i])));
         }
         return listaCompetencias;
+    }
+    
+    public void setComportamientoBotonCerrar(){
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        }
+    });
     }
 
     private void ejecutarOpciones() {
