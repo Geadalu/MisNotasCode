@@ -1379,7 +1379,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
-        if (JOptionPane.showConfirmDialog(null, titulo, "Cerrar ventana", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0){
+        if (AuxiliarMethods.showCloseConfirmation(titulo) == 0){
             this.dispose();
         }        
     }//GEN-LAST:event_btnCancelarActionPerformed
@@ -1710,11 +1710,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             case "Insuficiente":
                 return opciones.getColorSuspensos();
             case "Suficiente":
-                return Color.ORANGE;
+                return new Color(217, 103, 33);
             case "Bien":
-                return Color.ORANGE;
+                return new Color(217, 103, 33);
             case "Notable":
-                return opciones.getColorAprobados();
+                return new Color(14, 127, 135);
             case "Sobresaliente":
                 return opciones.getColorAprobados();
         }

@@ -29,7 +29,6 @@ public class AuxiliarMethods {
     //****************************************************
     //      MÉTODOS PARA PRINTEAR ESTRUCTURAS DE DATOS
     //****************************************************
-    
     public static List<String> stringToList(Object obj) {
         String cadena = obj.toString();
         cadena = cadena.substring(1, cadena.length() - 1);
@@ -72,11 +71,10 @@ public class AuxiliarMethods {
     public static void printHashMap(HashMap hashmap) {
         System.out.println(Arrays.asList(hashmap));
     }
-    
+
     //****************************************************
     //      OTROS MÉTODOS USADOS PARA DEBUGGEAR
     //****************************************************
-
     public static double sumarElementosLista(List<?> list) {
         int i;
         double result = 0.0;
@@ -87,11 +85,10 @@ public class AuxiliarMethods {
         System.out.println("result = " + result);
         return result;
     }
-    
+
     //****************************************************
     //      MÉTODOS COMUNES DE FUNCIONES VARIAS
     //****************************************************
-
     /**
      * Ajusta el ancho de las columnas de una tabla al contenido de la misma
      *
@@ -112,15 +109,16 @@ public class AuxiliarMethods {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
-    
+
     /**
      * Método que comprueba si una array está llena de ceros.
+     *
      * @param array
-     * @return 
+     * @return
      */
-    public static boolean arrayTodoCeros(ArrayList<Double> array){
-        for (int i=0; i<array.size(); i++){
-            if (array.get(i) != 0){
+    public static boolean arrayTodoCeros(ArrayList<Double> array) {
+        for (int i = 0; i < array.size(); i++) {
+            if (array.get(i) != 0) {
                 return false;
             }
         }
@@ -136,8 +134,13 @@ public class AuxiliarMethods {
         JOptionPane.showMessageDialog(null, warning);
     }
 
+    public static int showCloseConfirmation(String confirmation) {
+        return JOptionPane.showConfirmDialog(null, confirmation, "Cerrar ventana", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    }
+
     /**
      * Mete en una lista todos los componentes de un container
+     *
      * @param c
      * @return la lista con los componentes
      */

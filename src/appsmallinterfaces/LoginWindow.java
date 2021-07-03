@@ -66,6 +66,15 @@ public class LoginWindow extends javax.swing.JFrame {
 
     public LoginWindow() {
         initComponents();
+        
+        //ponemos el fondo por defecto
+        this.getContentPane().setBackground(new Color(252, 244, 237));
+        chbxMostrar.setBackground(new Color(252, 244, 237));
+        panelOpciones.setBackground(new Color(252, 244, 237));
+        chbxDaltonico.setBackground(new Color(252, 244, 237));
+        chbxOscuro.setBackground(new Color(252, 244, 237));
+        
+        //más opciones de inicio
         normalSize = this.getSize();
         panelOpciones.setVisible(false);
         mostrarContraseña = txtContraseña.getEchoChar();
@@ -144,6 +153,7 @@ public class LoginWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Identificación");
+        setBackground(new java.awt.Color(252, 244, 237));
         setBounds(new java.awt.Rectangle(600, 200, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -254,6 +264,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 5;
         getContentPane().add(filler10, gridBagConstraints);
 
+        panelOpciones.setForeground(getBackground());
         panelOpciones.setLayout(new java.awt.GridBagLayout());
 
         lbltamañoLetra.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -359,6 +370,7 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 6;
         panelOpciones.add(filler25, gridBagConstraints);
 
+        panel.setBackground(getBackground());
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Colores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         panel.setLayout(new java.awt.GridBagLayout());
 
@@ -522,7 +534,7 @@ public class LoginWindow extends javax.swing.JFrame {
 
         lblOlvidarContraseña.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         lblOlvidarContraseña.setForeground(new java.awt.Color(0, 0, 204));
-        lblOlvidarContraseña.setText("¿Has olvidado la contraseña?");
+        lblOlvidarContraseña.setText("¿Ha olvidado la contraseña?");
         lblOlvidarContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblOlvidarContraseñaMouseClicked(evt);
@@ -767,7 +779,7 @@ public class LoginWindow extends javax.swing.JFrame {
             m = p.matcher(dni);
             boolean match = m.matches();
             if (!match) {
-                AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+                AuxiliarMethods.showWarning("Por favor, compruebe que su DNI esté escrito correctamente.");
                 entrar = false;
             } else {
                 maestro.cargarMaestro();

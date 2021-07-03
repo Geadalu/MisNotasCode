@@ -5,15 +5,22 @@
  */
 package appsmallinterfaces;
 
+import appinterface.MainWindow;
 import auxiliar.AuxiliarMethods;
+import controladores.ControladorAlumno;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import objects.Alumno;
 import objects.Opciones;
 
 /**
@@ -23,13 +30,23 @@ import objects.Opciones;
 public class CargarAlumno extends javax.swing.JFrame {
 
     Opciones opciones;
-    
-    public CargarAlumno(Opciones opciones) {
+    int asignatura;
+    int curso;
+    ControladorAlumno contAlumnos;
+    MainWindow mainWindow;
+
+    public CargarAlumno(Opciones opciones, String nombreAsignatura, int asignatura, int curso, ControladorAlumno contAlumnos, MainWindow mainWindow) {
         this.opciones = opciones;
+        this.asignatura = asignatura;
+        this.curso = curso;
+        this.contAlumnos = contAlumnos;
+        this.mainWindow = mainWindow;
         initComponents();
         
+        lblAsignatura.setText(nombreAsignatura);
+
         ejecutarOpciones();
-        
+
     }
 
     /**
@@ -45,13 +62,13 @@ public class CargarAlumno extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
         lblAsignatura = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
-        txtAsignatura1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         lblApellidos = new javax.swing.JLabel();
-        txtAsignatura2 = new javax.swing.JTextField();
+        txtDNI = new javax.swing.JTextField();
         lblDNI = new javax.swing.JLabel();
-        txtAsignatura3 = new javax.swing.JTextField();
+        txtFNac = new javax.swing.JTextField();
         lblFechaNac = new javax.swing.JLabel();
-        txtAsignatura4 = new javax.swing.JTextField();
+        txtApellidos = new javax.swing.JTextField();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
@@ -68,7 +85,9 @@ public class CargarAlumno extends javax.swing.JFrame {
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 0), new java.awt.Dimension(60, 32767));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cargar alumno/a");
+        setBounds(new java.awt.Rectangle(550, 324, 0, 0));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
@@ -77,6 +96,7 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblTitulo, gridBagConstraints);
 
         lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -95,16 +115,16 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblNombre, gridBagConstraints);
 
-        txtAsignatura1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtAsignatura1.setMaximumSize(new java.awt.Dimension(100, 22));
-        txtAsignatura1.setMinimumSize(new java.awt.Dimension(100, 22));
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNombre.setMaximumSize(new java.awt.Dimension(100, 22));
+        txtNombre.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtAsignatura1, gridBagConstraints);
+        getContentPane().add(txtNombre, gridBagConstraints);
 
         lblApellidos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblApellidos.setText("Apellidos:");
@@ -114,16 +134,16 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblApellidos, gridBagConstraints);
 
-        txtAsignatura2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtAsignatura2.setMaximumSize(new java.awt.Dimension(100, 22));
-        txtAsignatura2.setMinimumSize(new java.awt.Dimension(100, 22));
+        txtDNI.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtDNI.setMaximumSize(new java.awt.Dimension(100, 22));
+        txtDNI.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtAsignatura2, gridBagConstraints);
+        getContentPane().add(txtDNI, gridBagConstraints);
 
         lblDNI.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblDNI.setText("DNI:");
@@ -133,16 +153,16 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblDNI, gridBagConstraints);
 
-        txtAsignatura3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtAsignatura3.setMaximumSize(new java.awt.Dimension(100, 22));
-        txtAsignatura3.setMinimumSize(new java.awt.Dimension(100, 22));
+        txtFNac.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtFNac.setMaximumSize(new java.awt.Dimension(100, 22));
+        txtFNac.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtAsignatura3, gridBagConstraints);
+        getContentPane().add(txtFNac, gridBagConstraints);
 
         lblFechaNac.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblFechaNac.setText("Fecha de nacimiento:");
@@ -152,16 +172,16 @@ public class CargarAlumno extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblFechaNac, gridBagConstraints);
 
-        txtAsignatura4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtAsignatura4.setMaximumSize(new java.awt.Dimension(100, 22));
-        txtAsignatura4.setMinimumSize(new java.awt.Dimension(100, 22));
+        txtApellidos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtApellidos.setMaximumSize(new java.awt.Dimension(100, 22));
+        txtApellidos.setMinimumSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(txtAsignatura4, gridBagConstraints);
+        getContentPane().add(txtApellidos, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -253,12 +273,47 @@ public class CargarAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
-        this.dispose();
+        Alumno alumno = new Alumno();
+        alumno.setApellidos(txtApellidos.getText());
+        alumno.setNombre(txtNombre.getText());
+        alumno.setFechaNacimiento(txtFNac.getText());
+
+        //Comprobamos que el DNI está bien escrito
+        Pattern p = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])");
+        Matcher m;
+        String dni = txtDNI.getText();
+        m = p.matcher(dni);
+        boolean match = m.matches();
+        if (!match) {
+            AuxiliarMethods.showWarning("El ID de usuario debe ser un número.");
+        } else {
+            alumno.setDni(dni);
+            try {
+                alumno.setIdAlumno(alumno.commitNuevoAlumno());
+
+                if (contAlumnos.esOptativa(asignatura)) {
+                    contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
+                    contAlumnos.commitAlumnoAsignatura(alumno, asignatura);
+                } else {
+                    //se tiene que añadir el alumno a todas las asignaturas del curso actual
+                    contAlumnos.añadirAlumnoACurso(alumno, asignatura);
+                    contAlumnos.commitAlumnoCurso(alumno, asignatura); //commit el alumno a todas las asignaturas de un curso
+                }
+            } catch (SQLException sqle) {
+                AuxiliarMethods.showWarning("No se puede añadir el/la alumno/a nuevo/a\n.Por favor, contacte con un administrador.\nMás información: " + sqle.toString());
+            }
+            contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
+            
+            mainWindow.cargarTabla(curso, asignatura);
+            
+            this.dispose();
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
+        if (AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar?\nSe perderán todos los cambios.") == 0){
+            this.dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void ejecutarOpciones() {
@@ -301,9 +356,9 @@ public class CargarAlumno extends javax.swing.JFrame {
     private javax.swing.JLabel lblFechaNac;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtAsignatura1;
-    private javax.swing.JTextField txtAsignatura2;
-    private javax.swing.JTextField txtAsignatura3;
-    private javax.swing.JTextField txtAsignatura4;
+    private javax.swing.JTextField txtApellidos;
+    private javax.swing.JTextField txtDNI;
+    private javax.swing.JTextField txtFNac;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

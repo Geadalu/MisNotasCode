@@ -6,6 +6,7 @@
 package appinterface;
 
 import appsmallinterfaces.Ayuda;
+import appsmallinterfaces.CargarAlumno;
 import appsmallinterfaces.EditarUsuarioWindow;
 import auxiliar.AuxiliarMethods;
 import auxiliar.ToolTipHeader;
@@ -88,27 +89,27 @@ public class MainWindow extends javax.swing.JFrame {
         this.opciones = opciones;
         initComponents();
         getDateTime();
-        this.maestro = maestro;   
+        this.maestro = maestro;
         cargarLogoColegio();
-           
+
         nombreAsignatura.setVisible(false);
         model = (DefaultTableModel) tabla.getModel();
-        
+
         cargarToolTipsTabla();
-        
+
         try {
             maestro.cargarMaestro();
         } catch (SQLException e) {
             AuxiliarMethods.showWarning("No se han podido cargar los datos del maestro.\nMás información: " + e.toString());
         }
-        
+
         lblFotoMaestro.setIcon(maestro.getImagen());
-        
+
         //Formato de los decimales
         this.formatter = NumberFormat.getInstance(Locale.US);
         this.formatter.setMaximumFractionDigits(2);
         this.formatter.setRoundingMode(RoundingMode.UP);
-        
+
         //labels con el nombre del maestro
         lblBienvenida.setText("Bienvenido/a, " + maestro.getNombre());
 
@@ -116,7 +117,7 @@ public class MainWindow extends javax.swing.JFrame {
         tabla.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                switch (tabla.columnAtPoint(e.getPoint())){ //recogemos qué columnheader estamos apuntando en el momento del clic
+                switch (tabla.columnAtPoint(e.getPoint())) { //recogemos qué columnheader estamos apuntando en el momento del clic
                     case 2:
                         InformeTrimestreWindow itw1 = new InformeTrimestreWindow(contAlumnos, contPruebas, opciones, getAsignatura(), nombreAsignatura.getText(), 1);
                         itw1.pack();
@@ -140,7 +141,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
         tabla.setRowHeight(25);
-       
 
         //Cambiamos el tamaño de la letra si se ha pedido
         ejecutarOpciones();
@@ -348,6 +348,10 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtHagaClic, gridBagConstraints);
 
+        jScrollPane1.setBackground(new java.awt.Color(252, 237, 237));
+        jScrollPane1.setForeground(new java.awt.Color(252, 244, 237));
+
+        tabla.setBackground(getBackground());
         tabla.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -779,10 +783,17 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem3.setText("Cargar un/a alumno/a");
+        jMenuItem3.setToolTipText("Para cargar un/a solo/a alumno/a");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem3);
 
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem6.setText("Cargar alumnos/as mediante Excel");
+        jMenuItem6.setToolTipText("Carga varios/as alumnos/as mediante un archivo Excel.\nPara más información, vea el Manual de ayuda.");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -829,7 +840,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         int idAsignatura = getAsignatura();
-        if (getCurso() != 0 && idAsignatura != 0) {
+        int idCurso = getCurso();
+        if (idCurso != 0 && idAsignatura != 0) {
             try {
                 JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -864,7 +876,7 @@ public class MainWindow extends javax.swing.JFrame {
 //                    a.cargarNotas();
 //                    a.cargarNotasFinales();
 
-                    if (contAlumnos.esOptativa(getAsignatura())) {
+                    if (contAlumnos.esOptativa(idAsignatura)) {
                         contAlumnos.añadirAlumnoAAsignatura(a, idAsignatura);
                         contAlumnos.commitAlumnoAsignatura(a, idAsignatura);
                     } else {
@@ -872,19 +884,20 @@ public class MainWindow extends javax.swing.JFrame {
                         contAlumnos.añadirAlumnoACurso(a, idAsignatura);
                         contAlumnos.commitAlumnoCurso(a, idAsignatura); //commit el alumno a todas las asignaturas de un curso
                     }
-
+                    
                 }
             } catch (SQLIntegrityConstraintViolationException e1) {
-                AuxiliarMethods.showWarning("Error.\nDNI del alumno duplicado. Revise el Excel.");
-                //TODO --> si el excel no se ha podido cargar bien, mostrar esto con un mensaje de cómo se debe cargar el excel
-                //JOptionPane.showMessageDialog(new JFrame(), "Eggs are not supposed to be green.");
+                AuxiliarMethods.showWarning("Error.\nDNI del alumno duplicado. Por favor, revise el Excel.");
             } catch (FileNotFoundException e2) {
                 AuxiliarMethods.showWarning("Error.\nNo se encuentra el archivo especificado.");
-            } catch (Exception e3) {
+            } catch (NullPointerException e3){
                 
+            } catch (Exception e4) {
+                AuxiliarMethods.showWarning("Error desconocido.\nPor favor, contacte con un administrador.\nMás información: "+e4.toString());
             }
+            cargarTabla(idCurso, idAsignatura);
         }
-        cargarTabla(getCurso(), getAsignatura());
+        
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -1009,6 +1022,18 @@ public class MainWindow extends javax.swing.JFrame {
         ayuda.setMinimumSize(ayuda.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        int asignatura = getAsignatura();
+        if (asignatura != 0) {
+            CargarAlumno ca = new CargarAlumno(opciones, nombreAsignatura.getText(), getAsignatura(), getCurso(), contAlumnos, this);
+            ca.pack();
+            AuxiliarMethods.centrarVentana(ca);
+            ca.setVisible(true);
+            ca.setMinimumSize(ca.getSize());
+        }
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * Devuelve un curso, pero lo uso principalmente para comprobar si se ha
      * seleccionado curso
@@ -1063,11 +1088,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }, 0, 1000);
     }
-    
-    private void cargarLogoColegio(){
+
+    private void cargarLogoColegio() {
         ImageIcon imageIcon = new ImageIcon("assets/alliance_logo.png"); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it 
-        Image newimg = image.getScaledInstance(110, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        Image newimg = image.getScaledInstance(110, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         imageIcon = new ImageIcon(newimg);  // transform it back
         ventormentaPicture.setIcon(imageIcon);
     }
@@ -1118,10 +1143,11 @@ public class MainWindow extends javax.swing.JFrame {
         //AuxiliarMethods.ajustarColumnasTabla(tabla); //recalculamos el tamaño de las columnas a su contenido
     }
 
+    
     public void calcularNotasMedias() {
         int i, j;
         double media = 0;
-        
+
         for (i = 0; i < tabla.getRowCount(); i++) {
             for (j = 2; j < 5; j++) {
                 media += ((tabla.getValueAt(i, j) != null) ? Double.parseDouble(tabla.getValueAt(i, j).toString()) : 0.0);
@@ -1139,33 +1165,32 @@ public class MainWindow extends javax.swing.JFrame {
         int aprobados3 = 0; //aprobados 3º Trimestre
         int aprobadosCurso = 0; //aprobados en la asignatura
         int numAlumnos = contAlumnos.getAlumnosAsignatura().get(getAsignatura()).size();
-        
 
         for (Alumno a : contAlumnos.getAlumnosAsignatura().get(getAsignatura())) {
-            if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(0) >= 5){
+            if (a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(0) >= 5) {
                 aprobados1++;
             }
-            if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(1) >= 5){
+            if (a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(1) >= 5) {
                 aprobados2++;
             }
-            if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(2) >= 5){
+            if (a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(2) >= 5) {
                 aprobados3++;
             }
-            if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(3) >= 5){
+            if (a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty() && a.getNotasFinales().get(getAsignatura()).get(3) >= 5) {
                 aprobadosCurso++;
             }
         }
-        
-        lblNumAp1.setText(String.valueOf(aprobados1) + " (" +formatter.format(aprobados1 / (float) numAlumnos * 100)+ "% del total de alumnos)");
-        lblNumAp2.setText(String.valueOf(aprobados2) + " (" +formatter.format(aprobados2 / (float) numAlumnos * 100) + "% del total de alumnos)");
-        lblNumAp3.setText(String.valueOf(aprobados3) + " (" +formatter.format(aprobados3 / (float) numAlumnos * 100)+ "% del total de alumnos)");
-        lblNumApTotal.setText(String.valueOf(aprobadosCurso) + " (" +formatter.format(aprobadosCurso / (float) numAlumnos * 100 )+ "% del total de alumnos)");
+
+        lblNumAp1.setText(String.valueOf(aprobados1) + " (" + formatter.format(aprobados1 / (float) numAlumnos * 100) + "% del total de alumnos)");
+        lblNumAp2.setText(String.valueOf(aprobados2) + " (" + formatter.format(aprobados2 / (float) numAlumnos * 100) + "% del total de alumnos)");
+        lblNumAp3.setText(String.valueOf(aprobados3) + " (" + formatter.format(aprobados3 / (float) numAlumnos * 100) + "% del total de alumnos)");
+        lblNumApTotal.setText(String.valueOf(aprobadosCurso) + " (" + formatter.format(aprobadosCurso / (float) numAlumnos * 100) + "% del total de alumnos)");
 
     }
-    
-    public void añadirFilaMedias(){
+
+    public void añadirFilaMedias() {
         Object[] row = new Object[7];
-        
+
         double media1 = 0.0;
         double media2 = 0.0;
         double media3 = 0.0;
@@ -1176,41 +1201,41 @@ public class MainWindow extends javax.swing.JFrame {
         int contador3 = 0;
         int contador4 = 0;
         int contador5 = 0;
-        
+
         row[1] = "MEDIAS TOTALES:";
-        for (int i=0; i<contAlumnos.getAlumnosAsignatura().get(getAsignatura()).size(); i++){
+        for (int i = 0; i < contAlumnos.getAlumnosAsignatura().get(getAsignatura()).size(); i++) {
             Alumno a = contAlumnos.getAlumnosAsignatura().get(getAsignatura()).get(i);
-            if(a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty()){
+            if (a.getNotasFinales().get(getAsignatura()) != null && !a.getNotasFinales().get(getAsignatura()).isEmpty()) {
                 //condicion ? cosa_true : cosa_false
-                if (a.getNotasFinales().get(getAsignatura()).get(0) == null || a.getNotasFinales().get(getAsignatura()).get(0) == 0){
+                if (a.getNotasFinales().get(getAsignatura()).get(0) == null || a.getNotasFinales().get(getAsignatura()).get(0) == 0) {
                     media1 += 0;
                 } else {
                     media1 += a.getNotasFinales().get(getAsignatura()).get(0);
                     contador1++;
                 }
-                
-                if (a.getNotasFinales().get(getAsignatura()).get(1) == null || a.getNotasFinales().get(getAsignatura()).get(1) == 0){
+
+                if (a.getNotasFinales().get(getAsignatura()).get(1) == null || a.getNotasFinales().get(getAsignatura()).get(1) == 0) {
                     media2 += 0;
                 } else {
                     media2 += a.getNotasFinales().get(getAsignatura()).get(1);
                     contador2++;
                 }
-                
-                if (a.getNotasFinales().get(getAsignatura()).get(2) == null || a.getNotasFinales().get(getAsignatura()).get(2) == 0){
+
+                if (a.getNotasFinales().get(getAsignatura()).get(2) == null || a.getNotasFinales().get(getAsignatura()).get(2) == 0) {
                     media3 += 0;
                 } else {
                     media3 += a.getNotasFinales().get(getAsignatura()).get(2);
                     contador3++;
                 }
-                
-                if (model.getValueAt(i,5) == null){
+
+                if (model.getValueAt(i, 5) == null) {
                     media4 += 0;
                 } else {
-                    media4 += (double)model.getValueAt(i, 5);
+                    media4 += (double) model.getValueAt(i, 5);
                     contador4++;
                 }
-                
-                if (a.getNotasFinales().get(getAsignatura()).get(3) == null || a.getNotasFinales().get(getAsignatura()).get(3) == 0){
+
+                if (a.getNotasFinales().get(getAsignatura()).get(3) == null || a.getNotasFinales().get(getAsignatura()).get(3) == 0) {
                     media5 += 0;
                 } else {
                     media5 += a.getNotasFinales().get(getAsignatura()).get(3);
@@ -1218,30 +1243,30 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         try {
-            row[2] = Double.parseDouble(formatter.format(media1/contador1));
-            row[3] = Double.parseDouble(formatter.format(media2/contador2));
-            row[4] = Double.parseDouble(formatter.format(media3/contador3));
-            row[5] = Double.parseDouble(formatter.format(media4/contador4));
-            row[6] = Double.parseDouble(formatter.format(media5/contador5));
-        } catch (NumberFormatException e){ //esto ocurre si nadie tiene notas finales
+            row[2] = Double.parseDouble(formatter.format(media1 / contador1));
+            row[3] = Double.parseDouble(formatter.format(media2 / contador2));
+            row[4] = Double.parseDouble(formatter.format(media3 / contador3));
+            row[5] = Double.parseDouble(formatter.format(media4 / contador4));
+            row[6] = Double.parseDouble(formatter.format(media5 / contador5));
+        } catch (NumberFormatException e) { //esto ocurre si nadie tiene notas finales
             row[2] = 0;
             row[3] = 0;
             row[4] = 0;
             row[5] = 0;
             row[6] = 0;
         }
-        
+
         model.addRow(new Object[7]);
         model.addRow(row); //añadimos fila extra en blanco para separar de la nueva
     }
-    
-    private void cargarToolTipsTabla(){
+
+    private void cargarToolTipsTabla() {
         JTableHeader header = tabla.getTableHeader();
 
         ToolTipHeader tips = new ToolTipHeader();
-        
+
         TableColumn col2 = tabla.getColumnModel().getColumn(2); //columna trimestre 1
         TableColumn col3 = tabla.getColumnModel().getColumn(3); //columna trimestre 2
         TableColumn col4 = tabla.getColumnModel().getColumn(4); //columna trimestre 3
@@ -1250,8 +1275,8 @@ public class MainWindow extends javax.swing.JFrame {
         tips.setToolTip(col4, "Fecha evaluación: 27/06/2022");
         header.addMouseMotionListener(tips);
     }
-    
-    private void limpiarSelecciones(){
+
+    private void limpiarSelecciones() {
         model.setRowCount(0);
         lblNumAp1.setText("-");
         lblNumAp2.setText("-");
@@ -1259,24 +1284,24 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumApTotal.setText("-");
         asignaturasGrupo.clearSelection();
     }
-    
-    
 
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this); //recoge todos los componentes del frame
-        
-        for (Component c : components){
+
+        for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             }
         }
-        
+
         lblCentro.setFont(new Font(lblCentro.getFont().getName(), Font.ITALIC, opciones.getTamañoLetra() + 25));
         ventormentaPicture.setSize(ventormentaPicture.getWidth() + opciones.getTamañoLetra(), ventormentaPicture.getHeight() + opciones.getTamañoLetra());
-        
+
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();
+        jScrollPane1.setBackground(colorBackground);
+        jScrollPane1.setForeground(colorBackground);
         jPanel2.setBackground(colorBackground);
         rdbtnc1.setBackground(colorBackground);
         rdbtnc2.setBackground(colorBackground);
@@ -1290,13 +1315,13 @@ public class MainWindow extends javax.swing.JFrame {
         panelEstadisticas.setBackground(colorBackground);
         jScrollPane1.setBackground(colorBackground);
         tabla.setBackground(colorBackground);
-        
+
         //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
-        if (opciones.getOscuro()){
-            TitledBorder titledBorder = (TitledBorder)panelEstadisticas.getBorder();
+        if (opciones.getOscuro()) {
+            TitledBorder titledBorder = (TitledBorder) panelEstadisticas.getBorder();
             titledBorder.setTitleColor(Color.LIGHT_GRAY);
         }
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
