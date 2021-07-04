@@ -7,6 +7,7 @@ package appinterface;
 
 import appsmallinterfaces.Ayuda;
 import appsmallinterfaces.CargarAlumno;
+import appsmallinterfaces.Chart;
 import appsmallinterfaces.EditarUsuarioWindow;
 import auxiliar.AuxiliarMethods;
 import auxiliar.ToolTipHeader;
@@ -15,17 +16,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -40,18 +37,18 @@ import controladores.ControladorCurso;
 import controladores.ControladorPrueba;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -65,6 +62,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 /**
  *
@@ -82,6 +80,11 @@ public class MainWindow extends javax.swing.JFrame {
     DefaultTableModel model;
     NumberFormat formatter;
     Opciones opciones;
+    
+//    //para las estadísticas
+//    int aprobados1;
+//    int aprobados2;
+//    int aprobados3;
 
     /**
      *
@@ -243,9 +246,10 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumApTotal = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
+        panelGraficos = new javax.swing.JPanel();
+        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 130), new java.awt.Dimension(0, 130), new java.awt.Dimension(32767, 130));
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(1000, 0), new java.awt.Dimension(1000, 0), new java.awt.Dimension(1000, 32767));
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
         filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 500), new java.awt.Dimension(0, 500), new java.awt.Dimension(32767, 500));
@@ -255,6 +259,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnAddAlumno.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnAddAlumno.setHorizontalTextPosition(SwingConstants.CENTER);
         btnCerrarSesion = new javax.swing.JButton();
+        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(900, 0), new java.awt.Dimension(900, 0), new java.awt.Dimension(900, 32767));
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -407,7 +412,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 38;
+        gridBagConstraints.gridx = 46;
         gridBagConstraints.gridy = 36;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 5;
@@ -435,11 +440,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 32;
+        gridBagConstraints.gridx = 42;
         gridBagConstraints.gridy = 36;
         gridBagConstraints.gridheight = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel2.add(btnNuevaTarea, gridBagConstraints);
 
         rdbtnc2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -627,66 +631,81 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumApTotal.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNumApTotal.setText("-");
 
+        panelGraficos.setLayout(new javax.swing.BoxLayout(panelGraficos, javax.swing.BoxLayout.LINE_AXIS));
+
         javax.swing.GroupLayout panelEstadisticasLayout = new javax.swing.GroupLayout(panelEstadisticas);
         panelEstadisticas.setLayout(panelEstadisticasLayout);
         panelEstadisticasLayout.setHorizontalGroup(
             panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEstadisticasLayout.createSequentialGroup()
                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(filler19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(98, 484, Short.MAX_VALUE))
-            .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                        .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblAprobTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblAprob3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblAprob2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(5, 5, 5)
                         .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNumAp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNumAp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblNumApTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())))
+                            .addComponent(filler19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panelEstadisticasLayout.createSequentialGroup()
-                        .addComponent(lblAprob1)
-                        .addGap(5, 5, 5)
-                        .addComponent(lblNumAp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap()
+                        .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelEstadisticasLayout.createSequentialGroup()
+                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblAprobTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAprob3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAprob2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(5, 5, 5)
+                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNumApTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+                                    .addComponent(lblNumAp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNumAp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(6, 6, 6))
+                            .addGroup(panelEstadisticasLayout.createSequentialGroup()
+                                .addComponent(lblAprob1)
+                                .addGap(5, 5, 5)
+                                .addComponent(lblNumAp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(filler18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelEstadisticasLayout.setVerticalGroup(
             panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEstadisticasLayout.createSequentialGroup()
                 .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(filler19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAprob1)
-                    .addComponent(lblNumAp1))
-                .addGap(5, 5, 5)
-                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAprob2)
-                    .addComponent(lblNumAp2))
-                .addGap(5, 5, 5)
-                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAprob3)
-                    .addComponent(lblNumAp3))
-                .addGap(5, 5, 5)
-                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAprobTotal)
-                    .addComponent(lblNumApTotal))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelEstadisticasLayout.createSequentialGroup()
+                        .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(filler19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelEstadisticasLayout.createSequentialGroup()
+                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAprob1)
+                                    .addComponent(lblNumAp1))
+                                .addGap(5, 5, 5)
+                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAprob2)
+                                    .addComponent(lblNumAp2))
+                                .addGap(5, 5, 5)
+                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAprob3)
+                                    .addComponent(lblNumAp3))
+                                .addGap(5, 5, 5)
+                                .addGroup(panelEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAprobTotal)
+                                    .addComponent(lblNumApTotal)))
+                            .addComponent(panelGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEstadisticasLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(filler18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 36;
-        gridBagConstraints.gridwidth = 23;
+        gridBagConstraints.gridwidth = 35;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -702,12 +721,6 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 39;
         jPanel2.add(filler22, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 34;
-        gridBagConstraints.gridwidth = 31;
-        gridBagConstraints.gridheight = 3;
-        jPanel2.add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 42;
         gridBagConstraints.gridy = 40;
@@ -738,14 +751,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnAddAlumno.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnAddAlumno.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\añadirAlumno.png")); // NOI18N
-        btnAddAlumno.setText("Añadir alumno");
+        btnAddAlumno.setText("Añadir alumno/a");
         btnAddAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddAlumnoActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 50;
+        gridBagConstraints.gridx = 48;
         gridBagConstraints.gridy = 22;
         gridBagConstraints.gridheight = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -753,17 +766,23 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnCerrarSesion.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\cerrarSesion.png")); // NOI18N
-        btnCerrarSesion.setText("Cerrar sesión");
+        btnCerrarSesion.setToolTipText("Cerrar sesión");
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 52;
-        gridBagConstraints.gridy = 40;
+        gridBagConstraints.gridx = 54;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
         jPanel2.add(btnCerrarSesion, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridwidth = 33;
+        jPanel2.add(filler17, gridBagConstraints);
 
         getContentPane().add(jPanel2);
 
@@ -1195,6 +1214,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public void obtenerEstadísticas() {
+        panelGraficos.removeAll();
         int aprobados1 = 0; //aprobados 1º Trimestre
         int aprobados2 = 0; //aprobados 2º Trimestre
         int aprobados3 = 0; //aprobados 3º Trimestre
@@ -1220,7 +1240,22 @@ public class MainWindow extends javax.swing.JFrame {
         lblNumAp2.setText(String.valueOf(aprobados2) + " (" + formatter.format(aprobados2 / (float) numAlumnos * 100) + "% del total de alumnos)");
         lblNumAp3.setText(String.valueOf(aprobados3) + " (" + formatter.format(aprobados3 / (float) numAlumnos * 100) + "% del total de alumnos)");
         lblNumApTotal.setText(String.valueOf(aprobadosCurso) + " (" + formatter.format(aprobadosCurso / (float) numAlumnos * 100) + "% del total de alumnos)");
+        
+        HashMap<String, Float> datos = new HashMap<>();
+        datos.put("1º Trimestre", aprobados1 / (float) numAlumnos * 100);
+        datos.put("2º Trimestre", aprobados2 / (float) numAlumnos * 100);
+        datos.put("3º Trimestre", aprobados3 / (float) numAlumnos * 100);
+        
+        HashMap<String, Float> datos2 = new HashMap<>();
+        datos2.put("Aprobados", aprobadosCurso / (float) numAlumnos * 100);
+        datos2.put("Suspensos", 100 - aprobadosCurso / (float) numAlumnos * 100);
+        
+        Chart chart = new Chart("% de aprobados por trimestre", datos, panelGraficos);
+        chart.paint(panelGraficos);
+        Chart chart2 = new Chart("% de aprobados en el curso", datos2, panelGraficos);
+        chart2.paint(panelGraficos);
 
+              
     }
 
     public void añadirFilaMedias() {
@@ -1387,6 +1422,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler16;
+    private javax.swing.Box.Filler filler17;
+    private javax.swing.Box.Filler filler18;
     private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler22;
@@ -1395,7 +1432,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
@@ -1427,6 +1463,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblNumApTotal;
     private javax.swing.JLabel nombreAsignatura;
     private javax.swing.JPanel panelEstadisticas;
+    private javax.swing.JPanel panelGraficos;
     private javax.swing.JRadioButton rdbtnc1;
     private javax.swing.JRadioButton rdbtnc2;
     private javax.swing.JRadioButton rdbtnc3;

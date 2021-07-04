@@ -6,6 +6,7 @@
 package appinterface;
 
 import appsmallinterfaces.Ayuda;
+import appsmallinterfaces.Chart;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -90,7 +91,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         tabla.setRowHeight(25);
 
         cargarPruebas(1);
-        obtenerEstadísticas();
+        //obtenerEstadísticas();
         txtAsignatura.setText(strAsignatura);
         model = (DefaultTableModel) tabla.getModel();
     }
@@ -116,7 +117,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 model = (DefaultTableModel) tabla.getModel();
                 Component comp = super.prepareRenderer(renderer, Index_row, Index_col);
 
-                if(Index_col != 0 && Index_col != 1 && Index_col != 3 && model.getValueAt(Index_row, Index_col) != null && !model.getValueAt(Index_row, Index_col).equals("")){
+                if(Index_col != 0 && Index_col != 1 && Index_col != 3 && model.getValueAt(Index_row, Index_col) != null && 
+                    !model.getValueAt(Index_row, Index_col).equals("") && !model.getValueAt(Index_row, Index_col).equals("-")){
+
                     if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) < 5.0 && !isCellSelected(Index_row, Index_col)) {
                         comp.setForeground(opciones.getColorSuspensos());
                     } else if (!isCellSelected(Index_row, Index_col)) {
@@ -124,6 +127,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                     }
                 }
                 return comp;
+
             }
 
             //Implement table cell tool tips.           
@@ -143,6 +147,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 return tip;
             }
         };
+        ;
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
@@ -163,6 +168,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
         filler20 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(150, 0), new java.awt.Dimension(150, 0), new java.awt.Dimension(150, 32767));
+        panelGrafico = new javax.swing.JPanel();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         lblTrimestre = new javax.swing.JLabel();
         comboTrimestre = new javax.swing.JComboBox<>();
@@ -396,6 +402,13 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 7;
         panelEstadisticas.add(filler18, gridBagConstraints);
 
+        panelGrafico.setLayout(new javax.swing.BoxLayout(panelGrafico, javax.swing.BoxLayout.LINE_AXIS));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 13;
+        panelEstadisticas.add(panelGrafico, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 18;
@@ -530,14 +543,19 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 //Cargar tabla
                 Object[] row = new Object[4];
                 for (Alumno alumno : this.contAlumnos.getAlumnosAsignatura().get(asignatura)) {
-                    encontrado = false;
+                    encontrado = false; //no hemos encontrado notas
                     row[0] = alumno.getApellidos();
                     row[1] = alumno.getNombre();
                     for (Nota n : alumno.getNotas()) {
                         if (n.getIdPrueba() == idPrueba && n.getNota() != -1) {
                             encontrado = true;
-                            row[2] = n.getNota();
+                            if (n.getComentario().equals("No tiene que hacer la prueba")) {
+                                row[2] = null;
+                            } else {
+                                row[2] = n.getNota();
+                            }
                             row[3] = n.getComentario();
+
                         }
                     }
                     if (!encontrado) {
@@ -686,7 +704,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     }
 
     private void obtenerEstadísticas() {
+        panelGrafico.removeAll();
         int numAlumnos = contAlumnos.getAlumnosAsignatura().get(asignatura).size();
+        int sinNota = 0;
         int aprobados = 0;
 
         for (int i = 0; i < tabla.getRowCount(); i++) {
@@ -695,12 +715,24 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                     aprobados++;
                 } else if (tabla.getValueAt(i, 3).toString().equals("No tiene que hacer la prueba")) {
                     numAlumnos--;
+                    sinNota++;
                 }
-            } catch (NullPointerException npe) {
-
+            } catch (NullPointerException | NumberFormatException npe) {
+                sinNota++;
             }
         }
         lblNumAp.setText(String.valueOf(aprobados) + " (" + formatter.format(aprobados / (float) numAlumnos * 100) + "% del total de alumnos)");
+
+        HashMap<String, Float> datos = new HashMap<>();
+        datos.put("Aprobados", aprobados / (float) numAlumnos * 100);
+        datos.put("Sin nota", sinNota/ (float) numAlumnos * 100);
+        datos.put("Suspensos", 100 - (aprobados / (float) numAlumnos * 100) - sinNota/ (float) numAlumnos * 100);
+        
+        
+
+        Chart chart = new Chart("% de aprobados por trimestre", datos, panelGrafico);
+        chart.paint(panelGrafico);
+
     }
 
     public void setComportamientoBotonCerrar() {
@@ -758,6 +790,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTrimestre;
     private javax.swing.JPanel panelEstadisticas;
+    private javax.swing.JPanel panelGrafico;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtAsignatura;
     // End of variables declaration//GEN-END:variables

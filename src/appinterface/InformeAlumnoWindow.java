@@ -1438,7 +1438,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 
             }
         }
-        
+        mainWindow.obtenerEstadísticas();
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 

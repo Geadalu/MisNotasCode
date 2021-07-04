@@ -196,6 +196,11 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -203,7 +208,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(model) {&#xd;&#xa;    public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {&#xd;&#xa;        // get the current row&#xd;&#xa;        model = (DefaultTableModel) tabla.getModel();&#xd;&#xa;        Component comp = super.prepareRenderer(renderer, Index_row, Index_col);&#xd;&#xa;&#xd;&#xa;        if(Index_col != 0 &amp;&amp; Index_col != 1 &amp;&amp; Index_col != 3 &amp;&amp; model.getValueAt(Index_row, Index_col) != null &amp;&amp; !model.getValueAt(Index_row, Index_col).equals(&quot;&quot;)){&#xd;&#xa;            if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) &lt; 5.0 &amp;&amp; !isCellSelected(Index_row, Index_col)) {&#xd;&#xa;                comp.setForeground(opciones.getColorSuspensos());&#xd;&#xa;            } else if (!isCellSelected(Index_row, Index_col)) {&#xd;&#xa;                comp.setForeground(opciones.getColorAprobados());&#xd;&#xa;            }&#xd;&#xa;        }&#xd;&#xa;        return comp;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    //Implement table cell tool tips.           &#xd;&#xa;    public String getToolTipText(MouseEvent e) {&#xd;&#xa;        String tip = null;&#xd;&#xa;        java.awt.Point p = e.getPoint();&#xd;&#xa;        int rowIndex = rowAtPoint(p);&#xd;&#xa;&#xd;&#xa;        try {&#xd;&#xa;            if (columnAtPoint(p) == 3){&#xd;&#xa;                tip = getValueAt(rowIndex, 3).toString();&#xd;&#xa;            }   &#xd;&#xa;        } catch (RuntimeException e1) {&#xd;&#xa;            //catch null pointer exception if mouse is over an empty line&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        return tip;&#xd;&#xa;    }&#xd;&#xa;};"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(model) {&#xd;&#xa;    public Component prepareRenderer(TableCellRenderer renderer, int Index_row, int Index_col) {&#xd;&#xa;        // get the current row&#xd;&#xa;        model = (DefaultTableModel) tabla.getModel();&#xd;&#xa;        Component comp = super.prepareRenderer(renderer, Index_row, Index_col);&#xd;&#xa;&#xd;&#xa;        if(Index_col != 0 &amp;&amp; Index_col != 1 &amp;&amp; Index_col != 3 &amp;&amp; model.getValueAt(Index_row, Index_col) != null &amp;&amp; &#xd;&#xa;            !model.getValueAt(Index_row, Index_col).equals(&quot;&quot;) &amp;&amp; !model.getValueAt(Index_row, Index_col).equals(&quot;-&quot;)){&#xd;&#xa;&#xd;&#xa;            if (Double.parseDouble(model.getValueAt(Index_row, Index_col).toString()) &lt; 5.0 &amp;&amp; !isCellSelected(Index_row, Index_col)) {&#xd;&#xa;                comp.setForeground(opciones.getColorSuspensos());&#xd;&#xa;            } else if (!isCellSelected(Index_row, Index_col)) {&#xd;&#xa;                comp.setForeground(opciones.getColorAprobados());&#xd;&#xa;            }&#xd;&#xa;        }&#xd;&#xa;        return comp;&#xd;&#xa;       &#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    //Implement table cell tool tips.           &#xd;&#xa;    public String getToolTipText(MouseEvent e) {&#xd;&#xa;        String tip = null;&#xd;&#xa;        java.awt.Point p = e.getPoint();&#xd;&#xa;        int rowIndex = rowAtPoint(p);&#xd;&#xa;&#xd;&#xa;        try {&#xd;&#xa;            if (columnAtPoint(p) == 3){&#xd;&#xa;                tip = getValueAt(rowIndex, 3).toString();&#xd;&#xa;            }   &#xd;&#xa;        } catch (RuntimeException e1) {&#xd;&#xa;            //catch null pointer exception if mouse is over an empty line&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        return tip;&#xd;&#xa;    }&#xd;&#xa;};&#xd;&#xa;"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -600,6 +605,15 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Container class="javax.swing.JPanel" name="panelGrafico">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="3" gridWidth="13" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+        </Container>
       </SubComponents>
     </Container>
     <Component class="javax.swing.Box$Filler" name="filler6">
