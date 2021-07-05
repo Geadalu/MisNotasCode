@@ -178,6 +178,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 0), new java.awt.Dimension(800, 32767));
         btnRefrescar = new javax.swing.JButton();
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        lblIcono = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -481,6 +482,15 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 23;
         getContentPane().add(filler19, gridBagConstraints);
 
+        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\CalificarTareas.png")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridheight = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        getContentPane().add(lblIcono, gridBagConstraints);
+
         jMenuBar1.setName("menuEditar"); // NOI18N
 
         jMenu1.setText("Archivo");
@@ -614,7 +624,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
                 try {
                     contAlumnos.updateNotas(asignatura, idPrueba, contAlumnos.getAlumnosAsignatura().get(asignatura).get(i), update);
                 } catch (SQLException e) {
-                    AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
+                    //AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
                 }
             }
 
@@ -785,6 +795,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel lblAprob1;
     private javax.swing.JLabel lblAsignatura;
+    private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblNumAp;
     private javax.swing.JLabel lblTarea;
     private javax.swing.JLabel lblTitulo;

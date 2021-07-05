@@ -219,6 +219,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         btnCerrar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         btnCalificar = new javax.swing.JButton();
+        lblIcono = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -484,6 +485,14 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnCalificar, gridBagConstraints);
+
+        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\InformeTrimestre.png")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        getContentPane().add(lblIcono, gridBagConstraints);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
 
@@ -809,6 +818,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblAsignatura;
+    private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblNoPruebas;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JList<String> listaCompetencias;

@@ -199,7 +199,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo();
             for (Nota n : alumno.getNotas()){
                 if (n.getIdPrueba() == contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba()){
-                    row[1] = n.getNota();
+                    if (n.getComentario().equals("No tiene que hacer la prueba")){
+                        row[1] = "";
+                    } else {
+                        row[1] = n.getNota();
+                    }
                 }
             }
            
@@ -468,6 +472,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler71 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         filler72 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         lblMatricula = new javax.swing.JLabel();
+        lblIcono = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -1324,6 +1329,15 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 9;
         getContentPane().add(lblMatricula, gridBagConstraints);
 
+        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\InformeAlumno.png")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 31;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        getContentPane().add(lblIcono, gridBagConstraints);
+
         jMenuBar1.setName("menuEditar"); // NOI18N
 
         jMenu1.setText("Archivo");
@@ -1886,6 +1900,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblFinal2;
     private javax.swing.JLabel lblFinal3;
     private javax.swing.JLabel lblFinalAsig;
+    private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblMatricula;
     private javax.swing.JLabel lblMedia1;
