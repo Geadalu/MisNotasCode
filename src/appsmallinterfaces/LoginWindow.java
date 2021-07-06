@@ -67,6 +67,11 @@ public class LoginWindow extends javax.swing.JFrame {
 
     public LoginWindow() {
         initComponents();
+        
+        //Asociamos los assets a los botones y labels
+        btnMostrar.setIcon(new ImageIcon("assets/ojitoCerrado.png"));
+        btnOpciones.setIcon(new ImageIcon("assets/Opciones.png"));
+        
         ojitoAbierto = false;
         
         //ponemos el fondo por defecto
@@ -157,6 +162,7 @@ public class LoginWindow extends javax.swing.JFrame {
         setBackground(new java.awt.Color(252, 244, 237));
         setBounds(new java.awt.Rectangle(600, 200, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -248,7 +254,6 @@ public class LoginWindow extends javax.swing.JFrame {
         getContentPane().add(filler7, gridBagConstraints);
 
         btnOpciones.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnOpciones.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Opciones.png")); // NOI18N
         btnOpciones.setToolTipText("Opciones de la aplicación");
         btnOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -550,7 +555,6 @@ public class LoginWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 10;
         getContentPane().add(filler31, gridBagConstraints);
 
-        btnMostrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Ojitocerrado.png")); // NOI18N
         btnMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMostrarActionPerformed(evt);

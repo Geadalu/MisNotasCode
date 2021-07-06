@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 import objects.Alumno;
 import objects.Nota;
 
 /**
- *
+ * Controlador para los alumnos
  * @author lucia
  */
 public class ControladorAlumno {
@@ -41,6 +41,11 @@ public class ControladorAlumno {
         }
     }
 
+    /**
+     * Carga todos los alumnos de una asignatura
+     * @param idAsignatura
+     * @throws SQLException 
+     */
     public void cargarAlumnosAsignatura(int idAsignatura) throws SQLException {
         int posicion = 0;
         if (this.alumnosAsignatura.get(idAsignatura).isEmpty()) {
@@ -59,6 +64,13 @@ public class ControladorAlumno {
         }
     }
 
+    /**
+     * Updatea las notas finales en la base de datos de un alumno para una asignatura
+     * @param alumno
+     * @param asignatura
+     * @throws SQLException
+     * @throws NullPointerException 
+     */
     public void updateNotasFinales(Alumno alumno, int asignatura) throws SQLException, NullPointerException {
         Statement st = DBConnection.getConnection().createStatement();
         boolean update = false;
@@ -96,6 +108,14 @@ public class ControladorAlumno {
         }
     }
     
+    /**
+     * Updatea las notas en la base de datos de un alumno para una asignatura
+     * @param idAsignatura
+     * @param idPrueba
+     * @param alumno
+     * @param update
+     * @throws SQLException 
+     */
     public void updateNotas(int idAsignatura, int idPrueba, Alumno alumno, boolean update) throws SQLException {
         Statement st = DBConnection.getConnection().createStatement();
         for (Nota n : alumno.getNotas()) {
@@ -204,8 +224,4 @@ public class ControladorAlumno {
     public HashMap<Integer, ArrayList<Alumno>> getAlumnosAsignatura() {
         return alumnosAsignatura;
     }
-    
-    
-
-
 }

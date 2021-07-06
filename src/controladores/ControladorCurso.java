@@ -12,10 +12,10 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 
 /**
- *
+ * Controlador de los cursos y las correspondencias con las letras
  * @author lucia
  */
 public class ControladorCurso {
@@ -42,6 +42,10 @@ public class ControladorCurso {
         correspLetras.put("I", 9);
     }
     
+    /**
+     * Carga todos los cursos
+     * @throws SQLException 
+     */
     public void cargarCursos() throws SQLException {
         if (this.cursos.isEmpty()) {
             String sqlCursos = "SELECT * FROM curso";
@@ -54,6 +58,10 @@ public class ControladorCurso {
         }
     }
 
+    /**
+     * Crea un nuevo curso. Esto decidió no usarse
+     * @param nombreCurso 
+     */
     public void commitNuevoCurso(String nombreCurso){
         String letraCurso = String.valueOf(nombreCurso.charAt(2));
         String numCurso = String.valueOf(nombreCurso.charAt(0));

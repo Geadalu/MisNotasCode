@@ -6,7 +6,7 @@
 package objects;
 
 /**
- *
+ * Clase nota
  * @author lucia
  */
 public class Nota {

@@ -15,7 +15,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- *
+ * Clase para añadir tooltips a los headers de la tabla de mainwindow. Sacada de https://stackoverflow.com/
+ * y modificada acorde al proyecto
  * @author lucia
  */
 public class ToolTipHeader extends MouseMotionAdapter {

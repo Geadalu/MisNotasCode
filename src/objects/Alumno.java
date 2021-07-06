@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 
 /**
- *
+ * Clase alumno
  * @author lucia
  */
 public class Alumno {
@@ -65,6 +65,10 @@ public class Alumno {
         this.cargarComentariosAsignaturas();
     }
     
+    /**
+     * Carga las notas del alumno
+     * @throws SQLException 
+     */
     public void cargarNotas() throws SQLException{
         String sqlNotas = "SELECT * FROM nota WHERE idAlumno = "+idAlumno;
          
@@ -74,12 +78,12 @@ public class Alumno {
         while(resultNotas.next()){
             this.notas.add(new Nota(resultNotas.getInt("idPrueba"), resultNotas.getDouble("nota"), resultNotas.getString("comentario")));
         }
-//        System.out.println(this.getNombre()+" "+this.getApellidos());
-//        for (Nota n : notas){
-//            System.out.println(n.getIdPrueba()+" "+n.getNota());
-//        }
     }
     
+    /**
+     * Carga las notas finales del alumno
+     * @throws SQLException 
+     */
     public void cargarNotasFinales() throws SQLException{
         String sqlNotaFinal = "SELECT * FROM notafinal WHERE idAlumno = "+idAlumno;
         
@@ -98,7 +102,10 @@ public class Alumno {
         }
     }
     
-    
+    /**
+     * Carga los comentarios del alumno para cada asignatura
+     * @throws SQLException 
+     */
     public void cargarComentariosAsignaturas() throws SQLException{
         String sqlComentarios = "SELECT * FROM notafinal WHERE idAlumno = "+idAlumno+";";
         

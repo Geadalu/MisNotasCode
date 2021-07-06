@@ -19,18 +19,17 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 import objects.Alumno;
 import objects.Opciones;
 
 /**
- *
+ * Carga un solo alumno en la base de datos
  * @author lucia
  */
 public class CargarAlumno extends javax.swing.JFrame {
@@ -41,6 +40,15 @@ public class CargarAlumno extends javax.swing.JFrame {
     ControladorAlumno contAlumnos;
     MainWindow mainWindow;
 
+    /**
+     * Crear form CargarAlumno
+     * @param opciones
+     * @param nombreAsignatura
+     * @param asignatura
+     * @param curso
+     * @param contAlumnos
+     * @param mainWindow 
+     */
     public CargarAlumno(Opciones opciones, String nombreAsignatura, int asignatura, int curso, ControladorAlumno contAlumnos, MainWindow mainWindow) {
         this.opciones = opciones;
         this.asignatura = asignatura;
@@ -48,6 +56,10 @@ public class CargarAlumno extends javax.swing.JFrame {
         this.contAlumnos = contAlumnos;
         this.mainWindow = mainWindow;
         initComponents();
+        
+        //Asociamos los assets a los botones y labels
+        btnGuardar.setIcon(new ImageIcon ("assets/disquete.png"));
+        btnCancelar.setIcon(new ImageIcon ("assets/cancelar.png"));
         
         lblAsignatura.setText(nombreAsignatura);
         
@@ -96,6 +108,7 @@ public class CargarAlumno extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cargar alumno/a");
         setBounds(new java.awt.Rectangle(550, 324, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
@@ -228,8 +241,7 @@ public class CargarAlumno extends javax.swing.JFrame {
         getContentPane().add(filler11, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
-        btnGuardar.setText("Guardar");
+        btnGuardar.setText("Cargar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -242,7 +254,6 @@ public class CargarAlumno extends javax.swing.JFrame {
         getContentPane().add(btnGuardar, gridBagConstraints);
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Cancelar.png")); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,6 +291,10 @@ public class CargarAlumno extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Comportamiento del botón guardar: guarda el alumno en la base de datos y en contAlumnos
+     * @param evt 
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Alumno alumno = new Alumno();
         boolean salir = true;
@@ -339,13 +354,18 @@ public class CargarAlumno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    /*
+    * Botón cancelar
+    */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar?\nSe perderán todos los cambios.") == 0){
             this.dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    
+    /**
+     * Comportamiento del botón cerrar de arriba a la derecha
+     */
     public void setComportamientoBotonCerrar(){
         this.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
@@ -361,6 +381,9 @@ public class CargarAlumno extends javax.swing.JFrame {
     });
     }
     
+    /**
+     * Ejecución del look and feel deseado por el usuario en el login
+     */
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 

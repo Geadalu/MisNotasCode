@@ -7,7 +7,7 @@ package appinterface;
 
 import appsmallinterfaces.Ayuda;
 import appsmallinterfaces.CargarAlumno;
-import appsmallinterfaces.Chart;
+import objects.Chart;
 import appsmallinterfaces.EditarUsuarioWindow;
 import auxiliar.AuxiliarMethods;
 import auxiliar.ToolTipHeader;
@@ -48,7 +48,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -56,6 +55,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import mainpackage.DBConnection;
 import objects.Maestro;
 import objects.Opciones;
 import org.apache.poi.ss.usermodel.Cell;
@@ -94,30 +94,36 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow(Maestro maestro, Opciones opciones) {
         this.opciones = opciones;
         initComponents();
-        getDateTime();
+        getDateTime(); //cargar hora y fecha
         this.maestro = maestro;
         cargarLogoColegio();
+        
+        //Asociamos los assets a los botones y labels
+        btnAddAlumno.setIcon(new ImageIcon ("assets/crearAlumno.png"));
+        btnCalificar.setIcon(new ImageIcon ("assets/calificarPruebaPeq.png"));
+        btnCerrarSesion.setIcon(new ImageIcon("assets/cerrarSesion.png"));
+        btnNuevaTarea.setIcon(new ImageIcon ("assets/nuevaPruebaPeq.png"));
+        lblFotoMaestro.setIcon(maestro.getImagen());
+        
+        //labels con el nombre del maestro
+        lblBienvenida.setText("Bienvenido/a, " + maestro.getNombre());
 
         nombreAsignatura.setVisible(false);
         model = (DefaultTableModel) tabla.getModel();
 
         cargarToolTipsTabla();
 
+        //Cargar el maestro
         try {
             maestro.cargarMaestro();
         } catch (SQLException e) {
             AuxiliarMethods.showWarning("No se han podido cargar los datos del maestro.\nMás información: " + e.toString());
         }
 
-        lblFotoMaestro.setIcon(maestro.getImagen());
-
         //Formato de los decimales
         this.formatter = NumberFormat.getInstance(Locale.US);
         this.formatter.setMaximumFractionDigits(2);
         this.formatter.setRoundingMode(RoundingMode.UP);
-
-        //labels con el nombre del maestro
-        lblBienvenida.setText("Bienvenido/a, " + maestro.getNombre());
 
         //cositas para la tabla
         tabla.getTableHeader().addMouseListener(new MouseAdapter() {
@@ -171,6 +177,7 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtncon1A.setVisible(false);
         rdbtnrel4A.setVisible(false);
 
+        //por último cargamos el controlador de alumnos
         try {
             this.contAlumnos = new ControladorAlumno();
         } catch (SQLException e) {
@@ -274,6 +281,7 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ventana principal");
         setBounds(new java.awt.Rectangle(250, 10, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel2.setName("panelPrincipal"); // NOI18N
@@ -286,9 +294,9 @@ public class MainWindow extends javax.swing.JFrame {
         lblBienvenida.setText("Bienvenido/a, @User");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 46;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridwidth = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         jPanel2.add(lblBienvenida, gridBagConstraints);
 
         fecha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -403,7 +411,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(filler4, gridBagConstraints);
 
         btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCalificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\notepad.png")); // NOI18N
         btnCalificar.setText("Calificar tareas o pruebas");
         btnCalificar.setName("btnCalificar"); // NOI18N
         btnCalificar.addActionListener(new java.awt.event.ActionListener() {
@@ -431,7 +438,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(filler8, gridBagConstraints);
 
         btnNuevaTarea.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnNuevaTarea.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\plus.png")); // NOI18N
         btnNuevaTarea.setText("Nueva tarea o prueba");
         btnNuevaTarea.setName("btnNuevaTarea"); // NOI18N
         btnNuevaTarea.addActionListener(new java.awt.event.ActionListener() {
@@ -544,7 +550,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 46;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.gridwidth = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnEditarUsuario, gridBagConstraints);
@@ -737,8 +743,8 @@ public class MainWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 46;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 9;
-        gridBagConstraints.gridheight = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.gridheight = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(lblFotoMaestro, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
@@ -747,7 +753,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(filler5, gridBagConstraints);
 
         btnAddAlumno.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnAddAlumno.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\CrearAlumno.png")); // NOI18N
+        btnAddAlumno.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\CrearAlumno.png")); // NOI18N
         btnAddAlumno.setText("Añadir alumno/a");
         btnAddAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -762,7 +768,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(btnAddAlumno, gridBagConstraints);
 
         btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCerrarSesion.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\cerrarSesion.png")); // NOI18N
+        btnCerrarSesion.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\cerrarSesion.png")); // NOI18N
         btnCerrarSesion.setToolTipText("Cerrar sesión");
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -857,6 +863,10 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Botón de cerrar sesión en el jmenu
+     * @param evt 
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         String confirmation = "¿Seguro que quiere cerrar la sesión?";
         if (AuxiliarMethods.showCloseConfirmation(confirmation) == 0){
@@ -865,6 +875,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Botón de cargar varios alumnos mediante un excel en el jmenu
+     * @param evt 
+     */
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         int idAsignatura = getAsignatura();
         int idCurso = getCurso();
@@ -927,11 +941,18 @@ public class MainWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    /**
+     * Botón de acerca de
+     * @param evt 
+     */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        // TODO add your handling code here:
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    /**
+     * Botón de calificar pruebas. Abre una nueva ventana CalificarPruebasWindow
+     * @param evt 
+     */
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
@@ -942,6 +963,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCalificarActionPerformed
 
+    /**
+     * Botón de nueva prueba. Abre una nueva ventana NuevaPruebaWindow
+     * @param evt 
+     */
     private void btnNuevaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaTareaActionPerformed
         int pasarAsignatura = 0;
         if (!((pasarAsignatura = getAsignatura()) == 0)) {
@@ -953,6 +978,10 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnNuevaTareaActionPerformed
 
+    /**
+     * Comportamiento del radio button
+     * @param evt 
+     */
     private void rdbtnc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc2ActionPerformed
         //Curso 4ºA
         limpiarSelecciones();
@@ -962,6 +991,10 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtnrel4A.setVisible(true);
     }//GEN-LAST:event_rdbtnc2ActionPerformed
 
+    /**
+     * Comportamiento del radio button
+     * @param evt 
+     */
     private void rdbtnc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc3ActionPerformed
         //Curso 3ºA
         limpiarSelecciones();
@@ -974,6 +1007,10 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_rdbtnc3ActionPerformed
 
+    /**
+     * Comportamiento del radio button
+     * @param evt 
+     */
     private void rdbtnc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnc1ActionPerformed
         //Curso 1ºA 
         limpiarSelecciones();
@@ -983,6 +1020,10 @@ public class MainWindow extends javax.swing.JFrame {
         rdbtncon1A.setVisible(true);
     }//GEN-LAST:event_rdbtnc1ActionPerformed
 
+    /**
+     * Acción de clicar en la tabla. Esto abre una ventana InformeAlumnoWindow
+     * @param evt 
+     */
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         int pasarAsignatura = 0;
 
@@ -1012,12 +1053,20 @@ public class MainWindow extends javax.swing.JFrame {
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnmat3AActionPerformed
 
+    /**
+     * Seleccionar botón Conocimiento del Medio 1ºA
+     * @param evt 
+     */
     private void rdbtncon1AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtncon1AActionPerformed
         nombreAsignatura.setText("Conocimiento del Medio 1ºA");
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtncon1AActionPerformed
 
+    /**
+     * Botón de editar usuario. Esto abre una nueva ventana EditarUsuarioWindow
+     * @param evt 
+     */
     private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
         EditarUsuarioWindow euw = new EditarUsuarioWindow(maestro, opciones, this);
         euw.pack();
@@ -1037,12 +1086,21 @@ public class MainWindow extends javax.swing.JFrame {
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnlen3AActionPerformed
 
+    /**
+     * Seleccionar botón Religión 4ºA
+     *
+     * @param evt
+     */
     private void rdbtnrel4AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbtnrel4AActionPerformed
         nombreAsignatura.setText("Religiones 4ºA (opt.)");
         cargarTabla(getCurso(), getAsignatura());
         obtenerEstadísticas();
     }//GEN-LAST:event_rdbtnrel4AActionPerformed
 
+    /**
+     * Botón del manual de ayuda. Abre un nuevo manual de ayuda.
+     * @param evt 
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Ayuda ayuda = new Ayuda(opciones, 1);
         ayuda.pack();
@@ -1050,6 +1108,10 @@ public class MainWindow extends javax.swing.JFrame {
         ayuda.setMinimumSize(ayuda.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Botón para cargar un solo alumno. Abre una nueva ventana CargarAlumno.
+     * @param evt 
+     */
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         int asignatura = getAsignatura();
         if (asignatura != 0) {
@@ -1077,10 +1139,19 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddAlumnoActionPerformed
 
+    /**
+     * Botón de cerrar sesión: cierra el programa
+     * @param evt 
+     */
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         String confirmation = "¿Seguro que quiere cerrar la sesión?";
         if (AuxiliarMethods.showCloseConfirmation(confirmation) == 0){
             MainWindow.this.dispose();
+            try {
+                DBConnection.closeConnection();
+            } catch (SQLException sql){
+                AuxiliarMethods.showWarning("No se ha podido cerrar la conexión con la base de datos.\nPor favor, contacte con un administrador.\nMás información: "+sql.toString());
+            }
             System.exit(0);
         }
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
@@ -1124,6 +1195,9 @@ public class MainWindow extends javax.swing.JFrame {
         return 0;
     }
 
+    /**
+     * Recoge la fecha y la hora actuales. La hora va cambiando dinámicamente
+     */
     private void getDateTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
@@ -1140,6 +1214,9 @@ public class MainWindow extends javax.swing.JFrame {
         }, 0, 1000);
     }
 
+    /**
+     * Carga el logo del colegio
+     */
     private void cargarLogoColegio() {
         ImageIcon imageIcon = new ImageIcon("assets/alliance_logo.png"); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it 
@@ -1148,6 +1225,11 @@ public class MainWindow extends javax.swing.JFrame {
         ventormentaPicture.setIcon(imageIcon);
     }
 
+    /**
+     * Carga la tabla grande
+     * @param curso
+     * @param asignatura 
+     */
     public void cargarTabla(int curso, int asignatura) {
         //modelo para introducir filas en la tabla
         model.setRowCount(0);
@@ -1195,6 +1277,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     
+    /**
+     * Calcula las notas medias ed los trimestres y las añade en la columna de notas medias
+     */
     public void calcularNotasMedias() {
         int i, j;
         double media = 0;
@@ -1210,6 +1295,9 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Obtiene la estadísticas del controlador de alumnos y hace los diagramas de quesitos
+     */
     public void obtenerEstadísticas() {
         panelGraficos.removeAll();
         int aprobados1 = 0; //aprobados 1º Trimestre
@@ -1255,6 +1343,9 @@ public class MainWindow extends javax.swing.JFrame {
               
     }
 
+    /**
+     * Añade la fila de las medias de todos los alumnos al final de la tabla
+     */
     public void añadirFilaMedias() {
         Object[] row = new Object[7];
 
@@ -1329,6 +1420,9 @@ public class MainWindow extends javax.swing.JFrame {
         model.addRow(row); //añadimos fila extra en blanco para separar de la nueva
     }
 
+    /**
+     * Carga los tooltips de las columnas de la tabla creando un objeto ToolTipHeader
+     */
     private void cargarToolTipsTabla() {
         JTableHeader header = tabla.getTableHeader();
 
@@ -1343,6 +1437,9 @@ public class MainWindow extends javax.swing.JFrame {
         header.addMouseMotionListener(tips);
     }
 
+    /**
+     * Limpia las selecciones y las estadísticas
+     */
     private void limpiarSelecciones() {
         model.setRowCount(0);
         lblNumAp1.setText("-");
@@ -1352,6 +1449,9 @@ public class MainWindow extends javax.swing.JFrame {
         asignaturasGrupo.clearSelection();
     }
     
+    /**
+     * El comportamiento del botón cerrar
+     */
     public void setComportamientoBotonCerrar(){
         this.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
@@ -1367,6 +1467,9 @@ public class MainWindow extends javax.swing.JFrame {
     });
     }
 
+    /**
+     * Ejecución del look and feel deseado por el usuario en el login
+     */
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this); //recoge todos los componentes del frame
 

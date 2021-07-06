@@ -6,13 +6,11 @@
 package appsmallinterfaces;
 
 import appinterface.MainWindow;
-import appinterface.MainWindow;
 import auxiliar.AuxiliarMethods;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.TextField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -52,6 +50,10 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         this.maestro = maestro;
         this.mw = mw;
         initComponents();
+        
+        //Asociamos los assets a los botones y labels
+        btnGuardar.setIcon(new ImageIcon("Disquete.png"));
+        
         mostrarContraseña1 = txtContraseña1.getEchoChar();
         mostrarContraseña2 = txtContraseña2.getEchoChar();
 
@@ -108,7 +110,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         chbxMostrar = new javax.swing.JCheckBox();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         imagen = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnCambiarImagen = new javax.swing.JButton();
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -120,6 +122,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos personales");
         setBounds(new java.awt.Rectangle(300, 50, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -209,7 +212,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         getContentPane().add(lblNuevaContraseña2, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnGuardar.setText("Guardar cambios");
+        btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -348,18 +351,18 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 3;
         getContentPane().add(imagen, gridBagConstraints);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jButton1.setText("Cambiar imagen");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCambiarImagen.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCambiarImagen.setText("Cambiar imagen");
+        btnCambiarImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCambiarImagenActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
-        getContentPane().add(jButton1, gridBagConstraints);
+        getContentPane().add(btnCambiarImagen, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 14;
         gridBagConstraints.gridy = 9;
@@ -433,6 +436,10 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    /**
+     * Se triggerea cuando se clica en el chbx mostrar contraseña
+     * @param evt 
+     */
     private void chbxMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxMostrarActionPerformed
         if (!chbxMostrar.isSelected()) {
             txtContraseña1.setEchoChar(mostrarContraseña1);
@@ -443,12 +450,20 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chbxMostrarActionPerformed
 
+    /**
+     * Se triggerea cuando se cierra la ventana
+     * @param evt 
+     */
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         mw.lblBienvenida.setText("Bienvenido/a, "+maestro.getNombre());
         mw.lblFotoMaestro.setIcon(maestro.getImagen());
     }//GEN-LAST:event_formWindowClosed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    /**
+     * Botón cambiar imagen: abre una imagen y la pone ahí
+     * @param evt 
+     */
+    private void btnCambiarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarImagenActionPerformed
         JFileChooser file = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         //filter the files
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
@@ -466,12 +481,20 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
             maestro.setImagen(image);
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCambiarImagenActionPerformed
 
+    /**
+     * Botón cerrar del menú de arriba
+     * @param evt 
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Botón del manual de ayuda
+     * @param evt 
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Ayuda ayuda = new Ayuda(opciones, 8);
         ayuda.pack();
@@ -479,10 +502,17 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         ayuda.setMinimumSize(ayuda.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Botón "acerca de"
+     * @param evt 
+     */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
     
+    /**
+     * Comportamiento del botón cerrar
+     */
     public void setComportamientoBotonCerrar(){
         this.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
@@ -498,6 +528,9 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
     });
     }
     
+    /**
+     * Ejecución del look and feel deseado por el usuario en el login
+     */
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
         
@@ -522,6 +555,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambiarImagen;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JCheckBox chbxMostrar;
     private javax.swing.Box.Filler filler1;
@@ -544,7 +578,6 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel imagen;
-    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;

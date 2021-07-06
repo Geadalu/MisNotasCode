@@ -13,10 +13,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 
 /**
- *
+ * Clase maestro
  * @author lucia
  */
 public class Maestro {
@@ -50,6 +50,10 @@ public class Maestro {
         this.idMaestro = idMaestro;
     }
 
+    /**
+     * Carga los datos de un maestro
+     * @throws SQLException 
+     */
     public void cargarMaestro() throws SQLException {
         String sqlNombre = "SELECT nombre FROM datossesion WHERE idMaestro = '" + this.idMaestro + "'";
         Statement st = DBConnection.getConnection().createStatement();
@@ -62,6 +66,11 @@ public class Maestro {
         cargarAsignaturas();
     }
 
+    /**
+     * Comprueba que los datos que se han introducido son correctos, o no
+     * @return
+     * @throws SQLException 
+     */
     public boolean comprobarCredenciales() throws SQLException {
         String sqlCredenciales = "SELECT * FROM datossesion WHERE idMaestro = '" + this.idMaestro + "' AND contraseña ='" + this.contraseña + "';";
         Statement st = DBConnection.getConnection().createStatement();
@@ -76,6 +85,12 @@ public class Maestro {
 
     }
     
+    /**
+     * Método que busca la contraseña asociada al dni del maestro en la base de datos.
+     * @param usuario
+     * @return
+     * @throws SQLException 
+     */
     public String recuperarContraseña(String usuario) throws SQLException {
         String sqlCredenciales = "SELECT contraseña FROM datossesion WHERE idMaestro = '"+usuario+"';";
         Statement st = DBConnection.getConnection().createStatement();
@@ -88,6 +103,10 @@ public class Maestro {
         }
     }
 
+    /**
+     * Carga las asignaturas asociadas al maestro
+     * @throws SQLException 
+     */
     public void cargarAsignaturas() throws SQLException {
         String sqlAsignaturas = "SELECT idAsignatura FROM maestro WHERE idMaestro = '" + this.idMaestro + "'";
         String sqlNombreAsignatura;
@@ -108,6 +127,12 @@ public class Maestro {
         }
     }
 
+    /**
+     * Updatea los datos del maestro
+     * @param nombre
+     * @param contraseña
+     * @throws SQLException 
+     */
     public void updateMaestro(String nombre, String contraseña) throws SQLException {
         if (!contraseña.equals("")) {
             this.setContraseña(contraseña);

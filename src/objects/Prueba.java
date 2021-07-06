@@ -10,10 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 
 /**
- *
+ * Clase prueba
  * @author lucia
  */
 public class Prueba {
@@ -42,6 +42,11 @@ public class Prueba {
 
     }
 
+    /**
+     * Carga los campos de la prueba
+     * @param idPrueba
+     * @throws SQLException 
+     */
     public void cargarPrueba(int idPrueba) throws SQLException {
         String sqlPruebas = "SELECT * FROM prueba WHERE idPrueba = " + idPrueba;
 
@@ -60,6 +65,11 @@ public class Prueba {
         }
     }
 
+    /**
+     * Crea una nueva prueba
+     * @return
+     * @throws SQLException 
+     */
     public int commitNuevaPrueba() throws SQLException {
         String sqlPrueba = "INSERT INTO prueba (idAsignatura, titulo, etiqueta, fecha, trimestre, peso) VALUES ('"
                 + this.getIdAsignatura() + "', '"
@@ -90,7 +100,10 @@ public class Prueba {
 
     }
 
-
+    /**
+     * Asigna las competencias a la prueba que se acaba de crear
+     * @throws SQLException 
+     */
     public void commitCompetencias() throws SQLException {
         Statement st;
         for (int i = 0; i < this.competenciasPrueba.size(); i++) {

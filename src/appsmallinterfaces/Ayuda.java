@@ -10,10 +10,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
+import javax.swing.ImageIcon;
 import objects.Opciones;
 
 /**
@@ -32,6 +29,9 @@ public class Ayuda extends javax.swing.JFrame {
         ejecutarOpciones();
     }
     
+    /**
+     * Ejecución del look and feel elegido en el login
+     */
      private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
@@ -172,6 +172,7 @@ public class Ayuda extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manual de ayuda");
         setBounds(new java.awt.Rectangle(250, 100, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         setMaximumSize(new java.awt.Dimension(600, 100));
         setMinimumSize(new java.awt.Dimension(1500, 700));
         setPreferredSize(new java.awt.Dimension(1000, 500));

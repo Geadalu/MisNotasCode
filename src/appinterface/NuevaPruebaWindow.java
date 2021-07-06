@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -63,6 +63,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         this.contAlumnos = contAlumnos;
         this.asignatura = asignatura;
         this.opciones = opciones;
+        
+        //Asociamos los assets a los botones y labels
+        btnGuardar.setIcon(new ImageIcon ("assets/disquete.png"));
+        btnCancelar.setIcon(new ImageIcon ("assets/cancelar.png"));
+        lblIcono.setIcon(new ImageIcon("assets/nuevaPrueba.png"));
 
         presionado = false;
         competenciaConID = new HashMap<>();
@@ -221,11 +226,11 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         setTitle("Nueva tarea");
         setBounds(new java.awt.Rectangle(300, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Cancelar.png")); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,7 +244,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -658,8 +662,6 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(txtAlumnos, gridBagConstraints);
-
-        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\CrearTarea.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 17;
         gridBagConstraints.gridy = 3;

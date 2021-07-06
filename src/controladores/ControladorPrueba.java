@@ -10,13 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 import objects.Competencia;
 import objects.Nota;
 import objects.Prueba;
 
 /**
- *
+ * Controlador de las pruebas por asignatura y las competencias  que tiene cada una
  * @author lucia
  */
 public class ControladorPrueba {
@@ -43,6 +43,11 @@ public class ControladorPrueba {
         return trimestres;
     }
 
+    /**
+     * Carga las pruebas de una asignatura
+     * @param asignatura
+     * @throws SQLException 
+     */
     public void cargarPruebasAsignatura(int asignatura) throws SQLException {
         HashMap listaTrimestres = this.pruebasAsignatura.get(asignatura); //hashMap de arraylists que contiene trimestre, listadePruebas
 
@@ -54,6 +59,14 @@ public class ControladorPrueba {
         
     }
     
+    /**
+     * Carga las pruebas de un trimestre
+     * @param asignatura
+     * @param trimestre
+     * @return
+     * @throws SQLException
+     * @throws NullPointerException 
+     */
     public ArrayList<Prueba> cargarPruebasTrimestre(int asignatura, int trimestre) throws SQLException, NullPointerException {
         ArrayList<Prueba> pruebasTrimestre = new ArrayList<>();
         if (this.pruebasAsignatura.get(asignatura).get(trimestre) == null || this.pruebasAsignatura.get(asignatura).get(trimestre).isEmpty()) { //si no hay pruebas en el primer trimestre
@@ -72,6 +85,11 @@ public class ControladorPrueba {
         return pruebasTrimestre;
     }
     
+    /**
+     * Carga las competencias de una prueba
+     * @param prueba
+     * @throws SQLException 
+     */
     public void cargarCompetenciasPrueba(int prueba) throws SQLException {
         if (this.competenciasPrueba.get(prueba) == null) {
             ArrayList<Competencia> listaCompetencias = new ArrayList<>();
@@ -88,6 +106,13 @@ public class ControladorPrueba {
         }
     }
     
+    /**
+     * Borra una prueba de la base de datos y todas sus referencias
+     * @param idPrueba
+     * @param trimestre
+     * @param asignatura
+     * @throws SQLException 
+     */
     public void borrarPrueba(int idPrueba, int trimestre, int asignatura) throws SQLException {
         String sqlPrueba = "DELETE FROM prueba WHERE idPrueba = "+idPrueba;
         Statement st = DBConnection.getConnection().createStatement();
@@ -111,6 +136,11 @@ public class ControladorPrueba {
         
     }
     
+    /**
+     * Updatea una prueba en la base de datos
+     * @param prueba
+     * @throws SQLException 
+     */
     public void updatePrueba(Prueba prueba) throws SQLException{
         Statement st = DBConnection.getConnection().createStatement();
         String sqlNotas = "UPDATE prueba SET "

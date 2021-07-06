@@ -3,20 +3,17 @@
  * Trabajo de Fin de Grado - Grado en Ingenier�a Inform�tica
  * Universidad de Castilla-La Mancha
  */
-package noname;
+package mainpackage;
 
-import appinterface.MainWindow;
 import appsmallinterfaces.LoginWindow;
-import objects.Maestro;
 
+/**
+ * Clase desde la que se corre el login
+ * @author lucia
+ */
 public class Main {
 
     public static void main (String [] args){
-
-//        MainWindow mw = new MainWindow(new Maestro(1, "1234"), 10);
-//        mw.pack();
-//        mw.setVisible(true);
-//        mw.setMinimumSize(mw.getSize());
 
           LoginWindow lw = new LoginWindow();
           lw.pack();

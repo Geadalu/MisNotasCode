@@ -24,16 +24,15 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -87,6 +86,13 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         tablaNotas.setRowHeight(25);
         tablaPruebas.setRowHeight(25);
         
+        //Asociamos los assets a los botones y labels
+        btnGuardar.setIcon(new ImageIcon ("assets/disquete.png"));
+        lblIcono.setIcon(new ImageIcon ("assets/informeTrimestre.png"));
+        btnCalificar.setIcon(new ImageIcon ("assets/calificarPruebaPeq.png"));
+        btnExportar.setIcon(new ImageIcon ("assets/excel.png"));
+        
+        
         //Rellenamos los títulos
         lblAsignatura.setText(nombreAsignatura);
         lblTitulo.setText("Vista general del " + trimestre + "º Trimestre");
@@ -106,6 +112,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Rellena la tabla notas con las pruebas y las notas de las mismas
+     */
     public void rellenarTablaNotas() {
         //rellenar tabla con el trimestre en el que estamos
         int i;
@@ -156,6 +165,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Rellena la tabla pruebas con las pruebas del trimestre
+     */
     private void rellenarTablaPruebas() {
         modelPruebas = (DefaultTableModel) tablaPruebas.getModel();
         Object[] row = new Object[6];
@@ -184,7 +196,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         lblTitulo = new javax.swing.JLabel();
-        btnExportar3 = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(80, 0), new java.awt.Dimension(80, 0), new java.awt.Dimension(80, 32767));
@@ -216,7 +228,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         lblAsignatura = new javax.swing.JLabel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
-        btnCerrar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         btnCalificar = new javax.swing.JButton();
         lblIcono = new javax.swing.JLabel();
@@ -231,6 +243,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         setTitle("Vista general del trimestre");
         setBackground(new java.awt.Color(252, 244, 237));
         setBounds(new java.awt.Rectangle(300, 50, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -242,12 +255,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblTitulo, gridBagConstraints);
 
-        btnExportar3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnExportar3.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\excel.png")); // NOI18N
-        btnExportar3.setText("Exportar notas a Excel");
-        btnExportar3.addActionListener(new java.awt.event.ActionListener() {
+        btnExportar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnExportar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\excel.png")); // NOI18N
+        btnExportar.setText("Exportar notas a Excel");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportar3ActionPerformed(evt);
+                btnExportarActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -255,7 +268,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(btnExportar3, gridBagConstraints);
+        getContentPane().add(btnExportar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -369,15 +382,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         listaCompetencias.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         listaCompetencias.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listaCompetencias.setToolTipText("Competencias de la prueba");
-        listaCompetencias.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listaCompetenciasMouseClicked(evt);
-            }
-        });
         jScrollPane4.setViewportView(listaCompetencias);
 
         btnBorrarPrueba.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnBorrarPrueba.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\trash.png")); // NOI18N
         btnBorrarPrueba.setText("Borrar prueba");
         btnBorrarPrueba.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -451,26 +458,25 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 7;
         getContentPane().add(filler8, gridBagConstraints);
 
-        btnCerrar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCerrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
-        btnCerrar.setText("Guardar");
-        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\Disquete.png")); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        getContentPane().add(btnCerrar, gridBagConstraints);
+        getContentPane().add(btnGuardar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 12;
         getContentPane().add(filler9, gridBagConstraints);
 
         btnCalificar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCalificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\notepad.png")); // NOI18N
         btnCalificar.setText("Calificar tareas o pruebas");
         btnCalificar.setName("btnCalificar"); // NOI18N
         btnCalificar.addActionListener(new java.awt.event.ActionListener() {
@@ -485,8 +491,6 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(btnCalificar, gridBagConstraints);
-
-        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\InformeTrimestre.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
@@ -540,7 +544,11 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+    /**
+     * Botón para guardar los cambios realizados en la tabla Pruebas
+     * @param evt 
+     */
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         boolean salir = true;
         String titulo = "";
         for (int i = 0; i < tablaPruebas.getRowCount(); i++) {
@@ -594,12 +602,12 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
             this.dispose();
         }
 
-    }//GEN-LAST:event_btnCerrarActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void listaCompetenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaCompetenciasMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_listaCompetenciasMouseClicked
-
+    /**
+     * Borra una prueba de la base de datos, todas las notas asociadas a ella de todos los alumnos, y actualiza los controladores
+     * @param evt 
+     */
     private void btnBorrarPruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarPruebaActionPerformed
         String nombrePrueba = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 0).toString();
         String etiqueta = modelPruebas.getValueAt(tablaPruebas.getSelectedRow(), 1).toString();
@@ -645,6 +653,10 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBorrarPruebaActionPerformed
 
+    /**
+     * Carga las competencias de la prueba que se clica en la tabla
+     * @param evt 
+     */
     private void tablaPruebasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPruebasMouseClicked
         DefaultListModel<String> modeloAsig = new DefaultListModel<>();
         listaCompetencias.setModel(modeloAsig);
@@ -661,7 +673,11 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tablaPruebasMouseClicked
 
-    private void btnExportar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportar3ActionPerformed
+    /**
+     * Exporta a excel la tabla Notas
+     * @param evt 
+     */
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablaNotas.getModel();
         //First Download Apache POI Library For Dealing with excel files.
         //Then add the library to the current project
@@ -726,12 +742,20 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }
-    }//GEN-LAST:event_btnExportar3ActionPerformed
+    }//GEN-LAST:event_btnExportarActionPerformed
 
+    /**
+     * Cierra el frame
+     * @param evt 
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Abre el manual de ayuda.
+     * @param evt 
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Ayuda ayuda = new Ayuda(opciones, 6);
         ayuda.pack();
@@ -739,11 +763,19 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         ayuda.setMinimumSize(ayuda.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Botón acerca de del jmenu
+     * @param evt 
+     */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    /**
+     * Botón de calificar pruebas. Crea una nueva ventana CalificarPruebasWindow
+     * @param evt 
+     */
     private void btnCalificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificarActionPerformed
         CalificarPruebasWindow ctw = new CalificarPruebasWindow(lblAsignatura.getText(), asignatura, contAlumnos, contPruebas, opciones, "InformeTrimestreWindow", this);
         ctw.pack();
@@ -751,6 +783,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         ctw.setMinimumSize(ctw.getSize());
     }//GEN-LAST:event_btnCalificarActionPerformed
 
+    /**
+     * Comportamiento del botón cerrar
+     */
     public void setComportamientoBotonCerrar(){
         this.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
@@ -766,6 +801,9 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     });
     }
     
+    /**
+     * Ejecución del look and feel deseado por el usuario en el login
+     */
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
@@ -793,8 +831,8 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarPrueba;
     private javax.swing.JButton btnCalificar;
-    private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnExportar3;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;

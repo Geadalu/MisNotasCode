@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import objects.Opciones;
 
 /**
- * Clase para colorear la tabla de InformeTrimestreWindow
+ * Clase para colorear la tabla de InformeTrimestreWindow. Sacada de https://stackoverflow.com/ y modificada acorde
  * @author lucia
  */
 public class ColorRenderer extends DefaultTableCellRenderer {

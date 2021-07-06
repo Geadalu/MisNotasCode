@@ -8,10 +8,10 @@ package objects;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 
 /**
- *
+ * Clase competencia
  * @author lucia
  */
 public class Competencia {
@@ -39,6 +39,11 @@ public class Competencia {
         this.idCompetencia = idCompetencia;
     }
     
+    /**
+     * Carga una competencia
+     * @param idCompetencia
+     * @throws SQLException 
+     */
     public void cargarCompetencia(int idCompetencia) throws SQLException {
         String sqlBuscarCompetencia = "SELECT nombre, descripcion FROM competencia WHERE idCompetencia = " + idCompetencia;
         Statement st = DBConnection.getConnection().createStatement();

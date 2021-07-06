@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import noname.DBConnection;
+import mainpackage.DBConnection;
 import objects.Competencia;
 
 /**
- *
+ * Controlador de las comptencias
  * @author lucia
  */
 public class ControladorCompetencia {

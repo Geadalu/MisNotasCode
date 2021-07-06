@@ -8,7 +8,6 @@ package appinterface;
 import appsmallinterfaces.Ayuda;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -30,8 +29,6 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -118,11 +115,22 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     }
 
+    
+    /**
+     * Carga los campos del alumno actual
+     * @param alumno 
+     */
     private void cargarCampos(Alumno alumno) {
-        lblApellidos.setText(alumno.getApellidos());
-        lblNombre.setText(alumno.getNombre());
-        lblDNI.setText(alumno.getDni());
+        lblApellidos.setText(alumno.getApellidos()+", " + alumno.getNombre());
+        lblDNI.setText("("+alumno.getDni()+")");
+        
+        //Asociamos los assets a los botones y labels
         lblImagen.setIcon(new ImageIcon("assets/person.png"));
+        lblMatricula.setIcon(new ImageIcon("assets/matriculahonor.png"));
+        btnGuardar.setIcon(new ImageIcon ("assets/disquete.png"));
+        btnCancelar.setIcon(new ImageIcon ("assets/cancelar.png"));
+        lblIcono.setIcon(new ImageIcon ("assets/informeAlumno.png"));
+        
         txtComentarios.setText(alumno.getComentariosAsignaturas().get(asignatura));
         //Cargar tablas
         cargarTabla(tabla1, alumno, 1);
@@ -190,6 +198,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Carga la tabla que se le pasa por parametro
+     * @param tabla
+     * @param alumno
+     * @param trimestre 
+     */
     public void cargarTabla(JTable tabla, Alumno alumno, int trimestre) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         model.setRowCount(0);
@@ -213,6 +227,12 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Calcula la media de las pruebas de la tabla que se le pasa
+     * @param tabla
+     * @param trimestre
+     * @return 
+     */
     public String calcularMedia(JTable tabla, int trimestre) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         int indiceTabla = 0;
@@ -253,7 +273,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
         lblTitulo = new javax.swing.JLabel();
         lblApellidos = new javax.swing.JLabel();
-        lblNombre = new javax.swing.JLabel();
         lblImagen = new javax.swing.JLabel();
         lblDNI = new javax.swing.JLabel();
         panel1 = new javax.swing.JPanel();
@@ -463,7 +482,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler48 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
         filler50 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
         filler57 = new javax.swing.Box.Filler(new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 0), new java.awt.Dimension(70, 32767));
-        filler58 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 40), new java.awt.Dimension(0, 40), new java.awt.Dimension(32767, 40));
         lblComentarios = new javax.swing.JLabel();
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(32767, 5));
         filler49 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
@@ -473,6 +491,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         filler72 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         lblMatricula = new javax.swing.JLabel();
         lblIcono = new javax.swing.JLabel();
+        filler58 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 70), new java.awt.Dimension(0, 70), new java.awt.Dimension(32767, 70));
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -485,6 +504,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informe del alumnado");
         setBounds(new java.awt.Rectangle(100, 100, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
@@ -504,14 +524,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblApellidos, gridBagConstraints);
 
-        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblNombre.setText("nombre");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        getContentPane().add(lblNombre, gridBagConstraints);
+        lblImagen.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\person.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -520,8 +533,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblDNI.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDNI.setText("DNI");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         getContentPane().add(lblDNI, gridBagConstraints);
 
@@ -1032,7 +1046,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(panel3, gridBagConstraints);
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Cancelar.png")); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\Cancelar.png")); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1045,7 +1059,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\Disquete.png")); // NOI18N
         btnGuardar.setText("Guardar y cerrar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1279,11 +1293,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 37;
         getContentPane().add(filler57, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 8;
-        getContentPane().add(filler58, gridBagConstraints);
 
         lblComentarios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblComentarios.setText("Comentarios:");
@@ -1321,15 +1330,13 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 23;
         getContentPane().add(filler72, gridBagConstraints);
 
-        lblMatricula.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\matriculahonor.png")); // NOI18N
+        lblMatricula.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\matriculahonor.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 31;
         gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 9;
         getContentPane().add(lblMatricula, gridBagConstraints);
-
-        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\InformeAlumno.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 31;
         gridBagConstraints.gridy = 1;
@@ -1337,6 +1344,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         getContentPane().add(lblIcono, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 8;
+        getContentPane().add(filler58, gridBagConstraints);
 
         jMenuBar1.setName("menuEditar"); // NOI18N
 
@@ -1394,6 +1406,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Botón cancelar
+     * @param evt 
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
         if (AuxiliarMethods.showCloseConfirmation(titulo) == 0){
@@ -1402,7 +1418,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     
-    
+    /**
+     * Botón siguiente alumno: carga el siguiente alumno
+     * @param evt 
+     */
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         if (chbxGuardar.isSelected()){
             guardarNotas();
@@ -1415,6 +1434,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    /**
+     * Botón alumno anterior: carga el alumno anterior
+     * @param evt 
+     */
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         if (chbxGuardar.isSelected()){
             guardarNotas();
@@ -1427,7 +1450,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
-    
+    /**
+     * Botón guardar. Guarda todas las notas y las notas finales y actualiza la tabla de la ventana principal
+     * @param evt 
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardarNotas();
         
@@ -1456,6 +1482,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    /**
+     * Guarda todas las notas y las notas finales.Se llama desde el botón guardar
+     */
     public void guardarNotas(){
         model1 = (DefaultTableModel) tabla1.getModel();
         model2 = (DefaultTableModel) tabla2.getModel();
@@ -1541,6 +1570,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Botón salir del jmenu
+     * @param evt 
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -1578,6 +1611,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         cargarEstados();
     }//GEN-LAST:event_final3KeyTyped
 
+    /**
+     * Controlar qye si en la nota final hay un 10 escrito, salga la imagen de matrícula de honor
+     * @param evt 
+     */
     private void finalAsigKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_finalAsigKeyTyped
         r.keyPress(KeyEvent.VK_ENTER);
         r.keyRelease(KeyEvent.VK_ENTER);
@@ -1589,6 +1626,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_finalAsigKeyTyped
 
+    /**
+     * Abre el manual de ayuda
+     * @param evt 
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Ayuda ayuda = new Ayuda(opciones, 5);
         ayuda.pack();
@@ -1596,12 +1637,20 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         ayuda.setMinimumSize(ayuda.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Botón acerca de
+     * @param evt 
+     */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     
-    
+    /**
+     * Actualiza o crea notas nuevas en la base de datos
+     * @param modelo
+     * @param notas 
+     */
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
         boolean update; //para saber si hay que hacer UPDATE o INSERT en la BD
@@ -1634,7 +1683,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     }
 
-    
+    /**
+     * Refresca los campos de las notas cuando hay un alumno nuevo
+     */
     private void refrescarCampos(){
         lblCalificacion1.setText("-");
         lblCalificacion2.setText("-");
@@ -1645,6 +1696,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblEstado3.setIcon(null);
     }
     
+    /**
+     * Carga las label de las calificaciones, las flechas y los guiones 
+     */
     private void cargarEstados(){
         //lblEstado2: la del segundo trimestre
         if(!lblMedia1N.getText().equals("0") && !lblMedia1N.getText().equals("-") && (!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-")) &&
@@ -1709,6 +1763,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carga las calificaciones
+     * @param nota
+     * @return 
+     */
     private String cargarCalificacion(Double nota) {
         if(nota<5.0){
             return "Insuficiente";
@@ -1724,6 +1783,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         return "";
     }
     
+    /**
+     * Colora las calificaciones
+     * @param calificacion
+     * @return 
+     */
     private Color colorearCalificacion(String calificacion){
         switch (calificacion){
             case "Insuficiente":
@@ -1740,6 +1804,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         return Color.BLACK;        
     }
     
+    /**
+     * Comportamiento del botón cerrar
+     */
     public void setComportamientoBotonCerrar(){
         this.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
@@ -1755,7 +1822,9 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     });
     }
     
-    
+    /**
+     * Ejecución del look and feel deseado por el usuario en el login
+     */
     private void ejecutarOpciones() {
         
         List<Component> components = AuxiliarMethods.getAllComponents(this);
@@ -1767,9 +1836,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             }
         }
 
-        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 20));
         lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
-        lblNombre.setFont(new Font(lblNombre.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         
         //cambiar el fondo de los containers
@@ -1911,7 +1979,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblMedia3N;
     private javax.swing.JLabel lblMediaAsignatura;
     private javax.swing.JLabel lblMediaAsignaturaN;
-    private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPruebas1;
     private javax.swing.JLabel lblPruebas2;
     private javax.swing.JLabel lblPruebas3;

@@ -6,7 +6,7 @@
 package appinterface;
 
 import appsmallinterfaces.Ayuda;
-import appsmallinterfaces.Chart;
+import objects.Chart;
 import auxiliar.AuxiliarMethods;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -34,12 +34,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import objects.Nota;
 import objects.Opciones;
 
 /**
- *
+ * Calificar las tareas y las pruebas y guardar los cambios en base de datos
  * @author lucia
  */
 public class CalificarPruebasWindow extends javax.swing.JFrame {
@@ -86,6 +85,11 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
         setComportamientoBotonCerrar();
         ejecutarOpciones();
+        
+        //Asociamos los assets a los botones y labels
+        btnGuardar.setIcon(new ImageIcon ("assets/disquete.png"));
+        btnCancelar.setIcon(new ImageIcon ("assets/cancelar.png"));
+        lblIcono.setIcon(new ImageIcon ("assets/calificarPrueba.png"));
 
         tabla.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //para que cuando se clique un botón, deje de editarse la tabla
         tabla.setRowHeight(25);
@@ -189,6 +193,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Calificar tareas");
         setBounds(new java.awt.Rectangle(300, 100, 0, 0));
+        setIconImage(new ImageIcon("assets/logo.png").getImage());
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         lblAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -289,7 +294,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         getContentPane().add(filler5, gridBagConstraints);
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Cancelar.png")); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\Cancelar.png")); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -304,7 +309,7 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         getContentPane().add(btnCancelar, gridBagConstraints);
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\Disquete.png")); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\MisNotas\\assets\\Disquete.png")); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,8 +486,6 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 23;
         getContentPane().add(filler19, gridBagConstraints);
-
-        lblIcono.setIcon(new javax.swing.ImageIcon("C:\\Users\\lucia\\Desktop\\NoName\\assets\\CalificarTareas.png")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 1;
@@ -537,12 +540,20 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Botón cancelar
+     * @param evt 
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (AuxiliarMethods.showCloseConfirmation("¿Seguro que quiere cancelar?\nSe perderán todos los cambios.") == 0) {
             this.dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    /**
+     * Cuando se elige una tarea, se carga la tabla
+     * @param evt 
+     */
     private void comboTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTareaActionPerformed
         boolean encontrado;
         if (comboTarea.getItemCount() != 0) {
@@ -585,6 +596,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         AuxiliarMethods.ajustarColumnasTabla(tabla);
     }//GEN-LAST:event_comboTareaActionPerformed
 
+    /**
+     * Botón guardar: guarda los cambios en la bd
+     * @param evt 
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (!comboTarea.getSelectedItem().toString().equals("Seleccionar...")) {
             int i;
@@ -636,6 +651,10 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    /**
+     * Cuando se elige un trimestre, se cargan las pruebas de ese trimestre en el dropbox
+     * @param evt 
+     */
     private void comboTrimestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTrimestreActionPerformed
         comboTarea.removeAllItems(); //se limpia el combo para meter las pruebas de otro trimestre
         switch (comboTrimestre.getSelectedIndex()) {
@@ -657,14 +676,26 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboTrimestreActionPerformed
 
+    /**
+     * Refrescar estadísticas
+     * @param evt 
+     */
     private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
         obtenerEstadísticas();
     }//GEN-LAST:event_btnRefrescarActionPerformed
 
+    /**
+     * Botón cerrar del jmenu
+     * @param evt 
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Abre el manual de ayuda
+     * @param evt 
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Ayuda ayuda = new Ayuda(opciones, 3);
         ayuda.pack();
@@ -672,10 +703,18 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
         ayuda.setMinimumSize(ayuda.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Botón acerca de
+     * @param evt 
+     */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    /**
+     * Cargar pruebas. Esto se llama desde el combo trimestre
+     * @param trimestre 
+     */
     private void cargarPruebas(int trimestre) {
         int i;
 
@@ -687,6 +726,9 @@ public class CalificarPruebasWindow extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Ejecución del look and feel deseado por el usuario en el login
+     */
     private void ejecutarOpciones() {
         List<Component> components = AuxiliarMethods.getAllComponents(this);
 
