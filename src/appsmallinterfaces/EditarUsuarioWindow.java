@@ -52,7 +52,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
         initComponents();
         
         //Asociamos los assets a los botones y labels
-        btnGuardar.setIcon(new ImageIcon("Disquete.png"));
+        btnGuardar.setIcon(new ImageIcon("assets/Disquete.png"));
         
         mostrarContraseña1 = txtContraseña1.getEchoChar();
         mostrarContraseña2 = txtContraseña2.getEchoChar();
@@ -429,6 +429,8 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
                 } catch (SQLException e) {
                     AuxiliarMethods.showWarning("Ha ocurrido un error al modificar los datos del maestro.\nMás información: " + e.toString());
                 }
+                mw.lblBienvenida.setText("Bienvenido/a, "+maestro.getNombre());
+                mw.lblFotoMaestro.setIcon(maestro.getImagen());
                 this.dispose();
             }
         } else {
@@ -455,8 +457,7 @@ public class EditarUsuarioWindow extends javax.swing.JFrame {
      * @param evt 
      */
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        mw.lblBienvenida.setText("Bienvenido/a, "+maestro.getNombre());
-        mw.lblFotoMaestro.setIcon(maestro.getImagen());
+        
     }//GEN-LAST:event_formWindowClosed
 
     /**

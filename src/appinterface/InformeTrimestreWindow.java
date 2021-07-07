@@ -91,6 +91,7 @@ public class InformeTrimestreWindow extends javax.swing.JFrame {
         lblIcono.setIcon(new ImageIcon ("assets/informeTrimestre.png"));
         btnCalificar.setIcon(new ImageIcon ("assets/calificarPruebaPeq.png"));
         btnExportar.setIcon(new ImageIcon ("assets/excel.png"));
+        btnBorrarPrueba.setIcon(new ImageIcon ("assets/trash.png"));
         
         
         //Rellenamos los títulos

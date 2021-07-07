@@ -86,8 +86,8 @@ public class LoginWindow extends javax.swing.JFrame {
         mostrarContraseña = txtContraseña.getEchoChar();
 
         //BORRAR AL TERMINAR DE PROBAR
-        txtUsuario.setText("01234567A");
-        txtContraseña.setText("4321");
+//        txtUsuario.setText("01234567A");
+//        txtContraseña.setText("4321");
 
     }
 
@@ -619,6 +619,8 @@ public class LoginWindow extends javax.swing.JFrame {
                 c.setForeground(Color.LIGHT_GRAY);
             } else if (!chbxOscuro.isSelected()){
                 c.setForeground(new Color(60,63,65));
+                TitledBorder titledBorder = (TitledBorder)panel.getBorder();
+                titledBorder.setTitleColor(new Color(60,63,65));
             }
         }
         lblOlvidarContraseña.setForeground(Color.BLUE);

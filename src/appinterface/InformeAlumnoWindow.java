@@ -142,7 +142,14 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         AuxiliarMethods.ajustarColumnasTabla(tabla3);
         AuxiliarMethods.ajustarColumnasTabla(tabla1);
 
-        if (!alumno.getNotasFinales().isEmpty() && !alumno.getNotasFinales().get(asignatura).isEmpty() && !AuxiliarMethods.arrayTodoCeros(alumno.getNotasFinales().get(asignatura))) { //si tiene puestas las notas finales
+        if (alumno.getNotasFinales().isEmpty() || alumno.getNotasFinales().get(asignatura) == null || AuxiliarMethods.arrayTodoCeros(alumno.getNotasFinales().get(asignatura))) { //si tiene puestas las notas finales
+            final1.setText("");
+            final2.setText("");
+            final3.setText("");
+            finalAsig.setText("");
+            lblMediaAsignaturaN.setText("N/A");
+
+        } else { //si no tiene notas finales todavía
             if (alumno.getNotasFinales().get(asignatura).get(0) != 0){
                 final1.setText(alumno.getNotasFinales().get(asignatura).get(0).toString());
             } else {
@@ -181,13 +188,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             lblMedia1N.setText(calcularMedia(tabla1, 1));
             lblMedia2N.setText(calcularMedia(tabla2, 2));
             lblMedia3N.setText(calcularMedia(tabla3, 3));
-
-        } else { //si no tiene notas finales todavía
-            final1.setText("");
-            final2.setText("");
-            final3.setText("");
-            finalAsig.setText("");
-            lblMediaAsignaturaN.setText("N/A");
         }
         
         if(finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")){
@@ -257,7 +257,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         if (numeroPruebas == 0){
             return "N/A";
         } else {        
-            return formatter.format(media / numeroPruebas);
+            return formatter.format(media);
         }
     }
 

@@ -760,7 +760,7 @@ public class NuevaPruebaWindow extends javax.swing.JFrame {
 
                 try {
                     int peso = !chbxTrabajoAdic.isSelected() ? Integer.parseInt(String.valueOf(txtPeso.getText().charAt(0))) : 0;
-                    if (peso < 1 || peso > 9){
+                    if (!chbxTrabajoAdic.isSelected() && (peso < 1 || peso > 9)){
                         throw new NumberFormatException("Introduzca un número entre 1 y 10 en el campo Peso.");
                     }
                     dateFormat.parse(txtFecha.getText().trim());
