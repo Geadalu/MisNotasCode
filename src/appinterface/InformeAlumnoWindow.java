@@ -59,7 +59,6 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     NumberFormat formatter;
     MainWindow mainWindow;
     Robot r; //para presionar teclas automáticamente :^)
-    
 
     /**
      * Creates new form InformeAlumnoWindow
@@ -81,7 +80,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         this.mainWindow = mainWindow;
         initComponents();
         lblMatricula.setVisible(false);
-        
+
         this.formatter = NumberFormat.getInstance(Locale.US);
         this.formatter.setMaximumFractionDigits(2);
         this.formatter.setRoundingMode(RoundingMode.UP);
@@ -98,39 +97,39 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         tabla2.setRowHeight(25);
         tabla3.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         tabla3.setRowHeight(25);
-        
+
         try {
             r = new Robot();
-        } catch (AWTException awte){
-            AuxiliarMethods.showWarning("No se podrán actualizar las etiquetas de las calificaciones.\nEste no es un error grave.\nMás información: "+awte.toString());
+        } catch (AWTException awte) {
+            AuxiliarMethods.showWarning("No se podrán actualizar las etiquetas de las calificaciones.\nEste no es un error grave.\nMás información: " + awte.toString());
         }
 
         setComportamientoBotonCerrar();
         ejecutarOpciones();
-        
+
         refrescarCampos();
         cargarCampos(alumno);
-        
+
         cargarEstados();
 
     }
 
-    
     /**
      * Carga los campos del alumno actual
-     * @param alumno 
+     *
+     * @param alumno
      */
     private void cargarCampos(Alumno alumno) {
-        lblApellidos.setText(alumno.getApellidos()+", " + alumno.getNombre());
-        lblDNI.setText("("+alumno.getDni()+")");
-        
+        lblApellidos.setText(alumno.getApellidos() + ", " + alumno.getNombre());
+        lblDNI.setText("(" + alumno.getDni() + ")");
+
         //Asociamos los assets a los botones y labels
         lblImagen.setIcon(new ImageIcon("assets/person.png"));
         lblMatricula.setIcon(new ImageIcon("assets/matriculahonor.png"));
-        btnGuardar.setIcon(new ImageIcon ("assets/disquete.png"));
-        btnCancelar.setIcon(new ImageIcon ("assets/cancelar.png"));
-        lblIcono.setIcon(new ImageIcon ("assets/informeAlumno.png"));
-        
+        btnGuardar.setIcon(new ImageIcon("assets/disquete.png"));
+        btnCancelar.setIcon(new ImageIcon("assets/cancelar.png"));
+        lblIcono.setIcon(new ImageIcon("assets/informeAlumno.png"));
+
         txtComentarios.setText(alumno.getComentariosAsignaturas().get(asignatura));
         //Cargar tablas
         cargarTabla(tabla1, alumno, 1);
@@ -150,47 +149,47 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             lblMediaAsignaturaN.setText("N/A");
 
         } else { //si no tiene notas finales todavía
-            if (alumno.getNotasFinales().get(asignatura).get(0) != 0){
+            if (alumno.getNotasFinales().get(asignatura).get(0) != 0) {
                 final1.setText(alumno.getNotasFinales().get(asignatura).get(0).toString());
             } else {
                 final1.setText("");
             }
-             
-            if (alumno.getNotasFinales().get(asignatura).get(1) != 0){
+
+            if (alumno.getNotasFinales().get(asignatura).get(1) != 0) {
                 final2.setText(alumno.getNotasFinales().get(asignatura).get(1).toString());
             } else {
                 final2.setText("");
             }
-            
-            if (alumno.getNotasFinales().get(asignatura).get(2) != 0){
+
+            if (alumno.getNotasFinales().get(asignatura).get(2) != 0) {
                 final3.setText(alumno.getNotasFinales().get(asignatura).get(2).toString());
             } else {
                 final3.setText("");
             }
-           
-            if (alumno.getNotasFinales().get(asignatura).get(3) != 0){
+
+            if (alumno.getNotasFinales().get(asignatura).get(3) != 0) {
                 finalAsig.setText(alumno.getNotasFinales().get(asignatura).get(3).toString());
             } else {
                 finalAsig.setText("");
             }
-            
+
             try {
-            double mediaAsig = (Double.parseDouble(final1.getText())
-                    + Double.parseDouble(final2.getText())
-                    + Double.parseDouble(final3.getText())) / 3.0;
-            lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
-            } catch (NumberFormatException nfe){
+                double mediaAsig = (Double.parseDouble(final1.getText())
+                        + Double.parseDouble(final2.getText())
+                        + Double.parseDouble(final3.getText())) / 3.0;
+                lblMediaAsignaturaN.setText(formatter.format(mediaAsig));
+            } catch (NumberFormatException nfe) {
                 lblMediaAsignaturaN.setText("N/A");
                 lblMediaAsignatura.setToolTipText("Todavía no se puede calcular: faltan una o varias notas finales");
             }
-            
+
             //Cargar medias
             lblMedia1N.setText(calcularMedia(tabla1, 1));
             lblMedia2N.setText(calcularMedia(tabla2, 2));
             lblMedia3N.setText(calcularMedia(tabla3, 3));
         }
-        
-        if(finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")){
+
+        if (finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")) {
             lblMatricula.setVisible(true);
         } else {
             lblMatricula.setVisible(false);
@@ -200,9 +199,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Carga la tabla que se le pasa por parametro
+     *
      * @param tabla
      * @param alumno
-     * @param trimestre 
+     * @param trimestre
      */
     public void cargarTabla(JTable tabla, Alumno alumno, int trimestre) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
@@ -211,16 +211,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         for (i = 0; i < contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); i++) {
             Object[] row = new Object[2];
             row[0] = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo();
-            for (Nota n : alumno.getNotas()){
-                if (n.getIdPrueba() == contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba()){
-                    if (n.getComentario().equals("No tiene que hacer la prueba")){
-                        row[1] = "";
+            for (Nota n : alumno.getNotas()) {
+                if (n.getIdPrueba() == contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba()) {
+                    if (n.getComentario().equals("No tiene que hacer la prueba")) {
+                        row[1] = null;
                     } else {
                         row[1] = n.getNota();
                     }
                 }
             }
-           
+
             model.addRow(row);
             pruebaConID.put(contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getTitulo(), contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).get(i).getIdPrueba());
 
@@ -229,34 +229,34 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Calcula la media de las pruebas de la tabla que se le pasa
+     *
      * @param tabla
      * @param trimestre
-     * @return 
+     * @return
      */
     public String calcularMedia(JTable tabla, int trimestre) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         int indiceTabla = 0;
         double media = 0.0;
         int numeroPruebas = contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre).size(); //el numero de pruebas que hay en el trimestre (para hacer la media)
-        
-        
-        for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)){
+
+        for (Prueba p : contPruebas.getPruebasAsignatura().get(asignatura).get(trimestre)) {
             try {
-                if (p.getIdPrueba() == pruebaConID.get(model.getValueAt(indiceTabla, 0).toString())){
-                    if(Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()) != 0){
-                        media += Double.parseDouble(model.getValueAt(indiceTabla, 1).toString())*p.getPeso()/10;
+                if (p.getIdPrueba() == pruebaConID.get(model.getValueAt(indiceTabla, 0).toString())) {
+                    if (Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()) != 0) {
+                        media += Double.parseDouble(model.getValueAt(indiceTabla, 1).toString()) * p.getPeso() / 10;
                         indiceTabla++;
                     } else { //no se tienen en cuenta los ceros (de pruebas que no se tienen que hacer)
-                        numeroPruebas --;
+                        numeroPruebas--;
                     }
                 }
-            } catch (NullPointerException npe){
+            } catch (NullPointerException npe) {
                 indiceTabla++;
             }
         }
-        if (numeroPruebas == 0){
+        if (numeroPruebas == 0) {
             return "N/A";
-        } else {        
+        } else {
             return formatter.format(media);
         }
     }
@@ -1408,22 +1408,23 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Botón cancelar
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
-        if (AuxiliarMethods.showCloseConfirmation(titulo) == 0){
+        if (AuxiliarMethods.showCloseConfirmation(titulo) == 0) {
             this.dispose();
-        }        
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    
     /**
      * Botón siguiente alumno: carga el siguiente alumno
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        if (chbxGuardar.isSelected()){
+        if (chbxGuardar.isSelected()) {
             guardarNotas();
         }
         if (alumno.getPosicion() != contAlumnos.getAlumnosAsignatura().get(asignatura).size() - 1) {
@@ -1436,10 +1437,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Botón alumno anterior: carga el alumno anterior
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        if (chbxGuardar.isSelected()){
+        if (chbxGuardar.isSelected()) {
             guardarNotas();
         }
         if (alumno.getPosicion() != 0) {
@@ -1451,31 +1453,33 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     /**
-     * Botón guardar. Guarda todas las notas y las notas finales y actualiza la tabla de la ventana principal
-     * @param evt 
+     * Botón guardar. Guarda todas las notas y las notas finales y actualiza la
+     * tabla de la ventana principal
+     *
+     * @param evt
      */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardarNotas();
-        
-        for (Alumno a : contAlumnos.getAlumnosAsignatura().get(asignatura)){
+
+        for (Alumno a : contAlumnos.getAlumnosAsignatura().get(asignatura)) {
             try {
-                if (a.getNotasFinales().get(asignatura).get(0) != 0){
+                if (a.getNotasFinales().get(asignatura).get(0) != 0) {
                     mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(0), a.getPosicion(), 2);
                 }
-               
-                if (a.getNotasFinales().get(asignatura).get(1) != 0){
+
+                if (a.getNotasFinales().get(asignatura).get(1) != 0) {
                     mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(1), a.getPosicion(), 3);
                 }
-                
-                if (a.getNotasFinales().get(asignatura).get(2) != 0){
+
+                if (a.getNotasFinales().get(asignatura).get(2) != 0) {
                     mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(2), a.getPosicion(), 4);
                 }
-                
-                if (a.getNotasFinales().get(asignatura).get(3) != 0){
+
+                if (a.getNotasFinales().get(asignatura).get(3) != 0) {
                     mainWindow.tabla.setValueAt(a.getNotasFinales().get(asignatura).get(3), a.getPosicion(), 6);
                 }
             } catch (NullPointerException npe) { //cuando no tiene notas finales todavía
-                
+
             }
         }
         mainWindow.obtenerEstadísticas();
@@ -1483,9 +1487,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
-     * Guarda todas las notas y las notas finales.Se llama desde el botón guardar
+     * Guarda todas las notas y las notas finales.Se llama desde el botón
+     * guardar
      */
-    public void guardarNotas(){
+    public void guardarNotas() {
         model1 = (DefaultTableModel) tabla1.getModel();
         model2 = (DefaultTableModel) tabla2.getModel();
         model3 = (DefaultTableModel) tabla3.getModel();
@@ -1521,7 +1526,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             } else {
                 notasFinales.add(Double.parseDouble(finalAsig.getText()));
             }
-            
+
             //Aquí copio todas las notas finales del alumno, el hashmap, para poder sustituirlo con las nuevas de estas asignatura en el setNotasFinales
             HashMap<Integer, ArrayList<Double>> todasNotasFinales = contAlumnos.getAlumnosAsignatura().get(asignatura).get(alumno.getPosicion()).getNotasFinales();
             todasNotasFinales.put(asignatura, notasFinales);
@@ -1552,10 +1557,10 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
                 notasFinales.set(3, Double.parseDouble(finalAsig.getText()));
             }
         }
-        
+
         //añadimos o modificamos el comentario de la asignatura
         HashMap comentAsig = alumno.getComentariosAsignaturas();
-        if(comentAsig.containsKey(asignatura)){
+        if (comentAsig.containsKey(asignatura)) {
             comentAsig.replace(asignatura, txtComentarios.getText());
             alumno.setComentariosAsignaturas(comentAsig);
         } else {
@@ -1569,10 +1574,11 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             AuxiliarMethods.showWarning("Ha ocurrido un error al guardar las notas de los alumnos.\nMás información: " + e.toString());
         }
     }
-    
+
     /**
      * Botón salir del jmenu
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
@@ -1580,7 +1586,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Cuando se escribe una nota en la nota final del primer trimestre
-     * @param evt 
+     *
+     * @param evt
      */
     private void final1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_final1KeyTyped
         r.keyPress(KeyEvent.VK_ENTER);
@@ -1591,7 +1598,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Cuando se escribe una nota en la nota final del segundo trimestre
-     * @param evt 
+     *
+     * @param evt
      */
     private void final2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_final2KeyTyped
         r.keyPress(KeyEvent.VK_ENTER);
@@ -1602,7 +1610,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Cuando se escribe una nota en la nota final del tercer trimestre
-     * @param evt 
+     *
+     * @param evt
      */
     private void final3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_final3KeyTyped
         r.keyPress(KeyEvent.VK_ENTER);
@@ -1612,14 +1621,16 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_final3KeyTyped
 
     /**
-     * Controlar qye si en la nota final hay un 10 escrito, salga la imagen de matrícula de honor
-     * @param evt 
+     * Controlar qye si en la nota final hay un 10 escrito, salga la imagen de
+     * matrícula de honor
+     *
+     * @param evt
      */
     private void finalAsigKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_finalAsigKeyTyped
         r.keyPress(KeyEvent.VK_ENTER);
         r.keyRelease(KeyEvent.VK_ENTER);
-        
-        if(finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")){
+
+        if (finalAsig.getText().equals("10.0") || finalAsig.getText().equals("10")) {
             lblMatricula.setVisible(true);
         } else {
             lblMatricula.setVisible(false);
@@ -1628,7 +1639,8 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Abre el manual de ayuda
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Ayuda ayuda = new Ayuda(opciones, 5);
@@ -1639,45 +1651,47 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 
     /**
      * Botón acerca de
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         JOptionPane.showMessageDialog(new JFrame(), "Trabajo de Fin de Grado de Lucía Calzado Piedrabuena.\nGrado en Ingeniería Informática.\nUCLM.");
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
-    
     /**
      * Actualiza o crea notas nuevas en la base de datos
+     *
      * @param modelo
-     * @param notas 
+     * @param notas
      */
     private void updateNotas(DefaultTableModel modelo, ArrayList<Nota> notas) {
         int i;
         boolean update; //para saber si hay que hacer UPDATE o INSERT en la BD
         boolean yaCreada;
-        
+
         for (i = 0; i < modelo.getRowCount(); i++) {
             yaCreada = false;
             update = false;
             int idPrueba = pruebaConID.get((modelo.getValueAt(i, 0)).toString());
             if (modelo.getValueAt(i, 1) != null) { //hay nota escrita
-                for (Nota n : notas){
-                    if(n.getIdPrueba() == idPrueba){ //hay nota escrita: pero ya había una creada
+                for (Nota n : notas) {
+                    if (n.getIdPrueba() == idPrueba) { //hay nota escrita: pero ya había una creada
                         yaCreada = true;
                         update = true;
                         n.setNota(Double.parseDouble(modelo.getValueAt(i, 1).toString()));
                     }
                 }
-                if(!yaCreada){ //hay nota escrita: pero hay que crearla
+                if (!yaCreada) { //hay nota escrita: pero hay que crearla
                     update = false;
                     notas.add(new Nota(idPrueba, Double.parseDouble(modelo.getValueAt(i, 1).toString()), ""));
                 }
-            }
-            try {
-                contAlumnos.updateNotas(asignatura, idPrueba, alumno, update);
-            } catch (SQLException e) {
-                //AuxiliarMethods.showWarning(e.toString());
-                AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
+
+                try {
+                    contAlumnos.updateNotas(asignatura, idPrueba, alumno, update);
+                } catch (SQLException e) {
+                    //AuxiliarMethods.showWarning(e.toString());
+                    AuxiliarMethods.showWarning("Algo ha ido mal y no se han podido guardar algunas calificaciones.\nMás información: " + e.toString());
+                }
             }
         }
 
@@ -1686,110 +1700,116 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     /**
      * Refresca los campos de las notas cuando hay un alumno nuevo
      */
-    private void refrescarCampos(){
+    private void refrescarCampos() {
         lblCalificacion1.setText("-");
         lblCalificacion2.setText("-");
         lblCalificacion3.setText("-");
+        lblMedia1N.setText("-");
+        lblMedia2N.setText("-");
+        lblMedia3N.setText("-");
+        lblMediaAsignaturaN.setText("-");
         lblEstado2.setText("-");
         lblEstado2.setIcon(null);
         lblEstado3.setText("-");
         lblEstado3.setIcon(null);
     }
-    
+
     /**
-     * Carga las label de las calificaciones, las flechas y los guiones 
+     * Carga las label de las calificaciones, las flechas y los guiones
      */
-    private void cargarEstados(){
+    private void cargarEstados() {
         //lblEstado2: la del segundo trimestre
-        if(!lblMedia1N.getText().equals("0") && !lblMedia1N.getText().equals("-") && (!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-")) &&
-                !lblMedia1N.getText().equals("N/A") && !lblMedia2N.getText().equals("N/A")){
-            if((int)Double.parseDouble(lblMedia1N.getText()) > (int)Double.parseDouble(lblMedia2N.getText())){
+        if (!lblMedia1N.getText().equals("0") && !lblMedia1N.getText().equals("-") && (!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-"))
+                && !lblMedia1N.getText().equals("N/A") && !lblMedia2N.getText().equals("N/A")) {
+            if ((int) Double.parseDouble(lblMedia1N.getText()) > (int) Double.parseDouble(lblMedia2N.getText())) {
                 //Si el alumno ha empeorado la nota del trimestre 1 al 2
                 lblEstado2.setText("");
-                lblEstado2.setIcon(new ImageIcon("assets/FlechaRoja.png"));         
+                lblEstado2.setIcon(new ImageIcon("assets/FlechaRoja.png"));
                 lblEstado2.setToolTipText("Nota media empeorada respecto al trimestre anterior");
-            } else if ((int)Double.parseDouble(lblMedia1N.getText()) < (int)Double.parseDouble(lblMedia2N.getText())){
+            } else if ((int) Double.parseDouble(lblMedia1N.getText()) < (int) Double.parseDouble(lblMedia2N.getText())) {
                 //Si el alumno ha mejorado la nota del trimestre 1 al 2
                 lblEstado2.setText("");
                 lblEstado2.setIcon(new ImageIcon("assets/FlechaVerde.png"));
                 lblEstado2.setToolTipText("Nota media mejorada respecto al trimestre anterior");
-            } else if (Double.parseDouble(lblMedia1N.getText()) == Double.parseDouble(lblMedia2N.getText())){
+            } else if (Double.parseDouble(lblMedia1N.getText()) == Double.parseDouble(lblMedia2N.getText())) {
                 //Si el alumno ha mantenido la nota
                 lblEstado2.setText("");
                 lblEstado2.setIcon(new ImageIcon("assets/CambioNeutral.png"));
                 lblEstado2.setToolTipText("Nota media parecida al trimestre anterior");
             }
-            
+
         }
-        
+
         //lblEstado3: la del tercer trimestre
-        if(!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-") && !lblMedia3N.getText().equals("0") && !lblMedia3N.getText().equals("-") && 
-                !lblMedia2N.getText().equals("N/A") && !lblMedia3N.getText().equals("N/A")){  
-            if((int)Double.parseDouble(lblMedia2N.getText()) > (int)Double.parseDouble(lblMedia3N.getText())){
+        if (!lblMedia2N.getText().equals("0") && !lblMedia2N.getText().equals("-") && !lblMedia3N.getText().equals("0") && !lblMedia3N.getText().equals("-")
+                && !lblMedia2N.getText().equals("N/A") && !lblMedia3N.getText().equals("N/A")) {
+            if ((int) Double.parseDouble(lblMedia2N.getText()) > (int) Double.parseDouble(lblMedia3N.getText())) {
                 //Si el alumno ha empeorado la nota del trimestre 2 al 3
                 lblEstado3.setText("");
-                lblEstado3.setIcon(new ImageIcon("assets/FlechaRoja.png")); 
+                lblEstado3.setIcon(new ImageIcon("assets/FlechaRoja.png"));
                 lblEstado3.setToolTipText("Nota media empeorada respecto al trimestre anterior");
-            } else if ((int)Double.parseDouble(lblMedia2N.getText()) < (int)Double.parseDouble(lblMedia3N.getText())){
+            } else if ((int) Double.parseDouble(lblMedia2N.getText()) < (int) Double.parseDouble(lblMedia3N.getText())) {
                 //Si el alumno ha mejorado la nota del trimestre 2 al 3
                 lblEstado3.setText("");
                 lblEstado3.setIcon(new ImageIcon("assets/FlechaVerde.png"));
                 lblEstado3.setToolTipText("Nota media mejorada respecto al trimestre anterior");
-            } else if (Double.parseDouble(lblMedia2N.getText()) == Double.parseDouble(lblMedia3N.getText())){
+            } else if (Double.parseDouble(lblMedia2N.getText()) == Double.parseDouble(lblMedia3N.getText())) {
                 //Si el alumno ha mantenido la nota
                 lblEstado3.setText("");
                 lblEstado3.setIcon(new ImageIcon("assets/CambioNeutral.png"));
                 lblEstado3.setToolTipText("Nota media parecida al trimestre anterior");
             }
         }
-        
+
         lblCalificacion1.setText("");
         lblCalificacion2.setText("");
         lblCalificacion3.setText("");
-        
-        if(!final1.getText().isEmpty() || !final1.getText().equals("")){
+
+        if (!final1.getText().isEmpty() || !final1.getText().equals("")) {
             lblCalificacion1.setText(cargarCalificacion(Double.parseDouble(final1.getText())));
             lblCalificacion1.setForeground(colorearCalificacion(lblCalificacion1.getText()));
         }
-        
-        if(!final2.getText().isEmpty() || !final2.getText().equals("")){
+
+        if (!final2.getText().isEmpty() || !final2.getText().equals("")) {
             lblCalificacion2.setText(cargarCalificacion(Double.parseDouble(final2.getText())));
             lblCalificacion2.setForeground(colorearCalificacion(lblCalificacion2.getText()));
         }
-        
-        if(!final3.getText().isEmpty() || !final3.getText().equals("")){
+
+        if (!final3.getText().isEmpty() || !final3.getText().equals("")) {
             lblCalificacion3.setText(cargarCalificacion(Double.parseDouble(final3.getText())));
             lblCalificacion3.setForeground(colorearCalificacion(lblCalificacion3.getText()));
         }
     }
-    
+
     /**
      * Carga las calificaciones
+     *
      * @param nota
-     * @return 
+     * @return
      */
     private String cargarCalificacion(Double nota) {
-        if(nota<5.0){
+        if (nota < 5.0) {
             return "Insuficiente";
-        } else if(nota>=5.0 && nota<6.0){
+        } else if (nota >= 5.0 && nota < 6.0) {
             return "Suficiente";
-        } else if(nota>=6.0 && nota<7.0){
+        } else if (nota >= 6.0 && nota < 7.0) {
             return "Bien";
-        } else if(nota>=7.0 && nota<9.0){
+        } else if (nota >= 7.0 && nota < 9.0) {
             return "Notable";
-        } else if(nota>=9.0){
+        } else if (nota >= 9.0) {
             return "Sobresaliente";
         }
         return "";
     }
-    
+
     /**
      * Colora las calificaciones
+     *
      * @param calificacion
-     * @return 
+     * @return
      */
-    private Color colorearCalificacion(String calificacion){
-        switch (calificacion){
+    private Color colorearCalificacion(String calificacion) {
+        switch (calificacion) {
             case "Insuficiente":
                 return opciones.getColorSuspensos();
             case "Suficiente":
@@ -1801,37 +1821,37 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
             case "Sobresaliente":
                 return opciones.getColorAprobados();
         }
-        return Color.BLACK;        
+        return Color.BLACK;
     }
-    
+
     /**
      * Comportamiento del botón cerrar
      */
-    public void setComportamientoBotonCerrar(){
+    public void setComportamientoBotonCerrar() {
         this.addWindowListener(new WindowAdapter() {
-        public void windowClosing(WindowEvent evt) {
-            String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
-            int resp = AuxiliarMethods.showCloseConfirmation(titulo);
+            public void windowClosing(WindowEvent evt) {
+                String titulo = "¿Seguro que quiere cerrar? Se perderán los cambios no guardados.";
+                int resp = AuxiliarMethods.showCloseConfirmation(titulo);
 
-            if (resp == JOptionPane.YES_OPTION) {
-                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            } else {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                if (resp == JOptionPane.YES_OPTION) {
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
             }
-        }
-    });
+        });
     }
-    
+
     /**
      * Ejecución del look and feel deseado por el usuario en el login
      */
     private void ejecutarOpciones() {
-        
+
         List<Component> components = AuxiliarMethods.getAllComponents(this);
-        
-        for (Component c : components){
+
+        for (Component c : components) {
             c.setFont(new Font(c.getFont().getName(), c.getFont().getStyle(), opciones.getTamañoLetra()));
-            if(opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class){
+            if (opciones.getOscuro() && c.getClass() != JButton.class && c.getClass() != JTextField.class) {
                 c.setForeground(Color.LIGHT_GRAY);
             }
         }
@@ -1839,7 +1859,7 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
         lblTitulo.setFont(new Font(lblTitulo.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 20));
         lblApellidos.setFont(new Font(lblApellidos.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
         lblDNI.setFont(new Font(lblDNI.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 8));
-        
+
         //cambiar el fondo de los containers
         Color colorBackground = opciones.getColorBackground();
         this.getContentPane().setBackground(colorBackground);
@@ -1850,19 +1870,19 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
 //        tabla2.setBackground(colorBackground);
 //        tabla3.setBackground(colorBackground);
         panelFinales.setBackground(colorBackground);
-        
+
         //terminamos cambiando a mano los TitledBorder de los paneles que los tienen
-        if (opciones.getOscuro()){
-            TitledBorder titledBorder = (TitledBorder)panel1.getBorder();
+        if (opciones.getOscuro()) {
+            TitledBorder titledBorder = (TitledBorder) panel1.getBorder();
             titledBorder.setTitleColor(Color.LIGHT_GRAY);
-            
-            titledBorder = (TitledBorder)panel2.getBorder();
+
+            titledBorder = (TitledBorder) panel2.getBorder();
             titledBorder.setTitleColor(Color.LIGHT_GRAY);
-            
-            titledBorder = (TitledBorder)panel2.getBorder();
+
+            titledBorder = (TitledBorder) panel2.getBorder();
             titledBorder.setTitleColor(Color.LIGHT_GRAY);
-            
-            titledBorder = (TitledBorder)panelFinales.getBorder();
+
+            titledBorder = (TitledBorder) panelFinales.getBorder();
             titledBorder.setTitleColor(Color.LIGHT_GRAY);
         }
     }
@@ -1992,6 +2012,5 @@ public class InformeAlumnoWindow extends javax.swing.JFrame {
     public javax.swing.JTable tabla3;
     private javax.swing.JTextArea txtComentarios;
     // End of variables declaration//GEN-END:variables
-
 
 }

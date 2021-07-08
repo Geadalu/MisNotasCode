@@ -100,8 +100,10 @@ public class AuxiliarMethods {
             int width = 25; // Min width
             for (int row = 0; row < tabla.getRowCount(); row++) {
                 TableCellRenderer renderer = tabla.getCellRenderer(row, column);
-                Component comp = tabla.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width + 1, width);
+                if (tabla.getValueAt(row, column) != null && !tabla.getValueAt(row, column).equals("")){
+                    Component comp = tabla.prepareRenderer(renderer, row, column);
+                    width = Math.max(comp.getPreferredSize().width + 1, width);
+                }
             }
             if (width > 300) {
                 width = 300;

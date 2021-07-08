@@ -51,6 +51,7 @@ public class Ayuda extends javax.swing.JFrame {
         lblTitulo7.setFont(new Font(lblTitulo7.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         lblTitulo8.setFont(new Font(lblTitulo8.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         lblTitulo9.setFont(new Font(lblTitulo9.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
+        lblTitulo10.setFont(new Font(lblTitulo9.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
         lblTitulo11.setFont(new Font(lblTitulo11.getFont().getName(), Font.BOLD, opciones.getTamañoLetra() + 15));
 
         //cambiamos el color de fondo de todos los containers del frame
@@ -65,6 +66,7 @@ public class Ayuda extends javax.swing.JFrame {
         panel7.setBackground(colorBackground);
         panel8.setBackground(colorBackground);
         panel9.setBackground(colorBackground);
+        panel10.setBackground(colorBackground);
         panel11.setBackground(colorBackground);
         
         txt1.setBackground(colorBackground);
@@ -76,6 +78,7 @@ public class Ayuda extends javax.swing.JFrame {
         txt7.setBackground(colorBackground);
         txt8.setBackground(colorBackground);
         txt9.setBackground(colorBackground);
+        txt10.setBackground(colorBackground);
         txt11.setBackground(colorBackground);
         
         

@@ -344,7 +344,7 @@ public class CargarAlumno extends javax.swing.JFrame {
                 }
                 
                 if (salir){
-                    contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
+                    //contAlumnos.añadirAlumnoAAsignatura(alumno, asignatura);
 
                     mainWindow.cargarTabla(curso, asignatura);
 
